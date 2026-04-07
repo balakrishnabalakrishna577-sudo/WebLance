@@ -1,0 +1,51 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Contact Messages{% endblock %}
+{% block page_title %}Contact Messages{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-envelope"></i> All Contact Messages <span class="ap-badge ap-badge-blue ms-2">{{ contacts|length }}</span></h5>
+    </div>
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Business Type</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for c in contacts %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td><strong style="color:#fff">{{ c.name }}</strong></td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ c.email }}</td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ c.phone }}</td>
+                <td>{% if c.business_type %}<span class="ap-badge ap-badge-blue">{{ c.business_type }}</span>{% else %}<span style="color:var(--gray)">—</span>{% endif %}</td>
+                <td style="max-width:220px;color:var(--gray);font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ c.message }}">{{ c.message }}</td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">{{ c.created_at|date:"d M Y, H:i" }}</td>
+                <td>
+                    <div style="display:flex;gap:6px;">
+                        <a href="{% url 'admin_contact_edit' c.pk %}" class="ap-btn ap-btn-outline"><i class="fas fa-edit"></i></a>
+                        <form method="post" action="{% url 'admin_contact_delete' c.pk %}" onsubmit="return confirm('Delete this message?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" style="text-align:center;color:var(--gray);padding:40px">No contact messages yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

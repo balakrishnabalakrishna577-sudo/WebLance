@@ -1,0 +1,201 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Agreements — Weblance Panel{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Header ── */
+.agr-page-title { font-family:'Poppins',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;margin:0; }
+.agr-page-sub   { font-size:.78rem;color:#666;margin:2px 0 0; }
+
+/* ── Filter bar ── */
+.agr-filter-bar { background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:16px 20px;margin-bottom:20px; }
+.agr-inp, .agr-sel {
+    display:block;width:100%;
+    background:#0d0d0d;border:1px solid #2a2a2a;border-radius:10px;
+    color:#e8e8e8;font-size:.88rem;font-family:'Roboto',sans-serif;
+    padding:9px 14px;outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.agr-inp::placeholder { color:#3a3a3a; }
+.agr-inp:focus,.agr-sel:focus { border-color:#00cc6a;box-shadow:0 0 0 3px rgba(0,204,106,.1);background:#0f0f0f; }
+.agr-sel {
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;cursor:pointer;
+}
+.agr-sel option { background:#111;color:#e8e8e8; }
+.btn-filter  { background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;font-weight:700;font-size:.84rem;border:none;border-radius:10px;padding:9px 20px;cursor:pointer;transition:all .2s;white-space:nowrap; }
+.btn-filter:hover { transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,204,106,.3); }
+.btn-clear   { background:transparent;color:#666;border:1px solid #2a2a2a;border-radius:10px;padding:9px 20px;font-size:.84rem;text-decoration:none;transition:all .2s;white-space:nowrap;display:inline-block; }
+.btn-clear:hover { border-color:#444;color:#999; }
+
+/* ── Table card ── */
+.agr-table-card { background:#111;border:1px solid #1e1e1e;border-radius:14px;overflow:hidden; }
+.agr-table { width:100%;border-collapse:collapse; }
+.agr-table thead tr { background:#0a0a0a;border-bottom:1px solid #1e1e1e; }
+.agr-table th { padding:12px 16px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#666;white-space:nowrap; }
+.agr-table tbody tr { border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s; }
+.agr-table tbody tr:last-child { border-bottom:none; }
+.agr-table tbody tr:hover { background:rgba(0,255,136,.03); }
+.agr-table td { padding:13px 16px;font-size:.85rem;color:#e8e8e8;vertical-align:middle; }
+
+/* ── Ref code ── */
+.agr-ref { font-family:'Courier New',monospace;font-size:.8rem;font-weight:700;color:#00ff88;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.15);border-radius:6px;padding:3px 8px;white-space:nowrap; }
+
+/* ── Client cell ── */
+.agr-client-name { font-weight:600;color:#fff;font-size:.88rem; }
+.agr-client-co   { font-size:.76rem;color:#555;margin-top:2px; }
+
+/* ── Project cell ── */
+.agr-proj-title { color:#ccc;font-size:.85rem; }
+.agr-proj-type  { display:inline-block;margin-top:4px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;background:rgba(255,255,255,.05);border-radius:4px;padding:2px 7px; }
+
+/* ── Cost ── */
+.agr-cost { font-weight:700;color:#00ff88;font-size:.9rem; }
+
+/* ── Dates ── */
+.agr-date { font-size:.8rem;color:#888;line-height:1.6; }
+.agr-date .arrow { color:#444; }
+
+/* ── Status badges ── */
+.s-badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px; }
+.s-draft     { background:rgba(153,153,153,.12);color:#999;border:1px solid rgba(153,153,153,.2); }
+.s-sent      { background:rgba(100,149,237,.12);color:#6495ed;border:1px solid rgba(100,149,237,.2); }
+.s-signed    { background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.2); }
+.s-active    { background:rgba(255,193,7,.12);color:#ffc107;border:1px solid rgba(255,193,7,.2); }
+.s-completed { background:rgba(0,255,136,.12);color:#00ff88;border:1px solid rgba(0,255,136,.2); }
+.s-cancelled { background:rgba(255,107,107,.12);color:#ff6b6b;border:1px solid rgba(255,107,107,.2); }
+
+/* ── Signed icon ── */
+.signed-yes { color:#00ff88;font-size:.95rem; }
+.signed-no  { color:#333;font-size:.95rem; }
+
+/* ── Action buttons ── */
+.agr-actions { display:flex;gap:6px;justify-content:flex-end; }
+.act-btn { width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;text-decoration:none;border:1px solid transparent;transition:all .2s;cursor:pointer;background:transparent; }
+.act-view { color:#6495ed;border-color:rgba(100,149,237,.2); }
+.act-view:hover { background:rgba(100,149,237,.12);color:#6495ed; }
+.act-pdf  { color:#00ff88;border-color:rgba(0,255,136,.2); }
+.act-pdf:hover  { background:rgba(0,255,136,.1);color:#00ff88; }
+.act-edit { color:#ffc107;border-color:rgba(255,193,7,.2); }
+.act-edit:hover { background:rgba(255,193,7,.1);color:#ffc107; }
+
+/* ── Empty state ── */
+.agr-empty { text-align:center;padding:60px 20px; }
+.agr-empty i { font-size:2.5rem;color:#222;margin-bottom:14px;display:block; }
+.agr-empty p { color:#555;font-size:.9rem;margin:0; }
+
+/* ── New btn ── */
+.btn-new { background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;font-weight:700;font-size:.84rem;border:none;border-radius:10px;padding:9px 20px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all .2s; }
+.btn-new:hover { transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,204,106,.3);color:#000; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page header -->
+<div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+    <div>
+        <p class="agr-page-title">Agreement Letters</p>
+        <p class="agr-page-sub">Manage all client agreements</p>
+    </div>
+    <a href="{% url 'agreement_create' %}" class="btn-new">
+        <i class="fas fa-plus"></i> New Agreement
+    </a>
+</div>
+
+<!-- Filter bar -->
+<form method="get" class="agr-filter-bar">
+    <div class="row g-2 align-items-center">
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ q }}" class="agr-inp"
+                   placeholder="Search by client, company, email, project…">
+        </div>
+        <div class="col-md-3">
+            <select name="status" class="agr-sel">
+                <option value="">All Statuses</option>
+                {% for val, label in status_choices %}
+                <option value="{{ val }}" {% if status == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn-filter w-100">Filter</button>
+            <a href="{% url 'agreement_list' %}" class="btn-clear w-100 text-center">Clear</a>
+        </div>
+    </div>
+</form>
+
+<!-- Table -->
+<div class="agr-table-card">
+    <div style="overflow-x:auto;">
+        <table class="agr-table">
+            <thead>
+                <tr>
+                    <th>Ref</th>
+                    <th>Client</th>
+                    <th>Project</th>
+                    <th>Cost</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th style="text-align:center;">Signed</th>
+                    <th style="text-align:right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for agr in agreements %}
+            <tr>
+                <td><span class="agr-ref">{{ agr.short_ref }}</span></td>
+                <td>
+                    <div class="agr-client-name">{{ agr.client_name }}</div>
+                    <div class="agr-client-co">{{ agr.company_name|default:"—" }}</div>
+                </td>
+                <td>
+                    <div class="agr-proj-title">{{ agr.project_title|truncatechars:28 }}</div>
+                    <span class="agr-proj-type">{{ agr.get_project_type_display }}</span>
+                </td>
+                <td><span class="agr-cost">₹{{ agr.total_cost|floatformat:0 }}</span></td>
+                <td>
+                    <div class="agr-date">
+                        {{ agr.start_date|date:"d M Y" }}<br>
+                        <span class="arrow">↓</span> {{ agr.end_date|date:"d M Y" }}
+                    </div>
+                </td>
+                <td>
+                    {% if agr.status == 'draft' %}<span class="s-badge s-draft">Draft</span>
+                    {% elif agr.status == 'sent' %}<span class="s-badge s-sent">Sent</span>
+                    {% elif agr.status == 'signed' %}<span class="s-badge s-signed">Signed</span>
+                    {% elif agr.status == 'active' %}<span class="s-badge s-active">Active</span>
+                    {% elif agr.status == 'completed' %}<span class="s-badge s-completed">Completed</span>
+                    {% else %}<span class="s-badge s-cancelled">Cancelled</span>{% endif %}
+                </td>
+                <td style="text-align:center;">
+                    {% if agr.client_signed %}
+                        <i class="fas fa-check-circle signed-yes" title="Signed"></i>
+                    {% else %}
+                        <i class="fas fa-clock signed-no" title="Pending"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="agr-actions">
+                        <a href="{% url 'agreement_detail' agr.pk %}" class="act-btn act-view" title="View"><i class="fas fa-eye"></i></a>
+                        <a href="{% url 'agreement_pdf' agr.pk %}" class="act-btn act-pdf" title="Download PDF"><i class="fas fa-file-pdf"></i></a>
+                        <a href="{% url 'agreement_edit' agr.pk %}" class="act-btn act-edit" title="Edit"><i class="fas fa-edit"></i></a>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8">
+                    <div class="agr-empty">
+                        <i class="fas fa-file-contract"></i>
+                        <p>No agreements found. <a href="{% url 'agreement_create' %}" style="color:#00ff88;">Create one</a></p>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

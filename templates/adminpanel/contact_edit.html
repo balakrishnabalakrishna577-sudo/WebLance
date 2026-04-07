@@ -1,0 +1,53 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Edit Contact Message{% endblock %}
+{% block page_title %}Edit Contact Message{% endblock %}
+
+{% block content %}
+<div class="ap-card" style="max-width:700px;">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-edit"></i> Edit Contact Message</h5>
+        <a href="{% url 'admin_contacts' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <div class="ap-card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Name</label>
+                    <input type="text" name="name" value="{{ obj.name }}" required
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Email</label>
+                    <input type="email" name="email" value="{{ obj.email }}" required
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Phone</label>
+                    <input type="text" name="phone" value="{{ obj.phone }}"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Business Type</label>
+                    <input type="text" name="business_type" value="{{ obj.business_type }}"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+            </div>
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Message</label>
+                <textarea name="message" rows="6"
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none;resize:vertical;"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">{{ obj.message }}</textarea>
+            </div>
+            <div style="display:flex;gap:10px;">
+                <button type="submit" class="ap-btn ap-btn-green"><i class="fas fa-save"></i> Save Changes</button>
+                <a href="{% url 'admin_contacts' %}" class="ap-btn ap-btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

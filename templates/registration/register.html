@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Create Account - WEBLANCE{% endblock %}
+
+{% block extra_css %}{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card" style="max-width:500px;">
+        <div class="auth-logo">
+            <div class="logo-mark"><i class="fas fa-user-plus"></i></div>
+            <h2>WEB<span class="text-green">LANCE</span></h2>
+            <p>Create your free account</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div style="padding:12px 16px;border-radius:10px;margin-bottom:20px;font-size:0.88rem;
+                        background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+
+            <div class="auth-input-group">
+                <label for="id_username">Username</label>
+                <input type="text" id="id_username" name="username"
+                       value="{{ form.username.value|default:'' }}"
+                       placeholder="Choose a username" autocomplete="username" required>
+                <i class="fas fa-user input-icon"></i>
+                {% if form.username.errors %}
+                    <ul class="errorlist">{% for e in form.username.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="auth-input-group">
+                <label for="id_email">Email <span style="color:var(--text-gray);font-weight:400;">(optional)</span></label>
+                <input type="email" id="id_email" name="email"
+                       value="{{ form.email.value|default:'' }}"
+                       placeholder="your@email.com" autocomplete="email">
+                <i class="fas fa-envelope input-icon"></i>
+            </div>
+
+            <div class="auth-input-group">
+                <label for="id_password1">Password</label>
+                <input type="password" id="id_password1" name="password1"
+                       placeholder="Create a strong password" autocomplete="new-password" required>
+                <i class="fas fa-lock input-icon"></i>
+                <button type="button" class="password-toggle" onclick="togglePwd('id_password1', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+                {% if form.password1.errors %}
+                    <ul class="errorlist">{% for e in form.password1.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div class="auth-input-group">
+                <label for="id_password2">Confirm Password</label>
+                <input type="password" id="id_password2" name="password2"
+                       placeholder="Repeat your password" autocomplete="new-password" required>
+                <i class="fas fa-lock input-icon"></i>
+                <button type="button" class="password-toggle" onclick="togglePwd('id_password2', this)">
+                    <i class="fas fa-eye"></i>
+                </button>
+                {% if form.password2.errors %}
+                    <ul class="errorlist">{% for e in form.password2.errors %}<li>{{ e }}</li>{% endfor %}</ul>
+                {% endif %}
+            </div>
+
+            <div style="background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.12);
+                        border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:0.8rem;color:var(--text-gray);">
+                <i class="fas fa-shield-alt me-2" style="color:var(--primary-green);"></i>
+                Password must be at least 8 characters and not entirely numeric.
+            </div>
+
+            <button type="submit" class="btn-auth">
+                <i class="fas fa-user-plus me-2"></i> Create Account
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="{% url 'login' %}">Sign in</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function togglePwd(id, btn) {
+    const input = document.getElementById(id);
+    const icon  = btn.querySelector('i');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+    } else {
+        input.type = 'password';
+        icon.className = 'fas fa-eye';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,696 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}WEBLANCE - Professional Website Development Company{% endblock %}
+
+{% block content %}
+
+<section class="hero-section" id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+
+    <div class="container hero-container">
+        <div class="row justify-content-center">
+            <div class="col-lg-9 col-xl-8 text-center">
+
+                <!-- Available badge -->
+                <div class="hero-badge hero-reveal" style="--d:0ms">
+                    <span class="dot"></span>
+                    <span>Available for new projects</span>
+                </div>
+
+                <!-- Main headline -->
+                <h1 class="hero-title hero-reveal" style="--d:150ms">
+                    We Build Websites That
+                    <span class="hero-gradient-text d-block">Grow Your Business</span>
+                </h1>
+
+                <!-- Typed sub-line -->
+                <p class="hero-tagline hero-reveal" style="--d:300ms">
+                    Crafting <span id="typed-word" class="text-green typed-highlight"></span> for businesses across India
+                </p>
+
+                <!-- Description -->
+                <p class="hero-sub hero-reveal" style="--d:450ms">
+                    From startups to enterprises — custom, fast, and SEO-ready websites
+                    delivered on time, every time.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="hero-buttons hero-reveal justify-content-center" style="--d:600ms">
+                    <a href="{% url 'request_website' %}" class="btn btn-green btn-lg">
+                        <i class="fas fa-rocket me-2"></i>Start Your Project
+                    </a>
+                    <a href="{% url 'portfolio' %}" class="btn btn-outline-green btn-lg">
+                        <i class="fas fa-eye me-2"></i>View Our Work
+                    </a>
+                </div>
+
+                <!-- Trust row -->
+                <div class="hero-trust hero-reveal justify-content-center" style="--d:750ms">
+                    <div class="hero-trust-item"><i class="fas fa-check-circle"></i> No upfront full payment</div>
+                    <div class="hero-trust-item"><i class="fas fa-check-circle"></i> Free revisions</div>
+                    <div class="hero-trust-item"><i class="fas fa-check-circle"></i> 30-day support</div>
+                </div>
+
+                <!-- Stats row -->
+                <div class="hero-stats hero-reveal" style="--d:900ms">
+                    <div class="hero-stat-item">
+                        <div class="stat-num" data-target="150" data-suffix="+">0+</div>
+                        <div class="stat-label">Projects Done</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-num" data-target="120" data-suffix="+">0+</div>
+                        <div class="stat-label">Happy Clients</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-num">5.0★</div>
+                        <div class="stat-label">Client Rating</div>
+                    </div>
+                    <div class="hero-stat-item">
+                        <div class="stat-num" data-target="3" data-suffix="yr+">0yr</div>
+                        <div class="stat-label">Experience</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-hint">
+        <div class="scroll-mouse"><div class="scroll-wheel"></div></div>
+        <span>Scroll Down</span>
+    </div>
+</section>
+
+<!-- ── Services Overview ── -->
+<section class="section services-3d-section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate" data-reveal="fade-up">
+            <span class="label" data-i18n="label_whatwedo">What We Do</span>
+            <h2>Our <span class="text-green" data-i18n="sec_services">Services</span></h2>
+            <p data-i18n="sec_services_sub">Comprehensive web solutions tailored to your business needs</p>
+        </div>
+        <div class="row g-3">
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="0">
+                <div class="card-3d" data-popup-title="Custom Websites" data-popup-desc="Tailor-made websites designed specifically for your business. We build from scratch using modern frameworks, ensuring speed, security, and scalability. Every pixel is crafted to match your brand identity." data-popup-icon="fa-code" data-popup-color="#00ff88">
+                    <div class="card-3d-inner">
+                        <div class="card-3d-glow"></div>
+                        <div class="card-3d-icon"><i class="fas fa-code"></i></div>
+                        <h3>Custom Websites</h3>
+                        <p>Tailor-made websites designed specifically for your business requirements and brand identity.</p>
+                        <div class="card-3d-footer">
+                            <span class="card-3d-tag">HTML · CSS · Django</span>
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="100">
+                <div class="card-3d" data-popup-title="E-Commerce" data-popup-desc="Powerful online stores with secure payment gateways, inventory management, order tracking, and mobile-optimized shopping experience. We integrate Razorpay, Stripe, and PayPal." data-popup-icon="fa-shopping-cart" data-popup-color="#ffa500">
+                    <div class="card-3d-inner">
+                        <div class="card-3d-glow" style="--glow-color:rgba(255,165,0,0.3)"></div>
+                        <div class="card-3d-icon" style="background:rgba(255,165,0,0.1);color:#ffa500"><i class="fas fa-shopping-cart"></i></div>
+                        <h3>E-Commerce</h3>
+                        <p>Powerful online stores with secure payment integration and inventory management.</p>
+                        <div class="card-3d-footer">
+                            <span class="card-3d-tag">Razorpay · Stripe</span>
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="200">
+                <div class="card-3d" data-popup-title="SEO Optimization" data-popup-desc="Boost your Google rankings with technical SEO, keyword research, on-page optimization, speed improvements, and monthly performance reports. We've helped clients reach page 1." data-popup-icon="fa-search" data-popup-color="#6495ed">
+                    <div class="card-3d-inner">
+                        <div class="card-3d-glow" style="--glow-color:rgba(100,149,237,0.3)"></div>
+                        <div class="card-3d-icon" style="background:rgba(100,149,237,0.1);color:#6495ed"><i class="fas fa-search"></i></div>
+                        <h3>SEO Optimization</h3>
+                        <p>Boost your online presence with search engine optimized websites that rank higher.</p>
+                        <div class="card-3d-footer">
+                            <span class="card-3d-tag">Google · Analytics</span>
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="300">
+                <div class="card-3d" data-popup-title="UI/UX Design" data-popup-desc="Beautiful, intuitive interfaces designed with user psychology in mind. We create wireframes, prototypes, and pixel-perfect designs that convert visitors into customers." data-popup-icon="fa-paint-brush" data-popup-color="#ff6b9d">
+                    <div class="card-3d-inner">
+                        <div class="card-3d-glow" style="--glow-color:rgba(255,107,157,0.3)"></div>
+                        <div class="card-3d-icon" style="background:rgba(255,107,157,0.1);color:#ff6b9d"><i class="fas fa-paint-brush"></i></div>
+                        <h3>UI/UX Design</h3>
+                        <p>Modern, responsive designs that captivate your audience and enhance user experience.</p>
+                        <div class="card-3d-footer">
+                            <span class="card-3d-tag">Figma · Adobe XD</span>
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5 scroll-animate" data-reveal="fade-up">
+            <a href="{% url 'services' %}" class="btn btn-outline-green">Explore All Services</a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Service Card Popup ── -->
+<div id="card-popup-overlay">
+    <div class="card-popup" id="cardPopup" role="dialog" aria-modal="true">
+        <button class="card-popup-close" id="cardPopupClose" aria-label="Close"><i class="fas fa-times"></i></button>
+        <div class="card-popup-icon" id="cardPopupIcon"></div>
+        <h3 id="cardPopupTitle"></h3>
+        <p id="cardPopupDesc"></p>
+        <a href="{% url 'services' %}" class="btn btn-green mt-3">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
+    </div>
+</div>
+
+<!-- ── Why Choose Us ── -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Why Us</span>
+            <h2>Why Choose <span class="text-green">WEBLANCE</span></h2>
+            <p>We deliver excellence in every project we take on</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-user-tie"></i></div>
+                    <h4>Expert Team</h4>
+                    <p>Skilled developers with years of hands-on experience in modern web technologies.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-rocket"></i></div>
+                    <h4>Fast Delivery</h4>
+                    <p>On-time project completion guaranteed — no delays, no excuses.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-chart-line"></i></div>
+                    <h4>SEO Friendly</h4>
+                    <p>Built-in SEO best practices so your site ranks higher from day one.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-mobile-alt"></i></div>
+                    <h4>Mobile First</h4>
+                    <p>Perfect display on every device — phones, tablets, and desktops.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Portfolio Preview ── -->
+<section class="section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Our Work</span>
+            <h2>Featured <span class="text-green">Portfolio</span></h2>
+            <p>Explore our recent projects and success stories</p>
+        </div>
+        <div class="row g-4">
+            {% if portfolio_items %}
+                {% for item in portfolio_items|slice:"6" %}
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img">
+                        {% else %}
+                        <img src="https://via.placeholder.com/600x400/111111/00ff88?text={{ item.title|urlencode }}" alt="{{ item.title }}" class="portfolio-img">
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description|truncatewords:12 }}</p>
+                            {% if item.live_url %}
+                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Site <i class="fas fa-external-link-alt ms-1"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Business Website -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge">Business</span>
+                        <img src="https://picsum.photos/seed/biz1/800/500" alt="Corporate Business Website" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Corporate Business Website</h3>
+                            <p>Professional website for a leading business consultancy firm.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- E-Commerce Store -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        <img src="https://picsum.photos/seed/shop1/800/500" alt="Fashion E-Commerce Store" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Fashion E-Commerce Store</h3>
+                            <p>Full-featured online clothing store with payment integration.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Landing Page -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        <img src="https://picsum.photos/seed/land1/800/500" alt="Product Launch Landing Page" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Product Launch Landing Page</h3>
+                            <p>High-converting landing page with lead capture form.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Tech Startup -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge">Business</span>
+                        <img src="https://picsum.photos/seed/tech1/800/500" alt="Tech Startup Website" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Tech Startup Website</h3>
+                            <p>Modern corporate site for a tech startup with animations.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Electronics Shop -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        <img src="https://picsum.photos/seed/elec1/800/500" alt="Electronics Online Shop" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Electronics Online Shop</h3>
+                            <p>E-commerce platform with product reviews and ratings.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- App Landing Page -->
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="portfolio-item">
+                        <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        <img src="https://picsum.photos/seed/app1/800/500" alt="Mobile App Landing Page" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Mobile App Landing Page</h3>
+                            <p>Creative app showcase with download links and features.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="text-center mt-5 scroll-animate">
+            <a href="{% url 'portfolio' %}" class="btn btn-outline-green">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Process Section ── -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">How It Works</span>
+            <h2>Our <span class="text-green">Process</span></h2>
+            <p>Simple, transparent, and efficient from start to finish</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div style="font-size:2.5rem;font-weight:900;color:var(--border-green);font-family:'Poppins',sans-serif;margin-bottom:16px;">01</div>
+                    <div class="card-icon mx-auto"><i class="fas fa-comments"></i></div>
+                    <h4>Consultation</h4>
+                    <p>We discuss your goals, requirements, and vision for the project.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div style="font-size:2.5rem;font-weight:900;color:var(--border-green);font-family:'Poppins',sans-serif;margin-bottom:16px;">02</div>
+                    <div class="card-icon mx-auto"><i class="fas fa-pencil-ruler"></i></div>
+                    <h4>Design</h4>
+                    <p>We craft a beautiful, brand-aligned design for your approval.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div style="font-size:2.5rem;font-weight:900;color:var(--border-green);font-family:'Poppins',sans-serif;margin-bottom:16px;">03</div>
+                    <div class="card-icon mx-auto"><i class="fas fa-code"></i></div>
+                    <h4>Development</h4>
+                    <p>We build your site with clean code, speed, and SEO in mind.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="card-custom text-center">
+                    <div style="font-size:2.5rem;font-weight:900;color:var(--border-green);font-family:'Poppins',sans-serif;margin-bottom:16px;">04</div>
+                    <div class="card-icon mx-auto"><i class="fas fa-rocket"></i></div>
+                    <h4>Launch</h4>
+                    <p>We deploy, test, and hand over your fully working website.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Testimonials ── -->
+<section class="section testimonials-section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Client Love</span>
+            <h2>What Clients <span class="text-green">Say</span></h2>
+            <p>Real feedback from real businesses we've helped grow</p>
+        </div>
+        <div style="overflow:hidden;" class="scroll-animate">
+            <div class="testimonial-track" id="testimonialTrack">
+                {% if testimonials %}
+                {% for t in testimonials %}
+                <div class="testimonial-card {% if forloop.first %}active{% endif %}">
+                    <div class="testimonial-stars">{{ t.stars }}</div>
+                    <p class="testimonial-text">"{{ t.text }}"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">{{ t.initials }}</div>
+                        <div>
+                            <div class="testimonial-name">{{ t.name }}</div>
+                            <div class="testimonial-role">{{ t.role }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="testimonial-card active">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"WEBLANCE delivered our e-commerce site in just 3 weeks. The design is stunning and our sales have increased by 40% since launch. Highly recommend!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">RK</div>
+                        <div>
+                            <div class="testimonial-name">Rajesh Kumar</div>
+                            <div class="testimonial-role">Owner, FashionHub India</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Professional team, clean code, and excellent communication throughout. Our business website looks world-class and loads super fast."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">PS</div>
+                        <div>
+                            <div class="testimonial-name">Priya Sharma</div>
+                            <div class="testimonial-role">CEO, TechSolutions Bangalore</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"The landing page they built for our product launch converted 3x better than our old site. Worth every rupee. Will definitely work with them again."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">AM</div>
+                        <div>
+                            <div class="testimonial-name">Arjun Mehta</div>
+                            <div class="testimonial-role">Founder, LaunchPad Startup</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Affordable pricing, premium quality. They redesigned our outdated website and the difference is night and day. Our clients love the new look."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">SN</div>
+                        <div>
+                            <div class="testimonial-name">Sunita Nair</div>
+                            <div class="testimonial-role">Director, Nair Consultancy</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">★★★★★</div>
+                    <p class="testimonial-text">"Fast delivery, responsive support, and a beautiful result. WEBLANCE understood our vision perfectly and executed it flawlessly."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">VR</div>
+                        <div>
+                            <div class="testimonial-name">Vikram Rao</div>
+                            <div class="testimonial-role">MD, Rao Enterprises</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="testimonial-nav" id="testimonialNav"></div>
+    </div>
+</section>
+
+<!-- ── FAQ Section ── -->
+<section class="section faq-section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Got Questions?</span>
+            <h2>Frequently Asked <span class="text-green">Questions</span></h2>
+            <p>Everything you need to know before getting started</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="faq-list scroll-animate">
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            How long does it take to build a website?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>Typically 7–30 business days depending on complexity. A simple landing page takes 7–10 days, a business website 15–20 days, and a full e-commerce store 30–45 days. We always provide a clear timeline before starting.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            What is included in the price?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>All our packages include design, development, mobile responsiveness, basic SEO setup, contact form, and 30 days of free support after launch. Domain and hosting are separate unless specified in the package.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            Do you provide website maintenance?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>Yes! We offer monthly maintenance plans starting at ₹1,999/month covering security updates, content changes, performance monitoring, and technical support. Ask us for details.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            Can I update the website content myself?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>Absolutely. We build with a Django admin panel so you can easily update text, images, blog posts, and products without any coding knowledge. We also provide a walkthrough video after handover.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            Do you work with clients outside Devanahalli?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>Yes! We work with clients across India and internationally. All communication is done via WhatsApp, email, and video calls. Distance is never a barrier for great work.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-q" aria-expanded="false">
+                            What payment methods do you accept?
+                            <span class="faq-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-a">
+                            <p>We accept UPI, bank transfer, Razorpay, and PayPal. We typically work on a 50% advance + 50% on delivery model to keep things fair for both sides.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Tech Stack ── -->
+<section class="section tech-section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Our Stack</span>
+            <h2>Technologies We <span class="text-green">Use</span></h2>
+            <p>Modern, battle-tested tools for every project</p>
+        </div>
+        <div class="tech-grid scroll-animate">
+            <div class="tech-item"><i class="fab fa-python"></i><span>Python</span></div>
+            <div class="tech-item"><i class="fab fa-js-square"></i><span>JavaScript</span></div>
+            <div class="tech-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
+            <div class="tech-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+            <div class="tech-item"><i class="fab fa-bootstrap"></i><span>Bootstrap</span></div>
+            <div class="tech-item"><i class="fab fa-react"></i><span>React</span></div>
+            <div class="tech-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
+            <div class="tech-item"><i class="fab fa-figma"></i><span>Figma</span></div>
+            <div class="tech-item"><i class="fas fa-database"></i><span>PostgreSQL</span></div>
+            <div class="tech-item"><i class="fab fa-aws"></i><span>AWS</span></div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Newsletter ── -->
+<section class="section newsletter-section">
+    <div class="container">
+        <div class="newsletter-card scroll-animate">
+            <div class="newsletter-glow"></div>
+            <div class="row align-items-center g-4">
+                <div class="col-lg-6">
+                    <span class="label">Stay Updated</span>
+                    <h2>Get Web Tips & <span class="text-green">Offers</span></h2>
+                    <p style="color:var(--text-gray);margin-top:8px;">Join 500+ business owners getting free web tips, design trends, and exclusive offers every month.</p>
+                </div>
+                <div class="col-lg-6">
+                    <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
+                        <div class="newsletter-input-wrap">
+                            <i class="fas fa-envelope newsletter-input-icon"></i>
+                            <input type="email" placeholder="Enter your email address" required>
+                            <button type="submit" class="btn btn-green">Subscribe <i class="fas fa-arrow-right ms-1"></i></button>
+                        </div>
+                        <p class="newsletter-note"><i class="fas fa-lock me-1"></i>No spam, ever. Unsubscribe anytime.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 scroll-animate">
+                <h2>Ready to Build Your Website?</h2>
+                <p>Let's create something amazing together. Get a free quote today.</p>
+                <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+                    <a href="{% url 'request_website' %}" class="btn btn-green btn-lg">Get Free Quote</a>
+                    <a href="{% url 'contact' %}" class="btn btn-dark btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Quick Contact ── -->
+<section class="section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Reach Out</span>
+            <h2>Get In <span class="text-green">Touch</span></h2>
+            <p>We're always happy to hear from you</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-phone"></i></div>
+                    <h5>Call Us</h5>
+                    <p>+91 7892934437<br>+91 8867156958</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-envelope"></i></div>
+                    <h5>Email Us</h5>
+                    <p>weblance@gmail.com</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
+                    <h5>Location</h5>
+                    <p>Devanahalli, Karnataka, India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Floating particles ──
+(function() {
+    const container = document.getElementById('particles');
+    if (!container) return;
+    for (let i = 0; i < 30; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;`;
+        container.appendChild(p);
+    }
+})();
+
+// ── Typing animation ──
+document.addEventListener('DOMContentLoaded', function() {
+    initTyping(document.getElementById('typed-word'), [
+        'Business Websites',
+        'E-Commerce Stores',
+        'Landing Pages',
+        'SEO Campaigns',
+        'Portfolio Sites',
+        'Restaurant Websites',
+        'Real Estate Portals',
+        'School Websites',
+        'Web Applications',
+        'Website Redesigns',
+    ], 75, 2000);
+
+    // ── Testimonials carousel ──
+    const track = document.getElementById('testimonialTrack');
+    const nav   = document.getElementById('testimonialNav');
+    if (!track || !nav) return;
+
+    const cards     = track.querySelectorAll('.testimonial-card');
+    const visible   = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+    const total     = cards.length;
+    let current     = 0;
+
+    // Build dots
+    const maxDots = total - visible + 1;
+    for (let i = 0; i < maxDots; i++) {
+        const d = document.createElement('button');
+        d.className = 't-dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => goTo(i));
+        nav.appendChild(d);
+    }
+
+    function goTo(idx) {
+        current = Math.max(0, Math.min(idx, maxDots - 1));
+        const cardW = cards[0].offsetWidth + 24; // gap=24
+        track.style.transform = `translateX(-${current * cardW}px)`;
+        cards.forEach((c, i) => c.classList.toggle('active', i === current));
+        nav.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    // Auto-advance
+    let timer = setInterval(() => goTo((current + 1) % maxDots), 4000);
+    track.addEventListener('mouseenter', () => clearInterval(timer));
+    track.addEventListener('mouseleave', () => { timer = setInterval(() => goTo((current + 1) % maxDots), 4000); });
+
+    // Touch swipe
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend',   e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+    });
+});
+</script>
+{% endblock %}

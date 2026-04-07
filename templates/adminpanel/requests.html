@@ -1,0 +1,184 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Website Requests{% endblock %}
+{% block page_title %}Website Requests{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-rocket"></i> All Website Requests <span class="ap-badge ap-badge-yellow ms-2">{{ reqs|length }}</span></h5>
+    </div>
+    <div style="overflow-x:auto; overflow-y:visible; position:relative">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Business</th>
+                    <th>Contact</th>
+                    <th>Type</th>
+                    <th>Budget</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in reqs %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td><strong style="color:#fff">{{ r.business_name }}</strong></td>
+                <td>
+                    <div style="color:#fff;font-size:0.85rem">{{ r.name }}</div>
+                    <div style="color:var(--gray);font-size:0.78rem">{{ r.email }}</div>
+                    <div style="color:var(--gray);font-size:0.78rem">{{ r.phone }}</div>
+                </td>
+                <td><span class="ap-badge ap-badge-yellow">{{ r.get_website_type_display }}</span></td>
+                <td><span class="ap-badge ap-badge-green">{{ r.get_budget_display }}</span></td>
+                <td style="max-width:180px;color:var(--gray);font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ r.description }}">{{ r.description }}</td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">{{ r.created_at|date:"d M Y" }}<br><span style="font-size:0.75rem">{{ r.created_at|date:"H:i" }}</span></td>
+
+                <!-- Status badge -->
+                <td>
+                    {% if r.status == 'new' %}
+                        <span class="req-status req-status-new"><i class="fas fa-circle-dot"></i> New</span>
+                    {% elif r.status == 'received' %}
+                        <span class="req-status req-status-received"><i class="fas fa-inbox"></i> Received</span>
+                    {% elif r.status == 'in_progress' %}
+                        <span class="req-status req-status-progress"><i class="fas fa-spinner"></i> In Progress</span>
+                    {% elif r.status == 'completed' %}
+                        <span class="req-status req-status-done"><i class="fas fa-check-circle"></i> Completed</span>
+                    {% endif %}
+                </td>
+
+                <!-- Actions -->
+                <td class="req-actions-td">
+                    <div class="req-actions">
+                        <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="received">
+                            <button type="submit" class="req-act-btn req-act-blue {% if r.status == 'received' %}req-act-active{% endif %}" title="Mark Received">
+                                <i class="fas fa-inbox"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="in_progress">
+                            <button type="submit" class="req-act-btn req-act-orange {% if r.status == 'in_progress' %}req-act-active{% endif %}" title="In Progress">
+                                <i class="fas fa-spinner"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="completed">
+                            <button type="submit" class="req-act-btn req-act-green {% if r.status == 'completed' %}req-act-active{% endif %}" title="Mark Completed">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="status" value="new">
+                            <button type="submit" class="req-act-btn req-act-gray {% if r.status == 'new' %}req-act-active{% endif %}" title="Reset to New">
+                                <i class="fas fa-rotate-left"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_request_delete' r.pk %}" onsubmit="return confirm('Delete this request?')">
+                            {% csrf_token %}
+                            <button type="submit" class="req-act-btn req-act-red" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9" style="text-align:center;color:var(--gray);padding:40px">No website requests yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+/* Status badges */
+.req-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.req-status-new      { background: rgba(255,193,7,0.15);   color: #ffc107; border: 1px solid rgba(255,193,7,0.3); }
+.req-status-received { background: rgba(100,149,237,0.15); color: #6495ed; border: 1px solid rgba(100,149,237,0.3); }
+.req-status-progress { background: rgba(255,165,0,0.15);   color: #ffa500; border: 1px solid rgba(255,165,0,0.3); }
+.req-status-done     { background: rgba(0,255,136,0.12);   color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+
+/* Action buttons row */
+.req-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+}
+.req-actions form { margin: 0; }
+
+.req-act-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.05);
+    color: #888;
+    position: relative;
+}
+.req-act-btn:hover { transform: translateY(-2px); }
+
+/* Colors */
+.req-act-blue   { border-color: rgba(100,149,237,0.3); color: #6495ed; }
+.req-act-blue:hover, .req-act-blue.req-act-active   { background: rgba(100,149,237,0.2); color: #6495ed; border-color: rgba(100,149,237,0.5); }
+
+.req-act-orange { border-color: rgba(255,165,0,0.3); color: #ffa500; }
+.req-act-orange:hover, .req-act-orange.req-act-active { background: rgba(255,165,0,0.2); color: #ffa500; border-color: rgba(255,165,0,0.5); }
+
+.req-act-green  { border-color: rgba(0,255,136,0.3); color: #00ff88; }
+.req-act-green:hover, .req-act-green.req-act-active  { background: rgba(0,255,136,0.15); color: #00ff88; border-color: rgba(0,255,136,0.5); }
+
+.req-act-gray   { border-color: rgba(255,255,255,0.1); color: #666; }
+.req-act-gray:hover, .req-act-gray.req-act-active    { background: rgba(255,255,255,0.08); color: #aaa; border-color: rgba(255,255,255,0.2); }
+
+.req-act-red    { border-color: rgba(255,107,107,0.3); color: #ff6b6b; }
+.req-act-red:hover  { background: rgba(255,107,107,0.2); color: #ff6b6b; border-color: rgba(255,107,107,0.5); }
+
+/* Active state ring */
+.req-act-btn.req-act-active { box-shadow: 0 0 0 2px currentColor; opacity: 1; }
+
+/* Tooltip */
+.req-act-btn::after {
+    content: attr(title);
+    position: fixed;
+    background: #1a1a2e;
+    color: #fff;
+    font-size: 0.7rem;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 9999;
+    border: 1px solid rgba(0,255,136,0.2);
+    transform: translateX(-50%) translateY(-110%);
+    left: 50%;
+    top: 0;
+}
+.req-act-btn:hover::after { opacity: 1; }
+</style>
+{% endblock %}

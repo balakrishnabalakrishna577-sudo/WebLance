@@ -1,0 +1,377 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{{ title }} — Weblance Panel{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Page header ── */
+.agr-back { width:36px;height:36px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#999;text-decoration:none;transition:all .2s;flex-shrink:0; }
+.agr-back:hover { border-color:#00cc6a;color:#00ff88; }
+.agr-page-title { font-family:'Poppins',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;margin:0; }
+.agr-page-sub { font-size:.78rem;color:#666;margin:2px 0 0; }
+
+/* ── Card ── */
+.agr-card { background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:24px;margin-bottom:20px; }
+
+/* ── Section head ── */
+.agr-sec { display:flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#00ff88;background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.12);border-radius:8px;padding:8px 14px;margin-bottom:20px; }
+
+/* ── Label ── */
+.agr-lbl { display:block;font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:6px; }
+.agr-lbl .req { color:#00ff88; }
+
+/* ── Inputs ── */
+.agr-inp, .agr-sel, .agr-ta {
+    display:block;width:100%;
+    background:#0d0d0d;
+    border:1px solid #2a2a2a;
+    border-radius:10px;
+    color:#e8e8e8;
+    font-size:.88rem;
+    font-family:'Roboto',sans-serif;
+    padding:10px 14px;
+    outline:none;
+    transition:border-color .2s, box-shadow .2s;
+}
+.agr-inp::placeholder, .agr-ta::placeholder { color:#3a3a3a; }
+.agr-inp:focus, .agr-sel:focus, .agr-ta:focus {
+    border-color:#00cc6a;
+    box-shadow:0 0 0 3px rgba(0,204,106,.1);
+    background:#0f0f0f;
+}
+.agr-sel {
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:36px;
+    cursor:pointer;
+}
+.agr-sel option { background:#111;color:#e8e8e8; }
+.agr-ta { resize:vertical;min-height:88px; }
+.agr-err { color:#ff6b6b;font-size:.76rem;margin-top:4px; }
+
+/* ── Preview card ── */
+.prev-card { background:#111;border:1px solid #1e1e1e;border-radius:14px;padding:22px;position:sticky;top:80px; }
+.prev-brand { font-family:'Poppins',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:1px;color:#fff; }
+.prev-brand span { color:#00ff88; }
+.prev-sub { font-size:.7rem;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px; }
+.prev-row { display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:.82rem; }
+.prev-row:last-of-type { border-bottom:none; }
+.prev-row .pl { color:#555; }
+.prev-row .pv { color:#e8e8e8;font-weight:600;text-align:right;max-width:58%;word-break:break-word; }
+.prev-cost { background:rgba(0,255,136,.06);border:1px solid rgba(0,255,136,.12);border-radius:10px;padding:12px 14px;margin-top:14px; }
+.prev-cost-row { display:flex;justify-content:space-between;font-size:.82rem;padding:3px 0;color:#666; }
+.prev-cost-row .ca { font-weight:600;color:#ccc; }
+.prev-cost-row.hi { color:#00ff88;font-weight:700;font-size:.88rem; }
+.prev-cost-row.hi .ca { color:#00ff88; }
+
+/* ── Buttons ── */
+.btn-submit {
+    width:100%;background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;
+    font-weight:800;font-size:.88rem;font-family:'Poppins',sans-serif;
+    border:none;border-radius:12px;padding:13px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin-top:16px;transition:all .25s;
+}
+.btn-submit:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,204,106,.3); }
+.btn-cancel { display:block;width:100%;text-align:center;margin-top:8px;padding:10px;border:1px solid #2a2a2a;border-radius:12px;color:#666;font-size:.84rem;text-decoration:none;transition:all .2s; }
+.btn-cancel:hover { border-color:#444;color:#999; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'agreement_list' %}" class="agr-back"><i class="fas fa-arrow-left"></i></a>
+    <div>
+        <p class="agr-page-title">{{ title }}</p>
+        <p class="agr-page-sub">Fill in all required fields to generate the agreement</p>
+    </div>
+</div>
+
+{% if form.non_field_errors %}
+<div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;color:#ff6b6b;font-size:.85rem;">
+    <i class="fas fa-exclamation-circle me-2"></i>{{ form.non_field_errors.0 }}
+</div>
+{% endif %}
+
+{% if form.errors %}
+<div style="background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);border-radius:10px;padding:12px 16px;margin-bottom:20px;color:#ff6b6b;font-size:.85rem;">
+    <i class="fas fa-exclamation-circle me-2"></i>
+    Please fix the following errors:
+    <ul style="margin:6px 0 0 16px;padding:0;">
+    {% for field, errors in form.errors.items %}
+        {% for error in errors %}
+        <li>{{ field|title }}: {{ error }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<form method="post" novalidate>
+{% csrf_token %}
+<div class="row g-4">
+
+    <!-- ── LEFT: fields ── -->
+    <div class="col-xl-8 col-lg-7">
+
+        <!-- Client Details -->
+        <div class="agr-card">
+            <div class="agr-sec"><i class="fas fa-user"></i> Client Details</div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Client Name <span class="req">*</span></label>
+                    <input type="text" name="client_name" class="agr-inp" placeholder="Full name" value="{{ form.client_name.value|default:'' }}">
+                    {% if form.client_name.errors %}<div class="agr-err">{{ form.client_name.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Company Name</label>
+                    <input type="text" name="company_name" class="agr-inp" placeholder="Company / Business name" value="{{ form.company_name.value|default:'' }}">
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Email <span class="req">*</span></label>
+                    <input type="email" name="client_email" class="agr-inp" placeholder="client@email.com" value="{{ form.client_email.value|default:'' }}">
+                    {% if form.client_email.errors %}<div class="agr-err">{{ form.client_email.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Phone</label>
+                    <input type="text" name="client_phone" class="agr-inp" placeholder="+91 XXXXX XXXXX" value="{{ form.client_phone.value|default:'' }}">
+                </div>
+                <div class="col-12">
+                    <label class="agr-lbl">Address</label>
+                    <textarea name="client_address" class="agr-ta" placeholder="Full address" rows="3">{{ form.client_address.value|default:'' }}</textarea>
+                </div>            </div>
+        </div>
+
+        <!-- Project Details -->
+        <div class="agr-card">
+            <div class="agr-sec"><i class="fas fa-code"></i> Project Details</div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Project Type <span class="req">*</span></label>
+                    <select name="project_type" class="agr-sel" id="id_project_type">
+                        <option value="">— Select type —</option>
+                        {% for val, label in form.fields.project_type.choices %}{% if val %}
+                        <option value="{{ val }}" {% if form.project_type.value|stringformat:"s" == val|stringformat:"s" %}selected{% endif %}>{{ label }}</option>
+                        {% endif %}{% endfor %}
+                    </select>
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Project Title <span class="req">*</span></label>
+                    <input type="text" name="project_title" class="agr-inp" placeholder="e.g. Business Website for ABC Corp" value="{{ form.project_title.value|default:'' }}">
+                    {% if form.project_title.errors %}<div class="agr-err">{{ form.project_title.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-12">
+                    <label class="agr-lbl">Project Description <span class="req">*</span></label>
+                    <textarea name="description" class="agr-ta" placeholder="Detailed project scope, deliverables, features…" rows="4">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}<div class="agr-err">{{ form.description.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Start Date <span class="req">*</span></label>
+                    <input type="date" name="start_date" class="agr-inp"
+                           value="{% if form.start_date.value %}{{ form.start_date.value|date:'Y-m-d' }}{% endif %}">
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">End Date <span class="req">*</span></label>
+                    <input type="date" name="end_date" class="agr-inp"
+                           value="{% if form.end_date.value %}{{ form.end_date.value|date:'Y-m-d' }}{% endif %}">
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment -->
+        <div class="agr-card">
+            <div class="agr-sec"><i class="fas fa-rupee-sign"></i> Payment Terms</div>
+            <div class="row g-3">
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Total Cost (₹) <span class="req">*</span></label>
+                    <input type="number" name="total_cost" id="id_total_cost" class="agr-inp" placeholder="25000" min="0"
+                           value="{{ form.total_cost.value|default:'' }}" step="0.01">
+                    {% if form.total_cost.errors %}<div class="agr-err">{{ form.total_cost.errors.0 }}</div>{% endif %}
+                </div>
+                <div class="col-sm-6">
+                    <label class="agr-lbl">Advance %</label>
+                    <input type="number" name="advance_percent" id="id_advance_percent" class="agr-inp" min="0" max="100" value="{{ form.advance_percent.value|default:'50' }}">
+                </div>
+                <div class="col-12">
+                    <label class="agr-lbl">Payment Terms Description</label>
+                    <textarea name="payment_terms" class="agr-ta" placeholder="e.g. 50% advance before work begins, 50% on final delivery…" rows="3">{{ form.payment_terms.value|default:'' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Terms -->
+        <div class="agr-card">
+            <div class="agr-sec"><i class="fas fa-file-contract"></i> Additional Terms</div>
+            <textarea name="additional_terms" class="agr-ta" placeholder="Any additional clauses, special conditions, or notes…" rows="4">{{ form.additional_terms.value|default:'' }}</textarea>
+        </div>
+
+    </div>
+
+    <!-- ── RIGHT: live preview ── -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="prev-card">
+            <div class="prev-brand">WEB<span>LANCE</span></div>
+            <div class="prev-sub">Service Agreement</div>
+
+            <div class="prev-row"><span class="pl">Client</span><span class="pv" id="prev-client">—</span></div>
+            <div class="prev-row"><span class="pl">Company</span><span class="pv" id="prev-company">—</span></div>
+            <div class="prev-row"><span class="pl">Project</span><span class="pv" id="prev-project">—</span></div>
+            <div class="prev-row"><span class="pl">Type</span><span class="pv" id="prev-type">—</span></div>
+            <div class="prev-row"><span class="pl">Start</span><span class="pv" id="prev-start">—</span></div>
+            <div class="prev-row"><span class="pl">End</span><span class="pv" id="prev-end">—</span></div>
+
+            <div class="prev-cost">
+                <div class="prev-cost-row hi"><span>Total Cost</span><span class="ca">₹<span id="prev-cost">0</span></span></div>
+                <div class="prev-cost-row"><span>Advance (<span id="prev-adv-pct">50</span>%)</span><span class="ca">₹<span id="prev-adv-amt">0.00</span></span></div>
+                <div class="prev-cost-row"><span>Balance</span><span class="ca">₹<span id="prev-bal">0.00</span></span></div>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-file-contract"></i>
+                {% if agr %}Update Agreement{% else %}Create Agreement{% endif %}
+            </button>
+            <a href="{% url 'agreement_list' %}" class="btn-cancel">Cancel</a>
+        </div>
+    </div>
+
+</div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    function g(name) { return document.querySelector('[name="' + name + '"]'); }
+    function s(id, v)  { var e = document.getElementById(id); if (e) e.textContent = v || '—'; }
+
+    var map = { client_name:'prev-client', company_name:'prev-company', project_title:'prev-project', start_date:'prev-start', end_date:'prev-end' };
+    Object.keys(map).forEach(function(n) {
+        var el = g(n); if (!el) return;
+        el.addEventListener('input', function(){ s(map[n], el.value); });
+        s(map[n], el.value);
+    });
+
+    // ── Project type auto-fill templates ──
+    var PROJECT_TEMPLATES = {
+        'website': {
+            description: 'Weblance will design and develop a professional business website tailored to the client\'s brand identity. The project includes:\n\n• Custom homepage with hero banner, services overview, and call-to-action buttons\n• About Us page with company story, team section, and mission statement\n• Services page with detailed service listings and pricing overview\n• Contact page with Google Maps integration and inquiry form\n• Mobile-first responsive design optimized for all screen sizes\n• On-page SEO setup including meta titles, descriptions, and sitemap\n• WhatsApp chat button and social media links integration\n• Django-based admin panel for easy content management\n• SSL-ready and performance-optimized codebase',
+            payment_terms: '• 50% advance (₹ ___) to be paid before project kickoff\n• 50% balance (₹ ___) to be paid upon final delivery and client approval\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Invoice will be raised after each payment milestone\n• Work will not commence until advance payment is received',
+            additional_terms: '• Client must supply all content (text, images, logo, brand colors) within 5 business days of project start\n• Delay in content submission may extend the project timeline accordingly\n• 3 rounds of design revisions are included; additional revisions charged at ₹500/hour\n• Domain registration and hosting are not included in this agreement\n• 30 days of free bug-fix support provided after final delivery\n• Weblance retains the right to display this project in its portfolio'
+        },
+        'ecommerce': {
+            description: 'Weblance will build a fully functional e-commerce platform enabling the client to sell products online. The project includes:\n\n• Custom storefront design with product catalog, categories, and search functionality\n• Product detail pages with image gallery, variants (size/color), and stock management\n• Shopping cart, wishlist, and secure checkout flow\n• Payment gateway integration: Razorpay / Stripe / PayPal (as per client preference)\n• Customer registration, login, order history, and profile management\n• Order management dashboard for admin: view, process, and update orders\n• Automated order confirmation emails to customers\n• Coupon/discount code system\n• Mobile-responsive design with fast loading speed\n• Basic SEO setup for product and category pages',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 25% payment (₹ ___) due upon design approval and frontend completion\n• 25% final payment (₹ ___) due upon full delivery and testing\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Payment gateway merchant account must be set up by the client independently\n• Any third-party gateway charges are borne by the client',
+            additional_terms: '• Client must provide complete product list with images, descriptions, and pricing before development begins\n• Payment gateway activation requires client\'s own KYC-verified merchant account\n• Up to 50 products will be uploaded as part of this agreement; additional products charged separately\n• 3 rounds of revisions included per section\n• 45 days of free support after delivery for bug fixes only\n• New feature additions after delivery will be quoted separately\n• Weblance is not liable for payment gateway downtime or transaction failures'
+        },
+        'seo': {
+            description: 'Weblance will provide a comprehensive monthly SEO service to improve the client\'s website visibility on Google and other search engines. Services include:\n\n• Full technical SEO audit (site speed, crawl errors, broken links, mobile usability)\n• Keyword research: identifying 20–30 target keywords relevant to the business\n• On-page optimization: meta titles, descriptions, H1/H2 tags, image alt text\n• Content optimization and blog post recommendations (2 posts/month)\n• Google Search Console and Google Analytics setup and monitoring\n• XML sitemap and robots.txt optimization\n• Local SEO: Google Business Profile optimization\n• Monthly backlink analysis and outreach recommendations\n• Competitor analysis and ranking comparison\n• Detailed monthly performance report with rankings, traffic, and recommendations',
+            payment_terms: '• Monthly retainer fee: ₹ ___ per month\n• Payment due on or before the 1st of each month\n• First month payment required before service begins\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• No refund for partial months if service is cancelled mid-month\n• 3-month minimum commitment recommended for measurable results',
+            additional_terms: '• SEO results typically take 3–6 months to reflect in search rankings; Weblance does not guarantee specific ranking positions\n• Client must provide website admin/CMS access for on-page changes\n• Google algorithm updates may affect rankings; Weblance will adapt strategy accordingly\n• Monthly reports will be delivered by the 7th of the following month\n• Contract can be cancelled with 15 days written notice\n• Content creation (blog writing) beyond 2 posts/month will be charged separately at ₹800/post'
+        },
+        'redesign': {
+            description: 'Weblance will redesign and redevelop the client\'s existing website with a modern, professional look while preserving all existing content and SEO value. The project includes:\n\n• Complete UI/UX redesign with updated color scheme, typography, and layout\n• Migration of all existing pages, content, and media to the new design\n• Improved site structure and navigation for better user experience\n• Mobile-responsive redesign optimized for phones, tablets, and desktops\n• Page speed optimization (target: 90+ Google PageSpeed score)\n• SEO preservation: all existing URLs, meta tags, and rankings maintained\n• Updated contact forms and call-to-action elements\n• Cross-browser compatibility testing (Chrome, Firefox, Safari, Edge)\n• Admin panel for easy future content updates\n• Old website backup maintained for 30 days post-launch',
+            payment_terms: '• 50% advance (₹ ___) due before redesign work begins\n• 50% balance (₹ ___) due upon completion and client sign-off\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Client must provide access to existing website, hosting, and domain before work starts\n• Any additional pages beyond the agreed scope will be quoted separately',
+            additional_terms: '• Client must provide FTP/cPanel/hosting access and domain credentials before project start\n• All existing content will be preserved unless client explicitly requests removal\n• 3 rounds of design revisions included; further revisions at ₹500/hour\n• Old website will remain live until new site is fully approved by client\n• 30 days of free support after go-live for bug fixes only\n• Weblance is not responsible for data loss if client\'s existing hosting is unstable\n• New features not present in the original site will be quoted separately'
+        },
+        'landing': {
+            description: 'Weblance will design and develop a single high-converting landing page focused on lead generation or product/service promotion. The project includes:\n\n• Attention-grabbing hero section with headline, subheadline, and primary CTA button\n• Problem-solution section highlighting client\'s unique value proposition\n• Features/benefits section with icons and short descriptions\n• Social proof section: client testimonials, star ratings, or client logos\n• Lead capture form with name, email, phone fields and WhatsApp/email notification\n• FAQ section addressing common objections\n• Sticky header with CTA and mobile hamburger menu\n• Countdown timer or urgency element (if applicable)\n• Thank-you page after form submission\n• Google Analytics and Facebook Pixel integration (if required)\n• Mobile-optimized and fast-loading (under 3 seconds)',
+            payment_terms: '• 100% full payment (₹ ___) required before project commencement\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Project will begin within 24 hours of payment confirmation\n• No refund once design work has commenced',
+            additional_terms: '• Client must provide all copy (headlines, body text), images, and brand assets before work begins\n• 2 rounds of design revisions included; additional revisions at ₹500/round\n• Domain and hosting are not included; client must arrange separately\n• 15 days of free support after delivery for bug fixes only\n• Form submission data will be sent to client\'s email; CRM integration quoted separately\n• Weblance retains the right to showcase this landing page in its portfolio'
+        },
+        'maintenance': {
+            description: 'Weblance will provide ongoing monthly website maintenance to keep the client\'s website secure, updated, and running smoothly. Services include:\n\n• Security monitoring and malware scanning (weekly)\n• CMS, plugin, and theme updates to latest stable versions\n• Daily automated backups stored for 30 days\n• Uptime monitoring with instant alerts (99.9% uptime target)\n• Content updates: text changes, image replacements, page additions (up to 4 hours/month)\n• Performance checks and minor speed optimizations\n• Broken link detection and fixing\n• SSL certificate renewal monitoring\n• Monthly maintenance report with actions taken and site health summary\n• Priority email support (response within 24 business hours)',
+            payment_terms: '• Monthly retainer: ₹ ___ per month, billed in advance\n• Payment due on the 1st of each month\n• First month payment required before service activation\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Auto-renewal each month unless cancelled with 15 days prior written notice\n• Additional work beyond 4 hours/month billed at ₹500/hour',
+            additional_terms: '• Client must provide website admin, hosting (cPanel/FTP), and database access before service begins\n• Maintenance covers bug fixes and minor updates only; new feature development is not included\n• Major updates (e.g., full CMS version upgrades) will be quoted separately\n• Weblance is not liable for issues caused by third-party plugins or hosting provider outages\n• Emergency support (same-day response) available at ₹1,000/incident outside business hours\n• Contract can be cancelled with 15 days written notice; no refund for the current month'
+        },
+        'custom': {
+            description: 'Weblance will design and develop a custom web application tailored to the client\'s specific business requirements. The project scope includes:\n\n• Discovery phase: detailed requirement gathering, user story mapping, and technical planning\n• System architecture design and database schema planning\n• Custom frontend development (HTML/CSS/JS/React as applicable)\n• Backend development using Python/Django with REST API\n• User authentication and role-based access control\n• Third-party API integrations (payment, SMS, email, maps, etc.) as specified\n• Admin dashboard for data management and reporting\n• Comprehensive testing: unit tests, integration tests, and UAT\n• Deployment to production server (Render/VPS/AWS as agreed)\n• Technical documentation and code handover\n• Post-launch support and monitoring',
+            payment_terms: '• 40% advance (₹ ___) due before project kickoff\n• 30% milestone payment (₹ ___) due upon completion of Phase 1 (design + core features)\n• 30% final payment (₹ ___) due upon full delivery, testing, and deployment\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay, PayPal (international)\n• Milestone payments must be cleared before proceeding to the next phase\n• Any scope additions after sign-off will be quoted and billed separately',
+            additional_terms: '• A detailed project scope document will be prepared and signed by both parties before development begins\n• Any changes to the agreed scope after approval may affect timeline and cost\n• Client must provide timely feedback within 3 business days at each milestone\n• Source code ownership transfers to client only upon receipt of full payment\n• 30 days of free bug-fix support after final delivery; new features quoted separately\n• Weblance retains the right to use anonymized project details in its portfolio\n• Confidentiality of all business logic and data is strictly maintained by Weblance'
+        },
+        'college': {
+            description: 'Weblance will design and develop a complete college/university final year project website as per the student\'s requirements and academic guidelines. The project includes:\n\n• Requirement analysis based on project title and academic domain\n• System design: ER diagram, DFD, use case diagrams (documentation provided)\n• Frontend development: responsive UI using HTML, CSS, Bootstrap, JavaScript\n• Backend development using Python/Django OR PHP/Laravel/Core PHP with database integration\n• User authentication: student/admin/faculty login with role-based access\n• Core module development as per project scope (e.g., management system, portal, tracker)\n• Database design using MySQL/PostgreSQL/SQLite\n• Admin panel for data management\n• Project report assistance (abstract, synopsis, chapter content)\n• Source code with comments for easy understanding\n• Deployment on local server (XAMPP/WAMP for PHP) or free hosting (Render/PythonAnywhere for Python)\n• PPT presentation slides (optional)\n\nAvailable Tech Stacks:\n• Python + Django + PostgreSQL/MySQL\n• PHP (Core PHP) + MySQL\n• PHP + Laravel + MySQL',
+            payment_terms: '• 50% advance (₹ ___) due before project work begins\n• 50% balance (₹ ___) due upon final delivery of source code and documentation\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Urgent delivery (within 3–5 days) attracts an additional 20% charge\n• Payment must be cleared before source code is handed over',
+            additional_terms: '• Student must provide project title, domain, preferred tech stack (Python/PHP), and any specific requirements before work begins\n• Project will be developed as per standard academic guidelines\n• Source code is provided with proper comments for viva/presentation\n• For PHP projects: source code runs on XAMPP/WAMP (setup instructions included)\n• Weblance does not take responsibility for plagiarism checks — student must verify\n• 7 days of free support after delivery for bug fixes and minor changes\n• Project is for educational purposes only; commercial use requires separate agreement\n• Confidentiality maintained — project will not be shared with other students'
+        },
+        'miniproject': {
+            description: 'Weblance will develop a focused mini project suitable for academic submission, internship requirements, or skill demonstration. The project includes:\n\n• Simple, clean web application with 3–5 core features\n• Frontend: HTML5, CSS3, Bootstrap 5, JavaScript\n• Backend: Python/Django OR PHP (Core PHP/Laravel) as per student requirement\n• Database: MySQL/SQLite with basic CRUD operations\n• User login and registration (if required)\n• One or two main modules (e.g., inventory, library, student records, to-do, quiz, contact manager)\n• Basic admin panel for data management\n• Responsive design for mobile and desktop\n• Clean, well-commented source code\n• README file with setup instructions\n• For PHP: runs on XAMPP/WAMP locally\n• For Python: deployable on free hosting (optional)\n\nAvailable Tech Stacks:\n• Python + Django + SQLite/MySQL\n• Core PHP + MySQL (runs on XAMPP)\n• PHP + Bootstrap + MySQL',
+            payment_terms: '• 100% payment (₹ ___) in advance before project commencement\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Project delivered within 2–5 business days after payment\n• No refund once development has started',
+            additional_terms: '• Student must specify the project topic, preferred tech stack (Python or PHP), and any specific features before work begins\n• Mini project includes basic functionality only — complex features will be quoted separately\n• Source code provided with comments for easy understanding\n• For PHP projects: XAMPP/WAMP setup guide included\n• 5 days of free support after delivery\n• Project is for educational/personal use only\n• Weblance will not be responsible for academic evaluation outcomes'
+        },
+        'portfolio': {
+            description: 'Weblance will design and develop a professional portfolio website to showcase the client\'s work, skills, and achievements. The project includes:\n\n• Elegant homepage with animated hero section and personal/brand introduction\n• Portfolio/Work gallery with filterable categories (by type, year, or technology)\n• Individual project detail pages with images, description, and live/GitHub links\n• About Me/Us page with skills, experience timeline, and achievements\n• Resume/CV download button (PDF)\n• Testimonials section from past clients or colleagues\n• Contact form with email notification\n• Social media links (LinkedIn, GitHub, Behance, Instagram, etc.)\n• Smooth scroll animations and modern micro-interactions\n• Mobile-responsive and fast-loading design\n• SEO-optimized for personal branding',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 50% balance (₹ ___) due upon final delivery and approval\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Project begins within 24 hours of advance payment confirmation',
+            additional_terms: '• Client must provide portfolio items (images, descriptions, links) before development begins\n• Up to 15 portfolio items will be added; additional items charged at ₹200/item\n• 2 rounds of design revisions included; further revisions at ₹500/round\n• Domain and hosting not included; client must arrange separately\n• 15 days of free support after delivery\n• Weblance may showcase this portfolio site in its own portfolio with client permission'
+        },
+        'blog': {
+            description: 'Weblance will design and develop a fully functional blog or news website with content management capabilities. The project includes:\n\n• Clean, readable homepage with featured posts, latest articles, and category highlights\n• Individual blog post pages with rich text, images, tags, and author info\n• Category and tag archive pages for easy content discovery\n• Author profile pages with bio and post listing\n• Search functionality across all posts\n• Comment system (moderated) or Disqus integration\n• Newsletter subscription form with email list integration\n• Social sharing buttons on each post (WhatsApp, Facebook, Twitter, LinkedIn)\n• Related posts section at the bottom of each article\n• Admin panel for writing, editing, scheduling, and publishing posts\n• RSS feed for subscribers\n• Mobile-responsive and SEO-optimized structure',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 50% balance (₹ ___) due upon final delivery and approval\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Hosting and domain charges are not included in this agreement',
+            additional_terms: '• Client must provide initial 5 sample blog posts for design and testing purposes\n• Up to 3 categories and 20 tags will be set up during development\n• 3 rounds of design revisions included\n• Newsletter integration requires client\'s own Mailchimp/ConvertKit account\n• 30 days of free support after delivery\n• Content moderation and ongoing post writing are not included in this agreement'
+        },
+        'education': {
+            description: 'Weblance will design and develop a comprehensive school or educational institution website. The project includes:\n\n• Professional homepage with school overview, announcements, and quick links\n• About Us page: history, vision, mission, and accreditations\n• Academics section: courses, curriculum, and class schedules\n• Faculty/Staff directory with photos and designations\n• Admissions page with eligibility criteria, process, and online inquiry form\n• Events and notices board with date-wise listing\n• Photo and video gallery of school activities\n• Student/Parent portal login (basic access)\n• Contact page with location map, phone, and email\n• Mobile-responsive design suitable for parents and students\n• Admin panel for managing notices, events, and gallery\n• Basic SEO setup for local search visibility',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 25% payment (₹ ___) due upon design approval\n• 25% balance (₹ ___) due upon final delivery\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay, Cheque\n• Government/institutional purchase orders accepted with prior agreement',
+            additional_terms: '• Client must provide school logo, photos, faculty details, and content before development begins\n• Up to 20 faculty profiles and 50 gallery images included\n• 3 rounds of revisions included\n• Student portal features beyond basic login will be quoted separately\n• 30 days of free support after delivery\n• Annual maintenance contract available at ₹3,000/year after free support period'
+        },
+        'restaurant': {
+            description: 'Weblance will design and develop an attractive restaurant or food business website to drive online orders and reservations. The project includes:\n\n• Visually rich homepage with hero food photography, tagline, and CTA buttons\n• Interactive digital menu with categories (Starters, Mains, Desserts, Drinks) and prices\n• Online table reservation form with date, time, and guest count\n• About Us page with restaurant story, chef profile, and ambiance photos\n• Gallery section with food and interior photography\n• Special offers and seasonal promotions section\n• Customer reviews and ratings section\n• Location page with Google Maps embed, parking info, and opening hours\n• Contact form and WhatsApp order button\n• Social media feed integration (Instagram)\n• Mobile-responsive design optimized for food delivery browsing\n• Basic SEO for local restaurant searches',
+            payment_terms: '• 60% advance (₹ ___) due before project commencement\n• 40% balance (₹ ___) due upon final delivery and approval\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Online ordering system integration (Swiggy/Zomato API) quoted separately if required',
+            additional_terms: '• Client must provide high-quality food photos, menu items with prices, and brand assets before work begins\n• Professional food photography is not included; client must arrange separately\n• Up to 50 menu items across 5 categories included\n• 2 rounds of design revisions included\n• Online payment integration for direct orders quoted separately\n• 30 days of free support after delivery\n• Seasonal menu updates after delivery charged at ₹500/update'
+        },
+        'realestate': {
+            description: 'Weblance will design and develop a professional real estate website for property listings, lead generation, and agent showcasing. The project includes:\n\n• Homepage with featured properties, search bar (location, type, price range), and CTA\n• Property listing pages with filters: buy/rent, property type, BHK, price, location\n• Individual property detail pages with image gallery, floor plan, amenities, and map\n• Agent/Builder profile pages with contact details and listed properties\n• Property inquiry form with WhatsApp and call button on each listing\n• EMI calculator tool\n• Testimonials and success stories section\n• Blog section for real estate tips and market updates\n• Admin panel to add, edit, and manage property listings\n• Google Maps integration for property locations\n• Mobile-responsive design\n• SEO optimization for local property searches',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 25% payment (₹ ___) due upon design and frontend approval\n• 25% balance (₹ ___) due upon final delivery\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay\n• Additional property listings beyond agreed count charged at ₹300/listing',
+            additional_terms: '• Client must provide property photos, descriptions, and pricing for initial listings\n• Up to 20 property listings included in this agreement; additional listings charged separately\n• 3 rounds of revisions included\n• Advanced features (virtual tours, 3D walkthroughs) quoted separately\n• 30 days of free support after delivery\n• MLS/third-party property feed integration quoted separately\n• Weblance is not responsible for accuracy of property information provided by client'
+        },
+        'hospital': {
+            description: 'Weblance will design and develop a professional hospital, clinic, or healthcare provider website. The project includes:\n\n• Clean, trustworthy homepage with emergency contact, services overview, and appointment CTA\n• Departments and specializations page with doctor listings per department\n• Doctor profiles with photo, qualifications, experience, and consultation timings\n• Online appointment booking form with department and doctor selection\n• Patient information section: visiting hours, facilities, insurance accepted\n• Health blog/articles section for patient education\n• Testimonials and patient success stories\n• Gallery of hospital facilities and infrastructure\n• Contact page with multiple branch locations and Google Maps\n• Emergency helpline number prominently displayed\n• Mobile-responsive and accessibility-friendly design\n• Admin panel for managing doctors, appointments, and blog posts\n• Basic SEO for local healthcare searches',
+            payment_terms: '• 50% advance (₹ ___) due before project commencement\n• 25% payment (₹ ___) due upon design approval\n• 25% balance (₹ ___) due upon final delivery\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay, Cheque\n• GST invoice will be provided upon request',
+            additional_terms: '• Client must provide doctor profiles, department details, and facility photos before development begins\n• Up to 15 doctor profiles and 5 departments included\n• Online payment for appointments not included; quoted separately if required\n• Patient data privacy and HIPAA-style data handling will be implemented\n• 3 rounds of revisions included\n• 30 days of free support after delivery\n• Annual maintenance contract available at ₹4,000/year'
+        },
+        'webapp': {
+            description: 'Weblance will design and develop a full-featured web application to automate or digitize the client\'s business processes. The project includes:\n\n• Detailed discovery and requirement analysis sessions\n• UI/UX wireframes and interactive prototype for client approval\n• Responsive frontend development (HTML/CSS/JavaScript/React)\n• Robust backend development using Python/Django\n• RESTful API development for frontend-backend communication\n• User authentication: registration, login, password reset, role-based access\n• Database design and optimization (PostgreSQL/MySQL)\n• Dashboard with analytics, charts, and data tables\n• File upload, export (PDF/Excel), and reporting features\n• Third-party integrations: payment gateway, SMS/email notifications, Google APIs\n• Automated testing and quality assurance\n• Deployment to cloud server (Render/DigitalOcean/AWS)\n• Technical documentation and admin training session',
+            payment_terms: '• 40% advance (₹ ___) due before project kickoff\n• 30% milestone payment (₹ ___) due upon Phase 1 completion (UI + core modules)\n• 30% final payment (₹ ___) due upon full delivery, testing, and deployment\n• Accepted payment methods: UPI, NEFT/IMPS, Razorpay, PayPal\n• Each phase must be paid before proceeding to the next\n• Scope additions after sign-off will be estimated and billed separately',
+            additional_terms: '• A detailed scope document with feature list and milestones will be signed before development begins\n• Client must provide timely feedback within 3 business days at each milestone to avoid delays\n• Source code ownership transfers to client upon receipt of full and final payment\n• 45 days of free bug-fix support after final delivery\n• New feature requests after delivery will be quoted separately\n• All client data and business logic will be kept strictly confidential\n• Weblance will provide one admin training session (up to 2 hours) after delivery'
+        }
+    };
+
+    var typeEl = document.getElementById('id_project_type');
+    if (typeEl) {
+        typeEl.addEventListener('change', function(){
+            var selected = typeEl.value;
+            s('prev-type', typeEl.options[typeEl.selectedIndex].text);
+
+            if (selected && PROJECT_TEMPLATES[selected]) {
+                var tpl = PROJECT_TEMPLATES[selected];
+                var descEl = document.querySelector('[name="description"]');
+                var payEl  = document.querySelector('[name="payment_terms"]');
+                var addEl  = document.querySelector('[name="additional_terms"]');
+                // Always overwrite when type changes
+                if (descEl) descEl.value = tpl.description;
+                if (payEl)  payEl.value  = tpl.payment_terms;
+                if (addEl)  addEl.value  = tpl.additional_terms;
+            }
+        });
+        if (typeEl.selectedIndex > 0) s('prev-type', typeEl.options[typeEl.selectedIndex].text);
+    }
+
+    function calc() {
+        var cost = parseFloat((g('total_cost') || {}).value) || 0;
+        var adv  = parseFloat((g('advance_percent') || {}).value) || 50;
+        var advA = cost * adv / 100;
+        var fmt  = function(n){ return n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2}); };
+        s('prev-cost',    cost.toLocaleString('en-IN'));
+        s('prev-adv-pct', adv);
+        s('prev-adv-amt', fmt(advA));
+        s('prev-bal',     fmt(cost - advA));
+    }
+    var ce = g('total_cost'), ae = g('advance_percent');
+    if (ce) ce.addEventListener('input', calc);
+    if (ae) ae.addEventListener('input', calc);
+    calc();
+})();
+</script>
+{% endblock %}

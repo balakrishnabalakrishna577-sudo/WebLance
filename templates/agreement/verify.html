@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}Verify Agreement {{ agr.short_ref }} — Weblance{% endblock %}
+{% block content %}
+<section class="section" style="min-height:80vh;display:flex;align-items:center;">
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-lg-7">
+
+    <!-- Verification card -->
+    <div style="background:#111;border:1px solid rgba(0,255,136,.2);border-radius:20px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,.6);">
+
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <div style="width:64px;height:64px;background:rgba(0,255,136,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem;color:#00ff88;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h4 style="color:#fff;font-weight:800;">Agreement Verification</h4>
+            <p style="color:#888;font-size:.9rem;">This document has been verified as authentic by Weblance</p>
+        </div>
+
+        <!-- Status banner -->
+        <div style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:12px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;">
+            <i class="fas fa-check-circle" style="color:#00ff88;font-size:1.4rem;"></i>
+            <div>
+                <div style="color:#00ff88;font-weight:700;">Authentic Agreement</div>
+                <div style="color:#888;font-size:.82rem;">Reference: {{ agr.short_ref }}</div>
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+            {% for label, value in details %}
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">{{ label }}</div>
+                <div style="color:#e8e8e8;font-weight:600;font-size:.9rem;">{{ value }}</div>
+            </div>
+            {% endfor %}
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Client</div>
+                <div style="color:#e8e8e8;font-weight:600;font-size:.9rem;">{{ agr.client_name }}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Project Type</div>
+                <div style="color:#e8e8e8;font-weight:600;font-size:.9rem;">{{ agr.get_project_type_display }}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Total Cost</div>
+                <div style="color:#00ff88;font-weight:700;font-size:.9rem;">₹{{ agr.total_cost|floatformat:2 }}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Status</div>
+                <div style="color:#e8e8e8;font-weight:600;font-size:.9rem;">{{ agr.get_status_display }}</div>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Weblance Signed</div>
+                <div style="font-weight:600;font-size:.9rem;">
+                    {% if agr.weblance_signed %}<span style="color:#00ff88;"><i class="fas fa-check-circle"></i> Yes</span>
+                    {% else %}<span style="color:#888;">Pending</span>{% endif %}
+                </div>
+            </div>
+            <div style="background:rgba(255,255,255,.04);border-radius:10px;padding:12px 16px;">
+                <div style="color:#666;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Client Signed</div>
+                <div style="font-weight:600;font-size:.9rem;">
+                    {% if agr.client_signed %}<span style="color:#00ff88;"><i class="fas fa-check-circle"></i> {{ agr.client_signed_at|date:"d M Y" }}</span>
+                    {% else %}<span style="color:#ffa500;">Awaiting signature</span>{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Client sign button -->
+        {% if not agr.client_signed %}
+        <div style="background:rgba(255,165,0,.08);border:1px solid rgba(255,165,0,.2);border-radius:12px;padding:20px;margin-bottom:20px;">
+            <p style="color:#e8e8e8;font-size:.9rem;margin-bottom:12px;">
+                <i class="fas fa-pen me-2" style="color:#ffa500;"></i>
+                By clicking "Sign Agreement" you confirm that you have read and agree to all terms in this agreement.
+            </p>
+            <form method="post" action="{% url 'agreement_sign' agr.ref_id %}">
+                {% csrf_token %}
+                <button type="submit" style="background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border:none;border-radius:10px;padding:12px 28px;font-weight:700;cursor:pointer;width:100%;">
+                    <i class="fas fa-signature me-2"></i> Sign Agreement — {{ agr.client_name }}
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div style="background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);border-radius:12px;padding:16px 20px;margin-bottom:20px;text-align:center;">
+            <i class="fas fa-check-circle" style="color:#00ff88;font-size:1.2rem;margin-right:8px;"></i>
+            <span style="color:#00ff88;font-weight:700;">Agreement signed on {{ agr.client_signed_at|date:"d M Y, H:i" }}</span>
+        </div>
+        {% endif %}
+
+        <div class="text-center">
+            <a href="/" style="color:#666;font-size:.85rem;"><i class="fas fa-home me-1"></i>Back to Weblance</a>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - WEBLANCE Website Development{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Contact page specific ── */
+.contact-form-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 40px 36px; }
+.contact-info-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 24px; padding: 40px 36px; height: 100%; }
+.contact-info-card h3 { font-size: 1.4rem; margin-bottom: 28px; }
+.contact-form-card h3 { font-size: 1.4rem; margin-bottom: 28px; }
+
+.cinfo-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+.cinfo-item:last-child { border-bottom: none; }
+.cinfo-icon {
+    width: 44px; height: 44px; flex-shrink: 0;
+    background: rgba(0,255,136,0.08);
+    border: 1px solid var(--border-green);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--primary-green); font-size: 1rem;
+}
+.cinfo-label { font-size: 0.72rem; font-weight: 700; color: var(--primary-green); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.cinfo-value { color: var(--text-light); font-size: 0.9rem; line-height: 1.6; }
+.cinfo-value a { color: var(--text-light); text-decoration: none; }
+.cinfo-value a:hover { color: var(--primary-green); }
+
+.contact-cta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.contact-cta-card:hover { border-color: var(--border-green); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,255,136,0.1); }
+.contact-cta-card .cta-icon {
+    width: 60px; height: 60px;
+    background: rgba(0,255,136,0.08);
+    border: 1px solid var(--border-green);
+    border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; color: var(--primary-green);
+    margin: 0 auto 16px;
+}
+.contact-cta-card h5 { font-size: 1rem; margin-bottom: 8px; }
+.contact-cta-card .cta-val { color: var(--primary-green); font-weight: 700; font-size: 0.9rem; margin-bottom: 4px; word-break: break-all; }
+.contact-cta-card .cta-sub { color: var(--text-gray); font-size: 0.8rem; }
+
+.form-control {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-light) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-size: 0.92rem !important;
+    transition: border-color 0.3s, box-shadow 0.3s !important;
+}
+.form-control:focus { border-color: var(--primary-green) !important; box-shadow: 0 0 0 3px rgba(0,255,136,0.1) !important; outline: none !important; }
+.form-control::placeholder { color: #444 !important; }
+.form-label { font-size: 0.85rem; font-weight: 600; color: var(--text-light); margin-bottom: 8px; }
+
+@media (max-width: 767px) {
+    .contact-form-card, .contact-info-card { padding: 28px 20px; border-radius: 18px; }
+    .contact-form-card h3, .contact-info-card h3 { font-size: 1.2rem; margin-bottom: 20px; }
+    .cinfo-icon { width: 38px; height: 38px; font-size: 0.9rem; border-radius: 10px; }
+    .cinfo-value { font-size: 0.85rem; }
+    .contact-cta-card { padding: 22px 18px; }
+}
+@media (max-width: 575px) {
+    .contact-form-card, .contact-info-card { padding: 22px 16px; border-radius: 16px; }
+    .form-control { font-size: 0.88rem !important; padding: 10px 14px !important; }
+    .contact-cta-card .cta-val { font-size: 0.82rem; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1>Get In <span class="text-green">Touch</span></h1>
+                <nav aria-label="breadcrumb" class="d-flex justify-content-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Contact</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form + Info -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <h2>Send Us a <span class="text-green">Message</span></h2>
+            <p>We'd love to hear from you. Fill out the form and we'll get back to you within 24 hours.</p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Form -->
+            <div class="col-lg-7 scroll-animate">
+                <div class="contact-form-card">
+                    <h3><i class="fas fa-paper-plane me-2 text-green" style="font-size:1rem"></i>Contact Form</h3>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-3" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" action="{% url 'contact' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label">Full Name <span class="text-green">*</span></label>
+                                <input type="text" class="form-control" name="name" placeholder="Your name" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Email Address <span class="text-green">*</span></label>
+                                <input type="email" class="form-control" name="email" placeholder="you@example.com" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Phone Number <span class="text-green">*</span></label>
+                                <input type="tel" class="form-control" name="phone" placeholder="+91 7892934437" pattern="[0-9]{10}" required>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Business Type</label>
+                                <select class="form-control" name="business_type">
+                                    <option value="">Select type</option>
+                                    <option>Small Business</option>
+                                    <option>Medium Business</option>
+                                    <option>Enterprise</option>
+                                    <option>Startup</option>
+                                    <option>Personal</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Your Message <span class="text-green">*</span></label>
+                                <textarea class="form-control" name="message" rows="6" placeholder="Tell us about your project..." required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-green w-100" style="padding:14px">
+                                    <i class="fas fa-paper-plane me-2"></i>Send Message
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="col-lg-5 scroll-animate">
+                <div class="contact-info-card">
+                    <h3><i class="fas fa-address-card me-2 text-green" style="font-size:1rem"></i>Contact Information</h3>
+
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <div class="cinfo-label">Location</div>
+                            <div class="cinfo-value">Devanahalli, Karnataka, India</div>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <div class="cinfo-label">Phone Numbers</div>
+                            <div class="cinfo-value">
+                                <a href="tel:+917892934437">+91 7892934437</a><br>
+                                <a href="tel:+918867156958">+91 8867156958</a><br>
+                                <a href="tel:+918971127202">+91 8971127202</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <div class="cinfo-label">Email</div>
+                            <div class="cinfo-value">
+                                <a href="mailto:infoweblance01@gmail.com">infoweblance01@gmail.com</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cinfo-item">
+                        <div class="cinfo-icon"><i class="fas fa-clock"></i></div>
+                        <div>
+                            <div class="cinfo-label">Business Hours</div>
+                            <div class="cinfo-value">Mon – Sat: 9:00 AM – 6:00 PM<br>Sunday: By Appointment</div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="cinfo-label mb-3">Follow Us</div>
+                        <div class="social-icons" style="margin-top:0">
+                            <a href="https://www.youtube.com/@Weblance_tech" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="https://www.instagram.com/weblance_websites?igsh=MXZqMWc2ajJ0bDljZA==" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://github.com/balakrishnabalakrishna577-sudo" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map -->
+<section class="section" style="background:var(--bg-dark);padding-top:0">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <h2>Our <span class="text-green">Location</span></h2>
+            <p>Find us at Devanahalli, Karnataka</p>
+        </div>
+        <div class="scroll-animate" style="border-radius:20px;overflow:hidden;border:1px solid var(--border-color);">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62435.66516623072!2d77.6891666!3d13.2429666!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae26e8f0cde7b9%3A0x7c3ac4f5e2c8b5a0!2sDevanahalli%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890"
+                width="100%" height="400" style="border:0;display:block" allowfullscreen loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- Quick CTA cards -->
+<section class="section">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-4 col-md-4 col-sm-12 scroll-animate">
+                <div class="contact-cta-card">
+                    <div class="cta-icon"><i class="fas fa-phone-alt"></i></div>
+                    <h5>Call Us</h5>
+                    <div class="cta-val">+91 7892934437</div>
+                    <div class="cta-sub">Mon–Sat, 9AM–6PM</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 scroll-animate">
+                <div class="contact-cta-card">
+                    <div class="cta-icon"><i class="fas fa-envelope"></i></div>
+                    <h5>Email Us</h5>
+                    <div class="cta-val">infoweblance01@gmail.com</div>
+                    <div class="cta-sub">Reply within 24 hours</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 scroll-animate">
+                <div class="contact-cta-card">
+                    <div class="cta-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h5>WhatsApp</h5>
+                    <a href="https://wa.me/917892934437?text=Hi%20WEBLANCE%2C%20I%20need%20a%20website!" target="_blank" class="btn btn-green btn-sm mt-2" style="font-size:0.82rem">Chat Now</a>
+                    <div class="cta-sub mt-2">Quick response guaranteed</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    if (!form) return;
+    const btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+        if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
+        else { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...'; }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{% if item %}Edit{% else %}Add{% endif %} Testimonial{% endblock %}
+{% block page_title %}{% if item %}Edit Testimonial{% else %}Add Testimonial{% endif %}{% endblock %}
+
+{% block content %}
+<div class="ap-card" style="max-width:700px;">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-{% if item %}edit{% else %}plus{% endif %}"></i> {% if item %}Edit — {{ item.name }}{% else %}New Testimonial{% endif %}</h5>
+        <a href="{% url 'admin_testimonials' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <div class="ap-card-body">
+        <form method="post">
+            {% csrf_token %}
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Client Name *</label>
+                    <input type="text" name="name" value="{{ item.name|default:'' }}" required placeholder="e.g. Rajesh Kumar"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Role / Company *</label>
+                    <input type="text" name="role" value="{{ item.role|default:'' }}" required placeholder="e.g. Owner, FashionHub India"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Initials (2-3 letters) *</label>
+                    <input type="text" name="initials" value="{{ item.initials|default:'' }}" required maxlength="3" placeholder="e.g. RK"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none;text-transform:uppercase"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Rating (1-5) *</label>
+                    <select name="rating"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                        {% for i in "12345" %}
+                        <option value="{{ i }}" {% if item.rating == i|add:0 %}selected{% elif not item and i == '5' %}selected{% endif %}>{{ i }} Star{% if i != '1' %}s{% endif %}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Review Text *</label>
+                <textarea name="text" rows="5" required placeholder="Write the client's review here..."
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none;resize:vertical"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">{{ item.text|default:'' }}</textarea>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Display Order</label>
+                    <input type="number" name="order" value="{{ item.order|default:'0' }}" min="0"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div style="display:flex;align-items:center;padding-top:28px;">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+                        <input type="checkbox" name="is_active" {% if item.is_active or not item %}checked{% endif %}
+                            style="width:18px;height:18px;accent-color:var(--green)">
+                        <span style="color:#fff;font-size:0.9rem">Show on website</span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="display:flex;gap:10px;">
+                <button type="submit" class="ap-btn ap-btn-green"><i class="fas fa-save"></i> Save Testimonial</button>
+                <a href="{% url 'admin_testimonials' %}" class="ap-btn ap-btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Edit Portfolio Item{% endblock %}
+{% block page_title %}Edit Portfolio Item{% endblock %}
+
+{% block content %}
+<div class="ap-card" style="max-width:680px">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-edit"></i> Edit — {{ item.title }}</h5>
+        <a href="{% url 'admin_portfolio' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <div class="ap-card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div style="margin-bottom:18px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Title</label>
+                <input type="text" name="title" value="{{ item.title }}" required
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none;transition:border-color 0.2s"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+
+            <div style="margin-bottom:18px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Category</label>
+                <select name="category" style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none">
+                    <option value="business" {% if item.category == 'business' %}selected{% endif %}>Business Websites</option>
+                    <option value="ecommerce" {% if item.category == 'ecommerce' %}selected{% endif %}>E-Commerce Websites</option>
+                    <option value="landing" {% if item.category == 'landing' %}selected{% endif %}>Landing Pages</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom:18px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Description</label>
+                <textarea name="description" rows="4" style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none;resize:vertical"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">{{ item.description }}</textarea>
+            </div>
+
+            <div style="margin-bottom:18px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Live URL</label>
+                <input type="url" name="live_url" value="{{ item.live_url }}"
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'"
+                    placeholder="https://...">
+            </div>
+
+            <div style="margin-bottom:24px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Image</label>
+                {% if item.image and item.image.name %}
+                <div style="margin-bottom:10px">
+                    <img src="{{ item.image.url }}" style="height:80px;border-radius:8px;border:1px solid var(--border)">
+                    <div style="font-size:0.75rem;color:var(--gray);margin-top:4px">Current image — upload new to replace</div>
+                </div>
+                {% endif %}
+                <input type="file" name="image" accept="image/*"
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--gray);font-size:0.85rem">
+            </div>
+
+            <div style="display:flex;gap:10px">
+                <button type="submit" class="ap-btn ap-btn-green"><i class="fas fa-save"></i> Save Changes</button>
+                <a href="{% url 'admin_portfolio' %}" class="ap-btn ap-btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

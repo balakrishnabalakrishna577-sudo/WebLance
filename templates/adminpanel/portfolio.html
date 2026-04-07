@@ -1,0 +1,61 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+{% block title %}Portfolio{% endblock %}
+{% block page_title %}Portfolio Items{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-images"></i> All Portfolio Items <span class="ap-badge ap-badge-purple ms-2">{{ items|length }}</span></h5>
+        <a href="{% url 'admin_portfolio_add' %}" class="ap-btn ap-btn-green"><i class="fas fa-plus"></i> Add Item</a>
+    </div>
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Live URL</th>
+                    <th>Added</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td>
+                    {% if item.image and item.image.name %}
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="width:60px;height:44px;object-fit:cover;border-radius:8px;border:1px solid var(--border)">
+                    {% else %}
+                    <div style="width:60px;height:44px;background:var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gray)"><i class="fas fa-image"></i></div>
+                    {% endif %}
+                </td>
+                <td><strong style="color:#fff">{{ item.title }}</strong></td>
+                <td><span class="ap-badge ap-badge-purple">{{ item.get_category_display }}</span></td>
+                <td>
+                    {% if item.live_url %}
+                    <a href="{{ item.live_url }}" target="_blank" class="ap-btn ap-btn-outline" style="font-size:0.75rem;padding:4px 10px"><i class="fas fa-external-link-alt"></i> Visit</a>
+                    {% else %}<span style="color:var(--gray)">—</span>{% endif %}
+                </td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">{{ item.created_at|date:"d M Y" }}</td>
+                <td>
+                    <div style="display:flex;gap:6px">
+                        <a href="{% url 'admin_portfolio_edit' item.pk %}" class="ap-btn ap-btn-outline"><i class="fas fa-edit"></i></a>
+                        <form method="post" action="{% url 'admin_portfolio_delete' item.pk %}" onsubmit="return confirm('Delete this portfolio item?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" style="text-align:center;color:var(--gray);padding:40px">No portfolio items yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

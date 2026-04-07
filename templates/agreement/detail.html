@@ -1,0 +1,276 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{{ agr.short_ref }} — Agreement Detail{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Hero ── */
+.agr-hero {
+    background: linear-gradient(135deg, #0d0d0d 0%, #111 100%);
+    border: 1px solid #1e1e1e;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+}
+.agr-ref-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #00ff88;
+    background: rgba(0,255,136,.08); border: 1px solid rgba(0,255,136,.15);
+    border-radius: 6px; padding: 3px 10px; margin-bottom: 10px;
+}
+.agr-hero-title { font-family:'Poppins',sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 0 0 4px; }
+.agr-hero-sub   { font-size: .85rem; color: #555; }
+.agr-hero-sub span { color: #888; }
+
+/* ── Action buttons ── */
+.act-btn-green  { background: linear-gradient(135deg,#00ff88,#00cc6a); color: #000; font-weight: 700; font-size: .82rem; border: none; border-radius: 9px; padding: 8px 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+.act-btn-green:hover  { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,204,106,.3); color: #000; }
+.act-btn-blue   { background: rgba(100,149,237,.12); color: #6495ed; border: 1px solid rgba(100,149,237,.2); font-weight: 600; font-size: .82rem; border-radius: 9px; padding: 8px 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+.act-btn-blue:hover   { background: rgba(100,149,237,.2); color: #6495ed; }
+.act-btn-yellow { background: rgba(255,193,7,.1); color: #ffc107; border: 1px solid rgba(255,193,7,.2); font-weight: 600; font-size: .82rem; border-radius: 9px; padding: 8px 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+.act-btn-yellow:hover { background: rgba(255,193,7,.18); color: #ffc107; }
+.act-btn-outline { background: transparent; color: #666; border: 1px solid #2a2a2a; font-weight: 600; font-size: .82rem; border-radius: 9px; padding: 8px 16px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s; white-space: nowrap; }
+.act-btn-outline:hover { border-color: #444; color: #999; }
+
+/* ── Status bar ── */
+.agr-status-bar {
+    background: #111; border: 1px solid #1e1e1e; border-radius: 14px;
+    padding: 14px 20px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.agr-status-label { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #666; }
+.agr-sel {
+    background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 9px;
+    color: #e8e8e8; font-size: .84rem; padding: 7px 32px 7px 12px;
+    outline: none; cursor: pointer; transition: border-color .2s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23666' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+}
+.agr-sel:focus { border-color: #00cc6a; }
+.agr-sel option { background: #111; }
+.btn-update { background: #1a1a1a; color: #e8e8e8; border: 1px solid #2a2a2a; border-radius: 9px; padding: 7px 18px; font-size: .84rem; font-weight: 600; cursor: pointer; transition: all .2s; }
+.btn-update:hover { border-color: #00cc6a; color: #00ff88; }
+
+/* ── Status badges ── */
+.s-badge { display:inline-block;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px; }
+.s-draft     { background:rgba(153,153,153,.12);color:#999;border:1px solid rgba(153,153,153,.2); }
+.s-sent      { background:rgba(100,149,237,.12);color:#6495ed;border:1px solid rgba(100,149,237,.2); }
+.s-signed    { background:rgba(167,139,250,.12);color:#a78bfa;border:1px solid rgba(167,139,250,.2); }
+.s-active    { background:rgba(255,193,7,.12);color:#ffc107;border:1px solid rgba(255,193,7,.2); }
+.s-completed { background:rgba(0,255,136,.12);color:#00ff88;border:1px solid rgba(0,255,136,.2); }
+.s-cancelled { background:rgba(255,107,107,.12);color:#ff6b6b;border:1px solid rgba(255,107,107,.2); }
+
+/* ── Info cards ── */
+.info-card {
+    background: #111; border: 1px solid #1e1e1e; border-radius: 14px;
+    padding: 20px 22px; transition: border-color .2s;
+}
+.info-card:hover { border-color: rgba(0,255,136,.12); }
+.info-card-head {
+    display: flex; align-items: center; gap: 7px;
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #00ff88; margin-bottom: 16px;
+}
+.info-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .84rem; }
+.info-row:last-child { border-bottom: none; }
+.info-row .il { color: #555; }
+.info-row .iv { color: #ffffff; font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
+.iv-green { color: #00ff88 !important; }
+.iv-red   { color: #ff6b6b !important; }
+
+/* ── Description card ── */
+.desc-text { font-size: .88rem; color: #ffffff; line-height: 1.75; white-space: pre-wrap; }
+.desc-section-title { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #00ff88; margin: 16px 0 8px; display: flex; align-items: center; gap: 6px; }
+.desc-section-title:first-child { margin-top: 0; }
+
+/* ── Signature card ── */
+.sig-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .85rem; }
+.sig-row:last-child { border-bottom: none; }
+.sig-label { color: #555; }
+.sig-yes { color: #00ff88; font-weight: 600; display: flex; align-items: center; gap: 5px; }
+.sig-no  { color: #aaa; }
+
+/* ── Verify / Delete buttons ── */
+.btn-verify {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 10px; border-radius: 10px;
+    background: rgba(0,255,136,.06); border: 1px solid rgba(0,255,136,.15);
+    color: #00ff88; font-size: .84rem; font-weight: 600;
+    text-decoration: none; transition: all .2s; margin-bottom: 10px;
+}
+.btn-verify:hover { background: rgba(0,255,136,.12); color: #00ff88; }
+.btn-delete {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    width: 100%; padding: 10px; border-radius: 10px;
+    background: rgba(255,107,107,.06); border: 1px solid rgba(255,107,107,.15);
+    color: #ff6b6b; font-size: .84rem; font-weight: 600;
+    cursor: pointer; transition: all .2s;
+}
+.btn-delete:hover { background: rgba(255,107,107,.12); }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="agr-hero">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+        <div>
+            <div class="agr-ref-tag"><i class="fas fa-file-contract"></i> {{ agr.short_ref }}</div>
+            <h3 class="agr-hero-title">{{ agr.project_title }}</h3>
+            <div class="agr-hero-sub">
+                <span>{{ agr.client_name }}</span>
+                {% if agr.company_name %} · <span>{{ agr.company_name }}</span>{% endif %}
+            </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a href="{% url 'agreement_pdf' agr.pk %}" class="act-btn-green">
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </a>
+            <form method="post" action="{% url 'agreement_send_email' agr.pk %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="act-btn-blue"
+                        onclick="return confirm('Send agreement PDF to {{ agr.client_email }}?')">
+                    <i class="fas fa-paper-plane"></i> Send Email
+                </button>
+            </form>
+            <a href="{% url 'agreement_edit' agr.pk %}" class="act-btn-yellow">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a href="{% url 'agreement_list' %}" class="act-btn-outline">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Status bar -->
+<div class="agr-status-bar">
+    <span class="agr-status-label">Status:</span>
+    {% if agr.status == 'draft' %}<span class="s-badge s-draft">Draft</span>
+    {% elif agr.status == 'sent' %}<span class="s-badge s-sent">Sent</span>
+    {% elif agr.status == 'signed' %}<span class="s-badge s-signed">Signed</span>
+    {% elif agr.status == 'active' %}<span class="s-badge s-active">Active</span>
+    {% elif agr.status == 'completed' %}<span class="s-badge s-completed">Completed</span>
+    {% else %}<span class="s-badge s-cancelled">Cancelled</span>{% endif %}
+
+    <form method="post" action="{% url 'agreement_status' agr.pk %}"
+          class="d-flex gap-2 align-items-center ms-auto">
+        {% csrf_token %}
+        <select name="status" class="agr-sel">
+            {% for val, label in agr.STATUS_CHOICES %}
+            <option value="{{ val }}" {% if agr.status == val %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn-update">Update</button>
+    </form>
+</div>
+
+<!-- Info grid -->
+<div class="row g-3 mb-3 align-items-start">
+
+    <!-- Client -->
+    <div class="col-lg-4 col-md-6">
+        <div class="info-card">
+            <div class="info-card-head"><i class="fas fa-user"></i> Client Info</div>
+            <div class="info-row"><span class="il">Name</span><span class="iv">{{ agr.client_name }}</span></div>
+            <div class="info-row"><span class="il">Company</span><span class="iv">{{ agr.company_name|default:"None" }}</span></div>
+            <div class="info-row"><span class="il">Email</span><span class="iv">{{ agr.client_email }}</span></div>
+            <div class="info-row"><span class="il">Phone</span><span class="iv">{{ agr.client_phone|default:"—" }}</span></div>
+            <div class="info-row"><span class="il">Address</span><span class="iv">{{ agr.client_address|default:"—" }}</span></div>
+        </div>
+    </div>
+
+    <!-- Project -->
+    <div class="col-lg-4 col-md-6">
+        <div class="info-card">
+            <div class="info-card-head"><i class="fas fa-code"></i> Project Info</div>
+            <div class="info-row"><span class="il">Type</span><span class="iv">{{ agr.get_project_type_display }}</span></div>
+            <div class="info-row"><span class="il">Start</span><span class="iv">{{ agr.start_date|date:"d M Y" }}</span></div>
+            <div class="info-row"><span class="il">End</span><span class="iv">{{ agr.end_date|date:"d M Y" }}</span></div>
+            <div class="info-row"><span class="il">Duration</span><span class="iv">{{ agr.start_date|timesince:agr.end_date }}</span></div>
+            <div class="info-row"><span class="il">Created</span><span class="iv">{{ agr.created_at|date:"d M Y" }}</span></div>
+        </div>
+    </div>
+
+    <!-- Payment -->
+    <div class="col-lg-4 col-md-12">
+        <div class="info-card">
+            <div class="info-card-head"><i class="fas fa-rupee-sign"></i> Payment</div>
+            <div class="info-row"><span class="il">Total</span><span class="iv iv-green">₹{{ agr.total_cost|floatformat:2 }}</span></div>
+            <div class="info-row"><span class="il">Advance ({{ agr.advance_percent }}%)</span><span class="iv">₹{{ agr.advance_amount|floatformat:2 }}</span></div>
+            <div class="info-row"><span class="il">Balance</span>
+                <span class="iv {% if agr.balance_amount < 0 %}iv-red{% endif %}">
+                    ₹{{ agr.balance_amount|floatformat:2 }}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Description + Signatures row -->
+<div class="row g-3 align-items-start">
+
+    <!-- Description -->
+    <div class="col-lg-8">
+        <div class="info-card">
+            <div class="desc-section-title"><i class="fas fa-align-left"></i> Project Description</div>
+            <p class="desc-text">{{ agr.description }}</p>
+
+            {% if agr.additional_terms %}
+            <div class="desc-section-title"><i class="fas fa-file-alt"></i> Additional Terms</div>
+            <p class="desc-text">{{ agr.additional_terms }}</p>
+            {% endif %}
+
+            {% if agr.payment_terms %}
+            <div class="desc-section-title"><i class="fas fa-rupee-sign"></i> Payment Terms</div>
+            <p class="desc-text">{{ agr.payment_terms }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Signatures + Actions -->
+    <div class="col-lg-4">
+
+        <!-- Signatures -->
+        <div class="info-card mb-3">
+            <div class="info-card-head"><i class="fas fa-signature"></i> Signatures</div>
+            <div class="sig-row">
+                <span class="sig-label">Weblance</span>
+                {% if agr.weblance_signed %}
+                <span class="sig-yes"><i class="fas fa-check-circle"></i> Signed</span>
+                {% else %}
+                <span class="sig-no">Pending</span>
+                {% endif %}
+            </div>
+            <div class="sig-row">
+                <span class="sig-label">Client</span>
+                {% if agr.client_signed %}
+                <span class="sig-yes"><i class="fas fa-check-circle"></i> {{ agr.client_signed_at|date:"d M Y" }}</span>
+                {% else %}
+                <span class="sig-no">Pending</span>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Verify + Delete -->
+        <div class="info-card">
+            <div class="info-card-head"><i class="fas fa-qrcode"></i> Verify Link</div>
+            <a href="{% url 'agreement_verify' agr.ref_id %}" target="_blank" class="btn-verify">
+                <i class="fas fa-external-link-alt"></i> Open Verify Page
+            </a>
+            <div class="info-card-head mt-3"><i class="fas fa-trash"></i> Danger Zone</div>
+            <form method="post" action="{% url 'agreement_delete' agr.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete"
+                        onclick="return confirm('Delete this agreement permanently?')">
+                    <i class="fas fa-trash-alt"></i> Delete Agreement
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

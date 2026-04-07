@@ -1,0 +1,134 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Stats -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(0,255,136,0.1)"><i class="fas fa-users" style="color:#00ff88"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_users }}</div>
+                <div class="ap-stat-label">Total Users</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(100,149,237,0.1)"><i class="fas fa-envelope" style="color:#6495ed"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_contacts }}</div>
+                <div class="ap-stat-label">Contact Msgs</div>
+                <div class="ap-stat-sub">+{{ new_contacts }} this week</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(255,193,7,0.1)"><i class="fas fa-rocket" style="color:#ffc107"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_requests }}</div>
+                <div class="ap-stat-label">Site Requests</div>
+                <div class="ap-stat-sub">+{{ new_requests }} this week</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(167,139,250,0.1)"><i class="fas fa-images" style="color:#a78bfa"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_portfolio }}</div>
+                <div class="ap-stat-label">Portfolio Items</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Recent Requests -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-rocket"></i> Recent Website Requests</h5>
+                <a href="{% url 'admin_requests' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto">
+                <table class="ap-table">
+                    <thead><tr><th>Business</th><th>Type</th><th>Budget</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for r in recent_requests %}
+                    <tr>
+                        <td><strong style="color:#fff">{{ r.business_name }}</strong><br><small style="color:var(--gray)">{{ r.name }}</small></td>
+                        <td><span class="ap-badge ap-badge-yellow">{{ r.get_website_type_display }}</span></td>
+                        <td><span class="ap-badge ap-badge-green">{{ r.get_budget_display }}</span></td>
+                        <td style="color:var(--gray);font-size:0.8rem">{{ r.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}<tr><td colspan="4" style="text-align:center;color:var(--gray);padding:24px">No requests yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Contacts -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-envelope"></i> Recent Contact Messages</h5>
+                <a href="{% url 'admin_contacts' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto">
+                <table class="ap-table">
+                    <thead><tr><th>Name</th><th>Email</th><th>Date</th></tr></thead>
+                    <tbody>
+                    {% for c in recent_contacts %}
+                    <tr>
+                        <td><strong style="color:#fff">{{ c.name }}</strong></td>
+                        <td style="color:var(--gray);font-size:0.82rem">{{ c.email }}</td>
+                        <td style="color:var(--gray);font-size:0.8rem">{{ c.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}<tr><td colspan="3" style="text-align:center;color:var(--gray);padding:24px">No messages yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Users -->
+    <div class="col-12">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-users"></i> Recent Users</h5>
+                <a href="{% url 'admin_users' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto">
+                <table class="ap-table">
+                    <thead><tr><th>Username</th><th>Email</th><th>Role</th><th>Joined</th></tr></thead>
+                    <tbody>
+                    {% for u in recent_users %}
+                    <tr>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px">
+                                <div style="width:32px;height:32px;background:linear-gradient(135deg,#00ff88,#00cc6a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:0.85rem;flex-shrink:0">{{ u.username|slice:":1"|upper }}</div>
+                                <strong style="color:#fff">{{ u.username }}</strong>
+                            </div>
+                        </td>
+                        <td style="color:var(--gray);font-size:0.82rem">{{ u.email|default:"—" }}</td>
+                        <td>
+                            {% if u.is_superuser %}<span class="ap-badge ap-badge-red">Superuser</span>
+                            {% elif u.is_staff %}<span class="ap-badge ap-badge-yellow">Admin</span>
+                            {% else %}<span class="ap-badge ap-badge-blue">Member</span>{% endif %}
+                        </td>
+                        <td style="color:var(--gray);font-size:0.8rem">{{ u.date_joined|date:"d M Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

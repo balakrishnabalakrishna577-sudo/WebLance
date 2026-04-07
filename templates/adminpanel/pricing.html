@@ -1,0 +1,52 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Pricing Plans{% endblock %}
+{% block page_title %}Pricing Plans{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-tags"></i> All Pricing Plans <span class="ap-badge ap-badge-green ms-2">{{ plans|length }}</span></h5>
+        <a href="{% url 'admin_pricing_add' %}" class="ap-btn ap-btn-green"><i class="fas fa-plus"></i> Add Plan</a>
+    </div>
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Delivery</th>
+                    <th>Popular</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for plan in plans %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td><strong style="color:#fff">{{ plan.name }}</strong></td>
+                <td><span class="ap-badge ap-badge-green">{{ plan.price }}</span></td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ plan.description }}</td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ plan.delivery_time }}</td>
+                <td>{% if plan.is_popular %}<span class="ap-badge ap-badge-yellow">Yes</span>{% else %}<span style="color:var(--gray)">—</span>{% endif %}</td>
+                <td style="color:var(--gray)">{{ plan.order }}</td>
+                <td>
+                    <div style="display:flex;gap:6px">
+                        <a href="{% url 'admin_pricing_edit' plan.pk %}" class="ap-btn ap-btn-outline"><i class="fas fa-edit"></i></a>
+                        <form method="post" action="{% url 'admin_pricing_delete' plan.pk %}" onsubmit="return confirm('Delete this plan?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="8" style="text-align:center;color:var(--gray);padding:40px">No pricing plans yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

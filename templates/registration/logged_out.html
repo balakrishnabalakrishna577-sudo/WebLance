@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Signed Out - WEBLANCE{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card" style="text-align:center;">
+        <div class="auth-logo">
+            <div class="logo-mark"><i class="fas fa-sign-out-alt"></i></div>
+            <h2>WEB<span class="text-green">LANCE</span></h2>
+            <p>You've been signed out successfully.</p>
+        </div>
+        <a href="{% url 'login' %}" class="btn-auth" style="display:block;text-decoration:none;margin-bottom:12px;">
+            <i class="fas fa-sign-in-alt me-2"></i> Sign Back In
+        </a>
+        <a href="{% url 'home' %}" style="color:var(--text-gray);font-size:0.88rem;">← Back to Home</a>
+    </div>
+</section>
+{% endblock %}

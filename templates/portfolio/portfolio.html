@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Portfolio - WEBLANCE Website Projects Showcase{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1>Our <span class="text-green">Portfolio</span></h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Portfolio</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Our Work</span>
+            <h2>Featured <span class="text-green">Projects</span></h2>
+            <p>Explore our collection of successful website projects</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="portfolio-filters scroll-animate">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="business">Business Websites</button>
+            <button class="filter-btn" data-filter="ecommerce">E-Commerce Websites</button>
+            <button class="filter-btn" data-filter="landing">Landing Pages</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="row g-4">
+            {% if portfolio_items %}
+                {% for item in portfolio_items %}
+                <div class="col-lg-4 col-md-6 portfolio-item scroll-animate" data-category="{{ item.category }}">
+                    <div class="portfolio-item-inner">
+                        {% if item.category == 'ecommerce' %}
+                            <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        {% elif item.category == 'landing' %}
+                            <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        {% else %}
+                            <span class="portfolio-cat-badge">Business</span>
+                        {% endif %}
+                        {% if item.image and item.image.name %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img">
+                        {% else %}
+                        <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description|truncatewords:20 }}</p>
+                            {% if item.live_url %}
+                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Website <i class="fas fa-external-link-alt ms-1"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Business Websites -->
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="business">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge">Business</span>
+                        <img src="https://picsum.photos/seed/biz1/800/500" alt="Corporate Business Website" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Corporate Business Website</h3>
+                            <p>Professional website for a leading business consultancy firm with modern design and responsive layout.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="business">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge">Business</span>
+                        <img src="https://picsum.photos/seed/tech1/800/500" alt="Tech Startup Website" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Tech Startup Website</h3>
+                            <p>Modern corporate website for a tech startup with interactive features and animations.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="business">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge">Business</span>
+                        <img src="https://picsum.photos/seed/biz3/800/500" alt="Consultancy Portal" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Business Service Portal</h3>
+                            <p>Comprehensive business portal with service booking and customer management system.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- E-Commerce Websites -->
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="ecommerce">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        <img src="https://picsum.photos/seed/shop1/800/500" alt="Fashion E-Commerce Store" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Fashion E-Commerce Store</h3>
+                            <p>Full-featured online clothing store with payment integration and inventory management.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="ecommerce">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        <img src="https://picsum.photos/seed/elec1/800/500" alt="Electronics Online Shop" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Electronics Online Shop</h3>
+                            <p>E-commerce platform for electronics retailer with product reviews and ratings.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="ecommerce">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        <img src="https://picsum.photos/seed/groc1/800/500" alt="Grocery Delivery Platform" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Grocery Delivery Platform</h3>
+                            <p>Online grocery ordering and delivery system with real-time order tracking.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Landing Pages -->
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="landing">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        <img src="https://picsum.photos/seed/land1/800/500" alt="Product Launch Landing Page" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Product Launch Landing Page</h3>
+                            <p>High-converting landing page for new product launch with lead capture form.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="landing">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        <img src="https://picsum.photos/seed/app1/800/500" alt="Mobile App Landing Page" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Mobile App Landing Page</h3>
+                            <p>Creative landing page for mobile app with download links and features showcase.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-12 scroll-animate portfolio-item" data-category="landing">
+                    <div class="portfolio-item-inner">
+                        <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        <img src="https://picsum.photos/seed/event1/800/500" alt="Event Promotion Page" class="portfolio-img">
+                        <div class="portfolio-overlay">
+                            <h3>Event Promotion Page</h3>
+                            <p>Engaging landing page for event promotion with registration and ticket booking.</p>
+                            <a href="#" class="btn btn-green btn-sm">View Project <i class="fas fa-arrow-right ms-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate">
+                <h2>Want to See More?</h2>
+                <p>We have many more exciting projects to showcase. Let's discuss your next project!</p>
+                <a href="{% url 'contact' %}" class="btn btn-dark btn-lg">Start Your Project</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Portfolio filtering is handled by the main script.js
+// This will activate when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Portfolio page loaded with filtering enabled');
+});
+</script>
+{% endblock %}

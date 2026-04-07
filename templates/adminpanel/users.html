@@ -1,0 +1,224 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Users{% endblock %}
+{% block page_title %}Users{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-users"></i> All Users <span class="ap-badge ap-badge-purple ms-2">{{ users|length }}</span></h5>
+    </div>
+
+    <!-- ── Desktop Table (≥992px) ── -->
+    <div class="users-table-wrap">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Activity</th>
+                    <th>Last Login</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for u in users %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px">
+                        <div class="u-avatar">{{ u.username|slice:":1"|upper }}</div>
+                        <div>
+                            <div style="color:#fff;font-weight:600;font-size:0.88rem">{{ u.username }}</div>
+                            {% if u == request.user %}<div style="font-size:0.68rem;color:var(--green)">● you</div>{% endif %}
+                        </div>
+                    </div>
+                </td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ u.email|default:"—" }}</td>
+                <td>
+                    {% if u.is_superuser %}<span class="ap-badge ap-badge-red">Superuser</span>
+                    {% elif u.is_staff %}<span class="ap-badge ap-badge-yellow">Admin</span>
+                    {% else %}<span class="ap-badge ap-badge-blue">Member</span>{% endif %}
+                </td>
+                <td>
+                    {% if u.is_active %}<span class="ap-badge ap-badge-green">Active</span>
+                    {% else %}<span class="ap-badge ap-badge-red">Inactive</span>{% endif %}
+                </td>
+                <td>
+                    <div class="u-track">
+                        <div class="u-track-item u-track-contact" title="Contacts"><i class="fas fa-envelope"></i> {{ u.contact_count }}</div>
+                        <div class="u-track-item u-track-request" title="Requests"><i class="fas fa-rocket"></i> {{ u.request_count }}</div>
+                        <div class="u-track-item u-track-total" title="Total"><i class="fas fa-chart-bar"></i> {{ u.contact_count|add:u.request_count }}</div>
+                    </div>
+                </td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">
+                    {% if u.last_login %}
+                        <div style="color:#fff;font-size:0.82rem">{{ u.last_login|date:"d M Y" }}</div>
+                        <div style="font-size:0.72rem;color:var(--green)">{{ u.last_login|date:"H:i" }}</div>
+                    {% else %}<span style="color:#555;font-size:0.78rem">Never</span>{% endif %}
+                </td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">{{ u.date_joined|date:"d M Y" }}</td>
+                <td>
+                    {% if u != request.user %}
+                    <div style="display:flex;gap:6px;flex-wrap:wrap">
+                        <a href="{% url 'admin_user_edit' u.pk %}" class="ap-btn ap-btn-outline" title="Edit User"><i class="fas fa-edit"></i></a>
+                        <form method="post" action="{% url 'admin_user_toggle_staff' u.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-outline" title="{% if u.is_staff %}Revoke Admin{% else %}Grant Admin{% endif %}">
+                                <i class="fas fa-{% if u.is_staff %}user-minus{% else %}user-shield{% endif %}"></i>
+                                <span class="btn-label">{% if u.is_staff %}Revoke{% else %}Grant{% endif %}</span>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_user_delete' u.pk %}" onsubmit="return confirm('Delete {{ u.username }}?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                    {% else %}
+                    <span style="color:var(--gray);font-size:0.78rem">—</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9" style="text-align:center;color:var(--gray);padding:40px">No users found.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ── Mobile Cards (≤767px) ── -->
+    <div class="users-cards-wrap">
+        {% for u in users %}
+        <div class="u-card">
+            <div class="u-card-top">
+                <div style="display:flex;align-items:center;gap:12px;flex:1;min-width:0;">
+                    <div class="u-avatar u-avatar-lg">{{ u.username|slice:":1"|upper }}</div>
+                    <div style="min-width:0;">
+                        <div class="u-card-name">{{ u.username }}{% if u == request.user %} <span style="color:var(--green);font-size:0.7rem">● you</span>{% endif %}</div>
+                        <div class="u-card-email">{{ u.email|default:"No email" }}</div>
+                    </div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">
+                    {% if u.is_superuser %}<span class="ap-badge ap-badge-red">Superuser</span>
+                    {% elif u.is_staff %}<span class="ap-badge ap-badge-yellow">Admin</span>
+                    {% else %}<span class="ap-badge ap-badge-blue">Member</span>{% endif %}
+                    {% if u.is_active %}<span class="ap-badge ap-badge-green">Active</span>
+                    {% else %}<span class="ap-badge ap-badge-red">Inactive</span>{% endif %}
+                </div>
+            </div>
+
+            <div class="u-card-track">
+                <div class="u-track-item u-track-contact"><i class="fas fa-envelope"></i> {{ u.contact_count }} Contacts</div>
+                <div class="u-track-item u-track-request"><i class="fas fa-rocket"></i> {{ u.request_count }} Requests</div>
+                <div class="u-track-item u-track-total"><i class="fas fa-chart-bar"></i> {{ u.contact_count|add:u.request_count }} Total</div>
+            </div>
+
+            <div class="u-card-meta">
+                <div class="u-card-meta-item">
+                    <span class="u-meta-label">Last Login</span>
+                    <span class="u-meta-val">{% if u.last_login %}{{ u.last_login|date:"d M Y, H:i" }}{% else %}Never{% endif %}</span>
+                </div>
+                <div class="u-card-meta-item">
+                    <span class="u-meta-label">Joined</span>
+                    <span class="u-meta-val">{{ u.date_joined|date:"d M Y" }}</span>
+                </div>
+            </div>
+
+            {% if u != request.user %}
+            <div class="u-card-actions">
+                <a href="{% url 'admin_user_edit' u.pk %}" class="ap-btn ap-btn-outline" style="flex:1;justify-content:center;"><i class="fas fa-edit"></i> Edit</a>
+                <form method="post" action="{% url 'admin_user_toggle_staff' u.pk %}" style="flex:1;">
+                    {% csrf_token %}
+                    <button type="submit" class="ap-btn ap-btn-outline w-100" style="justify-content:center;">
+                        <i class="fas fa-{% if u.is_staff %}user-minus{% else %}user-shield{% endif %}"></i>
+                        {% if u.is_staff %}Revoke{% else %}Grant{% endif %}
+                    </button>
+                </form>
+                <form method="post" action="{% url 'admin_user_delete' u.pk %}" onsubmit="return confirm('Delete {{ u.username }}?')">
+                    {% csrf_token %}
+                    <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div style="text-align:center;color:var(--gray);padding:40px;">No users found.</div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* ── Avatar ── */
+.u-avatar {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg,#00ff88,#00cc6a);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #000; font-size: 0.85rem;
+    flex-shrink: 0;
+}
+.u-avatar-lg { width: 44px; height: 44px; font-size: 1rem; }
+
+/* ── Activity pills ── */
+.u-track { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.u-track-item {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 20px;
+    border: 1px solid transparent;
+    font-size: 0.72rem; font-weight: 700; white-space: nowrap;
+}
+.u-track-item i { font-size: 0.62rem; }
+.u-track-contact { background: rgba(100,149,237,0.1); border-color: rgba(100,149,237,0.25); color: #6495ed; }
+.u-track-request { background: rgba(255,193,7,0.1);   border-color: rgba(255,193,7,0.25);   color: #ffc107; }
+.u-track-total   { background: rgba(0,255,136,0.08);  border-color: rgba(0,255,136,0.25);   color: #00ff88; }
+
+/* ── Desktop table ── */
+.users-table-wrap { overflow-x: auto; }
+.users-cards-wrap { display: none; padding: 12px; }
+
+/* ── Mobile card ── */
+.u-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    transition: border-color 0.2s;
+}
+.u-card:hover { border-color: var(--border-green); }
+.u-card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+.u-card-name { color: #fff; font-weight: 700; font-size: 0.95rem; }
+.u-card-email { color: var(--gray); font-size: 0.78rem; margin-top: 2px; word-break: break-all; }
+.u-card-track { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.u-card-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; padding: 10px 12px; background: rgba(255,255,255,0.02); border-radius: 10px; border: 1px solid var(--border); }
+.u-card-meta-item { display: flex; flex-direction: column; gap: 2px; }
+.u-meta-label { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+.u-meta-val { font-size: 0.82rem; color: #fff; }
+.u-card-actions { display: flex; gap: 8px; }
+
+/* ── Responsive breakpoints ── */
+@media (max-width: 767px) {
+    .users-table-wrap { display: none; }
+    .users-cards-wrap { display: block; }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    /* Tablet: show table but hide some columns */
+    .users-table-wrap { display: block; }
+    .users-cards-wrap { display: none; }
+    .ap-table th:nth-child(3),
+    .ap-table td:nth-child(3),
+    .ap-table th:nth-child(7),
+    .ap-table td:nth-child(7),
+    .ap-table th:nth-child(8),
+    .ap-table td:nth-child(8) { display: none; }
+    .btn-label { display: none; }
+}
+@media (min-width: 992px) {
+    .users-table-wrap { display: block; }
+    .users-cards-wrap { display: none; }
+}
+</style>
+{% endblock %}

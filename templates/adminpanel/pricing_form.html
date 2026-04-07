@@ -1,0 +1,75 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{% if plan %}Edit{% else %}Add{% endif %} Pricing Plan{% endblock %}
+{% block page_title %}{% if plan %}Edit{% else %}Add{% endif %} Pricing Plan{% endblock %}
+
+{% block content %}
+<div class="ap-card" style="max-width:700px">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-{% if plan %}edit{% else %}plus{% endif %}"></i> {% if plan %}Edit — {{ plan.name }}{% else %}New Pricing Plan{% endif %}</h5>
+        <a href="{% url 'admin_pricing' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
+    </div>
+    <div class="ap-card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Plan Name *</label>
+                    <input type="text" name="name" value="{{ plan.name|default:'' }}" required placeholder="e.g. Business Website"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Price *</label>
+                    <input type="text" name="price" value="{{ plan.price|default:'' }}" required placeholder="e.g. ₹25,000"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+            </div>
+
+            <div style="margin-bottom:16px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Short Description</label>
+                <input type="text" name="description" value="{{ plan.description|default:'' }}" placeholder="e.g. Ideal for growing businesses"
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+            </div>
+
+            <div style="margin-bottom:16px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Features (one per line — prefix with "-" for unavailable)</label>
+                <textarea name="features" rows="10" placeholder="10 Page Website&#10;Responsive Design&#10;Advanced SEO&#10;-E-Commerce Features"
+                    style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.88rem;outline:none;resize:vertical;font-family:monospace"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">{{ plan.features|default:'' }}</textarea>
+                <div style="font-size:0.75rem;color:var(--gray);margin-top:4px">Lines starting with "-" show as ✗ (unavailable). Others show as ✓.</div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Delivery Time</label>
+                    <input type="text" name="delivery_time" value="{{ plan.delivery_time|default:'' }}" placeholder="e.g. 15-20 Business Days"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Display Order</label>
+                    <input type="number" name="order" value="{{ plan.order|default:'0' }}" min="0"
+                        style="width:100%;background:#1a1a1a;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#fff;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+            </div>
+
+            <div style="margin-bottom:24px">
+                <label style="display:flex;align-items:center;gap:10px;cursor:pointer">
+                    <input type="checkbox" name="is_popular" {% if plan.is_popular %}checked{% endif %}
+                        style="width:18px;height:18px;accent-color:var(--green)">
+                    <span style="color:#fff;font-size:0.9rem">Mark as "Most Popular"</span>
+                </label>
+            </div>
+
+            <div style="display:flex;gap:10px">
+                <button type="submit" class="ap-btn ap-btn-green"><i class="fas fa-save"></i> Save Plan</button>
+                <a href="{% url 'admin_pricing' %}" class="ap-btn ap-btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

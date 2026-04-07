@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Out - WEBLANCE{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="auth-card" style="text-align:center;">
+        <div class="auth-logo">
+            <div class="logo-mark"><i class="fas fa-sign-out-alt"></i></div>
+            <h2>WEB<span class="text-green">LANCE</span></h2>
+            <p>Are you sure you want to sign out?</p>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn-auth" style="margin-bottom:12px;">
+                <i class="fas fa-sign-out-alt me-2"></i> Yes, Sign Out
+            </button>
+        </form>
+        <a href="{% url 'home' %}" style="color:var(--text-gray);font-size:0.88rem;">← Cancel, go back home</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Testimonials{% endblock %}
+{% block page_title %}Testimonials{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-star"></i> Client Testimonials <span class="ap-badge ap-badge-yellow ms-2">{{ items|length }}</span></h5>
+        <a href="{% url 'admin_testimonial_add' %}" class="ap-btn ap-btn-green"><i class="fas fa-plus"></i> Add Testimonial</a>
+    </div>
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Avatar</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in items %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td>
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg,#00ff88,#00cc6a);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:0.78rem;font-family:'Poppins',sans-serif;">
+                        {{ item.initials }}
+                    </div>
+                </td>
+                <td><strong style="color:#fff">{{ item.name }}</strong></td>
+                <td style="color:var(--gray);font-size:0.82rem">{{ item.role }}</td>
+                <td style="color:#ffc107;letter-spacing:1px">{{ item.stars }}</td>
+                <td style="max-width:240px;color:var(--gray);font-size:0.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ item.text }}">{{ item.text }}</td>
+                <td style="color:var(--gray)">{{ item.order }}</td>
+                <td>
+                    {% if item.is_active %}
+                    <span class="ap-badge ap-badge-green">Active</span>
+                    {% else %}
+                    <span class="ap-badge ap-badge-red">Hidden</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div style="display:flex;gap:6px;">
+                        <a href="{% url 'admin_testimonial_edit' item.pk %}" class="ap-btn ap-btn-outline"><i class="fas fa-edit"></i></a>
+                        <form method="post" action="{% url 'admin_testimonial_delete' item.pk %}" onsubmit="return confirm('Delete this testimonial?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="9" style="text-align:center;color:var(--gray);padding:40px">No testimonials yet. <a href="{% url 'admin_testimonial_add' %}" style="color:var(--green)">Add one</a></td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+""
