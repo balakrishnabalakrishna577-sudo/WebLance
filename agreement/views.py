@@ -131,49 +131,52 @@ def agreement_pdf(request, pk):
 @admin_required
 def agreement_send_email(request, pk):
     agr = get_object_or_404(Agreement, pk=pk)
-    if request.method == 'POST':
-        try:
-            pdf_bytes = generate_agreement_pdf(agr, base_url=_base_url(request))
-            verify_url = f"{_base_url(request)}/panel/agreements/verify/{agr.ref_id}/"
+    if request.method != 'POST':
+        return redirect('agreement_detail', pk=pk)
+    try:
+        pdf_bytes = generate_agreement_pdf(agr, base_url=_base_url(request))
+        verify_url = f"{_base_url(request)}/panel/agreements/verify/{agr.ref_id}/"
 
-            body = (
-                f'Dear {agr.client_name},\n\n'
-                f'Please find attached your Service Agreement from Weblance.\n\n'
-                f'Agreement Reference : {agr.short_ref}\n'
-                f'Project             : {agr.project_title}\n'
-                f'Project Type        : {agr.get_project_type_display()}\n'
-                f'Total Cost          : Rs.{agr.total_cost:,.2f}\n'
-                f'Advance ({agr.advance_percent}%)       : Rs.{agr.advance_amount:,.2f}\n'
-                f'Balance             : Rs.{agr.balance_amount:,.2f}\n'
-                f'Timeline            : {agr.start_date.strftime("%d %b %Y")} to {agr.end_date.strftime("%d %b %Y")}\n\n'
-                f'You can verify and sign this agreement online at:\n'
-                f'{verify_url}\n\n'
-                f'Please review the attached PDF and revert with any questions.\n\n'
-                f'Regards,\n'
-                f'Balakrishna\n'
-                f'Weblance\n'
-                f'Phone : +91 7892934437\n'
-                f'Email : infoweblance01@gmail.com\n'
-                f'Web   : weblancehub.in'
-            )
+        body = (
+            f'Dear {agr.client_name},\n\n'
+            f'Please find attached your Service Agreement from Weblance.\n\n'
+            f'Agreement Reference : {agr.short_ref}\n'
+            f'Project             : {agr.project_title}\n'
+            f'Project Type        : {agr.get_project_type_display()}\n'
+            f'Total Cost          : Rs.{agr.total_cost:,.2f}\n'
+            f'Advance ({agr.advance_percent}%)       : Rs.{agr.advance_amount:,.2f}\n'
+            f'Balance             : Rs.{agr.balance_amount:,.2f}\n'
+            f'Timeline            : {agr.start_date.strftime("%d %b %Y")} to {agr.end_date.strftime("%d %b %Y")}\n\n'
+            f'You can verify and sign this agreement online at:\n'
+            f'{verify_url}\n\n'
+            f'Please review the attached PDF and revert with any questions.\n\n'
+            f'Regards,\n'
+            f'Balakrishna\n'
+            f'Weblance\n'
+            f'Phone : +91 7892934437\n'
+            f'Email : infoweblance01@gmail.com\n'
+            f'Web   : weblancehub.in'
+        )
 
-            email = EmailMessage(
-                subject=f'Service Agreement from Weblance — {agr.short_ref}',
-                body=body,
-                from_email='Weblance <infoweblance01@gmail.com>',
-                to=[agr.client_email],
-            )
-            email.attach(
-                f'Weblance_Agreement_{agr.short_ref}.pdf',
-                pdf_bytes,
-                'application/pdf'
-            )
-            email.send()
-            agr.status = 'sent'
-            agr.save()
-            messages.success(request, f'Agreement sent to {agr.client_email}.')
-        except Exception as e:
-            messages.error(request, f'Email failed: {e}')
+        email = EmailMessage(
+            subject=f'Service Agreement from Weblance — {agr.short_ref}',
+            body=body,
+            from_email='Weblance <infoweblance01@gmail.com>',
+            to=[agr.client_email],
+        )
+        email.attach(
+            f'Weblance_Agreement_{agr.short_ref}.pdf',
+            pdf_bytes,
+            'application/pdf'
+        )
+        email.send()
+        agr.status = 'sent'
+        agr.save()
+        messages.success(request, f'Agreement sent to {agr.client_email}.')
+    except Exception as e:
+        import traceback, logging
+        logging.getLogger(__name__).error(f'Agreement email failed: {traceback.format_exc()}')
+        messages.error(request, f'Email failed: {type(e).__name__}: {e}')
     return redirect('agreement_detail', pk=pk)
 
 
