@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Portfolio - WEBLANCE Website Projects Showcase{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1>Work That <span class="text-green">Performs</span></h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Portfolio</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Portfolio Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Our Work</span>
+            <h2>Featured <span class="text-green">Projects</span></h2>
+            <p>A quick look at websites we’ve built for businesses, brands, and startups.</p>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="portfolio-filters scroll-animate">
+            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <button class="filter-btn" data-filter="business">Business Websites</button>
+            <button class="filter-btn" data-filter="ecommerce">E-Commerce Websites</button>
+            <button class="filter-btn" data-filter="landing">Landing Pages</button>
+        </div>
+
+        <!-- Portfolio Grid -->
+        <div class="row g-4">
+            {% if portfolio_items %}
+                {% for item in portfolio_items %}
+                <div class="col-lg-4 col-md-6 portfolio-item scroll-animate" data-category="{{ item.category }}">
+                    <div class="portfolio-item-inner">
+                        {% if item.category == 'ecommerce' %}
+                            <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
+                        {% elif item.category == 'landing' %}
+                            <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
+                        {% else %}
+                            <span class="portfolio-cat-badge">Business</span>
+                        {% endif %}
+                        {% if item.image and item.image.name %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img">
+                        {% else %}
+                        <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
+                        {% endif %}
+                        <div class="portfolio-overlay">
+                            <h3>{{ item.title }}</h3>
+                            <p>{{ item.description|truncatewords:20 }}</p>
+                            {% if item.live_url %}
+                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Website <i class="fas fa-external-link-alt ms-1"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <i class="fas fa-images fa-3x mb-3" style="color:var(--primary-green);opacity:0.4;"></i>
+                    <p style="color:var(--text-gray);">Portfolio projects coming soon. Check back later!</p>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-indigo mt-2">Contact Us</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate">
+                <h2>Ready to Build Yours?</h2>
+                <p>Tell us what you need — we’ll respond within 24 hours with the best next step.</p>
+                <a href="{% url 'request_website' %}" class="btn btn-indigo btn-lg">Get a Free Quote</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Portfolio filtering is handled by the main script.js
+// This will activate when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Portfolio page loaded with filtering enabled');
+});
+</script>
+{% endblock %}

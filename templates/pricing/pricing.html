@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Pricing - WEBLANCE Website Development Packages{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1>Simple, Transparent <span class="text-green">Pricing</span></h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active">Pricing</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Packages</span>
+            <h2>Choose Your <span class="text-green">Package</span></h2>
+            <p>Pick a plan that fits your goals. You’ll get a clear timeline, scope, and a professional delivery process.</p>
+        </div>
+
+        <div class="row justify-content-center g-4" style="overflow:visible;">
+            {% for plan in plans %}
+            <div class="col-xl-3 col-lg-6 col-md-6 scroll-animate" style="overflow:visible;">
+                <div class="pricing-card {% if plan.is_popular %}popular{% endif %}" {% if plan.is_popular %}style="overflow:visible !important;"{% endif %}>
+                    {% if plan.is_popular %}
+                    <div class="popular-badge">
+                        <i class="fas fa-fire"></i> Most Popular
+                    </div>
+                    {% endif %}
+                    <h3>{{ plan.name }}</h3>
+                    <div class="price">{{ plan.price }}<span>/project</span></div>
+                    <p class="text-gray">{{ plan.description }}</p>
+                    <ul class="pricing-features">
+                        {% for feature in plan.features_list %}
+                        {% if feature|slice:":1" == "-" %}
+                        <li><i class="fas fa-times-circle text-muted"></i> {{ feature|slice:"1:" }}</li>
+                        {% else %}
+                        <li><i class="fas fa-check-circle"></i> {{ feature }}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    <div class="delivery-time mb-4">
+                        <small class="text-gray"><i class="far fa-clock"></i> Delivery: {{ plan.delivery_time }}</small>
+                    </div>
+                    <a href="{% url 'plan_detail' plan.pk %}"
+                       class="btn {% if plan.is_popular %}btn-green{% else %}btn-outline-indigo{% endif %} btn-block">
+                        Get a Free Quote
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center" style="color:var(--text-gray);padding:60px 0">
+                <i class="fas fa-tags fa-3x mb-3" style="color:var(--primary-green)"></i>
+                <p>Pricing plans coming soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Add-On Services -->
+<section class="section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Add-ons</span>
+            <h2>Add-On <span class="text-green">Services</span></h2>
+            <p>Upgrade your package with SEO, content, or ongoing support.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto mb-3"><i class="fas fa-search"></i></div>
+                    <h5>SEO Optimization</h5>
+                    <p class="text-green fw-bold">₹8,000/month</p>
+                    <p class="small text-gray">Improve search rankings</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto mb-3"><i class="fas fa-pen-fancy"></i></div>
+                    <h5>Content Writing</h5>
+                    <p class="text-green fw-bold">₹2,000/page</p>
+                    <p class="small text-gray">Professional content</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto mb-3"><i class="fas fa-tools"></i></div>
+                    <h5>Maintenance Plan</h5>
+                    <p class="text-green fw-bold">₹3,000/month</p>
+                    <p class="small text-gray">Regular updates & support</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="card-custom text-center">
+                    <div class="card-icon mx-auto mb-3"><i class="fas fa-bullhorn"></i></div>
+                    <h5>Digital Marketing</h5>
+                    <p class="text-green fw-bold">Custom</p>
+                    <p class="small text-gray">Grow your audience</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Table -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Compare</span>
+            <h2>Package <span class="text-green">Comparison</span></h2>
+            <p>Compare plans at a glance to choose what’s best for your business.</p>
+        </div>
+        <div class="table-responsive scroll-animate">
+            <table class="table table-bordered" style="background:#fff; color:#1a1a2e;">
+                <thead>
+                    <tr style="background:#1a1a2e; color:#fff;">
+                        <th style="min-width:220px; background:#1a1a2e; color:#fff;">Features</th>
+                        {% for plan in plans %}<th class="text-center" style="background:#1a1a2e; color:#fff;">{{ plan.name }}</th>{% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="background:#6366F1 !important; color:#fff !important; font-weight:700;">Price</td>
+                        {% for plan in plans %}<td class="text-center fw-bold" style="background:#6366F1 !important; color:#fff !important;">{{ plan.price }}</td>{% endfor %}
+                    </tr>
+                    <tr>
+                        <td>Delivery Time</td>
+                        {% for plan in plans %}<td class="text-center">{{ plan.delivery_time }}</td>{% endfor %}
+                    </tr>
+                    <tr style="background:#f8f9fa;">
+                        <td style="background:#f8f9fa;">Support Period</td>
+                        {% for plan in plans %}
+                        <td class="text-center" style="background:#f8f9fa;">
+                            {% for f in plan.features_list %}{% if "Support" in f and f|slice:":1" != "-" %}{{ f }}{% endif %}{% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>E-Commerce</td>
+                        {% for plan in plans %}
+                        <td class="text-center">
+                            {% for f in plan.features_list %}{% if "E-Commerce" in f %}{% if f|slice:":1" == "-" %}<i class="fas fa-times text-muted"></i>{% else %}<i class="fas fa-check" style="color:#6366F1;"></i>{% endif %}{% endif %}{% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    <tr style="background:#f8f9fa;">
+                        <td style="background:#f8f9fa;">CMS Integration</td>
+                        {% for plan in plans %}
+                        <td class="text-center" style="background:#f8f9fa;">
+                            {% for f in plan.features_list %}{% if "CMS" in f %}{% if f|slice:":1" == "-" %}<i class="fas fa-times text-muted"></i>{% else %}<i class="fas fa-check" style="color:#6366F1;"></i>{% endif %}{% endif %}{% endfor %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate">
+                <h2>Need a Custom Solution?</h2>
+                <p>Share your requirements and we’ll send a tailored quote with scope, timeline, and pricing.</p>
+                <a href="{% url 'request_website' %}" class="btn btn-indigo btn-lg">Get a Custom Quote</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

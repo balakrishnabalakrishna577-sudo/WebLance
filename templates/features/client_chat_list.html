@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}My Chats — Weblance{% endblock %}
+
+{% block extra_css %}
+<style>
+body { background: #F1F5F9; }
+.chat-list-hero {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 60%, #818CF8 100%);
+    padding: 48px 0 36px;
+    position: relative;
+    overflow: hidden;
+}
+.chat-list-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+}
+.room-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 18px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.room-card:hover {
+    border-color: #6366F1;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(99,102,241,0.14);
+    color: inherit;
+}
+.room-avatar {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, #6366F1, #818CF8);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #fff; font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    flex-shrink: 0;
+}
+.room-info { flex: 1; min-width: 0; }
+.room-title { font-weight: 700; color: #1E293B; font-size: 0.95rem; margin-bottom: 3px; }
+.room-last { font-size: 0.78rem; color: #94A3B8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.room-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
+.unread-badge {
+    background: #6366F1; color: #fff;
+    font-size: 0.65rem; font-weight: 800;
+    padding: 2px 8px; border-radius: 20px;
+    min-width: 22px; text-align: center;
+}
+.room-status {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.7rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 20px;
+}
+.empty-state {
+    background: #fff; border: 1px solid #E2E8F0; border-radius: 20px;
+    text-align: center; padding: 64px 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.empty-icon {
+    width: 72px; height: 72px; background: #EEF2FF; border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; color: #6366F1; margin: 0 auto 20px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<div class="chat-list-hero">
+    <div class="container" style="position:relative;z-index:1;">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div>
+                <h1 style="font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin:0 0 6px;">
+                    <i class="fas fa-comments me-2" style="opacity:0.85;"></i>My Chats
+                </h1>
+                <p style="color:rgba(255,255,255,0.75);margin:0;font-size:0.9rem;">
+                    Direct messaging with the Weblance team for each of your projects.
+                </p>
+            </div>
+            <a href="{% url 'client_dashboard' %}" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:8px 18px;border-radius:50px;font-size:0.85rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+                <i class="fas fa-arrow-left"></i> Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Chat rooms -->
+<section style="padding:40px 0 64px;background:#F1F5F9;">
+<div class="container">
+    {% if rooms %}
+    <div class="row g-3">
+        {% for room in rooms %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <a href="{% url 'chat_room' room.project.pk %}" class="room-card">
+                <div class="room-avatar">
+                    {{ room.project.title|slice:":1"|upper }}
+                </div>
+                <div class="room-info">
+                    <div class="room-title">{{ room.project.title }}</div>
+                    {% with last=room.messages.last %}
+                    {% if last %}
+                    <div class="room-last">
+                        <strong style="color:#475569;">{{ last.sender.username }}:</strong>
+                        {{ last.message|truncatechars:45 }}
+                    </div>
+                    {% else %}
+                    <div class="room-last" style="font-style:italic;">No messages yet — say hello!</div>
+                    {% endif %}
+                    {% endwith %}
+                    <div style="margin-top:6px;">
+                        {% if room.project.status == 'planning' %}
+                        <span class="room-status" style="background:#FEF9C3;color:#854D0E;border:1px solid #FDE68A;">Planning</span>
+                        {% elif room.project.status == 'development' %}
+                        <span class="room-status" style="background:#F5F3FF;color:#5B21B6;border:1px solid #DDD6FE;">Development</span>
+                        {% elif room.project.status == 'delivered' %}
+                        <span class="room-status" style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;">Delivered</span>
+                        {% else %}
+                        <span class="room-status" style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;">{{ room.project.get_status_display }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="room-meta">
+                    {% if room.unread_count_for_client > 0 %}
+                    <span class="unread-badge">{{ room.unread_count_for_client }}</span>
+                    {% endif %}
+                    <span style="color:#CBD5E1;font-size:0.75rem;">{{ room.messages.count }} msg{{ room.messages.count|pluralize }}</span>
+                    <i class="fas fa-chevron-right" style="color:#CBD5E1;font-size:0.75rem;"></i>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div style="margin-top:32px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:12px;">
+        <i class="fas fa-info-circle" style="color:#6366F1;font-size:1rem;flex-shrink:0;"></i>
+        <p style="margin:0;font-size:0.82rem;color:#4338CA;line-height:1.5;">
+            Chat rooms are linked to your projects. Messages are checked every 3 seconds automatically — no need to refresh.
+            For urgent matters, reach us on <strong>WhatsApp: +91 7892934437</strong>.
+        </p>
+    </div>
+
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon"><i class="fas fa-comments"></i></div>
+        <h5 style="color:#1E293B;font-weight:700;margin-bottom:8px;">No chats yet</h5>
+        <p style="color:#64748B;font-size:0.9rem;margin-bottom:24px;">
+            Chat rooms are created when you have an active project with Weblance.<br>
+            Start by requesting a quote or contacting us.
+        </p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a href="{% url 'services' %}" style="background:#6366F1;color:#fff;padding:10px 24px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;">
+                <i class="fas fa-list"></i> Browse Services
+            </a>
+            <a href="{% url 'contact' %}" style="background:#F1F5F9;color:#6366F1;border:1px solid #C7D2FE;padding:10px 24px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;">
+                <i class="fas fa-envelope"></i> Contact Us
+            </a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+</section>
+{% endblock %}

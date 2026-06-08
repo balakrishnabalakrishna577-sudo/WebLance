@@ -1,0 +1,426 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Website Requests{% endblock %}
+{% block page_title %}Website Requests{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-rocket"></i> All Website Requests <span class="ap-badge ap-badge-yellow ms-2">{{ reqs|length }}</span></h5>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="ap-table" style="overflow:visible;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Business</th>
+                    <th>Contact</th>
+                    <th>Service / Plan</th>
+                    <th>Type</th>
+                    <th>Budget</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for r in reqs %}
+            <tr>
+                <td style="color:var(--gray)">{{ forloop.counter }}</td>
+                <td><strong style="color:#1E293B">{{ r.business_name }}</strong></td>
+                <td>
+                    <div style="color:#1E293B;font-size:0.85rem">{{ r.name }}</div>
+                    <div style="color:var(--gray);font-size:0.78rem">{{ r.email }}</div>
+                    <div style="color:var(--gray);font-size:0.78rem">{{ r.phone }}</div>
+                </td>
+                <td>
+                    {% if r.selected_plan %}
+                    <span class="ap-badge ap-badge-green" style="white-space:nowrap;">{{ r.selected_plan }}</span>
+                    {% else %}
+                    <span style="color:var(--gray);font-size:0.78rem;">—</span>
+                    {% endif %}
+                </td>
+                <td><span class="ap-badge ap-badge-yellow">{{ r.get_website_type_display }}</span></td>
+                <td><span class="ap-badge ap-badge-green">{{ r.get_budget_display }}</span></td>
+                <td style="max-width:180px;color:var(--gray);font-size:0.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="{{ r.description }}">{{ r.description }}</td>
+                <td style="color:var(--gray);font-size:0.8rem;white-space:nowrap">
+                    {{ r.created_at|date:"d M Y" }}<br>
+                    <span style="font-size:0.75rem">{{ r.created_at|date:"H:i" }}</span>
+                </td>
+                <td>
+                    {% if r.status == 'new' %}
+                        <span class="req-status req-status-new"><i class="fas fa-circle-dot"></i> New</span>
+                    {% elif r.status == 'received' %}
+                        <span class="req-status req-status-received"><i class="fas fa-inbox"></i> Received</span>
+                    {% elif r.status == 'in_progress' %}
+                        <span class="req-status req-status-progress"><i class="fas fa-spinner"></i> In Progress</span>
+                    {% elif r.status == 'completed' %}
+                        <span class="req-status req-status-done"><i class="fas fa-check-circle"></i> Completed</span>
+                    {% elif r.status == 'cancelled' %}
+                        <span class="req-status req-status-cancelled"><i class="fas fa-times-circle"></i> Cancelled</span>
+                    {% endif %}
+                </td>
+
+                <!-- Actions dropdown -->
+                <td>
+                    <div class="rq-dropdown" id="rqd-{{ r.pk }}">
+                        <button class="rq-drop-btn" onclick="toggleDrop('rqd-{{ r.pk }}')">
+                            Actions <i class="fas fa-chevron-down rq-chevron"></i>
+                        </button>
+                        <div class="rq-drop-menu">
+
+                            <!-- View -->
+                            <button type="button" class="rq-drop-item rq-item-view req-view-btn"
+                                data-name="{{ r.name }}"
+                                data-business="{{ r.business_name }}"
+                                data-email="{{ r.email }}"
+                                data-phone="{{ r.phone }}"
+                                data-type="{{ r.get_website_type_display }}"
+                                data-plan="{{ r.selected_plan|default:'—' }}"
+                                data-budget="{{ r.get_budget_display }}"
+                                data-status="{{ r.get_status_display }}"
+                                data-date="{{ r.created_at|date:'d M Y, H:i' }}"
+                                data-desc="{{ r.description }}"
+                                data-cancel-reason="{{ r.cancel_reason|default:'' }}">
+                                <i class="fas fa-eye"></i> View Details
+                            </button>
+
+                            <div class="rq-drop-divider"></div>
+                            <div class="rq-drop-label">Change Status</div>
+
+                            <!-- Status: Received -->
+                            <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="received">
+                                <button type="submit" class="rq-drop-item {% if r.status == 'received' %}rq-item-active{% endif %}">
+                                    <i class="fas fa-inbox" style="color:#6495ed;"></i> Mark Received
+                                    {% if r.status == 'received' %}<i class="fas fa-check rq-check"></i>{% endif %}
+                                </button>
+                            </form>
+
+                            <!-- Status: In Progress -->
+                            <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="in_progress">
+                                <button type="submit" class="rq-drop-item {% if r.status == 'in_progress' %}rq-item-active{% endif %}">
+                                    <i class="fas fa-spinner" style="color:#ffa500;"></i> In Progress
+                                    {% if r.status == 'in_progress' %}<i class="fas fa-check rq-check"></i>{% endif %}
+                                </button>
+                            </form>
+
+                            <!-- Status: Completed -->
+                            <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="completed">
+                                <button type="submit" class="rq-drop-item {% if r.status == 'completed' %}rq-item-active{% endif %}">
+                                    <i class="fas fa-check-circle" style="color:#6366F1;"></i> Mark Completed
+                                    {% if r.status == 'completed' %}<i class="fas fa-check rq-check"></i>{% endif %}
+                                </button>
+                            </form>
+
+                            <!-- Status: Reset -->
+                            <form method="post" action="{% url 'admin_request_status' r.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="status" value="new">
+                                <button type="submit" class="rq-drop-item {% if r.status == 'new' %}rq-item-active{% endif %}">
+                                    <i class="fas fa-rotate-left" style="color:#aaa;"></i> Reset to New
+                                    {% if r.status == 'new' %}<i class="fas fa-check rq-check"></i>{% endif %}
+                                </button>
+                            </form>
+
+                            <div class="rq-drop-divider"></div>
+
+                            <!-- Delete -->
+                            <form method="post" action="{% url 'admin_request_delete' r.pk %}" onsubmit="return confirm('Delete this request from {{ r.business_name }}?')">
+                                {% csrf_token %}
+                                <button type="submit" class="rq-drop-item rq-item-danger">
+                                    <i class="fas fa-trash"></i> Delete Request
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="10" style="text-align:center;color:var(--gray);padding:40px">No website requests yet.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ── Request Detail Modal ── -->
+<div id="reqViewModal" style="display:none;position:fixed;inset:0;z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div id="reqModalOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(6px);"></div>
+    <div style="position:relative;z-index:1;background:#fff;border:1px solid rgba(99,102,241,0.2);border-radius:20px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,0.8);animation:reqModalIn 0.3s ease;">
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid #E2E8F0;background:linear-gradient(135deg,rgba(99,102,241,0.04),transparent);">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="width:40px;height:40px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#6366F1;font-size:1rem;">
+                    <i class="fas fa-file-alt"></i>
+                </div>
+                <div>
+                    <div style="color:#1E293B;font-weight:700;font-size:0.95rem;">Request Details</div>
+                    <div id="reqModalBusiness" style="color:#6366F1;font-size:0.78rem;"></div>
+                </div>
+            </div>
+            <button id="reqModalClose" style="width:32px;height:32px;background:#F1F5F9;border:1px solid rgba(255,255,255,0.1);border-radius:50%;color:#64748B;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div style="padding:24px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+                <div class="req-detail-item"><span class="req-detail-label">Client Name</span><span class="req-detail-val" id="rdName"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Business</span><span class="req-detail-val" id="rdBusiness"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Email</span><span class="req-detail-val" id="rdEmail" style="word-break:break-all;font-size:0.82rem;"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Phone</span><span class="req-detail-val" id="rdPhone"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Website Type</span><span class="req-detail-val" id="rdType"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Service / Plan</span><span class="req-detail-val" id="rdPlan" style="color:#6366F1;"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Budget</span><span class="req-detail-val" id="rdBudget"></span></div>
+                <div class="req-detail-item"><span class="req-detail-label">Status</span><span class="req-detail-val" id="rdStatus"></span></div>
+                <div class="req-detail-item" style="grid-column:1/-1;"><span class="req-detail-label">Submitted</span><span class="req-detail-val" id="rdDate"></span></div>
+            </div>
+            <div style="margin-bottom:20px;">
+                <div style="font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6366F1;margin-bottom:10px;">Project Description</div>
+                <div id="rdDesc" style="background:rgba(255,255,255,0.03);border:1px solid #E2E8F0;border-radius:12px;padding:16px;color:#bbb;font-size:0.87rem;line-height:1.8;white-space:pre-wrap;max-height:220px;overflow-y:auto;"></div>
+            </div>
+            <div id="rdCancelWrap" style="display:none;margin-bottom:20px;">
+                <div style="font-size:0.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#DC2626;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+                    <i class="fas fa-times-circle"></i> Cancellation Reason
+                </div>
+                <div id="rdCancelReason" style="background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:14px 16px;color:#7F1D1D;font-size:0.87rem;line-height:1.7;"></div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <a id="rdWhatsapp" href="#" target="_blank" rel="noopener"
+                   style="display:inline-flex;align-items:center;gap:7px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);color:#25d366;padding:9px 18px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a id="rdEmailLink" href="#"
+                   style="display:inline-flex;align-items:center;gap:7px;background:rgba(100,149,237,0.1);border:1px solid rgba(100,149,237,0.3);color:#6495ed;padding:9px 18px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;">
+                    <i class="fas fa-envelope"></i> Send Email
+                </a>
+                <a id="rdCallLink" href="#"
+                   style="display:inline-flex;align-items:center;gap:7px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);color:#6366F1;padding:9px 18px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;">
+                    <i class="fas fa-phone"></i> Call
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* ── Dropdown ── */
+.rq-dropdown { position: relative; display: inline-block; }
+
+.rq-drop-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 14px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: #ccc;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+}
+.rq-drop-btn:hover {
+    background: rgba(99,102,241,0.08);
+    border-color: rgba(99,102,241,0.25);
+    color: #1E293B;
+}
+.rq-dropdown.open .rq-drop-btn {
+    background: rgba(99,102,241,0.1);
+    border-color: rgba(99,102,241,0.3);
+    color: #6366F1;
+}
+.rq-chevron {
+    font-size: 0.6rem;
+    transition: transform 0.25s ease;
+}
+.rq-dropdown.open .rq-chevron { transform: rotate(180deg); }
+
+.rq-drop-menu {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    background: #161616;
+    border: 1px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 6px;
+    min-width: 200px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(99,102,241,0.06);
+    animation: dropIn 0.18s ease;
+}
+.rq-dropdown.open .rq-drop-menu { display: block; }
+
+@keyframes dropIn {
+    from { opacity: 0; transform: translateY(-6px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rq-drop-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 12px;
+    background: none;
+    border: none;
+    border-radius: 9px;
+    color: #bbb;
+    font-size: 0.83rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s ease;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+}
+.rq-drop-item:hover { background: rgba(255,255,255,0.06); color: #1E293B; }
+.rq-drop-item i:first-child { width: 16px; text-align: center; flex-shrink: 0; }
+
+.rq-item-view { color: #a78bfa; }
+.rq-item-view:hover { background: rgba(167,139,250,0.1); color: #a78bfa; }
+
+.rq-item-active { color: #1E293B; background: rgba(99,102,241,0.06); }
+.rq-check { margin-left: auto; color: #6366F1; font-size: 0.7rem; }
+
+.rq-item-danger { color: #ff6b6b; }
+.rq-item-danger:hover { background: rgba(255,107,107,0.1); color: #ff6b6b; }
+
+.rq-drop-divider {
+    height: 1px;
+    background: #222;
+    margin: 5px 4px;
+}
+.rq-drop-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #444;
+    padding: 4px 12px 2px;
+}
+
+/* ── Status badges ── */
+.req-status {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 0.75rem; font-weight: 700; white-space: nowrap;
+}
+.req-status-new      { background:rgba(255,193,7,0.15);   color:#ffc107; border:1px solid rgba(255,193,7,0.3); }
+.req-status-received { background:rgba(100,149,237,0.15); color:#6495ed; border:1px solid rgba(100,149,237,0.3); }
+.req-status-progress { background:rgba(255,165,0,0.15);   color:#ffa500; border:1px solid rgba(255,165,0,0.3); }
+.req-status-done     { background:rgba(99,102,241,0.12);   color:#6366F1; border:1px solid rgba(99,102,241,0.3); }
+.req-status-cancelled { background:rgba(239,68,68,0.12);  color:#ef4444; border:1px solid rgba(239,68,68,0.3); }
+
+/* ── Detail modal ── */
+@keyframes reqModalIn {
+    from { opacity:0; transform:translateY(16px) scale(0.97); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+}
+.req-detail-item {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex; flex-direction: column; gap: 3px;
+}
+.req-detail-label { font-size:0.65rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#94A3B8; }
+.req-detail-val   { font-size:0.88rem; font-weight:600; color:#ddd; }
+</style>
+
+<script>
+// ── Dropdown toggle ──
+function toggleDrop(id) {
+    const el = document.getElementById(id);
+    const isOpen = el.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.rq-dropdown.open').forEach(d => d.classList.remove('open'));
+    if (!isOpen) {
+        el.classList.add('open');
+        // Position the menu using fixed coords from the button
+        const btn  = el.querySelector('.rq-drop-btn');
+        const menu = el.querySelector('.rq-drop-menu');
+        const rect = btn.getBoundingClientRect();
+        const menuW = 210;
+        // Place below button, right-aligned
+        let left = rect.right - menuW;
+        let top  = rect.bottom + 6;
+        // Keep within viewport
+        if (left < 8) left = 8;
+        if (top + 280 > window.innerHeight) top = rect.top - 280;
+        menu.style.left = left + 'px';
+        menu.style.top  = top  + 'px';
+        menu.style.width = menuW + 'px';
+    }
+}
+// Close on outside click or scroll
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.rq-dropdown')) {
+        document.querySelectorAll('.rq-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+});
+window.addEventListener('scroll', function() {
+    document.querySelectorAll('.rq-dropdown.open').forEach(d => d.classList.remove('open'));
+}, true);
+
+// ── Detail modal ──
+(function() {
+    const modal    = document.getElementById('reqViewModal');
+    const overlay  = document.getElementById('reqModalOverlay');
+    const closeBtn = document.getElementById('reqModalClose');
+
+    function openModal(btn) {
+        const d = btn.dataset;
+        document.getElementById('reqModalBusiness').textContent = d.business;
+        document.getElementById('rdName').textContent     = d.name;
+        document.getElementById('rdBusiness').textContent = d.business;
+        document.getElementById('rdEmail').textContent    = d.email;
+        document.getElementById('rdPhone').textContent    = d.phone;
+        document.getElementById('rdType').textContent     = d.type;
+        document.getElementById('rdPlan').textContent     = d.plan;
+        document.getElementById('rdBudget').textContent   = d.budget;
+        document.getElementById('rdStatus').textContent   = d.status;
+        document.getElementById('rdDate').textContent     = d.date;
+        document.getElementById('rdDesc').textContent     = d.desc;
+
+        // Cancel reason
+        const cancelReason = d.cancelReason || '';
+        const cancelWrap   = document.getElementById('rdCancelWrap');
+        if (cancelReason) {
+            document.getElementById('rdCancelReason').textContent = cancelReason;
+            cancelWrap.style.display = 'block';
+        } else {
+            cancelWrap.style.display = 'none';
+        }
+
+        const phone = d.phone.replace(/\D/g, '');
+        document.getElementById('rdWhatsapp').href  = `https://wa.me/91${phone}?text=Hi%20${encodeURIComponent(d.name)}%2C%20this%20is%20Weblance%20regarding%20your%20request%20for%20${encodeURIComponent(d.plan)}.`;
+        document.getElementById('rdEmailLink').href = `mailto:${d.email}?subject=${encodeURIComponent('Your Website Request — ' + d.plan)}`;
+        document.getElementById('rdCallLink').href  = `tel:${d.phone}`;
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        // Close dropdown
+        document.querySelectorAll('.rq-dropdown.open').forEach(d => d.classList.remove('open'));
+    }
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.req-view-btn').forEach(btn => btn.addEventListener('click', () => openModal(btn)));
+    closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+})();
+</script>
+{% endblock %}

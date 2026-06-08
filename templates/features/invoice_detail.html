@@ -1,0 +1,232 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Invoice {{ inv.short_id }}{% endblock %}
+{% block page_title %}Invoice Detail{% endblock %}
+
+{% block extra_css %}
+<style>
+.inv-paper {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(99,102,241,0.08);
+    max-width: 860px;
+    margin: 0 auto;
+}
+.inv-header {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%);
+    padding: 36px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.inv-brand { color: #fff; }
+.inv-brand-name { font-family:'Poppins',sans-serif; font-size:1.6rem; font-weight:900; letter-spacing:2px; }
+.inv-brand-sub { font-size:0.75rem; opacity:0.75; letter-spacing:1px; }
+.inv-meta { text-align:right; color:#fff; }
+.inv-meta .inv-num { font-family:monospace; font-size:1.1rem; font-weight:700; background:rgba(255,255,255,0.15); padding:4px 12px; border-radius:8px; display:inline-block; margin-bottom:8px; }
+.inv-meta .inv-date { font-size:0.8rem; opacity:0.8; }
+.inv-body { padding: 36px 40px; }
+.inv-parties { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:32px; }
+.inv-party-label { font-size:0.65rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:#94A3B8; margin-bottom:8px; }
+.inv-party-name { font-size:1rem; font-weight:700; color:#1E293B; margin-bottom:4px; }
+.inv-party-detail { font-size:0.82rem; color:#64748B; line-height:1.6; }
+.inv-table { width:100%; border-collapse:collapse; margin-bottom:24px; }
+.inv-table th { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#94A3B8; padding:10px 14px; border-bottom:2px solid #E2E8F0; text-align:left; }
+.inv-table th:last-child { text-align:right; }
+.inv-table td { padding:12px 14px; border-bottom:1px solid #F1F5F9; font-size:0.875rem; color:#1E293B; }
+.inv-table td:last-child { text-align:right; font-weight:600; }
+.inv-table tr:last-child td { border-bottom:none; }
+.inv-totals { margin-left:auto; max-width:280px; }
+.inv-total-row { display:flex; justify-content:space-between; padding:6px 0; font-size:0.875rem; }
+.inv-total-row .lbl { color:#64748B; }
+.inv-total-row .val { font-weight:600; color:#1E293B; }
+.inv-total-final { border-top:2px solid #E2E8F0; margin-top:8px; padding-top:12px; display:flex; justify-content:space-between; }
+.inv-total-final .lbl { font-weight:700; color:#1E293B; font-size:1rem; }
+.inv-total-final .val { font-weight:900; color:#6366F1; font-size:1.2rem; }
+.inv-notes { background:#F8FAFF; border:1px solid #E2E8F0; border-radius:12px; padding:16px 20px; margin-top:24px; }
+.inv-notes-label { font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#94A3B8; margin-bottom:6px; }
+.inv-notes-text { font-size:0.85rem; color:#475569; line-height:1.6; }
+.status-badge { display:inline-flex; align-items:center; gap:6px; padding:5px 14px; border-radius:50px; font-size:0.75rem; font-weight:700; }
+.s-draft     { background:#F1F5F9; color:#64748B; border:1px solid #E2E8F0; }
+.s-sent      { background:#EEF2FF; color:#6366F1; border:1px solid #C7D2FE; }
+.s-paid      { background:#F0FDF4; color:#15803D; border:1px solid #BBF7D0; }
+.s-overdue   { background:#FEF2F2; color:#DC2626; border:1px solid #FECACA; }
+.s-cancelled { background:#F8FAFF; color:#94A3B8; border:1px solid #E2E8F0; }
+.action-bar { background:#fff; border:1px solid #E2E8F0; border-radius:16px; padding:20px 24px; margin-bottom:24px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; max-width:860px; margin-left:auto; margin-right:auto; }
+@media(max-width:600px) {
+    .inv-parties { grid-template-columns:1fr; }
+    .inv-header, .inv-body { padding:24px 20px; }
+    .inv-meta { text-align:left; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Action bar -->
+<div class="action-bar">
+    <a href="{% url 'invoice_list' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left me-1"></i> Back</a>
+    <span class="status-badge s-{{ inv.status }}">
+        {% if inv.status == 'draft' %}<i class="fas fa-pencil"></i> Draft
+        {% elif inv.status == 'sent' %}<i class="fas fa-paper-plane"></i> Sent
+        {% elif inv.status == 'paid' %}<i class="fas fa-check-circle"></i> Paid
+        {% elif inv.status == 'overdue' %}<i class="fas fa-exclamation-circle"></i> Overdue
+        {% elif inv.status == 'cancelled' %}<i class="fas fa-ban"></i> Cancelled
+        {% endif %}
+    </span>
+    <div style="margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;">
+        <!-- Send email -->
+        <form method="post" action="{% url 'invoice_send' inv.pk %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="ap-btn ap-btn-green" style="color:#fff!important;" onclick="return confirm('Send invoice to {{ inv.client_email }}?')">
+                <i class="fas fa-paper-plane me-1"></i> Send to Client
+            </button>
+        </form>
+        <!-- Change status -->
+        <form method="post" action="{% url 'invoice_status' inv.pk %}" style="display:inline-flex;gap:6px;align-items:center;">
+            {% csrf_token %}
+            <select name="status" class="ap-btn ap-btn-outline" style="padding:7px 10px;cursor:pointer;">
+                {% for val, label in inv.STATUS_CHOICES %}
+                <option value="{{ val }}" {% if inv.status == val %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="ap-btn ap-btn-outline"><i class="fas fa-save"></i></button>
+        </form>
+        <!-- Delete -->
+        <form method="post" action="{% url 'invoice_delete' inv.pk %}" style="display:inline;" onsubmit="return confirm('Delete this invoice permanently?')">
+            {% csrf_token %}
+            <button type="submit" class="ap-btn ap-btn-red"><i class="fas fa-trash me-1"></i> Delete</button>
+        </form>
+    </div>
+</div>
+
+<!-- Invoice paper -->
+<div class="inv-paper">
+    <!-- Header -->
+    <div class="inv-header">
+        <div class="inv-brand">
+            <div class="inv-brand-name">WEBLANCE</div>
+            <div class="inv-brand-sub">Web Development Agency</div>
+            <div style="margin-top:12px;font-size:0.78rem;opacity:0.8;line-height:1.7;">
+                infoweblance01@gmail.com<br>
+                +91 7892934437<br>
+                weblancehub.in
+            </div>
+        </div>
+        <div class="inv-meta">
+            <div class="inv-num">{{ inv.short_id }}</div>
+            <div class="inv-date">Issued: {{ inv.created_at|date:"d M Y" }}</div>
+            {% if inv.due_date %}
+            <div class="inv-date">Due: {{ inv.due_date|date:"d M Y" }}</div>
+            {% endif %}
+            {% if inv.paid_at %}
+            <div class="inv-date" style="color:#86efac;">Paid: {{ inv.paid_at|date:"d M Y" }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Body -->
+    <div class="inv-body">
+        <!-- Parties -->
+        <div class="inv-parties">
+            <div>
+                <div class="inv-party-label">From</div>
+                <div class="inv-party-name">Weblance</div>
+                <div class="inv-party-detail">
+                    infoweblance01@gmail.com<br>
+                    +91 7892934437
+                </div>
+            </div>
+            <div>
+                <div class="inv-party-label">Bill To</div>
+                <div class="inv-party-name">{{ inv.client_name }}</div>
+                <div class="inv-party-detail">
+                    {{ inv.client_email }}<br>
+                    {% if inv.client_phone %}{{ inv.client_phone }}<br>{% endif %}
+                    {% if inv.client_address %}{{ inv.client_address }}{% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Title & description -->
+        <div style="margin-bottom:24px;">
+            <h5 style="font-weight:700;color:#1E293B;margin-bottom:4px;">{{ inv.title }}</h5>
+            {% if inv.description %}<p style="color:#64748B;font-size:0.85rem;line-height:1.6;margin:0;">{{ inv.description }}</p>{% endif %}
+        </div>
+
+        <!-- Line items -->
+        {% if inv.items.all %}
+        <table class="inv-table">
+            <thead>
+                <tr>
+                    <th style="width:50%;">Description</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in inv.items.all %}
+            <tr>
+                <td>{{ item.description }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>₹{{ item.unit_price|floatformat:2 }}</td>
+                <td>₹{{ item.total|floatformat:2 }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <!-- Totals -->
+        <div class="inv-totals">
+            <div class="inv-total-row">
+                <span class="lbl">Subtotal</span>
+                <span class="val">₹{{ inv.amount|floatformat:2 }}</span>
+            </div>
+            {% if inv.tax_percent %}
+            <div class="inv-total-row">
+                <span class="lbl">Tax ({{ inv.tax_percent }}%)</span>
+                <span class="val">₹{{ inv.tax_amount|floatformat:2 }}</span>
+            </div>
+            {% endif %}
+            {% if inv.discount %}
+            <div class="inv-total-row">
+                <span class="lbl">Discount</span>
+                <span class="val" style="color:#ef4444;">-₹{{ inv.discount|floatformat:2 }}</span>
+            </div>
+            {% endif %}
+            <div class="inv-total-final">
+                <span class="lbl">Total Due</span>
+                <span class="val">₹{{ inv.total_amount|floatformat:2 }}</span>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        {% if inv.notes %}
+        <div class="inv-notes">
+            <div class="inv-notes-label">Notes & Payment Instructions</div>
+            <div class="inv-notes-text">{{ inv.notes|linebreaksbr }}</div>
+        </div>
+        {% endif %}
+
+        <!-- Agreement / Project links -->
+        {% if inv.agreement or inv.project %}
+        <div style="margin-top:24px;padding-top:20px;border-top:1px solid #F1F5F9;display:flex;gap:12px;flex-wrap:wrap;">
+            {% if inv.agreement %}
+            <a href="{% url 'agreement_detail' inv.agreement.pk %}" style="font-size:0.78rem;color:#6366F1;text-decoration:none;display:flex;align-items:center;gap:5px;">
+                <i class="fas fa-file-contract"></i> View Agreement {{ inv.agreement.short_ref }}
+            </a>
+            {% endif %}
+            {% if inv.project %}
+            <a href="{% url 'admin_project_detail' inv.project.pk %}" style="font-size:0.78rem;color:#6366F1;text-decoration:none;display:flex;align-items:center;gap:5px;">
+                <i class="fas fa-tasks"></i> View Project: {{ inv.project.title }}
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

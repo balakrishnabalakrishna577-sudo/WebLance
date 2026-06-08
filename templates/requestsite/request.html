@@ -1,0 +1,392 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Request a Website - WEBLANCE Website Development{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1>Get a <span class="text-green">Free Quote</span></h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Request Website</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Request Form Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Project Brief</span>
+            <h2>Start Your <span class="text-green">Project</span></h2>
+            <p>Share your goals and requirements — we’ll reply with a clear scope, timeline, and pricing.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate">
+                <div class="card-custom">
+                    <h3 class="mb-4">Website Request Form
+                        {% if service_label %}<span style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--primary-green);font-weight:600;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);padding:4px 12px;border-radius:50px;margin-top:8px"><i class="fas fa-cog"></i> {{ service_label }}</span>
+                        {% elif selected_plan %}<span style="display:inline-flex;align-items:center;gap:6px;font-size:0.82rem;color:var(--primary-green);font-weight:600;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);padding:4px 12px;border-radius:50px;margin-top:8px"><i class="fas fa-tag"></i> {{ selected_plan }}</span>{% endif %}
+                    </h3>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" action="{% url 'request_website' %}" data-validate>
+                        {% csrf_token %}
+                        <input type="hidden" name="_service_label" value="{{ service_label|default:selected_plan }}">
+                        <input type="hidden" name="_selected_plan" value="{{ selected_plan }}">
+
+                        {% if selected_plan %}
+                        <!-- Selected Plan Banner -->
+                        <div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;">
+                            <div style="width:44px;height:44px;background:rgba(99,102,241,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                                <i class="fas fa-tag" style="color:#6366F1;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div style="color:#6366F1;font-weight:700;font-size:0.95rem;">Selected Plan: {{ selected_plan }}</div>
+                                <div style="color:#888;font-size:0.8rem;">You can change the details below if needed</div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <!-- Personal Information -->
+                        <h5 class="mb-3 text-green">Personal Information</h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label">Full Name <span class="text-green">*</span></label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email Address <span class="text-green">*</span></label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Phone Number <span class="text-green">*</span></label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="+91 7892934437" pattern="[0-9]{10}" required>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="business_name" class="form-label">Business/Company Name <span class="text-green">*</span></label>
+                                <input type="text" class="form-control" id="business_name" name="business_name" placeholder="Your Business Name" required>
+                            </div>
+                        </div>
+
+                        <!-- Project Details -->
+                        <h5 class="mb-3 text-green mt-4">Project Details</h5>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="website_type" class="form-label">Website Type <span class="text-green">*</span></label>
+                                <select class="form-control" id="website_type" name="website_type" required>
+                                    <option value="">Select Website Type</option>
+                                    <option value="business" {% if preset_type == 'business' %}selected{% endif %}>Business Website</option>
+                                    <option value="ecommerce" {% if preset_type == 'ecommerce' %}selected{% endif %}>E-Commerce Website</option>
+                                    <option value="landing" {% if preset_type == 'landing' %}selected{% endif %}>Landing Page</option>
+                                    <option value="custom">Custom Website</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="budget" class="form-label">Budget Range <span class="text-green">*</span></label>
+                                <select class="form-control" id="budget" name="budget" required>
+                                    <option value="">Select Budget</option>
+                                    <option value="low" {% if preset_budget == 'low' %}selected{% endif %}>Below ₹10,000</option>
+                                    <option value="medium" {% if preset_budget == 'medium' %}selected{% endif %}>₹10,000 - ₹25,000</option>
+                                    <option value="high" {% if preset_budget == 'high' %}selected{% endif %}>₹25,000 - ₹50,000</option>
+                                    <option value="premium" {% if preset_budget == 'premium' %}selected{% endif %}>Above ₹50,000</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Project Description <span class="text-green">*</span></label>
+                            <textarea class="form-control" id="description" name="description" rows="8" placeholder="Please describe your project requirements in detail:
+- What is the purpose of your website?
+- What features do you need?
+- Do you have any design preferences?
+- Who is your target audience?
+- Any specific functionality requirements?
+- Timeline expectations?" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the terms and conditions and privacy policy <span class="text-green">*</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-green w-100 btn-lg">
+                            <i class="fas fa-paper-plane me-2"></i> Send My Requirements
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Process Section -->
+<section class="section" style="background: var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Next Steps</span>
+            <h2>Our <span class="text-green">Process</span></h2>
+            <p>What happens after you share your requirements.</p>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="text-center">
+                    <div class="card-icon mx-auto mb-3">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h5>1. Submit Request</h5>
+                    <p>Fill out the form with your project details</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="text-center">
+                    <div class="card-icon mx-auto mb-3">
+                        <i class="fas fa-phone-volume"></i>
+                    </div>
+                    <h5>2. Initial Consultation</h5>
+                    <p>We'll contact you to discuss your requirements</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="text-center">
+                    <div class="card-icon mx-auto mb-3">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <h5>3. Quote & Proposal</h5>
+                    <p>Receive a detailed quote and project timeline</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 scroll-animate">
+                <div class="text-center">
+                    <div class="card-icon mx-auto mb-3">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h5>4. Development</h5>
+                    <p>We build your website according to requirements</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">FAQ</span>
+            <h2>Frequently Asked <span class="text-green">Questions</span></h2>
+            <p>Quick answers before we start your project.</p>
+        </div>
+        <div class="row scroll-animate">
+            <div class="col-lg-8 mx-auto">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How long does it take to build a website?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                The timeline depends on the complexity of your website. A basic business website typically takes 7-10 days, while e-commerce websites can take 30-40 days. Custom projects may vary based on requirements.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                What is included in your website packages?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                Our packages include responsive design, SEO setup, contact forms, social media integration, and mobile optimization. Higher-tier packages also include CMS integration, e-commerce features, and extended support.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Do you provide website maintenance services?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                Yes! We offer monthly maintenance packages starting at ₹3,000/month which include security updates, bug fixes, content updates, performance monitoring, and technical support.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Can you redesign my existing website?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                Absolutely! We specialize in website redesigns. We'll modernize your existing website while preserving your SEO rankings and improving user experience. Prices start from ₹12,000.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-dark border-secondary mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                What payment methods do you accept?
+                            </button>
+                        </h2>
+                        <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-gray">
+                                We accept various payment methods including bank transfer, UPI, credit/debit cards, and digital wallets. We typically require 50% advance payment to start the project.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate">
+                <h2>Still Have Questions?</h2>
+                <p>Our team is here to help you with any queries about your website project.</p>
+                <a href="{% url 'contact' %}" class="btn btn-indigo btn-lg">Contact Us</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const typeSelect = document.getElementById('website_type');
+    const descArea  = document.getElementById('description');
+
+    // ── Description templates per website type ──
+    const DESC = {
+        business: `I need a professional business website with the following requirements:
+
+• Homepage with company overview and services
+• About Us page with team and company story
+• Services/Products page with details
+• Contact page with inquiry form and Google Maps
+• Mobile-responsive design
+• Basic SEO setup
+• WhatsApp chat button integration
+
+Target audience: [describe your customers]
+Preferred colors/style: [e.g. modern, minimal, corporate]
+Any reference websites: [optional]`,
+
+        ecommerce: `I need a complete e-commerce website with the following requirements:
+
+• Product catalog with categories and filters
+• Shopping cart and secure checkout
+• Payment gateway integration (Razorpay/UPI/COD)
+• Order management and tracking
+• Customer login and order history
+• Admin panel to manage products and orders
+• Mobile-responsive design
+• SEO optimization
+
+Number of products: [approx count]
+Product categories: [list them]
+Preferred payment methods: [Razorpay / UPI / COD]
+Any reference websites: [optional]`,
+
+        landing: `I need a high-converting landing page with the following requirements:
+
+• Compelling hero section with clear call-to-action
+• Features/benefits section
+• Testimonials or social proof section
+• Lead capture form (name, email, phone)
+• WhatsApp and call button
+• Mobile-optimized design
+• Fast loading speed
+
+Purpose of landing page: [product launch / service promotion / lead generation]
+Target audience: [describe]
+Key message/offer: [what you want visitors to do]
+Any reference pages: [optional]`,
+
+        custom: `I need a custom web solution with the following requirements:
+
+• [Describe your main feature/module]
+• User login and registration
+• Admin dashboard for management
+• Database integration
+• Mobile-responsive design
+• [Any specific integrations needed]
+
+Project type: [management system / portal / web app / other]
+Tech stack preference: [Python/Django / PHP / any]
+Number of user roles: [e.g. admin, staff, customer]
+Any reference projects: [optional]`,
+    };
+
+    // Auto-fill description when type changes
+    typeSelect.addEventListener('change', function () {
+        const val = this.value;
+        if (val && DESC[val]) {
+            descArea.value = DESC[val];
+        }
+    });
+
+    // If type is already selected on page load (from plan preset), fill description
+    if (typeSelect.value && DESC[typeSelect.value] && !descArea.value.trim()) {
+        descArea.value = DESC[typeSelect.value];
+    }
+
+    // Form submit loading state
+    form.addEventListener('submit', function(e) {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %}

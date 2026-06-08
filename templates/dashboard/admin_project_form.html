@@ -1,0 +1,197 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}New Project{% endblock %}
+{% block page_title %}New Client Project{% endblock %}
+
+{% block extra_css %}
+<style>
+.pf-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.05);
+}
+.pf-label {
+    display: block;
+    font-size: .75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: #475569;
+    margin-bottom: 6px;
+}
+.pf-inp, .pf-sel, .pf-ta {
+    display: block; width: 100%;
+    background: #F8FAFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    color: #1E293B;
+    font-size: .88rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+}
+.pf-inp:focus, .pf-sel:focus, .pf-ta:focus {
+    border-color: #6366F1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,.1);
+    background: #fff;
+}
+.pf-inp::placeholder, .pf-ta::placeholder { color: #94A3B8; }
+.pf-sel {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2364748B' d='M5 7L0 2h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+    cursor: pointer;
+}
+.pf-sel option { background: #fff; color: #1E293B; }
+.pf-ta { resize: vertical; min-height: 90px; }
+.btn-save {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    color: #fff;
+    font-weight: 800;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 32px;
+    cursor: pointer;
+    font-size: .9rem;
+    transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-save:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(99,102,241,.3); }
+.pf-section-title {
+    font-size: .68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6366F1;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #F1F5F9;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-outline" style="width:36px;height:36px;padding:0;justify-content:center;">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <div>
+        <h4 style="color:#1E293B;margin:0;font-weight:800;">New Client Project</h4>
+        <small style="color:#64748B;">Assign a project to a client and track progress</small>
+    </div>
+</div>
+
+<form method="post">
+{% csrf_token %}
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="pf-card">
+
+            <!-- Client & Title -->
+            <div class="pf-section-title"><i class="fas fa-user"></i> Client & Project</div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="pf-label">Client *</label>
+                    <select name="client" class="pf-sel" required>
+                        <option value="">— Select client —</option>
+                        {% for c in clients %}
+                        <option value="{{ c.pk }}">{{ c.username }} ({{ c.email }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="pf-label">Project Title *</label>
+                    <input type="text" name="title" class="pf-inp" placeholder="e.g. Business Website for ABC Corp" required>
+                </div>
+                <div class="col-12">
+                    <label class="pf-label">Description</label>
+                    <textarea name="description" class="pf-ta" placeholder="Project scope, goals, and key deliverables…"></textarea>
+                </div>
+            </div>
+
+            <!-- Plan -->
+            {% if plans %}
+            <div class="pf-section-title"><i class="fas fa-tag"></i> Pricing Plan (optional)</div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="pf-label">Plan</label>
+                    <select name="plan" class="pf-sel">
+                        <option value="">— No plan —</option>
+                        {% for p in plans %}
+                        <option value="{{ p.pk }}">{{ p.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Status & Progress -->
+            <div class="pf-section-title"><i class="fas fa-chart-line"></i> Status & Timeline</div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="pf-label">Status</label>
+                    <select name="status" class="pf-sel">
+                        <option value="planning">Planning</option>
+                        <option value="design">Design</option>
+                        <option value="development">Development</option>
+                        <option value="testing">Testing</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="pf-label">Progress (%)</label>
+                    <input type="number" name="progress" class="pf-inp" value="0" min="0" max="100">
+                </div>
+                <div class="col-md-4">
+                    <label class="pf-label">Start Date</label>
+                    <input type="date" name="start_date" class="pf-inp">
+                </div>
+                <div class="col-md-4">
+                    <label class="pf-label">Deadline</label>
+                    <input type="date" name="deadline" class="pf-inp">
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:12px;">
+            <button type="submit" class="btn-save">
+                <i class="fas fa-plus"></i> Create Project
+            </button>
+            <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-outline">Cancel</a>
+        </div>
+    </div>
+
+    <!-- Right: Tips -->
+    <div class="col-lg-4">
+        <div style="background:#EEF2FF;border:1px solid #C7D2FE;border-radius:16px;padding:20px;">
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#6366F1;margin-bottom:14px;display:flex;align-items:center;gap:6px;">
+                <i class="fas fa-lightbulb"></i> Quick Tips
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:24px;height:24px;background:#6366F1;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;color:#fff;font-weight:800;">1</div>
+                    <div style="font-size:.8rem;color:#4338CA;line-height:1.5;">Select the client first — they'll be able to see this project in their dashboard immediately.</div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:24px;height:24px;background:#6366F1;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;color:#fff;font-weight:800;">2</div>
+                    <div style="font-size:.8rem;color:#4338CA;line-height:1.5;">After creating, add milestones and post updates to keep the client informed in real time.</div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;">
+                    <div style="width:24px;height:24px;background:#6366F1;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.65rem;color:#fff;font-weight:800;">3</div>
+                    <div style="font-size:.8rem;color:#4338CA;line-height:1.5;">A chat room is created automatically — use it to communicate directly with the client.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,282 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{{ project.title }} — Manage{% endblock %}
+{% block page_title %}Manage Project{% endblock %}
+
+{% block extra_css %}
+<style>
+.pd-card { background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:22px;margin-bottom:20px; }
+.pd-head { font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6366F1;margin-bottom:14px;display:flex;align-items:center;gap:6px; }
+.pf-inp,.pf-sel,.pf-ta { display:block;width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;color:#1E293B;font-size:.85rem;padding:9px 12px;outline:none;transition:border-color .2s; }
+.pf-inp:focus,.pf-sel:focus,.pf-ta:focus { border-color:#6366F1;box-shadow:0 0 0 3px rgba(99,102,241,0.1); }
+.pf-sel { appearance:none;background-image:url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='%2364748B' d='M5 7L0 2h10z'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px; }
+.pf-sel option { background:#fff;color:#1E293B; }
+.pf-ta { resize:vertical;min-height:70px; }
+.btn-act { background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;font-weight:700;border:none;border-radius:9px;padding:8px 18px;cursor:pointer;font-size:.82rem; }
+.prog-bar { background:#E2E8F0;border-radius:6px;height:8px;overflow:hidden;margin:8px 0; }
+.prog-fill { height:100%;border-radius:6px;background:linear-gradient(90deg,#6366F1,#4F46E5); }
+.update-item { padding:10px 0;border-bottom:1px solid #F1F5F9; }
+.update-item:last-child { border-bottom:none; }
+.msg-bubble { padding:9px 13px;border-radius:10px;margin-bottom:8px;max-width:85%; }
+.msg-client { background:#F1F5F9;color:#1E293B;border:1px solid #E2E8F0;border-radius:10px 10px 10px 4px; }
+.msg-admin  { background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;margin-left:auto;border-radius:10px 10px 4px 10px; }
+.file-row { display:flex;align-items:center;gap:10px;padding:8px 12px;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:6px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
+    <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-outline" style="width:36px;height:36px;padding:0;justify-content:center;">
+        <i class="fas fa-arrow-left"></i>
+    </a>
+    <div style="flex:1;">
+        <h4 style="color:#1E293B;margin:0;font-weight:800;">{{ project.title }}</h4>
+        <small style="color:#64748B;">Client: {{ project.client.username }} · {{ project.client.email }}</small>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="{% url 'milestone_list' project.pk %}" class="ap-btn ap-btn-outline" style="font-size:0.78rem;">
+            <i class="fas fa-tasks me-1"></i> Milestones
+        </a>
+        <a href="{% url 'timelog_list' project.pk %}" class="ap-btn ap-btn-outline" style="font-size:0.78rem;">
+            <i class="fas fa-clock me-1"></i> Time Tracker
+        </a>
+        <a href="{% url 'chat_room' project.pk %}" class="ap-btn ap-btn-green" style="font-size:0.78rem;color:#fff!important;">
+            <i class="fas fa-comments me-1"></i> Chat
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Left -->
+    <div class="col-lg-8">
+
+        <!-- Progress update -->
+        <div class="pd-card">
+            <div class="pd-head"><i class="fas fa-chart-line"></i> Update Progress</div>
+            <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:{{ project.progress }}%"></div></div>
+            <div style="color:#6366F1;font-size:.85rem;font-weight:700;margin-bottom:14px;">{{ project.progress }}% Complete</div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="update_progress">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label style="font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">Progress %</label>
+                        <input type="number" name="progress" class="pf-inp" value="{{ project.progress }}" min="0" max="100"
+                               oninput="document.getElementById('progFill').style.width=this.value+'%'">
+                    </div>
+                    <div class="col-md-4">
+                        <label style="font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">Status</label>
+                        <select name="status" class="pf-sel">
+                            {% for val, label in project.STATUS_CHOICES %}
+                            <option value="{{ val }}" {% if project.status == val %}selected{% endif %}>{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn-act w-100"><i class="fas fa-save me-1"></i>Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add update -->
+        <div class="pd-card">
+            <div class="pd-head"><i class="fas fa-bell"></i> Post Update to Client</div>
+            <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_update">
+                <textarea name="message" class="pf-ta" placeholder="e.g. Design phase completed. Moving to development…" required></textarea>
+                <button type="submit" class="btn-act mt-2"><i class="fas fa-paper-plane me-1"></i>Post Update</button>
+            </form>
+            {% if updates %}
+            <div style="margin-top:16px;border-top:1px solid #F1F5F9;padding-top:14px;">
+                {% for u in updates %}
+                <div class="update-item">
+                    <div style="color:#1E293B;font-size:.85rem;">{{ u.message }}</div>
+                    <div style="color:#94A3B8;font-size:.72rem;margin-top:3px;">{{ u.created_at|date:"d M Y, H:i" }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Upload file -->
+        <div class="pd-card">
+            <div class="pd-head"><i class="fas fa-paperclip"></i> Upload File for Client</div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="upload_file">
+                <div class="d-flex gap-2">
+                    <input type="file" name="file" class="pf-inp" required>
+                    <button type="submit" class="btn-act" style="white-space:nowrap;"><i class="fas fa-upload me-1"></i>Upload</button>
+                </div>
+            </form>
+            {% if files %}
+            <div style="margin-top:14px;">
+                {% for f in files %}
+                <div class="file-row">
+                    <i class="fas fa-file" style="color:#6366F1;"></i>
+                    <div style="flex:1;">
+                        <div style="color:#1E293B;font-size:.83rem;font-weight:600;">{{ f.name }}</div>
+                        <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
+                    </div>
+                    <a href="{{ f.file.url }}" target="_blank" style="color:#6366F1;font-size:.75rem;text-decoration:none;">Download</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Client Review (read-only for admin) -->
+        {% if project.status == 'delivered' %}
+        <div class="pd-card">
+            <div class="pd-head"><i class="fas fa-star"></i> Client Review</div>
+            {% if review %}
+            {% with rev=review %}
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                {% for i in "12345" %}
+                <i class="fas fa-star" style="font-size:1.1rem;color:{% if forloop.counter <= rev.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
+                {% endfor %}
+                <span style="font-size:0.85rem;font-weight:700;color:#1E293B;margin-left:4px;">{{ rev.rating }}/5</span>
+                <span style="font-size:0.72rem;color:#94A3B8;margin-left:auto;">{{ rev.created_at|date:"d M Y" }}</span>
+            </div>
+            {% if rev.title %}
+            <div style="font-weight:700;color:#1E293B;font-size:0.9rem;margin-bottom:6px;">{{ rev.title }}</div>
+            {% endif %}
+            <p style="color:#475569;font-size:0.85rem;line-height:1.7;margin:0 0 12px;">{{ rev.body }}</p>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                <span style="font-size:0.72rem;color:#64748B;">By <strong>{{ rev.client.username }}</strong></span>
+                {% if rev.is_public %}
+                <span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">Public</span>
+                {% else %}
+                <span style="background:#FEF9C3;color:#854D0E;border:1px solid #FDE68A;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">Hidden</span>
+                {% endif %}
+            </div>
+            {% endwith %}
+            {% else %}
+            <div style="text-align:center;padding:20px;color:#94A3B8;">
+                <i class="fas fa-star" style="font-size:1.5rem;display:block;margin-bottom:8px;color:#CBD5E1;"></i>
+                <p style="margin:0;font-size:0.85rem;">No review submitted yet.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Right: Chat -->
+    <div class="col-lg-4">
+        <div class="pd-card">
+            <div class="pd-head">
+                <i class="fas fa-comments"></i> Client Chat
+                <a href="{% url 'chat_room' project.pk %}" class="ap-btn ap-btn-green ms-auto" style="font-size:0.72rem;padding:4px 10px;color:#fff!important;">
+                    <i class="fas fa-external-link-alt me-1"></i> Open Full Chat
+                </a>
+            </div>
+
+            {% comment %}Load last 10 messages from ChatRoom{% endcomment %}
+            {% with chat_room=project.chat_room %}
+            {% if chat_room %}
+            <div style="max-height:320px;overflow-y:auto;margin-bottom:14px;" id="chatBox">
+                {% with chat_msgs=chat_room.messages.all %}
+                {% if chat_msgs %}
+                    {% for m in chat_msgs %}
+                    <div style="display:flex;flex-direction:column;{% if m.sender.is_staff %}align-items:flex-end;{% endif %}margin-bottom:8px;">
+                        <div class="msg-bubble {% if m.sender.is_staff %}msg-admin{% else %}msg-client{% endif %}">
+                            <div style="font-size:.68rem;font-weight:700;margin-bottom:2px;{% if m.sender.is_staff %}color:rgba(255,255,255,0.8);{% else %}color:#6366F1;{% endif %}">
+                                {% if m.sender.is_staff %}You (Admin){% else %}{{ m.sender.username }}{% endif %}
+                            </div>
+                            <div style="font-size:.82rem;">{{ m.message }}</div>
+                            <div style="font-size:.65rem;opacity:.6;margin-top:2px;">{{ m.created_at|date:"d M, H:i" }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="color:#94A3B8;font-size:.82rem;text-align:center;padding:20px 0;">No messages yet. Start the conversation!</p>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <!-- Quick send via AJAX -->
+            <div style="display:flex;gap:8px;" id="quickChatForm"
+                 data-room="{{ project.chat_room.pk }}"
+                 data-send-url="{% url 'chat_send' project.chat_room.pk %}"
+                 data-csrf="{{ csrf_token }}">
+                <input type="text" id="quickMsg" class="pf-inp" placeholder="Quick message to client…" maxlength="500">
+                <button type="button" id="quickSendBtn" style="background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;border:none;border-radius:9px;padding:9px 14px;font-weight:700;cursor:pointer;flex-shrink:0;">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+            {% else %}
+            <div style="text-align:center;padding:24px;color:#94A3B8;">
+                <i class="fas fa-comments" style="font-size:1.5rem;display:block;margin-bottom:8px;color:#CBD5E1;"></i>
+                <p style="margin:0 0 12px;font-size:0.82rem;">No chat room yet.</p>
+                <a href="{% url 'chat_room' project.pk %}" class="ap-btn ap-btn-green" style="color:#fff!important;">
+                    <i class="fas fa-plus me-1"></i> Create Chat Room
+                </a>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const chatBox = document.getElementById('chatBox');
+if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+
+const quickSendBtn = document.getElementById('quickSendBtn');
+const quickMsg     = document.getElementById('quickMsg');
+const quickForm    = document.getElementById('quickChatForm');
+
+if (quickSendBtn && quickMsg && quickForm) {
+    const CSRF     = quickForm.dataset.csrf;
+    const SEND_URL = quickForm.dataset.sendUrl;
+
+    if (SEND_URL) {
+        function renderAdminMsg(data) {
+            const wrap = document.createElement('div');
+            wrap.style.cssText = 'display:flex;flex-direction:column;align-items:flex-end;margin-bottom:8px;';
+            const safe = data.message.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            wrap.innerHTML =
+                '<div class="msg-bubble msg-admin">' +
+                '<div style="font-size:.68rem;font-weight:700;margin-bottom:2px;color:rgba(255,255,255,0.8);">You (Admin)</div>' +
+                '<div style="font-size:.82rem;">' + safe + '</div>' +
+                '<div style="font-size:.65rem;opacity:.6;margin-top:2px;">' + data.time + '</div>' +
+                '</div>';
+            return wrap;
+        }
+
+        async function quickSend() {
+            const text = quickMsg.value.trim();
+            if (!text) return;
+            quickMsg.value = '';
+            quickSendBtn.disabled = true;
+
+            try {
+                const res  = await fetch(SEND_URL, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'message=' + encodeURIComponent(text)
+                });
+                const data = await res.json();
+                if (data.ok && chatBox) {
+                    // Remove empty state if present
+                    const empty = chatBox.querySelector('p');
+                    if (empty) empty.closest('div').remove();
+                    chatBox.appendChild(renderAdminMsg(data));
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                }
+            } catch(e) { console.error(e); }
+            quickSendBtn.disabled = false;
+            quickMsg.focus();
+        }
+
+        quickSendBtn.addEventListener('click', quickSend);
+        quickMsg.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); quickSend(); }
+        });
+    }
+}
+</script>
+{% endblock %}

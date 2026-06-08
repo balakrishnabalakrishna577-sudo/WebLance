@@ -1,0 +1,122 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Bot Conversation{% endblock %}
+{% block page_title %}Bot Conversation Detail{% endblock %}
+
+{% block content %}
+
+<!-- Back + meta -->
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+    <a href="{% url 'admin_bot_chats' %}" class="ap-btn ap-btn-outline">
+        <i class="fas fa-arrow-left"></i> All Bot Chats
+    </a>
+    <form method="post" action="{% url 'admin_bot_chat_delete' session.session_id %}" onsubmit="return confirm('Delete this conversation?');">
+        {% csrf_token %}
+        <button type="submit" class="ap-btn ap-btn-red">
+            <i class="fas fa-trash"></i> Delete
+        </button>
+    </form>
+</div>
+
+<!-- Session info card -->
+<div class="ap-card mb-4">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-info-circle"></i> Session Info</h5>
+        <span class="ap-badge {% if session.is_read %}ap-badge-green{% else %}ap-badge-red{% endif %}">
+            {% if session.is_read %}Read{% else %}New{% endif %}
+        </span>
+    </div>
+    <div class="ap-card-body">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Session ID</div>
+                <div style="font-family:monospace;font-size:0.82rem;color:#475569;">{{ session.session_id }}</div>
+            </div>
+            <div class="col-md-2">
+                <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">IP Address</div>
+                <div style="font-size:0.88rem;color:#1E293B;">{{ session.visitor_ip|default:"Unknown" }}</div>
+            </div>
+            <div class="col-md-2">
+                <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Messages</div>
+                <div style="font-size:0.88rem;color:#1E293B;">{{ msgs.count }} total</div>
+            </div>
+            <div class="col-md-2">
+                <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Started</div>
+                <div style="font-size:0.88rem;color:#1E293B;">{{ session.started_at|date:"d M Y, H:i" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Page</div>
+                <div style="font-size:0.82rem;color:#6366F1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    {% if session.page_url %}
+                    <a href="{{ session.page_url }}" target="_blank" style="color:#6366F1;">{{ session.page_url|truncatechars:50 }}</a>
+                    {% else %}—{% endif %}
+                </div>
+            </div>
+        </div>
+        {% if session.user_agent %}
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid #F1F5F9;">
+            <div style="font-size:0.72rem;color:#94A3B8;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">User Agent</div>
+            <div style="font-size:0.78rem;color:#64748B;word-break:break-all;">{{ session.user_agent }}</div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Conversation -->
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-comments"></i> Conversation</h5>
+        <span style="font-size:0.78rem;color:#94A3B8;">{{ msgs.count }} message{{ msgs.count|pluralize }}</span>
+    </div>
+    <div class="ap-card-body" style="padding:24px;">
+        {% if msgs %}
+        <div style="display:flex;flex-direction:column;gap:14px;max-height:600px;overflow-y:auto;padding-right:4px;">
+            {% for m in msgs %}
+            <div style="display:flex;{% if m.role == 'user' %}justify-content:flex-end;{% else %}justify-content:flex-start;{% endif %}">
+                {% if m.role == 'bot' %}
+                <div style="width:32px;height:32px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-right:10px;margin-top:2px;">
+                    <i class="fas fa-robot" style="color:#fff;font-size:0.7rem;"></i>
+                </div>
+                {% endif %}
+                <div style="max-width:72%;">
+                    <div style="
+                        padding:10px 16px;
+                        border-radius:{% if m.role == 'user' %}16px 16px 4px 16px{% else %}16px 16px 16px 4px{% endif %};
+                        font-size:0.875rem;
+                        line-height:1.6;
+                        word-break:break-word;
+                        {% if m.role == 'user' %}
+                        background:linear-gradient(135deg,#6366F1,#4F46E5);
+                        color:#fff;
+                        {% else %}
+                        background:#F8FAFF;
+                        border:1px solid #E2E8F0;
+                        color:#1E293B;
+                        {% endif %}
+                    ">{{ m.text }}</div>
+                    <div style="font-size:0.65rem;color:#94A3B8;margin-top:4px;{% if m.role == 'user' %}text-align:right;{% endif %}">
+                        {% if m.role == 'user' %}
+                        <i class="fas fa-user" style="margin-right:3px;"></i> Visitor
+                        {% else %}
+                        <i class="fas fa-robot" style="margin-right:3px;color:#6366F1;"></i> WebLance AI
+                        {% endif %}
+                        · {{ m.created_at|date:"d M, H:i" }}
+                    </div>
+                </div>
+                {% if m.role == 'user' %}
+                <div style="width:32px;height:32px;background:#E2E8F0;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:10px;margin-top:2px;">
+                    <i class="fas fa-user" style="color:#64748B;font-size:0.7rem;"></i>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div style="text-align:center;padding:40px;color:#94A3B8;">
+            <i class="fas fa-comment-slash" style="font-size:2rem;margin-bottom:12px;display:block;"></i>
+            No messages in this session.
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

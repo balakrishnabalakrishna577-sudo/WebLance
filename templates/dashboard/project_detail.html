@@ -1,0 +1,541 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ project.title }} — Weblance Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+body { background: #F1F5F9; }
+
+/* ── Hero ── */
+.pd-hero {
+    background: linear-gradient(135deg, #6366F1 0%, #818CF8 50%, #A5B4FC 100%);
+    padding: 36px 0 32px;
+    position: relative;
+    overflow: hidden;
+}
+.pd-hero::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 260px; height: 260px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+}
+
+/* ── Cards ── */
+.pd-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.05);
+}
+.pd-card-head {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .8px; color: #6366F1; margin-bottom: 14px;
+    display: flex; align-items: center; gap: 6px;
+}
+
+/* ── Progress ── */
+.progress-wrap { background: #E2E8F0; border-radius: 6px; height: 12px; overflow: hidden; margin: 8px 0; }
+.progress-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #6366F1, #818CF8); transition: width 1s ease; }
+
+/* ── Status badge ── */
+.status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: .72rem; font-weight: 700; text-transform: uppercase; }
+.s-planning    { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE68A; }
+.s-design      { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+.s-development { background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; }
+.s-testing     { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
+.s-delivered   { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
+
+/* ── Updates ── */
+.update-item { padding: 12px 0; border-bottom: 1px solid #F1F5F9; }
+.update-item:last-child { border-bottom: none; }
+
+/* ── Files ── */
+.file-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; background: #F8FAFF;
+    border: 1px solid #E2E8F0; border-radius: 10px;
+    margin-bottom: 8px; text-decoration: none;
+    transition: border-color 0.2s;
+}
+.file-item:hover { border-color: #6366F1; }
+
+/* ── Chat ── */
+.msg-bubble { padding: 10px 14px; border-radius: 12px; margin-bottom: 8px; max-width: 80%; }
+.msg-mine  { background: linear-gradient(135deg, #6366F1, #4F46E5); color: #fff; margin-left: auto; border-radius: 12px 12px 4px 12px; }
+.msg-other { background: #F1F5F9; color: #1E293B; border: 1px solid #E2E8F0; border-radius: 12px 12px 12px 4px; }
+.msg-sender { font-size: .7rem; font-weight: 700; margin-bottom: 3px; }
+.msg-time   { font-size: .65rem; opacity: .6; margin-top: 3px; }
+.chat-input {
+    background: #F8FAFF; border: 1px solid #E2E8F0; border-radius: 10px;
+    color: #1E293B; padding: 10px 14px; width: 100%; outline: none; font-size: .88rem;
+    transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+
+/* ── Live indicator ── */
+.live-dot {
+    width: 8px; height: 8px; background: #22c55e; border-radius: 50%;
+    display: inline-block; margin-right: 5px;
+    animation: livePulse 2s infinite;
+}
+@keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* ── Milestone timeline ── */
+.ms-timeline { position: relative; padding-left: 28px; }
+.ms-timeline::before { content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px; background: #E2E8F0; }
+.ms-item { position: relative; margin-bottom: 16px; }
+.ms-dot { position: absolute; left: -24px; top: 4px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid #E2E8F0; background: #fff; }
+.ms-dot.done     { background: #6366F1; border-color: #6366F1; }
+.ms-dot.progress { background: #fff; border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.2); }
+.ms-dot.blocked  { background: #ef4444; border-color: #ef4444; }
+
+/* ── Star picker ── */
+.rv-star-row { display: flex; gap: 6px; }
+.rv-star-btn {
+    background: none; border: none; cursor: pointer; padding: 2px;
+    font-size: 1.6rem; color: #E2E8F0;
+    transition: color 0.15s ease, transform 0.15s ease;
+    line-height: 1;
+}
+.rv-star-btn:hover,
+.rv-star-btn.active { color: #f59e0b; transform: scale(1.15); }</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<div class="pd-hero">
+    <div class="container" style="position:relative;z-index:1;">
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <a href="{% url 'client_dashboard' %}" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:5px;">
+                <i class="fas fa-arrow-left"></i> My Dashboard
+            </a>
+        </div>
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+            <div>
+                <h1 style="font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:#fff;margin:0 0 8px;">{{ project.title }}</h1>
+                <span class="status-badge s-{{ project.status }}">{{ project.get_status_display }}</span>
+                {% if project.plan %}
+                <span style="background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;margin-left:6px;">
+                    <i class="fas fa-tag me-1"></i>{{ project.plan.name }}
+                </span>
+                {% endif %}
+            </div>
+            <div style="text-align:right;">
+                <div id="liveProgress" style="color:#fff;font-size:2rem;font-weight:800;font-family:'Poppins',sans-serif;line-height:1;">{{ project.progress }}%</div>
+                <div style="color:rgba(255,255,255,0.7);font-size:.75rem;margin-top:2px;">
+                    <span class="live-dot"></span>Live Progress
+                </div>
+            </div>
+        </div>
+        <!-- Progress bar -->
+        <div class="progress-wrap mt-3">
+            <div class="progress-fill" id="progressBar" style="width:{{ project.progress }}%"></div>
+        </div>
+        <div class="d-flex gap-4 mt-2 flex-wrap" style="font-size:.78rem;color:rgba(255,255,255,0.65);">
+            {% if project.start_date %}<span><i class="fas fa-play me-1"></i>Started: {{ project.start_date|date:"d M Y" }}</span>{% endif %}
+            {% if project.deadline %}<span><i class="fas fa-flag me-1"></i>Deadline: {{ project.deadline|date:"d M Y" }}</span>{% endif %}
+            <span><i class="fas fa-bell me-1"></i>{{ updates.count }} update{{ updates.count|pluralize }}</span>
+            <span><i class="fas fa-paperclip me-1"></i>{{ files.count }} file{{ files.count|pluralize }}</span>
+        </div>
+    </div>
+</div>
+
+<section style="padding:32px 0 56px;">
+    <div class="container">
+        <div class="row g-4">
+
+            <!-- Left: Updates + Files + Milestones -->
+            <div class="col-lg-7">
+
+                <!-- Live Progress Card -->
+                <div class="pd-card" id="progressData" data-pk="{{ project.pk }}">
+                    <div class="pd-card-head">
+                        <span class="live-dot"></span> Live Project Progress
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span style="font-size:0.85rem;color:#64748B;">Overall Completion</span>
+                        <span id="progressPct" style="font-size:1.1rem;font-weight:800;color:#6366F1;">{{ project.progress }}%</span>
+                    </div>
+                    <div style="background:#E2E8F0;border-radius:8px;height:14px;overflow:hidden;">
+                        <div id="progressBarCard" style="height:100%;width:{{ project.progress }}%;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:8px;transition:width 1s ease;"></div>
+                    </div>
+                    <div class="d-flex gap-3 mt-3 flex-wrap">
+                        <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:10px 16px;flex:1;min-width:100px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:800;color:#6366F1;">{{ project.get_status_display }}</div>
+                            <div style="font-size:0.68rem;color:#94A3B8;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Status</div>
+                        </div>
+                        <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:10px 16px;flex:1;min-width:100px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:800;color:#6366F1;">{{ updates.count }}</div>
+                            <div style="font-size:0.68rem;color:#94A3B8;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Updates</div>
+                        </div>
+                        <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:10px 16px;flex:1;min-width:100px;text-align:center;">
+                            <div style="font-size:1.2rem;font-weight:800;color:#6366F1;">{{ files.count }}</div>
+                            <div style="font-size:0.68rem;color:#94A3B8;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;">Files</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestones -->
+                {% if project.milestones.all %}
+                <div class="pd-card">
+                    <div class="pd-card-head"><i class="fas fa-tasks"></i> Project Milestones</div>
+                    <div class="ms-timeline">
+                        {% for m in project.milestones.all %}
+                        <div class="ms-item">
+                            <div class="ms-dot {% if m.status == 'completed' %}done{% elif m.status == 'in_progress' %}progress{% elif m.status == 'blocked' %}blocked{% endif %}"></div>
+                            <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:12px 16px;">
+                                <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                    <div>
+                                        <div style="font-weight:700;color:#1E293B;font-size:0.875rem;">{{ m.title }}</div>
+                                        {% if m.description %}<div style="color:#64748B;font-size:0.78rem;margin-top:2px;">{{ m.description }}</div>{% endif %}
+                                    </div>
+                                    {% if m.status == 'pending' %}<span style="background:#FEF9C3;color:#854D0E;border:1px solid #FDE68A;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">Pending</span>
+                                    {% elif m.status == 'in_progress' %}<span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">In Progress</span>
+                                    {% elif m.status == 'completed' %}<span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">✓ Done</span>
+                                    {% elif m.status == 'blocked' %}<span style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;padding:2px 8px;border-radius:20px;font-size:0.65rem;font-weight:700;">Blocked</span>
+                                    {% endif %}
+                                </div>
+                                {% if m.due_date %}<div style="color:#94A3B8;font-size:0.7rem;margin-top:6px;"><i class="fas fa-calendar me-1"></i>Due: {{ m.due_date|date:"d M Y" }}</div>{% endif %}
+                                {% if m.completed_at %}<div style="color:#6366F1;font-size:0.7rem;margin-top:3px;"><i class="fas fa-check-circle me-1"></i>Completed: {{ m.completed_at|date:"d M Y" }}</div>{% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a href="{% url 'client_milestones' project.pk %}" style="display:inline-flex;align-items:center;gap:6px;color:#6366F1;font-size:0.8rem;font-weight:600;text-decoration:none;margin-top:8px;">
+                        <i class="fas fa-external-link-alt"></i> View Full Milestones
+                    </a>
+                </div>
+                {% endif %}
+
+                <!-- Updates -->
+                <div class="pd-card">
+                    <div class="pd-card-head"><i class="fas fa-bell"></i> Project Updates</div>
+                    {% if updates %}
+                        {% for u in updates %}
+                        <div class="update-item">
+                            <div style="color:#1E293B;font-size:.88rem;line-height:1.6;">{{ u.message }}</div>
+                            <div style="color:#94A3B8;font-size:.72rem;margin-top:4px;">
+                                <i class="fas fa-clock me-1"></i>{{ u.created_at|date:"d M Y, H:i" }}
+                                {% if u.created_by %} · {{ u.created_by.username }}{% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align:center;padding:24px;color:#94A3B8;">
+                            <i class="fas fa-bell-slash" style="font-size:1.5rem;display:block;margin-bottom:8px;color:#CBD5E1;"></i>
+                            No updates yet. Check back soon!
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Files -->
+                <div class="pd-card">
+                    <div class="pd-card-head"><i class="fas fa-paperclip"></i> Project Files</div>
+                    {% if files %}
+                        {% for f in files %}
+                        <a href="{{ f.file.url }}" target="_blank" class="file-item">
+                            <i class="fas fa-file" style="color:#6366F1;font-size:1rem;flex-shrink:0;"></i>
+                            <div style="flex:1;">
+                                <div style="color:#1E293B;font-size:.85rem;font-weight:600;">{{ f.name }}</div>
+                                <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
+                            </div>
+                            <i class="fas fa-download" style="color:#6366F1;font-size:.8rem;"></i>
+                        </a>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align:center;padding:24px;color:#94A3B8;">
+                            <i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:8px;color:#CBD5E1;"></i>
+                            No files uploaded yet.
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- ── Review Section ── -->
+                {% if can_review %}
+                <div class="pd-card" id="reviewSection">
+                    <div class="pd-card-head"><i class="fas fa-star"></i> Your Review</div>
+
+                    {% if existing_review %}
+                    <!-- Show existing review -->
+                    <div id="reviewDisplay">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+                            <div style="display:flex;gap:3px;" id="displayStars">
+                                {% for i in existing_review.star_range %}
+                                <i class="fas fa-star" style="font-size:1.2rem;color:{% if i <= existing_review.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
+                                {% endfor %}
+                            </div>
+                            <span style="font-size:0.85rem;font-weight:700;color:#1E293B;">{{ existing_review.rating }}/5</span>
+                            <span style="font-size:0.72rem;color:#94A3B8;margin-left:auto;">{{ existing_review.created_at|date:"d M Y" }}</span>
+                        </div>
+                        {% if existing_review.title %}
+                        <div style="font-weight:700;color:#1E293B;font-size:0.92rem;margin-bottom:6px;">{{ existing_review.title }}</div>
+                        {% endif %}
+                        <p style="color:#475569;font-size:0.88rem;line-height:1.7;margin:0 0 16px;">{{ existing_review.body }}</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <button onclick="document.getElementById('reviewForm').style.display='block';document.getElementById('reviewDisplay').style.display='none';"
+                                style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:7px 16px;border-radius:9px;font-size:0.78rem;font-weight:600;cursor:pointer;">
+                                <i class="fas fa-edit me-1"></i>Edit Review
+                            </button>
+                            <form method="post" action="{% url 'delete_review' project.pk %}" style="display:inline;" onsubmit="return confirm('Remove your review?')">
+                                {% csrf_token %}
+                                <button type="submit" style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;padding:7px 16px;border-radius:9px;font-size:0.78rem;font-weight:600;cursor:pointer;">
+                                    <i class="fas fa-trash me-1"></i>Remove
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Edit form (hidden by default) -->
+                    <div id="reviewForm" style="display:none;">
+                    {% else %}
+                    <!-- New review form -->
+                    <div id="reviewForm">
+                        <p style="color:#64748B;font-size:0.85rem;margin-bottom:18px;">
+                            <i class="fas fa-check-circle" style="color:#22c55e;margin-right:6px;"></i>
+                            Your project is complete! We'd love to hear your feedback.
+                        </p>
+                    {% endif %}
+
+                        <form method="post" action="{% url 'submit_review' project.pk %}" id="reviewFormEl">
+                            {% csrf_token %}
+
+                            <!-- Star picker -->
+                            <div style="margin-bottom:18px;">
+                                <label style="font-size:0.75rem;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:10px;">Your Rating *</label>
+                                <div class="rv-star-row" id="starPicker">
+                                    {% for i in "12345" %}
+                                    <button type="button" class="rv-star-btn" data-val="{{ forloop.counter }}" aria-label="{{ forloop.counter }} star">
+                                        <i class="fas fa-star"></i>
+                                    </button>
+                                    {% endfor %}
+                                </div>
+                                <input type="hidden" name="rating" id="ratingInput" value="{% if existing_review %}{{ existing_review.rating }}{% endif %}" required>
+                                <span id="ratingLabel" style="font-size:0.78rem;color:#94A3B8;margin-top:6px;display:block;">
+                                    {% if existing_review %}{{ existing_review.rating }} star{{ existing_review.rating|pluralize }} selected{% else %}Click to rate{% endif %}
+                                </span>
+                            </div>
+
+                            <!-- Title -->
+                            <div style="margin-bottom:14px;">
+                                <label style="font-size:0.75rem;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Review Title</label>
+                                <input type="text" name="review_title" class="chat-input"
+                                    placeholder="e.g. Excellent work, highly recommend!"
+                                    maxlength="120"
+                                    value="{% if existing_review %}{{ existing_review.title }}{% endif %}">
+                            </div>
+
+                            <!-- Body -->
+                            <div style="margin-bottom:18px;">
+                                <label style="font-size:0.75rem;font-weight:700;color:#64748B;text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:6px;">Your Review *</label>
+                                <textarea name="review_body" class="chat-input" rows="4"
+                                    placeholder="Share your experience working with Weblance…"
+                                    required style="resize:vertical;">{% if existing_review %}{{ existing_review.body }}{% endif %}</textarea>
+                            </div>
+
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                                <button type="submit" style="background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-weight:700;font-size:0.88rem;cursor:pointer;display:flex;align-items:center;gap:7px;">
+                                    <i class="fas fa-paper-plane"></i>
+                                    {% if existing_review %}Update Review{% else %}Submit Review{% endif %}
+                                </button>
+                                {% if existing_review %}
+                                <button type="button" onclick="document.getElementById('reviewForm').style.display='none';document.getElementById('reviewDisplay').style.display='block';"
+                                    style="background:#F1F5F9;color:#64748B;border:1px solid #E2E8F0;border-radius:10px;padding:10px 18px;font-weight:600;font-size:0.88rem;cursor:pointer;">
+                                    Cancel
+                                </button>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Right: Chat + Info -->
+            <div class="col-lg-5">
+
+                <!-- Chat -->
+                <div class="pd-card">
+                    <div class="pd-card-head">
+                        <i class="fas fa-comments"></i> Team Chat
+                        <a href="{% url 'chat_room' project.pk %}" style="margin-left:auto;font-size:0.7rem;color:#6366F1;text-decoration:none;font-weight:600;">
+                            Open Full Chat <i class="fas fa-external-link-alt ms-1"></i>
+                        </a>
+                    </div>
+                    <div style="max-height:320px;overflow-y:auto;margin-bottom:16px;padding-right:4px;" id="chatBox">
+                        {% if msgs %}
+                            {% for m in msgs %}
+                            <div style="display:flex;flex-direction:column;{% if m.sender == request.user %}align-items:flex-end;{% endif %}margin-bottom:10px;">
+                                <div class="msg-bubble {% if m.sender == request.user %}msg-mine{% else %}msg-other{% endif %}">
+                                    <div class="msg-sender" style="{% if m.sender == request.user %}color:rgba(255,255,255,0.8);{% else %}color:#6366F1;{% endif %}">
+                                        {% if m.sender == request.user %}You{% else %}Weblance Team{% endif %}
+                                    </div>
+                                    <div style="font-size:0.85rem;">{{ m.message }}</div>
+                                    <div class="msg-time">{{ m.created_at|date:"d M, H:i" }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div style="text-align:center;padding:24px;color:#94A3B8;">
+                                <i class="fas fa-comments" style="font-size:1.5rem;display:block;margin-bottom:8px;color:#CBD5E1;"></i>
+                                Start a conversation with the Weblance team
+                            </div>
+                        {% endif %}
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div style="display:flex;gap:8px;">
+                            <input type="text" name="message" class="chat-input" placeholder="Type your message…" autocomplete="off" required>
+                            <button type="submit" style="background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;flex-shrink:0;">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Project Info -->
+                <div class="pd-card">
+                    <div class="pd-card-head"><i class="fas fa-info-circle"></i> Project Info</div>
+                    <div style="display:flex;flex-direction:column;gap:10px;">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                            <span style="font-size:0.8rem;color:#64748B;">Status</span>
+                            <span class="status-badge s-{{ project.status }}" style="font-size:0.65rem;">{{ project.get_status_display }}</span>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                            <span style="font-size:0.8rem;color:#64748B;">Progress</span>
+                            <span style="font-size:0.9rem;font-weight:800;color:#6366F1;">{{ project.progress }}%</span>
+                        </div>
+                        {% if project.plan %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                            <span style="font-size:0.8rem;color:#64748B;">Plan</span>
+                            <span style="font-size:0.8rem;font-weight:600;color:#1E293B;">{{ project.plan.name }}</span>
+                        </div>
+                        {% endif %}
+                        {% if project.start_date %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                            <span style="font-size:0.8rem;color:#64748B;">Start Date</span>
+                            <span style="font-size:0.8rem;color:#1E293B;">{{ project.start_date|date:"d M Y" }}</span>
+                        </div>
+                        {% endif %}
+                        {% if project.deadline %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                            <span style="font-size:0.8rem;color:#64748B;">Deadline</span>
+                            <span style="font-size:0.8rem;color:#1E293B;">{{ project.deadline|date:"d M Y" }}</span>
+                        </div>
+                        {% endif %}
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;">
+                            <span style="font-size:0.8rem;color:#64748B;">Milestones</span>
+                            <span style="font-size:0.8rem;color:#1E293B;">{{ project.milestones.count }}</span>
+                        </div>
+                    </div>
+                    <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+                        <a href="{% url 'client_milestones' project.pk %}" style="flex:1;background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:8px 12px;border-radius:10px;font-size:0.78rem;font-weight:600;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;">
+                            <i class="fas fa-tasks"></i> Milestones
+                        </a>
+                        <a href="{% url 'client_timelog' project.pk %}" style="flex:1;background:#F0FDF4;color:#10b981;border:1px solid #A7F3D0;padding:8px 12px;border-radius:10px;font-size:0.78rem;font-weight:600;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;">
+                            <i class="fas fa-clock"></i> Work Log
+                        </a>
+                        <a href="{% url 'chat_room' project.pk %}" style="flex:1;background:#6366F1;color:#fff;padding:8px 12px;border-radius:10px;font-size:0.78rem;font-weight:600;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px;">
+                            <i class="fas fa-comment-dots"></i> Full Chat
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-scroll chat to bottom
+const chatBox = document.getElementById('chatBox');
+if (chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+
+// ── Star picker ──────────────────────────────────────────────────
+(function () {
+    const picker      = document.getElementById('starPicker');
+    const ratingInput = document.getElementById('ratingInput');
+    const ratingLabel = document.getElementById('ratingLabel');
+    if (!picker) return;
+
+    const labels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+    const btns   = picker.querySelectorAll('.rv-star-btn');
+
+    function setStars(val) {
+        btns.forEach(b => {
+            const v = parseInt(b.dataset.val);
+            b.classList.toggle('active', v <= val);
+        });
+        ratingInput.value = val;
+        ratingLabel.textContent = val ? `${val} star${val > 1 ? 's' : ''} — ${labels[val]}` : 'Click to rate';
+    }
+
+    // Init from existing value
+    const initVal = parseInt(ratingInput.value) || 0;
+    if (initVal) setStars(initVal);
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', () => setStars(parseInt(btn.dataset.val)));
+        btn.addEventListener('mouseenter', () => {
+            const v = parseInt(btn.dataset.val);
+            btns.forEach(b => b.classList.toggle('active', parseInt(b.dataset.val) <= v));
+        });
+    });
+    picker.addEventListener('mouseleave', () => {
+        const cur = parseInt(ratingInput.value) || 0;
+        setStars(cur);
+    });
+
+    // Validate before submit
+    const form = document.getElementById('reviewFormEl');
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            if (!ratingInput.value) {
+                e.preventDefault();
+                ratingLabel.textContent = '⚠ Please select a rating';
+                ratingLabel.style.color = '#DC2626';
+            }
+        });
+    }
+})();
+
+// ── Live progress polling every 15 seconds ──
+// Read project PK from data attribute (avoids Django-in-JS linter errors)
+const progressEl = document.getElementById('progressData');
+const PROJECT_PK = progressEl ? progressEl.dataset.pk : null;
+const POLL_URL   = PROJECT_PK ? '/features/progress-poll/' + PROJECT_PK + '/' : null;
+
+async function pollProgress() {
+    if (!POLL_URL) return;
+    try {
+        const res  = await fetch(POLL_URL);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data.progress !== undefined) {
+            const pct = data.progress;
+            // Update hero
+            const heroEl = document.getElementById('liveProgress');
+            if (heroEl) heroEl.textContent = pct + '%';
+            const heroBar = document.getElementById('progressBar');
+            if (heroBar) heroBar.style.width = pct + '%';
+            // Update card
+            const cardPct = document.getElementById('progressPct');
+            if (cardPct) cardPct.textContent = pct + '%';
+            const cardBar = document.getElementById('progressBarCard');
+            if (cardBar) cardBar.style.width = pct + '%';
+        }
+    } catch(e) {}
+}
+
+// Poll every 15 seconds
+if (POLL_URL) setInterval(pollProgress, 15000);
+</script>
+{% endblock %}

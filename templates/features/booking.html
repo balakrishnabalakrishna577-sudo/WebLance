@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Book a Consultation — Weblance{% endblock %}
+
+{% block extra_css %}
+<style>
+body { background: #F1F5F9; }
+.book-hero {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 60%, #818CF8 100%);
+    padding: 64px 0 48px;
+    position: relative;
+    overflow: hidden;
+}
+.book-hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 50%;
+}
+.book-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -40px;
+    width: 240px; height: 240px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+.book-section { padding: 48px 0 72px; }
+.slot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; margin-bottom: 32px; }
+.slot-card {
+    background: #fff;
+    border: 2px solid #E2E8F0;
+    border-radius: 14px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    position: relative;
+}
+.slot-card:hover { border-color: #6366F1; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(99,102,241,0.12); }
+.slot-card.selected { border-color: #6366F1; background: #EEF2FF; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+.slot-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.slot-date { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; margin-bottom: 4px; }
+.slot-time { font-size: 1rem; font-weight: 800; color: #1E293B; font-family: 'Poppins', sans-serif; }
+.slot-dur { font-size: 0.72rem; color: #94A3B8; margin-top: 2px; }
+.slot-card.selected .slot-date { color: #6366F1; }
+.slot-card.selected .slot-time { color: #4F46E5; }
+.book-form-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.06);
+}
+.book-label { font-size: 0.75rem; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; display: block; }
+.book-input {
+    display: block; width: 100%;
+    background: #F8FAFF; border: 1px solid #E2E8F0; border-radius: 10px;
+    color: #1E293B; font-size: 0.875rem; padding: 11px 14px;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.book-input:focus { border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); background: #fff; }
+.book-input::placeholder { color: #94A3B8; }
+.book-submit {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 14px 36px; font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; width: 100%; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.book-submit:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(99,102,241,0.3); }
+.info-card {
+    background: #fff; border: 1px solid #E2E8F0; border-radius: 16px;
+    padding: 24px; margin-bottom: 20px;
+}
+.info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 18px; }
+.info-item:last-child { margin-bottom: 0; }
+.info-icon { width: 40px; height: 40px; background: #EEF2FF; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #6366F1; font-size: 0.9rem; flex-shrink: 0; }
+.info-text-title { font-weight: 700; color: #1E293B; font-size: 0.875rem; margin-bottom: 2px; }
+.info-text-sub { font-size: 0.78rem; color: #64748B; }
+.no-slots { text-align: center; padding: 40px; background: #fff; border: 1px dashed #C7D2FE; border-radius: 16px; color: #94A3B8; }
+.no-slots i { font-size: 2rem; margin-bottom: 12px; color: #CBD5E1; display: block; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<div class="book-hero">
+    <div class="container" style="position:relative;z-index:1;">
+        <div style="max-width:600px;">
+            <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:50px;padding:6px 16px;margin-bottom:20px;">
+                <i class="fas fa-calendar-check" style="color:#fff;font-size:0.8rem;"></i>
+                <span style="color:#fff;font-size:0.78rem;font-weight:600;">Free Consultation</span>
+            </div>
+            <h1 style="font-family:'Poppins',sans-serif;font-size:2.2rem;font-weight:900;color:#fff;margin:0 0 12px;line-height:1.2;">
+                Book a Consultation Call
+            </h1>
+            <p style="color:rgba(255,255,255,0.8);font-size:1rem;margin:0;line-height:1.6;">
+                Schedule a free 30-minute call with our team. We'll discuss your project, answer questions, and provide a custom quote.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Main -->
+<section class="book-section">
+<div class="container">
+    {% if messages %}
+    {% for message in messages %}
+    <div style="background:{% if 'confirmed' in message.message|lower %}#F0FDF4{% else %}#FEF2F2{% endif %};border:1px solid {% if 'confirmed' in message.message|lower %}#BBF7D0{% else %}#FECACA{% endif %};border-radius:12px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:10px;font-size:0.875rem;color:{% if 'confirmed' in message.message|lower %}#15803D{% else %}#DC2626{% endif %};">
+        <i class="fas fa-{% if 'confirmed' in message.message|lower %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+    <div class="row g-4">
+        <!-- Left: Booking form -->
+        <div class="col-lg-8">
+            {% if slots %}
+            <form method="post" id="bookingForm">
+                {% csrf_token %}
+
+                <!-- Step 1: Pick a slot -->
+                <div class="book-form-card mb-4">
+                    <h5 style="font-family:'Poppins',sans-serif;font-weight:800;color:#1E293B;margin-bottom:6px;">
+                        <span style="background:#EEF2FF;color:#6366F1;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;margin-right:8px;">1</span>
+                        Choose a Time Slot
+                    </h5>
+                    <p style="color:#64748B;font-size:0.85rem;margin-bottom:20px;">Select an available slot that works for you.</p>
+
+                    <div class="slot-grid">
+                        {% for slot in slots %}
+                        <label class="slot-card" id="slotLabel{{ slot.pk }}" data-slot-id="{{ slot.pk }}">
+                            <input type="radio" name="slot" value="{{ slot.pk }}" required onchange="selectSlot(this.closest('[data-slot-id]').dataset.slotId)">
+                            <div class="slot-date">{{ slot.date|date:"D, d M Y" }}</div>
+                            <div class="slot-time">{{ slot.start_time|time:"g:i A" }}</div>
+                            <div class="slot-dur">{{ slot.start_time|time:"g:i A" }} – {{ slot.end_time|time:"g:i A" }}</div>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Step 2: Your details -->
+                <div class="book-form-card">
+                    <h5 style="font-family:'Poppins',sans-serif;font-weight:800;color:#1E293B;margin-bottom:6px;">
+                        <span style="background:#EEF2FF;color:#6366F1;border-radius:50%;width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;font-size:0.8rem;margin-right:8px;">2</span>
+                        Your Details
+                    </h5>
+                    <p style="color:#64748B;font-size:0.85rem;margin-bottom:24px;">We'll send a confirmation and meeting link to your email.</p>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="book-label">Full Name *</label>
+                            <input type="text" name="name" class="book-input" placeholder="Your full name" value="{{ user_name }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="book-label">Email Address *</label>
+                            <input type="email" name="email" class="book-input" placeholder="your@email.com" value="{{ user_email }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="book-label">Phone Number</label>
+                            <input type="text" name="phone" class="book-input" placeholder="+91 XXXXX XXXXX" value="{{ user_phone }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="book-label">Service Interested In</label>
+                            <select name="service" class="book-input">
+                                <option value="">— Select Service —</option>
+                                <option>Custom Website Development</option>
+                                <option>E-Commerce Store</option>
+                                <option>Landing Page</option>
+                                <option>Web Application</option>
+                                <option>UI/UX Design</option>
+                                <option>SEO & Digital Marketing</option>
+                                <option>General Consultation</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="book-label">Message (optional)</label>
+                            <textarea name="message" class="book-input" rows="3" placeholder="Tell us briefly about your project or questions…"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="book-submit">
+                                <i class="fas fa-calendar-check"></i> Confirm Booking
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            {% else %}
+            <div class="no-slots">
+                <i class="fas fa-calendar-times"></i>
+                <h5 style="color:#1E293B;font-weight:700;margin-bottom:8px;">No Available Slots</h5>
+                <p style="font-size:0.875rem;margin-bottom:20px;">There are no consultation slots available right now. Please check back soon or contact us directly.</p>
+                <a href="{% url 'contact' %}" style="background:#6366F1;color:#fff;padding:10px 24px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:7px;">
+                    <i class="fas fa-envelope"></i> Contact Us
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Right: Info -->
+        <div class="col-lg-4">
+            <div class="info-card">
+                <h6 style="font-family:'Poppins',sans-serif;font-weight:800;color:#1E293B;margin-bottom:20px;">What to Expect</h6>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="info-text-title">30-Minute Call</div>
+                        <div class="info-text-sub">A focused session to understand your needs and goals.</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-video"></i></div>
+                    <div>
+                        <div class="info-text-title">Google Meet / Zoom</div>
+                        <div class="info-text-sub">We'll send you a meeting link before the call.</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                    <div>
+                        <div class="info-text-title">Free Custom Quote</div>
+                        <div class="info-text-sub">Get a detailed proposal tailored to your project.</div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <div class="info-text-title">No Obligation</div>
+                        <div class="info-text-sub">Completely free with no commitment required.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h6 style="font-family:'Poppins',sans-serif;font-weight:800;color:#1E293B;margin-bottom:16px;">Contact Directly</h6>
+                <a href="https://wa.me/917892934437" target="_blank" style="display:flex;align-items:center;gap:12px;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:12px;text-decoration:none;margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='#DCFCE7'" onmouseout="this.style.background='#F0FDF4'">
+                    <i class="fab fa-whatsapp" style="color:#25D366;font-size:1.2rem;"></i>
+                    <div>
+                        <div style="font-weight:700;color:#1E293B;font-size:0.85rem;">WhatsApp</div>
+                        <div style="color:#64748B;font-size:0.75rem;">+91 7892934437</div>
+                    </div>
+                </a>
+                <a href="mailto:infoweblance01@gmail.com" style="display:flex;align-items:center;gap:12px;padding:12px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:12px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#E0E7FF'" onmouseout="this.style.background='#EEF2FF'">
+                    <i class="fas fa-envelope" style="color:#6366F1;font-size:1.1rem;"></i>
+                    <div>
+                        <div style="font-weight:700;color:#1E293B;font-size:0.85rem;">Email</div>
+                        <div style="color:#64748B;font-size:0.75rem;">infoweblance01@gmail.com</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function selectSlot(id) {
+    document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('selected'));
+    const lbl = document.getElementById('slotLabel' + id);
+    if (lbl) lbl.classList.add('selected');
+}
+</script>
+{% endblock %}

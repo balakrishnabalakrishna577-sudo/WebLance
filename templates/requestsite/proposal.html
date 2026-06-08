@@ -1,0 +1,474 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Your Website Proposal — Weblance{% endblock %}
+
+{% block extra_css %}
+<style>
+/* ── Page ── */
+body { background: #F1F5F9; }
+.prop-hero { background:linear-gradient(135deg,#6366F1 0%,#818CF8 50%,#A5B4FC 100%);border-bottom:none;padding:48px 0 36px;position:relative;overflow:hidden; }
+.prop-hero::before { content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:rgba(255,255,255,0.08);border-radius:50%; }
+.prop-badge { display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:5px 14px;font-size:.75rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.6px;margin-bottom:16px; }
+.prop-section { padding:48px 0 64px;background:#F1F5F9; }
+
+/* ── Info cards ── */
+.info-card { background:#fff;border:1px solid #E2E8F0;border-radius:14px;padding:22px;height:100%;box-shadow:0 2px 8px rgba(99,102,241,0.05); }
+.info-card-head { font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#6366F1;margin-bottom:12px;display:flex;align-items:center;gap:6px; }
+.feat-chip { display:inline-flex;align-items:center;gap:5px;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:20px;padding:4px 12px;font-size:.75rem;color:#4338CA;margin:3px; }
+
+/* ── Template cards ── */
+.tpl-card { background:#fff;border:2px solid #E2E8F0;border-radius:18px;overflow:hidden;transition:all .3s;cursor:pointer;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.04); }
+.tpl-card:hover { transform:translateY(-6px);box-shadow:0 20px 48px rgba(99,102,241,0.15); }
+.tpl-card.recommended { border-color:rgba(99,102,241,.5); }
+.tpl-card.selected { border-color:#6366F1;box-shadow:0 0 0 3px rgba(99,102,241,.15); }
+.rec-badge { position:absolute;top:14px;right:14px;background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;padding:4px 10px;border-radius:20px;z-index:2; }
+
+/* ── Browser mockup ── */
+.browser-wrap { background:#F1F5F9;border-radius:10px 10px 0 0;overflow:hidden;border:1px solid #E2E8F0;border-bottom:none; }
+.browser-bar { background:#E2E8F0;padding:8px 12px;display:flex;align-items:center;gap:6px;border-bottom:1px solid #CBD5E1; }
+.browser-dot { width:10px;height:10px;border-radius:50%; }
+.browser-url { flex:1;background:#fff;border-radius:4px;padding:3px 10px;font-size:.65rem;color:#94A3B8;margin:0 8px; }
+.browser-body { padding:0;min-height:260px;position:relative;overflow:hidden; }
+
+/* ── Mini website preview ── */
+.mini-nav { display:flex;align-items:center;justify-content:space-between;padding:8px 14px;font-size:.6rem; }
+.mini-nav-links { display:flex;gap:8px; }
+.mini-nav-link { font-size:.55rem;opacity:.8; }
+.mini-hero { padding:20px 14px 16px;text-align:center; }
+.mini-hero-title { font-size:.85rem;font-weight:800;line-height:1.2;margin-bottom:4px;font-family:'Poppins',sans-serif; }
+.mini-hero-sub { font-size:.55rem;opacity:.75;margin-bottom:10px; }
+.mini-btn { display:inline-block;padding:5px 14px;border-radius:20px;font-size:.6rem;font-weight:700;cursor:default; }
+.mini-sections { padding:0 14px 14px;display:flex;flex-direction:column;gap:8px; }
+.mini-section-block { border-radius:6px;padding:8px 10px; }
+.mini-section-label { font-size:.55rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px; }
+.mini-section-bars { display:flex;flex-direction:column;gap:3px; }
+.mini-bar { height:4px;border-radius:2px; }
+.mini-cards-row { display:flex;gap:5px;margin-top:4px; }
+.mini-card-block { flex:1;border-radius:4px;height:28px; }
+.mini-footer { padding:8px 14px;text-align:center;font-size:.5rem;border-top:1px solid rgba(128,128,128,.15); }
+
+/* ── Color swatches ── */
+.swatch-row { display:flex;gap:6px;margin:10px 0; }
+.swatch { width:24px;height:24px;border-radius:6px;border:1px solid #E2E8F0;flex-shrink:0;position:relative; }
+.swatch:hover::after { content:attr(data-color);position:absolute;bottom:28px;left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;font-size:.6rem;padding:2px 6px;border-radius:4px;white-space:nowrap;z-index:10; }
+
+/* ── Sections list ── */
+.section-list { list-style:none;padding:0;margin:0; }
+.section-list li { display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #F1F5F9;font-size:.8rem; }
+.section-list li:last-child { border-bottom:none; }
+.section-icon { width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:.6rem;background:#EEF2FF; }
+
+/* ── Dummy content box ── */
+.dummy-box { background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;padding:14px;margin-top:12px; }
+.dummy-row { display:flex;gap:8px;align-items:flex-start;padding:4px 0;font-size:.78rem; }
+.dummy-label { color:#94A3B8;min-width:90px;font-size:.72rem; }
+.dummy-val { color:#1E293B; }
+
+/* ── Select button ── */
+.btn-select { width:100%;padding:10px;border-radius:10px;font-size:.82rem;font-weight:700;border:2px solid rgba(99,102,241,.3);background:transparent;color:#6366F1;cursor:pointer;transition:all .2s;margin-top:14px; }
+.btn-select:hover,.tpl-card.selected .btn-select { background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;border-color:transparent; }
+
+/* ── Best pick banner ── */
+.best-banner { background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;border-radius:14px;padding:20px 24px;margin-bottom:40px;display:flex;align-items:flex-start;gap:16px; }
+.best-icon { width:44px;height:44px;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;box-shadow:0 2px 8px rgba(99,102,241,0.15); }
+
+/* ── CTA section ── */
+.cta-card { background:#fff;border:1px solid #E2E8F0;border-radius:18px;padding:40px;text-align:center;box-shadow:0 4px 20px rgba(99,102,241,0.08); }
+.action-btn { display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:12px;font-size:.88rem;font-weight:700;text-decoration:none;transition:all .2s;cursor:pointer;border:none; }
+.action-btn-primary { background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff; }
+.action-btn-primary:hover { transform:translateY(-2px);box-shadow:0 8px 24px rgba(79,70,229,.3);color:#fff; }
+.action-btn-outline { background:transparent;border:2px solid rgba(99,102,241,.3);color:#6366F1; }
+.action-btn-outline:hover { background:rgba(99,102,241,.08);color:#6366F1; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ── -->
+<div class="prop-hero">
+  <div class="container">
+    <div class="prop-badge"><i class="fas fa-magic"></i> Auto-Generated Proposal</div>
+    <h1 style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;margin:0 0 8px;">
+      Your Website <span style="color:#E0E7FF;">Proposal</span>
+    </h1>
+    <p style="color:rgba(255,255,255,0.8);font-size:.92rem;margin:0 0 20px;">
+      Based on your <strong style="color:#fff;">{{ proposal.website_type }}</strong> request for
+      <strong style="color:#fff;">{{ req.business_name }}</strong> — here are 3 design concepts crafted for you.
+    </p>
+
+    {% if req.selected_template %}
+    <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 18px;margin-bottom:16px;">
+      <i class="fas fa-check-circle" style="color:#fff;font-size:1rem;"></i>
+      <span style="color:#fff;font-weight:700;font-size:.88rem;">Template confirmed: {{ req.selected_template }}</span>
+      <span style="color:rgba(255,255,255,0.7);font-size:.78rem;">· Email sent ✓</span>
+    </div>
+    {% endif %}
+    <!-- Summary chips -->
+    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+      <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 12px;font-size:.75rem;color:#fff;">
+        <i class="fas fa-globe me-1"></i>{{ proposal.website_type }}
+      </span>
+      <span style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:4px 12px;font-size:.75rem;color:#fff;">
+        <i class="fas fa-users me-1"></i>{{ req.get_budget_display }}
+      </span>
+      {% if req.selected_plan %}
+      <span style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:4px 12px;font-size:.75rem;color:#fff;font-weight:700;">
+        <i class="fas fa-tag me-1"></i>{{ req.selected_plan }} Plan
+      </span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<section class="prop-section">
+  <div class="container">
+
+    <!-- ── Overview row ── -->
+    <div class="row g-4 mb-5">
+      <div class="col-md-4">
+        <div class="info-card">
+          <div class="info-card-head"><i class="fas fa-bullseye"></i> Target Audience</div>
+          <p style="color:#64748B;font-size:.84rem;line-height:1.7;margin:0;">{{ proposal.target_audience }}</p>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="info-card">
+          <div class="info-card-head"><i class="fas fa-star"></i> Key Features</div>
+          <div>
+            {% for f in proposal.key_features %}
+            <span class="feat-chip"><i class="fas fa-check" style="color:#6366F1;font-size:.6rem;"></i>{{ f }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Best pick banner ── -->
+    {% if best_reason %}
+    <div class="best-banner">
+      <div class="best-icon">⭐</div>
+      <div>
+        <div style="color:#4338CA;font-weight:700;font-size:.88rem;margin-bottom:4px;">Our Recommended Template</div>
+        <div style="color:#64748B;font-size:.83rem;line-height:1.6;">{{ best_reason }}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- ── Template cards ── -->
+    <h2 style="font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:800;color:#1E293B;margin-bottom:24px;">
+      <i class="fas fa-palette" style="color:#6366F1;" class="me-2"></i> 3 Design Concepts for Your Website
+    </h2>
+
+    <div class="row g-4" id="templateGrid">
+      {% for tpl in templates %}
+      <div class="col-lg-4">
+        <div class="tpl-card {% if tpl.recommended %}recommended{% endif %}" id="tpl-{{ tpl.id }}" data-tpl-id="{{ tpl.id }}"
+             data-name="{{ tpl.name|escapejs }}" data-style="{{ tpl.style|escapejs }}"
+             data-colors="Primary: {{ tpl.colors.primary }} / Accent: {{ tpl.colors.accent }}">
+
+          {% if tpl.recommended %}
+          <div class="rec-badge"><i class="fas fa-star me-1"></i>Best Pick</div>
+          {% endif %}
+
+          <!-- ── Browser mockup preview ── -->
+          <div class="browser-wrap">
+            <div class="browser-bar">
+              <div class="browser-dot" style="background:#ff5f57;"></div>
+              <div class="browser-dot" style="background:#febc2e;"></div>
+              <div class="browser-dot" style="background:#28c840;"></div>
+              <div class="browser-url">www.{{ tpl.dummy.site_name|lower|cut:" " }}.com</div>
+            </div>
+            <div class="browser-body" style="background:{{ tpl.colors.bg }};">
+
+              <!-- Mini nav -->
+              <div class="mini-nav" style="background:{{ tpl.colors.secondary }};border-bottom:1px solid rgba(128,128,128,.15);">
+                <span style="font-size:.65rem;font-weight:800;color:{{ tpl.colors.primary }};font-family:'Poppins',sans-serif;">{{ tpl.dummy.site_name }}</span>
+                <div class="mini-nav-links">
+                  <span class="mini-nav-link" style="color:{{ tpl.colors.text }};">Home</span>
+                  <span class="mini-nav-link" style="color:{{ tpl.colors.text }};">About</span>
+                  <span class="mini-nav-link" style="color:{{ tpl.colors.text }};">Services</span>
+                  <span class="mini-nav-link" style="color:{{ tpl.colors.text }};">Contact</span>
+                </div>
+              </div>
+
+              <!-- Mini hero -->
+              <div class="mini-hero" style="background:{{ tpl.colors.bg }};padding:18px 14px 14px;">
+                <div class="mini-hero-title" style="color:{{ tpl.colors.text }};">{{ tpl.dummy.headline }}</div>
+                <div class="mini-hero-sub" style="color:{{ tpl.colors.text }};">{{ tpl.dummy.subheadline }}</div>
+                <span class="mini-btn" style="background:{{ tpl.colors.primary }};color:{% if tpl.colors.primary == '#ffffff' %}#000{% else %}#fff{% endif %};">{{ tpl.dummy.cta }}</span>
+              </div>
+
+              <!-- Mini sections -->
+              <div class="mini-sections" style="background:{{ tpl.colors.bg }};">
+                <!-- Services row -->
+                <div class="mini-section-block" style="background:rgba(128,128,128,.06);">
+                  <div class="mini-section-label" style="color:{{ tpl.colors.text }};">Services</div>
+                  <div class="mini-cards-row">
+                    <div class="mini-card-block" style="background:{{ tpl.colors.primary }};"></div>
+                    <div class="mini-card-block" style="background:{{ tpl.colors.primary }};"></div>
+                    <div class="mini-card-block" style="background:{{ tpl.colors.primary }};"></div>
+                  </div>
+                </div>
+                <!-- About row -->
+                <div class="mini-section-block">
+                  <div class="mini-section-label" style="color:{{ tpl.colors.text }};">About</div>
+                  <div class="mini-section-bars">
+                    <div class="mini-bar" style="background:{{ tpl.colors.text }};width:90%;"></div>
+                    <div class="mini-bar" style="background:{{ tpl.colors.text }};width:70%;"></div>
+                    <div class="mini-bar" style="background:{{ tpl.colors.accent }};width:40%;"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mini footer -->
+              <div class="mini-footer" style="background:{{ tpl.colors.secondary }};color:{{ tpl.colors.text }};">
+                © {{ tpl.dummy.site_name }} · All rights reserved
+              </div>
+
+            </div>
+          </div>
+          <!-- End browser mockup -->
+
+          <!-- ── Card info ── -->
+          <div style="padding:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div>
+                <div style="color:#1E293B;font-weight:800;font-size:.95rem;font-family:'Poppins',sans-serif;">{{ tpl.name }}</div>
+                <div style="color:#64748B;font-size:.72rem;margin-top:2px;">{{ tpl.style }}</div>
+              </div>
+              <div class="swatch-row" style="margin:0;">
+                <div class="swatch" style="background:{{ tpl.colors.primary }};" data-color="{{ tpl.colors.primary }}" title="{{ tpl.colors.primary }}"></div>
+                <div class="swatch" style="background:{{ tpl.colors.secondary }};" data-color="{{ tpl.colors.secondary }}" title="{{ tpl.colors.secondary }}"></div>
+                <div class="swatch" style="background:{{ tpl.colors.accent }};" data-color="{{ tpl.colors.accent }}" title="{{ tpl.colors.accent }}"></div>
+              </div>
+            </div>
+
+            <!-- Visual description -->
+            <p style="color:#64748B;font-size:.78rem;line-height:1.6;margin-bottom:12px;">{{ tpl.visual }}</p>
+
+            <!-- Sections list -->
+            <div style="font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94A3B8;margin-bottom:8px;">Page Sections</div>
+            <ul class="section-list">
+              {% for sec in tpl.sections %}
+              <li>
+                <div class="section-icon" style="background:#EEF2FF;">
+                  <i class="fas fa-{% if sec.name == 'Header' %}bars{% elif sec.name == 'Hero' %}image{% elif sec.name == 'About' %}info-circle{% elif sec.name == 'Services' or sec.name == 'Features' %}cogs{% elif sec.name == 'Testimonials' %}quote-right{% elif sec.name == 'Contact' %}envelope{% elif sec.name == 'Footer' %}grip-lines{% else %}layer-group{% endif %}" style="color:#6366F1;font-size:.55rem;"></i>
+                </div>
+                <div>
+                  <div style="color:#1E293B;font-weight:600;font-size:.75rem;">{{ sec.name }}</div>
+                  <div style="color:#94A3B8;font-size:.7rem;line-height:1.4;">{{ sec.desc }}</div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+
+            <!-- Dummy content preview -->
+            <div class="dummy-box">
+              <div style="font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#94A3B8;margin-bottom:6px;">Sample Content</div>
+              <div class="dummy-row"><span class="dummy-label">Site Name</span><span class="dummy-val">{{ tpl.dummy.site_name }}</span></div>
+              <div class="dummy-row"><span class="dummy-label">Headline</span><span class="dummy-val" style="color:#1E293B;font-weight:600;">{{ tpl.dummy.headline }}</span></div>
+              <div class="dummy-row"><span class="dummy-label">Subheadline</span><span class="dummy-val">{{ tpl.dummy.subheadline }}</span></div>
+              <div class="dummy-row"><span class="dummy-label">CTA Button</span><span class="dummy-val" style="color:#6366F1;font-weight:700;">{{ tpl.dummy.cta }}</span></div>
+              <div class="dummy-row"><span class="dummy-label">Image Idea</span><span class="dummy-val" style="font-style:italic;color:#64748B;">{{ tpl.dummy.image_idea }}</span></div>
+            </div>
+
+            <form method="post" action="{% url 'select_template' req.pk %}" class="tpl-select-form">
+              {% csrf_token %}
+              <input type="hidden" name="template_name"  value="{{ tpl.name }}">
+              <input type="hidden" name="template_style" value="{{ tpl.style }}">
+              <button type="submit" class="btn-select" data-tpl-id="{{ tpl.id }}">
+                <i class="fas fa-check-circle me-2"></i>Select This Template
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- ── CTA section ── -->
+    <div class="cta-card mt-5">
+      <div style="width:56px;height:56px;background:#EEF2FF;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;">🚀</div>
+      <h3 style="font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:800;color:#1E293B;margin-bottom:8px;">Ready to Build Your Website?</h3>
+      <p style="color:#64748B;font-size:.88rem;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto;">
+        Our team has received your request and will contact you within <strong style="color:#6366F1;">24 hours</strong> to discuss your chosen design and get started.
+      </p>
+      <div id="selectedInfo" style="display:none;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:10px;padding:12px 20px;margin-bottom:20px;font-size:.84rem;color:#4338CA;font-weight:600;">
+        <i class="fas fa-check-circle me-2"></i><span id="selectedText"></span>
+      </div>
+      {% if req.selected_template %}
+      <div style="background:#EEF2FF;border:1px solid #C7D2FE;border-radius:10px;padding:12px 20px;margin-bottom:20px;font-size:.84rem;color:#4338CA;font-weight:600;">
+        <i class="fas fa-check-circle me-2"></i>Confirmed: <strong>{{ req.selected_template }}</strong> — Email sent to {{ req.email }}
+      </div>
+      {% endif %}
+      <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+        <a href="https://wa.me/917892934437?text=Hi%20Weblance!%20I%20just%20submitted%20a%20website%20request%20for%20{{ req.business_name|urlencode }}%20and%20I%27d%20like%20to%20discuss%20the%20proposal."
+           class="action-btn action-btn-primary" target="_blank">
+          <i class="fab fa-whatsapp"></i> Discuss on WhatsApp
+        </a>
+        <a href="{% url 'contact' %}" class="action-btn action-btn-outline">
+          <i class="fas fa-envelope"></i> Send a Message
+        </a>
+        <a href="{% url 'request_website' %}" class="action-btn action-btn-outline">
+          <i class="fas fa-redo"></i> New Request
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{# ── Data island: Django values read by JS without mixing template tags into script ── #}
+<div id="proposalData"
+     data-best-id="{{ best_id }}"
+     {% for tpl in templates %}data-tpl-{{ tpl.id }}="{{ tpl.name|escapejs }} ({{ tpl.style|escapejs }})"{% endfor %}
+     style="display:none;"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  var el = document.getElementById('proposalData');
+  var bestId = parseInt(el.getAttribute('data-best-id'), 10) || 1;
+
+  // Build name map from data attributes
+  var names = {};
+  Array.from(el.attributes).forEach(function (attr) {
+    var m = attr.name.match(/^data-tpl-(\d+)$/);
+    if (m) names[parseInt(m[1], 10)] = attr.value;
+  });
+
+  function selectTemplate(id) {
+    document.querySelectorAll('.tpl-card').forEach(function (c) { c.classList.remove('selected'); });
+    var card = document.getElementById('tpl-' + id);
+    if (card) card.classList.add('selected');
+
+    document.querySelectorAll('.btn-select').forEach(function (b) {
+      b.innerHTML = '<i class="fas fa-check-circle me-2"></i>Select This Template';
+    });
+    var btn = card ? card.querySelector('.btn-select') : null;
+    if (btn) btn.innerHTML = '<i class="fas fa-check-circle me-2"></i>&#10003; Selected';
+
+    var label = names[id] || ('Template ' + id);
+    document.getElementById('selectedText').textContent = 'You selected: ' + label;
+    document.getElementById('selectedInfo').style.display = 'block';
+    document.querySelector('.cta-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  window.selectTemplate = selectTemplate;
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var grid = document.getElementById('templateGrid');
+
+    // ── Fix contrast for light-bg templates ──────────────────────
+    // For each browser-body, check if bg is light and adjust text colors
+    document.querySelectorAll('.browser-body').forEach(function (body) {
+      var bg = body.style.backgroundColor || body.style.background || '';
+      var isLight = isLightColor(bg);
+      if (isLight) {
+        // Force dark text on all mini text elements inside this body
+        body.querySelectorAll('.mini-hero-title,.mini-hero-sub,.mini-section-label,.mini-nav-link,.mini-footer').forEach(function (el) {
+          var cur = el.style.color || '';
+          if (!cur || isLightColor(cur)) {
+            el.style.color = '#1a1a1a';
+          }
+        });
+        // Fix mini-bar visibility on light bg
+        body.querySelectorAll('.mini-bar').forEach(function (el) {
+          var cur = el.style.background || el.style.backgroundColor || '';
+          if (!cur || isLightColor(cur)) {
+            el.style.background = 'rgba(0,0,0,0.25)';
+          } else {
+            el.style.opacity = '0.7';
+          }
+        });
+        // Fix mini-card-block visibility
+        body.querySelectorAll('.mini-card-block').forEach(function (el) {
+          el.style.opacity = '0.6';
+        });
+      } else {
+        // Dark bg — ensure bars/blocks are visible
+        body.querySelectorAll('.mini-bar').forEach(function (el) {
+          el.style.opacity = '0.5';
+        });
+        body.querySelectorAll('.mini-card-block').forEach(function (el) {
+          el.style.opacity = '0.4';
+        });
+      }
+
+      // Fix CTA button text contrast
+      body.querySelectorAll('.mini-btn').forEach(function (btn) {
+        var btnBg = btn.style.backgroundColor || btn.style.background || '';
+        btn.style.color = isLightColor(btnBg) ? '#000' : '#fff';
+      });
+    });
+
+    // Fix nav brand color visibility
+    document.querySelectorAll('.mini-nav').forEach(function (nav) {
+      var navBg = nav.style.backgroundColor || nav.style.background || '';
+      if (isLightColor(navBg)) {
+        nav.querySelectorAll('.mini-nav-link').forEach(function (l) { l.style.color = '#333'; });
+      }
+    });
+
+    // Click on card body (not the form button) → just highlight
+    grid.addEventListener('click', function (e) {
+      if (e.target.closest('.tpl-select-form')) return;
+      var card = e.target.closest('[data-tpl-id]');
+      if (card) selectTemplate(parseInt(card.getAttribute('data-tpl-id'), 10));
+    });
+
+    // Form submit → loading spinner
+    grid.addEventListener('submit', function (e) {
+      var form = e.target.closest('.tpl-select-form');
+      if (!form) return;
+      var btn = form.querySelector('.btn-select');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Confirming & Sending Email…';
+      }
+      var card = form.closest('[data-tpl-id]');
+      if (card) selectTemplate(parseInt(card.getAttribute('data-tpl-id'), 10));
+    });
+
+    selectTemplate(bestId);
+  });
+
+  // Returns true if a CSS color string is "light"
+  function isLightColor(color) {
+    if (!color) return false;
+    var c = color.replace(/\s/g,'').toLowerCase();
+    // Named light colors
+    if (c === '#fff' || c === '#ffffff' || c === 'white') return true;
+    if (c === '#000' || c === '#000000' || c === 'black') return false;
+    // Hex 6
+    var m = c.match(/^#([0-9a-f]{6})$/);
+    if (m) {
+      var r = parseInt(m[1].slice(0,2),16);
+      var g = parseInt(m[1].slice(2,4),16);
+      var b = parseInt(m[1].slice(4,6),16);
+      // Perceived luminance
+      return (r*299 + g*587 + b*114) / 1000 > 155;
+    }
+    // Hex 3
+    m = c.match(/^#([0-9a-f]{3})$/);
+    if (m) {
+      var r = parseInt(m[1][0]+m[1][0],16);
+      var g = parseInt(m[1][1]+m[1][1],16);
+      var b = parseInt(m[1][2]+m[1][2],16);
+      return (r*299 + g*587 + b*114) / 1000 > 155;
+    }
+    // rgb/rgba
+    m = c.match(/rgba?\((\d+),(\d+),(\d+)/);
+    if (m) {
+      return (parseInt(m[1])*299 + parseInt(m[2])*587 + parseInt(m[3])*114) / 1000 > 155;
+    }
+    // Light-sounding bg values
+    if (c.includes('#f') || c.includes('#e') || c.includes('#d')) return true;
+    return false;
+  }
+}());
+</script>
+{% endblock %}

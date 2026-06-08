@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Chat — {{ project.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+body { background: #F1F5F9; }
+.chat-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 32px 16px 80px;
+}
+.chat-header {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    border-radius: 20px 20px 0 0;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.chat-header-avatar {
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; color: #fff; font-size: 1.1rem;
+    font-family: 'Poppins', sans-serif;
+}
+.chat-header-info { flex: 1; }
+.chat-header-title { font-weight: 700; color: #fff; font-size: 1rem; margin: 0; }
+.chat-header-sub { color: rgba(255,255,255,0.75); font-size: 0.78rem; }
+.chat-box {
+    background: #fff;
+    border-left: 1px solid #E2E8F0;
+    border-right: 1px solid #E2E8F0;
+    min-height: 420px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
+.msg-row { display: flex; flex-direction: column; }
+.msg-row.mine { align-items: flex-end; }
+.msg-row.theirs { align-items: flex-start; }
+.msg-bubble {
+    max-width: 72%;
+    padding: 10px 16px;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    word-break: break-word;
+}
+.msg-row.mine .msg-bubble {
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    color: #fff;
+    border-radius: 16px 16px 4px 16px;
+}
+.msg-row.theirs .msg-bubble {
+    background: #F1F5F9;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px 16px 16px 4px;
+}
+.msg-meta {
+    font-size: 0.65rem;
+    color: #94A3B8;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.msg-sender { font-weight: 700; color: #6366F1; }
+.chat-input-bar {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+}
+.chat-input {
+    flex: 1;
+    background: #F8FAFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 50px;
+    padding: 10px 18px;
+    font-size: 0.875rem;
+    color: #1E293B;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.chat-input:focus { border-color: #6366F1; background: #fff; }
+.chat-send-btn {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, #6366F1, #4F46E5);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.chat-send-btn:hover { transform: scale(1.08); opacity: 0.9; }
+.chat-empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #94A3B8;
+    text-align: center;
+}
+.chat-empty i { font-size: 2.5rem; margin-bottom: 12px; color: #CBD5E1; }
+.back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #6366F1; font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; margin-bottom: 20px;
+    padding: 8px 16px; background: #EEF2FF; border-radius: 50px;
+    border: 1px solid #C7D2FE; transition: all 0.2s;
+}
+.back-link:hover { background: #E0E7FF; color: #4F46E5; }
+.typing-indicator { display: none; align-items: center; gap: 6px; padding: 8px 16px; }
+.typing-dot { width: 6px; height: 6px; background: #94A3B8; border-radius: 50%; animation: typingBounce 1.2s infinite; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
+</style>
+{% endblock %}
+
+{% block content %}
+<section style="padding:40px 0 60px;background:#F1F5F9;min-height:80vh;">
+<div class="chat-wrap">
+    <!-- Back link -->
+    {% if request.user.is_staff %}
+    <a href="{% url 'chat_list' %}" class="back-link"><i class="fas fa-arrow-left"></i> All Chats</a>
+    {% else %}
+    <a href="{% url 'project_detail' project.pk %}" class="back-link"><i class="fas fa-arrow-left"></i> Back to Project</a>
+    {% endif %}
+
+    <!-- Chat window -->
+    <div class="chat-header">
+        <div class="chat-header-avatar">{{ project.client.username|slice:":1"|upper }}</div>
+        <div class="chat-header-info">
+            <div class="chat-header-title">{{ project.title }}</div>
+            <div class="chat-header-sub">
+                {% if request.user.is_staff %}
+                Client: {{ project.client.username }} · {{ project.client.email }}
+                {% else %}
+                Chat with Weblance Team
+                {% endif %}
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;">
+            <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;"></span>
+            <span style="color:rgba(255,255,255,0.8);font-size:0.75rem;">Online</span>
+        </div>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        {% if msgs %}
+            {% for m in msgs %}
+            <div class="msg-row {% if m.sender == request.user %}mine{% else %}theirs{% endif %}" data-id="{{ m.pk }}">
+                <div class="msg-bubble">{{ m.message }}</div>
+                <div class="msg-meta">
+                    {% if m.sender != request.user %}<span class="msg-sender">{{ m.sender.username }}</span>{% endif %}
+                    <span>{{ m.created_at|date:"d M, H:i" }}</span>
+                    {% if m.sender == request.user %}<i class="fas fa-check" style="color:#6366F1;font-size:0.6rem;"></i>{% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+        <div class="chat-empty">
+            <i class="fas fa-comments"></i>
+            <p style="margin:0;font-size:0.9rem;">No messages yet. Start the conversation!</p>
+        </div>
+        {% endif %}
+        <div id="typingIndicator" class="typing-indicator">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+        </div>
+    </div>
+
+    <!-- Input bar -->
+    <div class="chat-input-bar" id="chatData"
+         data-room="{{ room.pk }}"
+         data-send-url="{% url 'chat_send' room.pk %}"
+         data-poll-url="{% url 'chat_poll' room.pk %}"
+         {% if request.user.is_staff %}data-ai-url="{% url 'chat_ai_reply' room.pk %}"{% endif %}
+         data-username="{{ request.user.username }}"
+         data-csrf="{{ csrf_token }}"
+         data-is-staff="{{ request.user.is_staff|yesno:'true,false' }}">
+
+        {% if request.user.is_staff %}
+        <!-- AI Smart Reply panel (admin only) -->
+        <div id="aiSuggestPanel" style="display:none;position:absolute;bottom:100%;left:0;right:0;background:#fff;border:1px solid #E2E8F0;border-radius:16px 16px 0 0;padding:14px 18px;box-shadow:0 -4px 20px rgba(99,102,241,0.1);">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <div style="width:24px;height:24px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <i class="fas fa-robot" style="color:#fff;font-size:0.65rem;"></i>
+                </div>
+                <span style="font-size:0.75rem;font-weight:700;color:#6366F1;text-transform:uppercase;letter-spacing:0.5px;">AI Smart Replies</span>
+                <button onclick="document.getElementById('aiSuggestPanel').style.display='none';" style="margin-left:auto;background:none;border:none;color:#94A3B8;cursor:pointer;font-size:0.8rem;padding:2px 6px;">✕</button>
+            </div>
+            <div id="aiSuggestions" style="display:flex;flex-direction:column;gap:7px;">
+                <div style="text-align:center;padding:12px;color:#94A3B8;font-size:0.82rem;">
+                    <i class="fas fa-spinner fa-spin" style="margin-right:6px;"></i> Generating suggestions…
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <input type="text" id="msgInput" class="chat-input" placeholder="Type a message…" autocomplete="off" maxlength="2000">
+
+        {% if request.user.is_staff %}
+        <button id="aiBtn" title="AI Smart Reply" style="width:44px;height:44px;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;border-radius:50%;color:#6366F1;font-size:0.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;" onmouseover="this.style.background='linear-gradient(135deg,#6366F1,#818CF8)';this.style.color='#fff';" onmouseout="this.style.background='linear-gradient(135deg,#EEF2FF,#E0E7FF)';this.style.color='#6366F1';">
+            <i class="fas fa-robot"></i>
+        </button>
+        {% endif %}
+
+        <button class="chat-send-btn" id="sendBtn" title="Send">
+            <i class="fas fa-paper-plane"></i>
+        </button>
+    </div>
+</div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+const chatData = document.getElementById('chatData');
+const ROOM_PK  = chatData.dataset.room;
+const SEND_URL = chatData.dataset.sendUrl;
+const POLL_URL = chatData.dataset.pollUrl;
+const AI_URL   = chatData.dataset.aiUrl || null;
+const USERNAME = chatData.dataset.username;
+const CSRF     = chatData.dataset.csrf;
+const IS_STAFF = chatData.dataset.isStaff === 'true';
+const IS_MINE  = (sender) => sender === USERNAME;
+
+const chatBox  = document.getElementById('chatBox');
+const msgInput = document.getElementById('msgInput');
+const sendBtn  = document.getElementById('sendBtn');
+const aiBtn    = document.getElementById('aiBtn');
+
+// Scroll to bottom
+function scrollBottom() {
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+scrollBottom();
+
+// Render a message bubble
+function renderMsg(m) {
+    const mine = IS_MINE(m.sender);
+    const row  = document.createElement('div');
+    row.className = `msg-row ${mine ? 'mine' : 'theirs'}`;
+    row.dataset.id = m.id;
+    row.innerHTML = `
+        <div class="msg-bubble">${escHtml(m.message)}</div>
+        <div class="msg-meta">
+            ${!mine ? `<span class="msg-sender">${escHtml(m.sender)}</span>` : ''}
+            <span>${m.time}</span>
+            ${mine ? '<i class="fas fa-check" style="color:#6366F1;font-size:0.6rem;"></i>' : ''}
+        </div>`;
+    return row;
+}
+
+function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Remove empty state if present
+function clearEmpty() {
+    const empty = chatBox.querySelector('.chat-empty');
+    if (empty) empty.remove();
+}
+
+// Send message via AJAX
+async function sendMessage() {
+    const text = msgInput.value.trim();
+    if (!text) return;
+    msgInput.value = '';
+    sendBtn.disabled = true;
+
+    try {
+        const res = await fetch(SEND_URL, {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF, 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `message=${encodeURIComponent(text)}`
+        });
+        const data = await res.json();
+        if (data.ok) {
+            clearEmpty();
+            chatBox.appendChild(renderMsg(data));
+            scrollBottom();
+            lastId = data.id;
+            // Hide AI panel after sending
+            const panel = document.getElementById('aiSuggestPanel');
+            if (panel) panel.style.display = 'none';
+        }
+    } catch(e) { console.error(e); }
+    sendBtn.disabled = false;
+    msgInput.focus();
+}
+
+sendBtn.addEventListener('click', sendMessage);
+msgInput.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+// ── AI Smart Reply ───────────────────────────────────────────────
+if (aiBtn && AI_URL) {
+    aiBtn.addEventListener('click', async function() {
+        const panel = document.getElementById('aiSuggestPanel');
+        const suggestionsEl = document.getElementById('aiSuggestions');
+
+        // Toggle panel
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            return;
+        }
+
+        // Show loading state
+        panel.style.display = 'block';
+        suggestionsEl.innerHTML = `
+            <div style="text-align:center;padding:12px;color:#94A3B8;font-size:0.82rem;">
+                <i class="fas fa-spinner fa-spin" style="margin-right:6px;color:#6366F1;"></i>
+                <span style="color:#6366F1;font-weight:600;">Generating AI suggestions…</span>
+            </div>`;
+
+        try {
+            const res = await fetch(AI_URL, {
+                method: 'GET',
+                headers: { 'X-CSRFToken': CSRF }
+            });
+            const data = await res.json();
+
+            if (data.suggestions && data.suggestions.length) {
+                suggestionsEl.innerHTML = '';
+                data.suggestions.forEach((s, i) => {
+                    const btn = document.createElement('button');
+                    btn.style.cssText = `
+                        width:100%;text-align:left;background:#F8FAFF;border:1px solid #E2E8F0;
+                        border-radius:10px;padding:10px 14px;font-size:0.82rem;color:#1E293B;
+                        cursor:pointer;transition:all 0.18s;line-height:1.5;font-family:inherit;
+                        display:flex;align-items:flex-start;gap:10px;`;
+                    btn.innerHTML = `
+                        <span style="background:linear-gradient(135deg,#6366F1,#818CF8);color:#fff;border-radius:6px;padding:2px 7px;font-size:0.65rem;font-weight:700;flex-shrink:0;margin-top:1px;">${i+1}</span>
+                        <span>${escHtml(s)}</span>`;
+                    btn.addEventListener('mouseover', () => {
+                        btn.style.background = '#EEF2FF';
+                        btn.style.borderColor = '#C7D2FE';
+                    });
+                    btn.addEventListener('mouseout', () => {
+                        btn.style.background = '#F8FAFF';
+                        btn.style.borderColor = '#E2E8F0';
+                    });
+                    btn.addEventListener('click', () => {
+                        msgInput.value = s;
+                        panel.style.display = 'none';
+                        msgInput.focus();
+                        // Move cursor to end
+                        msgInput.setSelectionRange(s.length, s.length);
+                    });
+                    suggestionsEl.appendChild(btn);
+                });
+            } else {
+                suggestionsEl.innerHTML = '<div style="text-align:center;padding:10px;color:#94A3B8;font-size:0.82rem;">No suggestions available.</div>';
+            }
+        } catch(e) {
+            suggestionsEl.innerHTML = '<div style="text-align:center;padding:10px;color:#EF4444;font-size:0.82rem;"><i class="fas fa-exclamation-circle me-1"></i>Failed to load suggestions.</div>';
+        }
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', function(e) {
+        const panel = document.getElementById('aiSuggestPanel');
+        if (panel && panel.style.display === 'block') {
+            if (!panel.contains(e.target) && e.target !== aiBtn && !aiBtn.contains(e.target)) {
+                panel.style.display = 'none';
+            }
+        }
+    });
+}
+
+// Poll for new messages
+let lastId = 0;
+const allMsgs = chatBox.querySelectorAll('[data-id]');
+if (allMsgs.length) lastId = parseInt(allMsgs[allMsgs.length - 1].dataset.id);
+
+async function poll() {
+    try {
+        const res  = await fetch(`${POLL_URL}?since=${lastId}`);
+        const data = await res.json();
+        if (data.messages && data.messages.length) {
+            clearEmpty();
+            data.messages.forEach(m => {
+                // Only render messages from the OTHER person (own messages already rendered via sendMessage)
+                if (!IS_MINE(m.sender)) {
+                    // Check not already in DOM
+                    if (!chatBox.querySelector(`[data-id="${m.id}"]`)) {
+                        chatBox.appendChild(renderMsg(m));
+                    }
+                }
+                // Always advance lastId
+                if (m.id > lastId) lastId = m.id;
+            });
+            scrollBottom();
+        }
+    } catch(e) {}
+}
+
+setInterval(poll, 3000);
+</script>
+{% endblock %}

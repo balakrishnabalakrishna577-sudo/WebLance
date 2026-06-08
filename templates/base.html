@@ -1,0 +1,1606 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}WEBLANCE - Professional Website Development{% endblock %}</title>
+    <meta name="description" content="WEBLANCE builds professional, fast, SEO-ready websites for businesses of all sizes. Based in Devanahalli, India.">
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/fav-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/fav-icon.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/fav-icon.png' %}">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        prefix: 'tw-',
+        corePlugins: { preflight: false },
+        theme: {
+            extend: {
+                colors: {
+                    'brand-green': '#6366F1',
+                    'brand-dark': '#030303',
+                    'brand-card': '#111111',
+                }
+            }
+        }
+    }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=74">
+    <link rel="stylesheet" href="{% static 'css/pro.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}?v=72">
+    {% block extra_css %}{% endblock %}
+        <style>
+        /* ════════════════════════════════════
+           NAVBAR — Premium Redesign
+           ════════════════════════════════════ */
+
+        /* ── Nav bar ── */
+        .wl-nav {
+            position: fixed !important;
+            top: 0; left: 0; right: 0;
+            z-index: 9990;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid rgba(99,102,241,0.10);
+            box-shadow: 0 1px 0 rgba(255,255,255,0.9), 0 4px 24px rgba(99,102,241,0.06);
+            overflow: visible;
+            transition: box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .wl-nav.scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 1px 0 rgba(255,255,255,1), 0 8px 40px rgba(99,102,241,0.12);
+            border-bottom-color: rgba(99,102,241,0.14);
+        }
+        body { padding-top: 68px; }
+
+        .container.wl-nav-inner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            flex-wrap: nowrap;
+            gap: 16px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: visible;
+        }
+
+        /* ── Brand / Logo ── */
+        .nav-brand-wrap {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            flex-shrink: 0;
+            min-width: 130px;
+        }
+        .nav-logo-img {
+            height: 48px;
+            width: auto;
+            max-width: 200px;
+            display: block;
+            object-fit: contain;
+            transition: all 0.25s ease;
+            filter: drop-shadow(0 2px 8px rgba(99,102,241,0.15));
+        }
+        .nav-brand-wrap:hover .nav-logo-img {
+            opacity: 0.9;
+            filter: drop-shadow(0 4px 12px rgba(99,102,241,0.25));
+            transform: translateY(-1px);
+        }
+        .nav-logo-wrap, .nav-logo-ring, .nav-logo,
+        .nav-brand-text, .nav-brand-accent { display: none !important; }
+
+        /* ── Desktop nav links pill container ── */
+        .wl-nav-links {
+            display: flex;
+            flex-direction: row;
+            list-style: none;
+            align-items: center;
+            gap: 1px;
+            margin: 0 auto;
+            padding: 4px 5px;
+            background: linear-gradient(135deg, #F8FAFF 0%, #F1F5F9 100%);
+            border: 1px solid rgba(99,102,241,0.12);
+            border-radius: 50px;
+            flex-shrink: 1;
+            box-shadow: inset 0 1px 3px rgba(99,102,241,0.06), 0 1px 4px rgba(99,102,241,0.04);
+        }
+        .wl-nav-links li { list-style: none; padding: 0; margin: 0; }
+        .wl-nav-link {
+            display: flex; align-items: center; gap: 5px;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 500;
+            padding: 7px 16px;
+            border-radius: 50px;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.22s ease;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.01em;
+        }
+        .wl-nav-link:hover {
+            color: #6366F1;
+            background: rgba(99,102,241,0.08);
+        }
+        .wl-nav-link.active {
+            color: #fff !important;
+            background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+            font-weight: 600;
+            box-shadow: 0 3px 16px rgba(99,102,241,0.40), inset 0 1px 0 rgba(255,255,255,0.2);
+        }
+        /* Book a Call — special highlight */
+        .wl-nav-link[href*="book"] {
+            color: #6366F1 !important;
+            font-weight: 700 !important;
+            background: rgba(99,102,241,0.06) !important;
+            border: 1px solid rgba(99,102,241,0.15) !important;
+        }
+        .wl-nav-link[href*="book"]:hover {
+            background: rgba(99,102,241,0.12) !important;
+            box-shadow: 0 2px 10px rgba(99,102,241,0.15) !important;
+        }
+        .wl-nav-link[href*="book"].active {
+            background: linear-gradient(135deg, #6366F1, #818CF8) !important;
+            color: #fff !important;
+            border-color: transparent !important;
+        }
+
+        /* ── Right actions ── */
+        .wl-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            overflow: visible;
+        }
+
+        /* ── Icon buttons ── */
+        .nav-icon-btn {
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, #F8FAFF, #F1F5F9);
+            border: 1px solid rgba(99,102,241,0.12);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748B;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            box-shadow: 0 1px 3px rgba(99,102,241,0.06);
+        }
+        .nav-icon-btn:hover {
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            border-color: rgba(99,102,241,0.30);
+            color: #6366F1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(99,102,241,0.15);
+        }
+
+        /* ── Login link ── */
+        .nav-login-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 18px;
+            border-radius: 50px;
+            border: 1.5px solid rgba(99,102,241,0.28);
+            color: #6366F1;
+            font-size: 0.82rem;
+            font-weight: 600;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: all 0.22s ease;
+            font-family: 'Poppins', sans-serif;
+            background: rgba(99,102,241,0.04);
+        }
+        .nav-login-link:hover {
+            background: rgba(99,102,241,0.10);
+            border-color: #6366F1;
+            color: #4F46E5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+        }
+
+        /* ── Get Started button ── */
+        .nav-getstarted {
+            padding: 8px 20px !important;
+            font-size: 0.82rem !important;
+            border-radius: 50px !important;
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 700 !important;
+            white-space: nowrap;
+            background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+            color: #fff !important;
+            border: none !important;
+            box-shadow: 0 4px 18px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+            transition: all 0.22s ease !important;
+        }
+        .nav-getstarted:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 28px rgba(99,102,241,0.45) !important;
+            color: #fff !important;
+            background: linear-gradient(135deg, #818CF8 0%, #6366F1 100%) !important;
+        }
+
+        /* ── User button ── */
+        .wl-user-wrap { position: relative; }
+        .nav-user-btn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 12px 4px 4px;
+            background: linear-gradient(135deg, #F8FAFF, #F1F5F9);
+            border: 1.5px solid rgba(99,102,241,0.16);
+            border-radius: 50px;
+            color: #1E293B;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.22s ease;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 1px 4px rgba(99,102,241,0.06);
+        }
+        .nav-user-btn:hover {
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            border-color: rgba(99,102,241,0.38);
+            color: #6366F1;
+            box-shadow: 0 4px 16px rgba(99,102,241,0.14);
+            transform: translateY(-1px);
+        }
+        .user-avatar {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg, #6366F1, #818CF8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(99,102,241,0.35);
+            border: 2px solid rgba(255,255,255,0.9);
+        }
+        .user-avatar-lg {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, #6366F1, #818CF8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        /* ── User dropdown ── */
+        .wl-user-dropdown {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            background: #fff;
+            border: 1px solid rgba(99,102,241,0.12);
+            border-radius: 18px;
+            padding: 8px;
+            min-width: 220px;
+            max-width: calc(100vw - 20px);
+            box-shadow: 0 24px 64px rgba(99,102,241,0.16), 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .wl-user-dropdown.open { display: block !important; }
+
+        /* ── Hamburger ── */
+        .wl-hamburger {
+            display: none;
+            background: linear-gradient(135deg, #F8FAFF, #F1F5F9);
+            border: 1.5px solid rgba(99,102,241,0.14);
+            border-radius: 10px;
+            width: 36px; height: 36px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            cursor: pointer;
+            padding: 0;
+            flex-shrink: 0;
+            transition: all 0.22s ease;
+            box-shadow: 0 1px 4px rgba(99,102,241,0.06);
+        }
+        .wl-hamburger:hover {
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            border-color: rgba(99,102,241,0.30);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99,102,241,0.14);
+        }
+        .wl-hamburger span {
+            display: block;
+            width: 16px; height: 1.5px;
+            background: #64748B;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .wl-hamburger span:nth-child(2) { width: 11px; }
+        .wl-hamburger:hover span { background: #6366F1; }
+        .wl-hamburger:hover span:nth-child(2) { width: 16px; }
+
+        /* ── Mobile drawer ── */
+        .wl-mobile-menu {
+            display: none !important;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 9995;
+            background: rgba(99,102,241,0.08);
+            backdrop-filter: blur(8px);
+        }
+        .wl-mobile-menu.open { display: block !important; }
+        .wl-mobile-menu-inner {
+            position: absolute;
+            top: 0; right: 0;
+            width: 300px;
+            max-width: 88vw;
+            height: 100%;
+            background: #fff;
+            border-left: 1px solid rgba(99,102,241,0.10);
+            overflow-y: auto;
+            animation: slideInRight 0.28s cubic-bezier(0.175,0.885,0.32,1.275);
+            box-shadow: -12px 0 48px rgba(99,102,241,0.14);
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to   { transform: translateX(0);    opacity: 1; }
+        }
+        .wl-mobile-menu-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-bottom: 1px solid #F1F5F9;
+            background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(129,140,248,0.02));
+        }
+        .wl-mobile-menu-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: #1E293B;
+            letter-spacing: 0.02em;
+        }
+        .wl-mobile-close {
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            color: #94A3B8;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 6px 10px;
+            transition: all 0.2s ease;
+        }
+        .wl-mobile-close:hover {
+            background: rgba(99,102,241,0.08);
+            border-color: rgba(99,102,241,0.2);
+            color: #6366F1;
+        }
+        .wl-mobile-links {
+            list-style: none;
+            margin: 0;
+            padding: 14px 12px;
+        }
+        .wl-mobile-links li { list-style: none; padding: 0; margin: 0; }
+        .wl-mobile-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #475569;
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.22s ease;
+            margin-bottom: 2px;
+            border: 1px solid transparent;
+            font-family: 'Poppins', sans-serif;
+        }
+        .wl-mobile-link i {
+            font-size: 0.85rem;
+            width: 18px;
+            text-align: center;
+            color: #94A3B8;
+        }
+        .wl-mobile-link:hover,
+        .wl-mobile-link.active {
+            background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(129,140,248,0.04));
+            color: #6366F1;
+            border-color: rgba(99,102,241,0.14);
+            padding-left: 20px;
+        }
+        .wl-mobile-link.active { font-weight: 700; }
+        .wl-mobile-link:hover i,
+        .wl-mobile-link.active i { color: #6366F1; }
+        .wl-mobile-auth {
+            padding: 16px;
+            border-top: 1px solid #F1F5F9;
+            background: #FAFBFF;
+        }
+
+        /* ── Smart Assistant — Right-side Chat Panel ── */
+        #search-overlay {
+            position: fixed;
+            bottom: 160px;
+            right: 20px;
+            z-index: 10000;
+            width: 300px;
+            max-width: calc(100vw - 28px);
+            display: none;
+            flex-direction: column;
+        }
+        #search-overlay.open {
+            display: flex !important;
+            animation: chatPanelIn 0.3s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+        }
+        @keyframes chatPanelIn {
+            from { opacity: 0; transform: translateY(16px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes wlDot {
+            0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+        .wl-assistant-box {
+            background: #fff;
+            border: none;
+            border-radius: 16px;
+            width: 100%;
+            box-shadow: 0 6px 30px rgba(99,102,241,0.20), 0 2px 8px rgba(0,0,0,0.07);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            max-height: calc(100vh - 180px);
+        }
+        /* Header */
+        .wl-asst-header {
+            display: flex; align-items: center; gap: 8px;
+            padding: 9px 12px;
+            background: linear-gradient(135deg, #6366F1, #818CF8);
+            flex-shrink: 0;
+        }
+        .wl-asst-avatar {
+            width: 28px; height: 28px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-size: 0.8rem; flex-shrink: 0;
+        }
+        .wl-asst-name { color: #fff; font-weight: 700; font-size: 0.8rem; font-family: 'Poppins', sans-serif; }
+        .wl-asst-status { color: rgba(255,255,255,0.8); font-size: 0.62rem; display: flex; align-items: center; gap: 4px; }
+        .wl-asst-dot { width: 5px; height: 5px; background: #4ADE80; border-radius: 50%; animation: pulse 2s infinite; }
+        /* Messages */
+        .wl-asst-messages {
+            flex: 1; overflow-y: auto; padding: 10px 11px;
+            display: flex; flex-direction: column; gap: 6px;
+            background: #F8FAFF;
+        }
+        .wl-asst-messages::-webkit-scrollbar { width: 3px; }
+        .wl-asst-messages::-webkit-scrollbar-track { background: transparent; }
+        .wl-asst-messages::-webkit-scrollbar-thumb { background: #C7D2FE; border-radius: 3px; }
+        .wl-asst-msg { display: flex; }
+        .wl-asst-bot { justify-content: flex-start; }
+        .wl-asst-user { justify-content: flex-end; }
+        .wl-asst-bubble {
+            max-width: 85%;
+            padding: 7px 11px;
+            border-radius: 12px;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+        .wl-asst-bot .wl-asst-bubble {
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            color: #1E293B;
+            border-bottom-left-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .wl-asst-user .wl-asst-bubble {
+            background: linear-gradient(135deg, #6366F1, #818CF8);
+            color: #fff;
+            border-bottom-right-radius: 3px;
+        }
+        .wl-asst-typing .wl-asst-bubble {
+            background: #fff; border: 1px solid #E2E8F0;
+            display: flex; align-items: center; gap: 3px; padding: 8px 12px;
+        }
+        .wl-asst-typing span {
+            width: 5px; height: 5px; background: #A5B4FC; border-radius: 50%;
+            animation: typingDot 1.2s ease-in-out infinite;
+        }
+        .wl-asst-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .wl-asst-typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingDot {
+            0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+        }
+        /* Suggestions */
+        .wl-asst-suggestions {
+            display: flex; flex-wrap: wrap; gap: 4px;
+            padding: 6px 11px; border-top: 1px solid #F1F5F9;
+            background: #fff; flex-shrink: 0;
+        }
+        .wl-asst-chip {
+            background: rgba(99,102,241,0.07);
+            border: 1px solid rgba(99,102,241,0.18);
+            color: #6366F1;
+            padding: 3px 9px; border-radius: 50px;
+            font-size: 0.67rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .wl-asst-chip:hover { background: #6366F1; color: #fff; border-color: #6366F1; }
+        /* Input */
+        .wl-asst-input-wrap {
+            display: flex; align-items: center;
+            padding: 6px 8px;
+            border-top: 1px solid #F1F5F9;
+            background: #fff; flex-shrink: 0;
+            min-width: 0;
+        }
+        .wl-asst-input-inner {
+            display: flex; align-items: center; gap: 4px;
+            flex: 1; min-width: 0;
+            border: none;
+            border-radius: 50px;
+            padding: 4px 5px 4px 10px;
+            background: #F1F5F9;
+            transition: background 0.2s ease;
+        }
+        .wl-asst-input-inner:focus-within {
+            background: #EEF2FF;
+        }
+        .wl-asst-input {
+            flex: 1 !important; min-width: 0 !important;
+            border: none !important; background: transparent !important;
+            padding: 0 !important; font-size: 0.70rem !important; color: #1E293B !important;
+            outline: none !important; font-family: 'Poppins', sans-serif !important;
+            line-height: 1 !important; height: auto !important;
+            box-shadow: none !important;
+        }
+        .wl-asst-input::placeholder { color: #B0BAC9 !important; font-size: 0.68rem !important; }
+        .wl-asst-send {
+            width: 22px !important; height: 22px !important;
+            background: linear-gradient(135deg, #6366F1, #818CF8) !important;
+            border: none !important; border-radius: 50% !important;
+            color: #fff !important; font-size: 0.55rem !important;
+            cursor: pointer; display: flex !important; align-items: center !important; justify-content: center !important;
+            transition: all 0.2s ease; flex-shrink: 0 !important;
+        }
+        .wl-asst-send:hover { transform: scale(1.1); box-shadow: 0 3px 10px rgba(99,102,241,0.4); }
+        /* Force send button to stay small and in-flow — override any global button rules */
+        #wlAsstSend {
+            position: static !important;
+            width: 28px !important;
+            height: 28px !important;
+            min-width: 28px !important;
+            min-height: 28px !important;
+            bottom: auto !important;
+            right: auto !important;
+            opacity: 1 !important;
+            transform: none !important;
+            z-index: auto !important;
+            flex-shrink: 0 !important;
+        }
+        #wlAsstSend:hover { transform: scale(1.1) !important; }
+        .wl-asst-bubble a { color: #6366F1; font-weight: 600; text-decoration: underline; }
+        .wl-asst-user .wl-asst-bubble a { color: #E0E7FF; }
+        /* ESC hint */
+        .search-esc-hint {
+            background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+            color: #fff; padding: 2px 7px; border-radius: 5px;
+            font-size: 0.65rem; font-family: monospace; margin-left: auto;
+        }
+        @media (max-width: 575px) {
+            #search-overlay { bottom: 150px !important; right: 12px !important; width: calc(100vw - 24px) !important; }
+            .wl-assistant-box { border-radius: 14px; height: 360px; }
+            .wl-asst-messages { max-height: 180px; }
+        }
+
+        /* ══════════════════════════════════════
+           SITE SEARCH MODAL
+           ══════════════════════════════════════ */
+        #wlSiteSearch.open { display: flex !important; }
+        .wl-sr-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+        }
+        .wl-sr-item {
+            display: flex; align-items: center; gap: 9px;
+            padding: 9px 11px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #334155;
+            font-size: 0.80rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: background 0.15s ease, color 0.15s ease;
+            border: 1px solid transparent;
+        }
+        .wl-sr-item:hover, .wl-sr-item.focused {
+            background: rgba(99,102,241,0.07);
+            border-color: rgba(99,102,241,0.14);
+            color: #6366F1;
+        }
+        .wl-sr-item i {
+            width: 28px; height: 28px;
+            background: rgba(99,102,241,0.08);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
+            color: #6366F1;
+            flex-shrink: 0;
+        }
+        .wl-sr-item .wl-sr-desc {
+            font-size: 0.68rem;
+            color: #94A3B8;
+            font-weight: 400;
+            display: block;
+            margin-top: 1px;
+        }
+        .wl-sr-section-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: #94A3B8;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 8px 10px 4px;
+        }
+        .wl-sr-no-results {
+            text-align: center;
+            padding: 28px 16px;
+            color: #94A3B8;
+            font-size: 0.82rem;
+            font-family: 'Poppins', sans-serif;
+        }
+        .wl-sr-no-results i { font-size: 1.6rem; display: block; margin-bottom: 8px; opacity: 0.35; }
+        #wlSiteSearchResults::-webkit-scrollbar { width: 4px; }
+        #wlSiteSearchResults::-webkit-scrollbar-thumb { background: #C7D2FE; border-radius: 4px; }
+
+        /* ══════════════════════════════════════
+           NOTIFICATION BELL — Navbar
+           ══════════════════════════════════════ */
+        .wl-notif-wrap { position: relative; }
+
+        /* Bell button badge */
+        .wl-notif-btn { position: relative; }
+        .wl-notif-badge {
+            position: absolute;
+            top: -5px; right: -5px;
+            min-width: 18px; height: 18px;
+            background: #ef4444;
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            border: 2px solid #fff;
+            font-family: 'Poppins', sans-serif;
+            animation: notifPop 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+        }
+        @keyframes notifPop {
+            from { transform: scale(0); }
+            to   { transform: scale(1); }
+        }
+
+        /* Dropdown panel */
+        .wl-notif-dropdown {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            background: #fff;
+            border: 1px solid #E2E8F0;
+            border-radius: 18px;
+            width: 340px;
+            max-width: calc(100vw - 20px);
+            box-shadow: 0 20px 60px rgba(99,102,241,0.15), 0 4px 16px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .wl-notif-dropdown.open { display: block !important; }
+
+        /* Header */
+        .wl-notif-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px 10px;
+            border-bottom: 1px solid #F1F5F9;
+            background: linear-gradient(135deg, rgba(99,102,241,0.04), transparent);
+        }
+        .wl-notif-header-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: #0f172a;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .wl-notif-header-title i { color: #6366F1; }
+        .wl-notif-header-count {
+            background: #EEF2FF;
+            color: #6366F1;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+        }
+        .wl-notif-action-link {
+            width: 28px; height: 28px;
+            background: #F1F5F9;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            color: #94A3B8;
+            font-size: 0.72rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .wl-notif-action-link:hover {
+            background: #EEF2FF;
+            color: #6366F1;
+            border-color: #C7D2FE;
+        }
+
+        /* List */
+        .wl-notif-list {
+            max-height: 320px;
+            overflow-y: auto;
+        }
+        .wl-notif-list::-webkit-scrollbar { width: 4px; }
+        .wl-notif-list::-webkit-scrollbar-track { background: transparent; }
+        .wl-notif-list::-webkit-scrollbar-thumb { background: #C7D2FE; border-radius: 4px; }
+
+        /* Item */
+        .wl-notif-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px 14px;
+            border-bottom: 1px solid #F8FAFF;
+            transition: background 0.15s ease;
+            position: relative;
+        }
+        .wl-notif-item:hover { background: #FAFBFF; }
+        .wl-notif-item:last-child { border-bottom: none; }
+        .wl-notif-unread { background: #FAFBFF; }
+        .wl-notif-item-icon {
+            width: 36px; height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .wl-notif-item-body { flex: 1; min-width: 0; }
+        .wl-notif-item-title {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0f172a;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+        .wl-notif-item-title:hover { color: #6366F1; }
+        .wl-notif-item-sub {
+            font-size: 0.75rem;
+            color: #64748B;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 3px;
+        }
+        .wl-notif-item-time {
+            font-size: 0.68rem;
+            color: #94A3B8;
+            font-weight: 500;
+        }
+        /* Unread dot button */
+        .wl-notif-dot-btn {
+            width: 10px; height: 10px;
+            background: #6366F1;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 4px;
+            transition: all 0.2s ease;
+        }
+        .wl-notif-dot-btn:hover { background: #4f46e5; transform: scale(1.3); }
+
+        /* Empty state */
+        .wl-notif-empty {
+            text-align: center;
+            padding: 32px 20px;
+            color: #94A3B8;
+        }
+        .wl-notif-empty i { font-size: 2rem; margin-bottom: 8px; opacity: 0.4; display: block; }
+        .wl-notif-empty p { font-size: 0.82rem; margin: 0; }
+
+        /* Footer */
+        .wl-notif-footer {
+            padding: 10px 16px;
+            border-top: 1px solid #F1F5F9;
+            text-align: center;
+            background: #FAFBFF;
+        }
+        .wl-notif-footer a {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #6366F1;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+        }
+        .wl-notif-footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 480px) {
+            .wl-notif-dropdown { width: calc(100vw - 16px); }
+        }
+
+        </style>
+    </head>
+    <body>
+
+    <!-- ── Smart Assistant Overlay ── -->
+    <div id="wlChatPanel" style="display:none;position:fixed;bottom:170px;right:24px;z-index:10002;width:340px;max-width:calc(100vw - 32px);flex-direction:column;border-radius:16px;overflow:hidden;box-shadow:0 8px 40px rgba(99,102,241,0.25),0 2px 8px rgba(0,0,0,0.08);font-family:'Poppins',sans-serif;">
+
+        <!-- Header -->
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;background:linear-gradient(135deg,#6366F1,#818CF8);flex-shrink:0;">
+            <div style="width:28px;height:28px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.8rem;flex-shrink:0;">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div style="flex:1;">
+                <div style="color:#fff;font-weight:700;font-size:0.82rem;">Weblance Assistant</div>
+                <div style="color:rgba(255,255,255,0.8);font-size:0.62rem;display:flex;align-items:center;gap:4px;">
+                    <span style="width:5px;height:5px;background:#4ADE80;border-radius:50%;display:inline-block;"></span> Online — Ask me anything
+                </div>
+            </div>
+            <button id="wlChatClose" type="button" onclick="document.getElementById('wlChatPanel').style.display='none';"
+                style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:8px;color:#fff;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;flex-shrink:0;padding:0;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <!-- Messages -->
+        <div id="wlChatMessages" style="flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:6px;background:#F8FAFF;min-height:200px;max-height:280px;">
+            <div style="display:flex;justify-content:flex-start;">
+                <div style="max-width:85%;padding:8px 12px;border-radius:12px 12px 12px 3px;font-size:0.78rem;line-height:1.5;background:#fff;border:1px solid #E2E8F0;color:#1E293B;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                    👋 Hi! I'm the Weblance assistant. Ask me about our <strong>services</strong>, <strong>pricing</strong>, <strong>timeline</strong>, <strong>team</strong>, or anything about building your website!
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestion chips -->
+        <div id="wlChatSuggs" style="display:flex;flex-wrap:wrap;gap:4px;padding:6px 12px;border-top:1px solid #F1F5F9;background:#fff;flex-shrink:0;">
+            <button type="button" onclick="wlAskChat('What services do you offer?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Services</button>
+            <button type="button" onclick="wlAskChat('How much does a website cost?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Pricing</button>
+            <button type="button" onclick="wlAskChat('How long does it take?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Timeline</button>
+            <button type="button" onclick="wlAskChat('How do I get started?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Get Started</button>
+            <button type="button" onclick="wlAskChat('Do you do SEO?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">SEO</button>
+            <button type="button" onclick="wlAskChat('What technologies do you use?')" style="background:rgba(99,102,241,0.07);border:1px solid rgba(99,102,241,0.18);color:#6366F1;padding:3px 10px;border-radius:50px;font-size:0.67rem;font-weight:600;cursor:pointer;font-family:'Poppins',sans-serif;">Tech Stack</button>
+        </div>
+
+        <!-- Input row -->
+        <div style="display:flex;align-items:center;gap:6px;padding:8px 10px;border-top:1px solid #F1F5F9;background:#fff;flex-shrink:0;">
+            <input type="text" id="wlChatInput" placeholder="Ask Weblance…" autocomplete="off" maxlength="200"
+                style="flex:1;border:none;outline:none;background:#F1F5F9;border-radius:50px;padding:7px 14px;font-size:0.75rem;color:#1E293B;font-family:'Poppins',sans-serif;min-width:0;">
+            <button type="button" id="wlChatSendBtn" onclick="wlSendChat()"
+                style="width:34px;height:34px;min-width:34px;background:linear-gradient(135deg,#6366F1,#818CF8);border:none;border-radius:50%;color:#fff;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:0;box-shadow:0 2px 8px rgba(99,102,241,0.4);">
+                <i class="fas fa-paper-plane" style="pointer-events:none;"></i>
+            </button>
+        </div>
+    </div>
+
+<script>
+/* ── Weblance Chat Widget ── */
+(function() {
+    var panel    = document.getElementById('wlChatPanel');
+    var messages = document.getElementById('wlChatMessages');
+    var input    = document.getElementById('wlChatInput');
+    var suggs    = document.getElementById('wlChatSuggs');
+
+    // Open/close
+    window.wlOpenChat = function() {
+        if (!panel) return;
+        panel.style.display = 'flex';
+        setTimeout(function(){ if(input) input.focus(); }, 100);
+    };
+    window.wlCloseChat = function() {
+        if (panel) panel.style.display = 'none';
+    };
+
+    // Add a message bubble
+    function addBubble(html, isUser) {
+        if (!messages) return;
+        var wrap = document.createElement('div');
+        wrap.style.cssText = 'display:flex;justify-content:' + (isUser ? 'flex-end' : 'flex-start') + ';';
+        var bubble = document.createElement('div');
+        bubble.style.cssText = 'max-width:85%;padding:8px 12px;border-radius:' +
+            (isUser ? '12px 12px 3px 12px;background:linear-gradient(135deg,#6366F1,#818CF8);color:#fff;' :
+                      '12px 12px 12px 3px;background:#fff;border:1px solid #E2E8F0;color:#1E293B;box-shadow:0 1px 3px rgba(0,0,0,0.05);') +
+            'font-size:0.78rem;line-height:1.5;font-family:Poppins,sans-serif;';
+        bubble.innerHTML = html;
+        wrap.appendChild(bubble);
+        messages.appendChild(wrap);
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Typing indicator
+    function showTyping() {
+        if (!messages) return;
+        var wrap = document.createElement('div');
+        wrap.id = 'wlTypingWrap';
+        wrap.style.cssText = 'display:flex;justify-content:flex-start;';
+        wrap.innerHTML = '<div style="padding:10px 14px;background:#fff;border:1px solid #E2E8F0;border-radius:12px 12px 12px 3px;display:flex;gap:4px;align-items:center;">' +
+            '<span style="width:6px;height:6px;background:#A5B4FC;border-radius:50%;animation:wlDot 1.2s ease-in-out infinite;display:inline-block;"></span>' +
+            '<span style="width:6px;height:6px;background:#A5B4FC;border-radius:50%;animation:wlDot 1.2s ease-in-out 0.2s infinite;display:inline-block;"></span>' +
+            '<span style="width:6px;height:6px;background:#A5B4FC;border-radius:50%;animation:wlDot 1.2s ease-in-out 0.4s infinite;display:inline-block;"></span>' +
+            '</div>';
+        messages.appendChild(wrap);
+        messages.scrollTop = messages.scrollHeight;
+    }
+    function removeTyping() {
+        var t = document.getElementById('wlTypingWrap');
+        if (t) t.remove();
+    }
+
+    // Send message
+    window.wlSendChat = function() {
+        if (!input) return;
+        var q = input.value.trim();
+        if (!q) return;
+        addBubble(q, true);
+        input.value = '';
+        if (suggs) suggs.style.display = 'none';
+        showTyping();
+
+        var csrf = (document.cookie.match(/csrftoken=([^;]+)/) || [])[1] || '';
+        var sid  = localStorage.getItem('wl_bot_session') || '';
+
+        fetch('/agent/chat/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRFToken': csrf },
+            body: JSON.stringify({ message: q, history: [], session_id: sid })
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+            removeTyping();
+            if (d.session_id) localStorage.setItem('wl_bot_session', d.session_id);
+            addBubble(d.response || d.error || 'Sorry, something went wrong.', false);
+        })
+        .catch(function(){
+            removeTyping();
+            addBubble("Sorry, I couldn't connect. Please <a href='/contact/' style='color:#6366F1;font-weight:600;'>contact us</a> directly.", false);
+        });
+    };
+
+    // Ask from chip
+    window.wlAskChat = function(q) {
+        if (input) input.value = q;
+        wlSendChat();
+    };
+
+    // Enter key
+    if (input) {
+        input.addEventListener('keydown', function(e){
+            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); wlSendChat(); }
+        });
+    }
+
+    // Wire the AI float button and old trigger
+    document.addEventListener('DOMContentLoaded', function(){
+        var floatBtn = document.getElementById('ai-chat-float');
+        if (floatBtn) floatBtn.onclick = wlOpenChat;
+        var trigger = document.getElementById('searchTrigger');
+        if (trigger) trigger.onclick = wlOpenChat;
+        // Keep old overlay ID working for any other code
+        var oldOverlay = document.getElementById('search-overlay');
+        if (oldOverlay) oldOverlay.style.display = 'none';
+    });
+})();
+</script>
+
+
+<!-- ── Site Search Modal ── -->
+<div id="wlSiteSearch" role="dialog" aria-modal="true" aria-label="Search" style="display:none;position:fixed;inset:0;z-index:10100;background:rgba(15,23,42,0.55);backdrop-filter:blur(6px);align-items:flex-start;justify-content:center;padding-top:80px;">
+    <div style="width:100%;max-width:580px;margin:0 16px;animation:chatPanelIn 0.25s ease forwards;">
+        <!-- Search box -->
+        <div style="background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(99,102,241,0.22),0 4px 16px rgba(0,0,0,0.08);overflow:hidden;">
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid #F1F5F9;">
+                <i class="fas fa-search" style="color:#6366F1;font-size:0.9rem;flex-shrink:0;"></i>
+                <input type="text" id="wlSiteSearchInput" placeholder="Search pages, services, pricing…" autocomplete="off"
+                    style="flex:1;border:none;outline:none;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;background:transparent;">
+                <kbd style="background:#F1F5F9;border:1px solid #E2E8F0;border-radius:5px;padding:2px 7px;font-size:0.65rem;color:#94A3B8;font-family:monospace;flex-shrink:0;">ESC</kbd>
+            </div>
+            <div id="wlSiteSearchResults" style="max-height:360px;overflow-y:auto;padding:6px 8px;">
+                <!-- populated by JS -->
+                <div id="wlSiteSearchDefault" style="padding:16px 10px;">
+                    <div style="font-size:0.72rem;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;">Quick Links</div>
+                    <div class="wl-sr-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Scroll Progress Bar ── -->
+<div id="scroll-progress"></div>
+
+<!-- ── Preloader ── -->
+<div id="preloader">
+    <div class="preloader-inner">
+        <div class="preloader-ring">
+            <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="40" cy="40" r="34" stroke="rgba(99,102,241,0.1)" stroke-width="4"/>
+                <circle cx="40" cy="40" r="34" stroke="url(#pg)" stroke-width="4"
+                        stroke-linecap="round" stroke-dasharray="213" stroke-dashoffset="213"
+                        id="preloader-ring-circle"/>
+                <defs>
+                    <linearGradient id="pg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%" stop-color="#6366F1"/>
+                        <stop offset="100%" stop-color="#4F46E5"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <div class="preloader-pct" id="preloader-pct">0%</div>
+        </div>
+        <div class="preloader-logo">WEB<span>LANCE</span></div>
+        <div class="preloader-bar"><div class="preloader-bar-fill" id="preloader-bar-fill"></div></div>
+        <div class="preloader-status">Loading assets...</div>
+    </div>
+</div>
+
+<!-- ── Toast Stack ── -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- ── Django Messages → Toasts ── -->
+{% if messages %}
+<style>
+/* Light-theme toast overrides */
+.wl-toast {
+    background: #fff !important;
+    border-color: #E2E8F0 !important;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.14), 0 2px 8px rgba(0,0,0,0.06) !important;
+}
+.wl-toast.success { border-left-color: #22C55E !important; }
+.wl-toast.error   { border-left-color: #EF4444 !important; }
+.wl-toast.warning { border-left-color: #F59E0B !important; }
+.wl-toast.info    { border-left-color: #6366F1 !important; }
+.wl-toast-title   { color: #1E293B !important; font-size: 0.88rem !important; }
+.wl-toast-msg     { color: #64748B !important; }
+.wl-toast-close   { color: #94A3B8 !important; }
+.wl-toast-close:hover { color: #1E293B !important; }
+.wl-toast.success .wl-toast-icon { color: #22C55E !important; }
+.wl-toast.error   .wl-toast-icon { color: #EF4444 !important; }
+.wl-toast.warning .wl-toast-icon { color: #F59E0B !important; }
+.wl-toast.info    .wl-toast-icon { color: #6366F1 !important; }
+</style>
+<script type="application/json" id="wl-django-messages">
+[{% for message in messages %}{"text":"{{ message|escapejs }}","tags":"{{ message.tags }}"}{% if not forloop.last %},{% endif %}{% endfor %}]
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var el = document.getElementById('wl-django-messages');
+    if (!el) return;
+    var msgs = JSON.parse(el.textContent || '[]');
+    msgs.forEach(function(m, i) {
+        setTimeout(function() {
+            var type = 'info', title = 'Notice';
+            if (m.tags.indexOf('success') !== -1)      { type = 'success'; title = 'Success'; }
+            else if (m.tags.indexOf('error') !== -1)   { type = 'error';   title = 'Error'; }
+            else if (m.tags.indexOf('warning') !== -1) { type = 'warning'; title = 'Warning'; }
+            else if (m.tags.indexOf('info') !== -1)    { type = 'info';    title = 'Info'; }
+            if (window.WLToast) { window.WLToast.show(title, m.text, type, 5000); }
+        }, i * 300);
+    });
+});
+</script>
+{% endif %}
+
+<!-- ── Navbar ── -->
+<nav class="wl-nav" id="wlNav">
+    <div class="container wl-nav-inner">
+
+        <!-- Brand -->
+        <a class="nav-brand-wrap" href="{% url 'home' %}">
+            <img src="{% static 'images/logoweblance.png' %}" alt="WEBLANCE" class="nav-logo-img">
+        </a>
+
+        <!-- Desktop nav links -->
+        <ul class="wl-nav-links" id="wlNavLinks">
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}">About</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}" href="{% url 'services' %}">Services</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}" href="{% url 'portfolio' %}">Portfolio</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'pricing' %}active{% endif %}" href="{% url 'pricing' %}">Pricing</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}">Contact</a></li>
+            <li><a class="wl-nav-link {% if request.resolver_match.url_name == 'booking_page' %}active{% endif %}" href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" style="color:#6366F1;font-weight:600;"><i class="fas fa-calendar-check" style="opacity:1;"></i> Book a Call</a></li>
+        </ul>
+
+        <!-- Right actions -->
+        <div class="wl-nav-actions">
+
+            <!-- ── Site Search ── -->
+            <button class="nav-icon-btn" id="wlSiteSearchBtn" aria-label="Search" title="Search">
+                <i class="fas fa-search"></i>
+            </button>
+
+            {% if user.is_authenticated %}
+            <!-- ── Notification Bell ── -->
+            <div class="wl-notif-wrap" style="position:relative;">
+                <button class="nav-icon-btn wl-notif-btn" id="wlNotifBtn" aria-label="Notifications" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    {% if notif_count > 0 %}
+                    <span class="wl-notif-badge" id="wlNotifBadge">{{ notif_count }}</span>
+                    {% else %}
+                    <span class="wl-notif-badge" id="wlNotifBadge" style="display:none;">0</span>
+                    {% endif %}
+                </button>
+
+                <!-- Notification Dropdown -->
+                <div class="wl-notif-dropdown" id="wlNotifDropdown">
+                    <div class="wl-notif-header">
+                        <span class="wl-notif-header-title">
+                            <i class="fas fa-bell"></i> Notifications
+                            <span class="wl-notif-header-count" id="wlNotifHeaderCount">
+                                {% if notif_count > 0 %}{{ notif_count }} new{% endif %}
+                            </span>
+                        </span>
+                        <div style="display:flex;gap:6px;align-items:center;">
+                            {% if notif_count > 0 %}
+                            <form method="post" action="{% url 'notif_mark_all_read' %}" style="display:inline;" id="wlMarkAllForm">
+                                {% csrf_token %}
+                                <button type="submit" class="wl-notif-action-link" title="Mark all read">
+                                    <i class="fas fa-check-double"></i>
+                                </button>
+                            </form>
+                            {% endif %}
+                            <a href="{% url 'notification_list' %}" class="wl-notif-action-link" title="View all">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="wl-notif-list" id="wlNotifList">
+                        {% if notif_items %}
+                            {% for item in notif_items %}
+                            <div class="wl-notif-item {% if not item.is_read %}wl-notif-unread{% endif %}" id="wl-ni-{{ item.id }}">
+                                <div class="wl-notif-item-icon" style="background:{{ item.color }}18;">
+                                    <i class="{{ item.icon }}" style="color:{{ item.color }};"></i>
+                                </div>
+                                <div class="wl-notif-item-body">
+                                    {% if item.url %}
+                                    <a href="{{ item.url }}" class="wl-notif-item-title">{{ item.title }}</a>
+                                    {% else %}
+                                    <span class="wl-notif-item-title">{{ item.title }}</span>
+                                    {% endif %}
+                                    {% if item.sub %}
+                                    <div class="wl-notif-item-sub">{{ item.sub }}</div>
+                                    {% endif %}
+                                    <div class="wl-notif-item-time">{{ item.time|timesince }} ago</div>
+                                </div>
+                                {% if not item.is_read %}
+                                <form method="post" action="{% url 'notif_mark_read' item.id %}" style="display:inline;" class="wl-notif-read-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="wl-notif-dot-btn" title="Mark read"></button>
+                                </form>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                        <div class="wl-notif-empty">
+                            <i class="fas fa-bell-slash"></i>
+                            <p>No notifications yet</p>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="wl-notif-footer">
+                        <a href="{% url 'notification_list' %}">View all notifications</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="wl-user-wrap" style="position:relative;">
+                <button class="nav-user-btn" id="wlUserBtn" type="button">
+                    <div class="user-avatar">{{ user.username|slice:":1"|upper }}</div>
+                    <span class="user-name-text">{{ user.username }}</span>
+                    <i class="fas fa-chevron-down" id="wlChevron" style="font-size:0.6rem;margin-left:4px;transition:transform 0.3s;"></i>
+                </button>
+                <div class="wl-user-dropdown" id="wlUserDropdown">
+                    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px 8px;">
+                        <div class="user-avatar-lg">{{ user.username|slice:":1"|upper }}</div>
+                        <div style="min-width:0;flex:1;">
+                            <div style="color:#1E293B;font-weight:700;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ user.username }}</div>
+                            <div style="color:#6366F1;font-size:0.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;">{{ user.email|default:"Member" }}</div>
+                        </div>
+                    </div>
+                    <hr style="border-color:#E2E8F0;margin:4px 8px;">
+                    {% if not user.is_staff %}
+                    <a href="{% url 'client_dashboard' %}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#6366F1;font-size:0.88rem;cursor:pointer;border-radius:10px;text-decoration:none;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='none'">
+                        <i class="fas fa-tachometer-alt"></i> My Projects
+                    </a>
+                    {% endif %}
+                    {% if user.is_staff %}
+                    <a href="{% url 'admin_dashboard' %}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#6366F1;font-size:0.88rem;cursor:pointer;border-radius:10px;text-decoration:none;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='none'">
+                        <i class="fas fa-cog"></i> Admin Panel
+                    </a>
+                    {% endif %}
+                    <form method="post" action="{% url 'logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#ef4444;font-size:0.88rem;cursor:pointer;border-radius:10px;text-align:left;" onmouseover="this.style.background='rgba(239,68,68,0.08)'" onmouseout="this.style.background='none'">
+                            <i class="fas fa-sign-out-alt"></i> Sign Out
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% else %}
+            <a class="nav-login-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-1"></i>Login</a>
+            <a class="btn btn-green nav-getstarted" href="{% url 'request_website' %}">Get Started</a>
+            {% endif %}
+
+            <!-- Hamburger (mobile only) -->
+            <button class="wl-hamburger" id="wlHamburger" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile drawer -->
+    <div class="wl-mobile-menu" id="wlMobileMenu">
+        <div class="wl-mobile-menu-inner">
+            <div class="wl-mobile-menu-header">
+                <span class="wl-mobile-menu-title">Menu</span>
+                <button class="wl-mobile-close" id="wlMobileClose" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="wl-mobile-links">
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}"><i class="fas fa-home"></i>Home</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'about' %}active{% endif %}" href="{% url 'about' %}"><i class="fas fa-user-circle"></i>About</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'services' %}active{% endif %}" href="{% url 'services' %}"><i class="fas fa-cogs"></i>Services</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'portfolio' %}active{% endif %}" href="{% url 'portfolio' %}"><i class="fas fa-briefcase"></i>Portfolio</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'pricing' %}active{% endif %}" href="{% url 'pricing' %}"><i class="fas fa-tags"></i>Pricing</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}"><i class="fas fa-envelope"></i>Contact</a></li>
+                <li><a class="wl-mobile-link {% if request.resolver_match.url_name == 'booking_page' %}active{% endif %}" href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" style="color:#6366F1;font-weight:700;"><i class="fas fa-calendar-check"></i>Book a Call</a></li>
+            </ul>
+            {% if not user.is_authenticated %}
+            <div class="wl-mobile-auth">
+                <a class="btn btn-green w-100 text-center" href="{% url 'request_website' %}">Get Started</a>
+                <a class="btn w-100 text-center mt-2" style="background:#F1F5F9;color:#6366F1;border:1px solid #C7D2FE;border-radius:50px;padding:10px;" href="{% url 'login' %}">Login</a>
+            </div>
+            {% else %}
+            <div class="wl-mobile-auth">
+                <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(99,102,241,0.06);border-radius:12px;margin-bottom:12px;border:1px solid rgba(99,102,241,0.12);overflow:hidden;">
+                    <div class="user-avatar" style="flex-shrink:0;">{{ user.username|slice:":1"|upper }}</div>
+                    <div style="min-width:0;flex:1;overflow:hidden;">
+                        <div style="color:#1E293B;font-weight:600;font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ user.username }}</div>
+                        <div style="color:#6366F1;font-size:0.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ user.email|default:"Member" }}</div>
+                    </div>
+                </div>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn w-100" style="background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:12px;">
+                        <i class="fas fa-sign-out-alt me-2"></i>Sign Out
+                    </button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- ── Main Content ── -->
+<main>{% block content %}{% endblock %}</main>
+
+<!-- ── Footer ── -->
+<footer class="footer-section">
+
+    <!-- Main footer body -->
+    <div class="container footer-main">
+        <div class="row g-5">
+
+            <!-- Col 1: Brand + description + social -->
+            <div class="col-lg-4 col-md-12">
+                <!-- Logo + Name -->
+                <a href="{% url 'home' %}" class="footer-brand">
+                    <img src="{% static 'images/logoweblance.png' %}" alt="WEBLANCE" class="footer-logo-img">
+                </a>
+                <p class="footer-desc mt-4">We build professional, fast, and SEO-ready websites for businesses of all sizes. Based in Devanahalli, serving clients across India.</p>
+
+                <!-- Social icons -->
+                <div class="footer-social mt-4">
+                    <a href="https://www.instagram.com/weblance_websites?igsh=MXZqMWc2ajJ0bDljZA==" target="_blank" rel="noopener noreferrer" class="fsoc-btn" aria-label="Instagram" style="--c:#e1306c;">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="fsoc-btn" aria-label="LinkedIn" style="--c:#0077b5;">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://github.com/balakrishnabalakrishna577-sudo" class="fsoc-btn" aria-label="GitHub" style="--c:#333;">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="fsoc-btn" aria-label="Twitter" style="--c:#1da1f2;">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+
+                <!-- Availability badge -->
+                <div class="footer-avail mt-4">
+                    <span class="footer-avail-dot"></span>
+                    Available for new projects
+                </div>
+            </div>
+
+            <!-- Col 2: Quick Links -->
+            <div class="col-lg-2 col-6">
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Quick Links</h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="{% url 'home' %}"><i class="fas fa-chevron-right"></i>Home</a></li>
+                        <li><a href="{% url 'about' %}"><i class="fas fa-chevron-right"></i>About Us</a></li>
+                        <li><a href="{% url 'services' %}"><i class="fas fa-chevron-right"></i>Services</a></li>
+                        <li><a href="{% url 'portfolio' %}"><i class="fas fa-chevron-right"></i>Portfolio</a></li>
+                        <li><a href="{% url 'pricing' %}"><i class="fas fa-chevron-right"></i>Pricing</a></li>
+                        <li><a href="{% url 'contact' %}"><i class="fas fa-chevron-right"></i>Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Col 3: Services -->
+            <div class="col-lg-2 col-6">
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Services</h5>
+                    <ul class="footer-nav-list">
+                        <li><a href="{% url 'services' %}#custom-website"><i class="fas fa-chevron-right"></i>Custom Website</a></li>
+                        <li><a href="{% url 'services' %}#ecommerce"><i class="fas fa-chevron-right"></i>E-Commerce</a></li>
+                        <li><a href="{% url 'services' %}#seo-optimization"><i class="fas fa-chevron-right"></i>SEO Optimization</a></li>
+                        <li><a href="{% url 'services' %}#web-design"><i class="fas fa-chevron-right"></i>Web Design</a></li>
+                        <li><a href="{% url 'services' %}#redesign"><i class="fas fa-chevron-right"></i>Redesign</a></li>
+                        <li><a href="{% url 'services' %}#maintenance"><i class="fas fa-chevron-right"></i>Maintenance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Col 4: Contact -->
+            <div class="col-lg-4 col-md-12">
+                <div class="footer-col">
+                    <h5 class="footer-col-title">Get In Touch</h5>
+                    <div class="footer-contact-list">
+                        <div class="fcontact-item">
+                            <div class="fcontact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                            <div class="fcontact-text">
+                                <span class="fcontact-label">Location</span>
+                                <span class="fcontact-val">Devanahalli, Karnataka, India</span>
+                            </div>
+                        </div>
+                        <div class="fcontact-item">
+                            <div class="fcontact-icon"><i class="fas fa-phone-alt"></i></div>
+                            <div class="fcontact-text">
+                                <span class="fcontact-label">Phone</span>
+                                <span class="fcontact-val">+91 7892934437</span>
+                                <span class="fcontact-val">+91 8867156958</span>
+                                <span class="fcontact-val">+91 8971127202</span>
+                            </div>
+                        </div>
+                        <div class="fcontact-item">
+                            <div class="fcontact-icon"><i class="fas fa-envelope"></i></div>
+                            <div class="fcontact-text">
+                                <span class="fcontact-label">Email</span>
+                                <span class="fcontact-val">infoweblance01@gmail.com</span>
+                            </div>
+                        </div>
+                        <div class="fcontact-item">
+                            <div class="fcontact-icon"><i class="fab fa-whatsapp"></i></div>
+                            <div class="fcontact-text">
+                                <span class="fcontact-label">WhatsApp</span>
+                                <a href="https://wa.me/917892934437" target="_blank" rel="noopener" class="fcontact-val fcontact-link">Chat with us →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="footer-bottom-inner">
+                <p class="footer-copy">&copy; 2026 <span style="color:#6366F1;font-weight:700;">WEBLANCE</span>. All Rights Reserved.</p>
+                <div class="footer-bottom-badges">
+                    <span class="footer-badge-pill"><i class="fas fa-shield-alt"></i> Secure</span>
+                    <span class="footer-badge-pill"><i class="fas fa-bolt"></i> Fast</span>
+                    <span class="footer-badge-pill"><i class="fas fa-mobile-alt"></i> Responsive</span>
+                </div>
+                <p class="footer-made">Made with <span style="color:#ef4444;">@</span> WEBLANCE</p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- ── Back to Top ── -->
+<button id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 54 54"><circle cx="27" cy="27" r="26" id="btt-ring"/></svg>
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- ── WhatsApp Float ── -->
+<a id="whatsapp-btn" href="https://wa.me/917892934437?text=Hi%20WEBLANCE%2C%20I%20need%20a%20website!" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ── AI Chat Float (above WhatsApp) ── -->
+<button id="ai-chat-float" aria-label="Ask Weblance AI" title="Ask our AI assistant"
+    style="position:fixed;bottom:100px;right:28px;width:42px;height:42px;background:linear-gradient(135deg,#6366F1,#4F46E5);border:2px solid rgba(255,255,255,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;z-index:10001;box-shadow:0 4px 18px rgba(99,102,241,0.5);cursor:pointer;">
+    <i class="fas fa-robot"></i>
+    <span class="ai-float-dot"></span>
+</button>
+
+
+<!-- ── Cookie Banner ── -->
+{% if request.session.show_cookie_banner %}<div id="cookie-banner" data-force="1">{% else %}<div id="cookie-banner">{% endif %}
+    <p>We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">Learn more</a></p>
+    <div class="cookie-btns">
+        <button class="cookie-accept" id="cookieAccept">Accept All</button>
+        <button class="cookie-decline" id="cookieDecline">Decline</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/script.js' %}?v=19"></script>
+
+{% if user.is_authenticated %}
+<script>
+/* ══════════════════════════════════════════
+   NOTIFICATION BELL — Dropdown + AJAX poll
+   ══════════════════════════════════════════ */
+(function () {
+    var btn      = document.getElementById('wlNotifBtn');
+    var dropdown = document.getElementById('wlNotifDropdown');
+    var badge    = document.getElementById('wlNotifBadge');
+    var headerCount = document.getElementById('wlNotifHeaderCount');
+    if (!btn || !dropdown) return;
+
+    /* ── Position dropdown below the bell button ── */
+    function positionDropdown() {
+        var rect = btn.getBoundingClientRect();
+        dropdown.style.top  = (rect.bottom + 8) + 'px';
+        // Align right edge with button right edge, but keep on screen
+        var right = window.innerWidth - rect.right;
+        dropdown.style.right = Math.max(8, right) + 'px';
+        dropdown.style.left  = 'auto';
+    }
+
+    /* ── Toggle open/close ── */
+    btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = dropdown.classList.contains('open');
+        // Close user dropdown if open
+        var ud = document.getElementById('wlUserDropdown');
+        if (ud) ud.classList.remove('open');
+        if (isOpen) {
+            dropdown.classList.remove('open');
+        } else {
+            positionDropdown();
+            dropdown.classList.add('open');
+        }
+    });
+
+    /* ── Close on outside click ── */
+    document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && e.target !== btn) {
+            dropdown.classList.remove('open');
+        }
+    });
+
+    /* ── Reposition on scroll/resize ── */
+    window.addEventListener('resize', function () {
+        if (dropdown.classList.contains('open')) positionDropdown();
+    });
+
+    /* ── AJAX: mark single notification read ── */
+    document.querySelectorAll('.wl-notif-read-form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var fd = new FormData(form);
+            fetch(form.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.ok) {
+                        // Remove unread styling from the item
+                        var item = form.closest('.wl-notif-item');
+                        if (item) {
+                            item.classList.remove('wl-notif-unread');
+                            form.remove();
+                        }
+                        updateBadge(data.unread_count);
+                    }
+                })
+                .catch(function () {});
+        });
+    });
+
+    /* ── AJAX: mark all read ── */
+    var markAllForm = document.getElementById('wlMarkAllForm');
+    if (markAllForm) {
+        markAllForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            var fd = new FormData(markAllForm);
+            fetch(markAllForm.action, { method: 'POST', body: fd, headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    if (data.ok) {
+                        document.querySelectorAll('.wl-notif-item').forEach(function (el) {
+                            el.classList.remove('wl-notif-unread');
+                            var dotForm = el.querySelector('.wl-notif-read-form');
+                            if (dotForm) dotForm.remove();
+                        });
+                        updateBadge(0);
+                        if (headerCount) headerCount.textContent = '';
+                        markAllForm.remove();
+                    }
+                })
+                .catch(function () {});
+        });
+    }
+
+    /* ── Update badge count ── */
+    function updateBadge(count) {
+        if (!badge) return;
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'flex';
+            if (headerCount) headerCount.textContent = count + ' new';
+        } else {
+            badge.style.display = 'none';
+            if (headerCount) headerCount.textContent = '';
+        }
+    }
+
+    /* ── Poll for new notifications every 60 seconds ── */
+    function pollNotifications() {
+        fetch('{% url "notif_api_unread" %}', {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            updateBadge(data.unread_count);
+        })
+        .catch(function () {});
+    }
+    // Poll every 60 seconds
+    setInterval(pollNotifications, 60000);
+})();
+</script>
+{% endif %}
+
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Time Tracker — {{ project.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.tl-wrap { max-width: 960px; margin: 0 auto; padding: 32px 16px; }
+.tl-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:28px; }
+.tl-header h2 { font-size:1.4rem; font-weight:800; color:#1E293B; margin:0; }
+.tl-back { color:#6366F1; font-size:0.82rem; font-weight:600; text-decoration:none; display:inline-flex; align-items:center; gap:5px; }
+.tl-back:hover { color:#4F46E5; }
+
+/* Stats row */
+.tl-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:14px; margin-bottom:28px; }
+.tl-stat { background:#fff; border:1px solid #E2E8F0; border-radius:16px; padding:18px 16px; text-align:center; box-shadow:0 2px 8px rgba(99,102,241,0.06); }
+.tl-stat-num { font-size:1.8rem; font-weight:900; color:#6366F1; font-family:'Poppins',sans-serif; line-height:1; display:block; }
+.tl-stat-lbl { font-size:0.7rem; color:#94A3B8; text-transform:uppercase; letter-spacing:1px; margin-top:4px; display:block; }
+
+/* Log form */
+.tl-form-card { background:#fff; border:1px solid #E2E8F0; border-radius:20px; padding:24px; margin-bottom:28px; box-shadow:0 2px 12px rgba(99,102,241,0.06); }
+.tl-form-card h5 { font-size:0.95rem; font-weight:800; color:#1E293B; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.tl-form-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.tl-form-full { grid-column:1/-1; }
+.tl-label { font-size:0.78rem; font-weight:600; color:#475569; margin-bottom:5px; display:block; }
+.tl-input { width:100%; padding:9px 12px; border:1px solid #E2E8F0; border-radius:10px; font-size:0.88rem; color:#1E293B; font-family:'Poppins',sans-serif; outline:none; transition:border-color 0.2s; background:#F8FAFF; }
+.tl-input:focus { border-color:#6366F1; box-shadow:0 0 0 3px rgba(99,102,241,0.1); }
+.tl-btn { background:linear-gradient(135deg,#6366F1,#4F46E5); color:#fff; border:none; border-radius:10px; padding:10px 24px; font-size:0.85rem; font-weight:700; cursor:pointer; font-family:'Poppins',sans-serif; transition:all 0.2s; }
+.tl-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(99,102,241,0.35); }
+
+/* Category breakdown */
+.tl-breakdown { background:#fff; border:1px solid #E2E8F0; border-radius:20px; padding:20px; margin-bottom:28px; box-shadow:0 2px 12px rgba(99,102,241,0.06); }
+.tl-breakdown h5 { font-size:0.9rem; font-weight:800; color:#1E293B; margin-bottom:14px; }
+.tl-bar-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.tl-bar-label { font-size:0.78rem; color:#475569; width:110px; flex-shrink:0; }
+.tl-bar-track { flex:1; background:#F1F5F9; border-radius:50px; height:8px; overflow:hidden; }
+.tl-bar-fill { height:100%; border-radius:50px; background:linear-gradient(90deg,#6366F1,#818CF8); transition:width 0.6s ease; }
+.tl-bar-val { font-size:0.75rem; font-weight:700; color:#6366F1; width:40px; text-align:right; flex-shrink:0; }
+
+/* Log table */
+.tl-table-wrap { background:#fff; border:1px solid #E2E8F0; border-radius:20px; overflow:hidden; box-shadow:0 2px 12px rgba(99,102,241,0.06); }
+.tl-table { width:100%; border-collapse:collapse; }
+.tl-table th { background:#F8FAFF; padding:12px 16px; font-size:0.72rem; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:1px; text-align:left; border-bottom:1px solid #E2E8F0; }
+.tl-table td { padding:12px 16px; font-size:0.85rem; color:#334155; border-bottom:1px solid #F1F5F9; vertical-align:middle; }
+.tl-table tr:last-child td { border-bottom:none; }
+.tl-table tr:hover td { background:#F8FAFF; }
+.tl-cat-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:50px; font-size:0.7rem; font-weight:700; }
+.tl-del-btn { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); color:#ef4444; border-radius:8px; padding:4px 10px; font-size:0.72rem; font-weight:600; cursor:pointer; text-decoration:none; transition:all 0.2s; }
+.tl-del-btn:hover { background:rgba(239,68,68,0.15); color:#dc2626; }
+.tl-empty { text-align:center; padding:40px; color:#94A3B8; font-size:0.88rem; }
+
+/* Category colors */
+.cat-design      { background:rgba(236,72,153,0.1); color:#ec4899; }
+.cat-development { background:rgba(99,102,241,0.1); color:#6366F1; }
+.cat-testing     { background:rgba(16,185,129,0.1); color:#10b981; }
+.cat-meeting     { background:rgba(245,158,11,0.1); color:#f59e0b; }
+.cat-revision    { background:rgba(139,92,246,0.1); color:#8b5cf6; }
+.cat-deployment  { background:rgba(6,182,212,0.1); color:#06b6d4; }
+.cat-other       { background:rgba(100,116,139,0.1); color:#64748b; }
+
+@media(max-width:767px) {
+    .tl-form-grid { grid-template-columns:1fr; }
+    .tl-stats { grid-template-columns:1fr 1fr; }
+    .tl-table th:nth-child(4), .tl-table td:nth-child(4) { display:none; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="tl-wrap">
+
+    <!-- Header -->
+    <div class="tl-header">
+        <div>
+            <a href="{% url 'admin_project_detail' project.pk %}" class="tl-back">
+                <i class="fas fa-arrow-left"></i> Back to Project
+            </a>
+            <h2 class="mt-2"><i class="fas fa-clock" style="color:#6366F1;margin-right:8px;"></i>Time Tracker — {{ project.title }}</h2>
+        </div>
+        <div style="font-size:0.82rem;color:#94A3B8;">
+            Client: <strong style="color:#1E293B;">{{ project.client.get_full_name|default:project.client.username }}</strong>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for msg in messages %}
+        <div class="alert alert-{{ msg.tags }} alert-dismissible fade show mb-3" role="alert">
+            {{ msg }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- Stats -->
+    <div class="tl-stats">
+        <div class="tl-stat">
+            <span class="tl-stat-num">{{ total_hours|floatformat:1 }}</span>
+            <span class="tl-stat-lbl">Total Hours</span>
+        </div>
+        <div class="tl-stat">
+            <span class="tl-stat-num">{{ logs.count }}</span>
+            <span class="tl-stat-lbl">Sessions</span>
+        </div>
+        <div class="tl-stat">
+            <span class="tl-stat-num" style="color:#10b981;">{{ project.progress }}%</span>
+            <span class="tl-stat-lbl">Progress</span>
+        </div>
+        <div class="tl-stat">
+            <span class="tl-stat-num" style="color:#f59e0b;font-size:1rem;">{{ project.get_status_display }}</span>
+            <span class="tl-stat-lbl">Status</span>
+        </div>
+    </div>
+
+    <!-- Log Form -->
+    <div class="tl-form-card">
+        <h5><i class="fas fa-plus-circle" style="color:#6366F1;"></i> Log Work Session</h5>
+        <form method="post">
+            {% csrf_token %}
+            <div class="tl-form-grid">
+                <div>
+                    <label class="tl-label">Hours Worked *</label>
+                    <input type="number" name="hours" class="tl-input" placeholder="e.g. 2.5" step="0.25" min="0.25" max="24" required>
+                </div>
+                <div>
+                    <label class="tl-label">Date *</label>
+                    <input type="date" name="log_date" class="tl-input" required>
+                </div>
+                <div>
+                    <label class="tl-label">Category</label>
+                    <select name="category" class="tl-input">
+                        {% for val, label in categories %}
+                        <option value="{{ val }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="tl-form-full">
+                    <label class="tl-label">Description (optional)</label>
+                    <input type="text" name="description" class="tl-input" placeholder="What did you work on?">
+                </div>
+                <div class="tl-form-full">
+                    <button type="submit" class="tl-btn"><i class="fas fa-save me-2"></i>Log Time</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Category Breakdown -->
+    {% if by_category %}
+    <div class="tl-breakdown">
+        <h5><i class="fas fa-chart-pie" style="color:#6366F1;margin-right:6px;"></i>Breakdown by Category</h5>
+        {% for label, hrs in by_category.items %}
+        <div class="tl-bar-row">
+            <span class="tl-bar-label">{{ label }}</span>
+            <div class="tl-bar-track">
+                <div class="tl-bar-fill" style="width:{% widthratio hrs total_hours 100 %}%"></div>
+            </div>
+            <span class="tl-bar-val">{{ hrs }}h</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Logs Table -->
+    <div class="tl-table-wrap">
+        <table class="tl-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Category</th>
+                    <th>Hours</th>
+                    <th>Description</th>
+                    <th>Logged By</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td><strong>{{ log.log_date|date:"d M Y" }}</strong></td>
+                    <td>
+                        <span class="tl-cat-badge cat-{{ log.category }}">
+                            <i class="fas fa-circle" style="font-size:0.45rem;"></i>
+                            {{ log.get_category_display }}
+                        </span>
+                    </td>
+                    <td><strong style="color:#6366F1;">{{ log.hours }}h</strong></td>
+                    <td style="color:#64748B;">{{ log.description|default:"—" }}</td>
+                    <td style="color:#94A3B8;font-size:0.78rem;">{{ log.logged_by.get_full_name|default:log.logged_by.username|default:"—" }}</td>
+                    <td>
+                        <form method="post" action="{% url 'timelog_delete' log.pk %}" onsubmit="return confirm('Delete this log?')">
+                            {% csrf_token %}
+                            <button type="submit" class="tl-del-btn"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="tl-empty"><i class="fas fa-clock fa-2x mb-2 d-block" style="opacity:0.3;"></i>No time logged yet. Add your first session above.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+// Set today as default date
+document.querySelector('input[name="log_date"]').valueAsDate = new Date();
+</script>
+{% endblock %}

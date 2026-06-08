@@ -1,0 +1,276 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{{ title }}{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.inv-section { background:#fff; border:1px solid #E2E8F0; border-radius:16px; padding:24px; margin-bottom:24px; }
+.inv-section-title { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:#6366F1; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+.inv-section-title i { font-size:0.85rem; }
+.inv-label { font-size:0.75rem; font-weight:600; color:#475569; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; display:block; }
+.inv-input { display:block; width:100%; background:#F8FAFF; border:1px solid #E2E8F0; border-radius:10px; color:#1E293B; font-size:0.875rem; padding:10px 14px; outline:none; transition:border-color 0.2s, box-shadow 0.2s; }
+.inv-input:focus { border-color:#6366F1; box-shadow:0 0 0 3px rgba(99,102,241,0.1); background:#fff; }
+.inv-input::placeholder { color:#94A3B8; }
+.item-row { display:grid; grid-template-columns:1fr 100px 130px 40px; gap:10px; align-items:center; margin-bottom:10px; }
+.item-row-header { display:grid; grid-template-columns:1fr 100px 130px 40px; gap:10px; margin-bottom:6px; }
+.item-row-header span { font-size:0.68rem; font-weight:700; color:#94A3B8; text-transform:uppercase; letter-spacing:0.8px; }
+.remove-item-btn { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.2); color:#ef4444; border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:0.8rem; transition:all 0.2s; }
+.remove-item-btn:hover { background:rgba(239,68,68,0.2); }
+.add-item-btn { background:#EEF2FF; border:1px dashed #C7D2FE; color:#6366F1; border-radius:10px; padding:10px 16px; font-size:0.82rem; font-weight:600; cursor:pointer; width:100%; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:6px; }
+.add-item-btn:hover { background:#E0E7FF; border-color:#6366F1; }
+.totals-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #F1F5F9; font-size:0.875rem; }
+.totals-row:last-child { border-bottom:none; font-weight:800; font-size:1rem; color:#6366F1; }
+.totals-row .label { color:#64748B; }
+.totals-row .value { font-weight:600; color:#1E293B; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center gap-3 mb-4">
+    <a href="{% url 'invoice_list' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i></a>
+    <h5 style="margin:0;font-family:'Poppins',sans-serif;font-weight:800;">{{ title }}</h5>
+</div>
+
+<form method="post" id="invoiceForm">
+{% csrf_token %}
+<div class="row g-4">
+    <!-- Left column -->
+    <div class="col-lg-8">
+
+        <!-- Auto-fill from Agreement -->
+        <div class="inv-section">
+            <div class="inv-section-title"><i class="fas fa-magic"></i> Auto-fill from Agreement / Project</div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="inv-label">Agreement (optional)</label>
+                    <select name="agreement" class="inv-input" id="agreementSelect">
+                        <option value="">— Select Agreement —</option>
+                        {% for agr in agreements %}
+                        <option value="{{ agr.pk }}"
+                            data-name="{{ agr.client_name }}"
+                            data-email="{{ agr.client_email }}"
+                            data-phone="{{ agr.client_phone }}"
+                            data-address="{{ agr.client_address }}"
+                            data-title="{{ agr.get_project_type_display }} — {{ agr.project_title }}"
+                            data-amount="{{ agr.advance_amount }}"
+                            data-desc="Advance payment ({{ agr.advance_percent }}%) for {{ agr.project_title }}">
+                            {{ agr.short_ref }} — {{ agr.client_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="inv-label">Project (optional)</label>
+                    <select name="project" class="inv-input" id="projectSelect">
+                        <option value="">— Select Project —</option>
+                        {% for proj in projects %}
+                        <option value="{{ proj.pk }}"
+                            data-name="{{ proj.client.get_full_name|default:proj.client.username }}"
+                            data-email="{{ proj.client.email }}"
+                            data-title="{{ proj.title }}">
+                            {{ proj.title }} ({{ proj.client.username }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Client Info -->
+        <div class="inv-section">
+            <div class="inv-section-title"><i class="fas fa-user"></i> Client Information</div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="inv-label">Client Name *</label>
+                    <input type="text" name="client_name" id="clientName" class="inv-input" placeholder="Full name" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="inv-label">Client Email *</label>
+                    <input type="email" name="client_email" id="clientEmail" class="inv-input" placeholder="email@example.com" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="inv-label">Phone</label>
+                    <input type="text" name="client_phone" id="clientPhone" class="inv-input" placeholder="+91 XXXXX XXXXX">
+                </div>
+                <div class="col-md-6">
+                    <label class="inv-label">Address</label>
+                    <input type="text" name="client_address" id="clientAddress" class="inv-input" placeholder="City, State">
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoice Details -->
+        <div class="inv-section">
+            <div class="inv-section-title"><i class="fas fa-file-invoice"></i> Invoice Details</div>
+            <div class="row g-3">
+                <div class="col-12">
+                    <label class="inv-label">Invoice Title *</label>
+                    <input type="text" name="title" id="invTitle" class="inv-input" placeholder="e.g. Website Development — Phase 1" required>
+                </div>
+                <div class="col-12">
+                    <label class="inv-label">Description</label>
+                    <textarea name="description" class="inv-input" rows="3" placeholder="Brief description of services…"></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="inv-label">Due Date</label>
+                    <input type="date" name="due_date" class="inv-input">
+                </div>
+                <div class="col-12">
+                    <label class="inv-label">Notes</label>
+                    <textarea name="notes" class="inv-input" rows="2" placeholder="Payment instructions, bank details, etc."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Line Items -->
+        <div class="inv-section">
+            <div class="inv-section-title"><i class="fas fa-list"></i> Line Items</div>
+            <div class="item-row-header">
+                <span>Description</span>
+                <span>Qty</span>
+                <span>Unit Price (₹)</span>
+                <span></span>
+            </div>
+            <div id="itemsContainer">
+                <div class="item-row">
+                    <input type="text" name="item_desc" class="inv-input" placeholder="Service description" required>
+                    <input type="number" name="item_qty" class="inv-input" value="1" min="0.01" step="0.01">
+                    <input type="number" name="item_price" class="inv-input" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+                    <button type="button" class="remove-item-btn" onclick="removeItem(this)" title="Remove"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <button type="button" class="add-item-btn mt-2" onclick="addItem()">
+                <i class="fas fa-plus"></i> Add Line Item
+            </button>
+        </div>
+    </div>
+
+    <!-- Right column — Summary -->
+    <div class="col-lg-4">
+        <div class="inv-section" style="position:sticky;top:80px;">
+            <div class="inv-section-title"><i class="fas fa-calculator"></i> Invoice Summary</div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-12">
+                    <label class="inv-label">Subtotal (₹)</label>
+                    <input type="number" name="amount" id="subtotalInput" class="inv-input" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()" required>
+                    <small style="color:#94A3B8;font-size:0.7rem;margin-top:4px;display:block;">Auto-calculated from line items, or enter manually</small>
+                </div>
+                <div class="col-6">
+                    <label class="inv-label">Tax %</label>
+                    <input type="number" name="tax_percent" id="taxInput" class="inv-input" value="0" min="0" max="100" step="0.01" oninput="calcTotal()">
+                </div>
+                <div class="col-6">
+                    <label class="inv-label">Discount (₹)</label>
+                    <input type="number" name="discount" id="discountInput" class="inv-input" value="0" min="0" step="0.01" oninput="calcTotal()">
+                </div>
+            </div>
+
+            <!-- Totals -->
+            <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:12px;padding:16px;">
+                <div class="totals-row">
+                    <span class="label">Subtotal</span>
+                    <span class="value" id="displaySubtotal">₹0.00</span>
+                </div>
+                <div class="totals-row">
+                    <span class="label">Tax</span>
+                    <span class="value" id="displayTax">₹0.00</span>
+                </div>
+                <div class="totals-row">
+                    <span class="label">Discount</span>
+                    <span class="value" id="displayDiscount">-₹0.00</span>
+                </div>
+                <div class="totals-row" style="margin-top:8px;padding-top:12px;border-top:2px solid #E2E8F0;">
+                    <span class="label" style="color:#1E293B;font-weight:700;">Total</span>
+                    <span id="displayTotal" style="color:#6366F1;font-weight:900;font-size:1.2rem;">₹0.00</span>
+                </div>
+            </div>
+
+            <button type="submit" class="ap-btn ap-btn-green w-100 mt-4" style="justify-content:center;padding:12px;font-size:0.9rem;color:#fff!important;">
+                <i class="fas fa-save me-2"></i> Create Invoice
+            </button>
+            <a href="{% url 'invoice_list' %}" class="ap-btn ap-btn-outline w-100 mt-2" style="justify-content:center;padding:12px;">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Auto-fill from agreement
+document.getElementById('agreementSelect').addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    if (!opt.value) return;
+    document.getElementById('clientName').value    = opt.dataset.name    || '';
+    document.getElementById('clientEmail').value   = opt.dataset.email   || '';
+    document.getElementById('clientPhone').value   = opt.dataset.phone   || '';
+    document.getElementById('clientAddress').value = opt.dataset.address || '';
+    document.getElementById('invTitle').value      = opt.dataset.title   || '';
+    document.getElementById('subtotalInput').value = opt.dataset.amount  || '';
+    // Pre-fill first line item
+    const descs  = document.querySelectorAll('[name="item_desc"]');
+    const prices = document.querySelectorAll('[name="item_price"]');
+    if (descs.length > 0)  descs[0].value  = opt.dataset.desc   || '';
+    if (prices.length > 0) prices[0].value = opt.dataset.amount || '';
+    calcTotal();
+});
+
+// Auto-fill from project
+document.getElementById('projectSelect').addEventListener('change', function() {
+    const opt = this.options[this.selectedIndex];
+    if (!opt.value) return;
+    document.getElementById('clientName').value  = opt.dataset.name  || '';
+    document.getElementById('clientEmail').value = opt.dataset.email || '';
+    document.getElementById('invTitle').value    = opt.dataset.title || '';
+});
+
+function addItem() {
+    const container = document.getElementById('itemsContainer');
+    const row = document.createElement('div');
+    row.className = 'item-row';
+    row.innerHTML = `
+        <input type="text" name="item_desc" class="inv-input" placeholder="Service description">
+        <input type="number" name="item_qty" class="inv-input" value="1" min="0.01" step="0.01">
+        <input type="number" name="item_price" class="inv-input" placeholder="0.00" min="0" step="0.01" oninput="calcTotal()">
+        <button type="button" class="remove-item-btn" onclick="removeItem(this)" title="Remove"><i class="fas fa-times"></i></button>
+    `;
+    container.appendChild(row);
+}
+
+function removeItem(btn) {
+    const rows = document.querySelectorAll('.item-row');
+    if (rows.length <= 1) return;
+    btn.closest('.item-row').remove();
+    calcTotal();
+}
+
+function calcTotal() {
+    // Sum line items
+    let lineTotal = 0;
+    const qtys   = document.querySelectorAll('[name="item_qty"]');
+    const prices = document.querySelectorAll('[name="item_price"]');
+    qtys.forEach((q, i) => {
+        lineTotal += (parseFloat(q.value) || 0) * (parseFloat(prices[i]?.value) || 0);
+    });
+    if (lineTotal > 0) {
+        document.getElementById('subtotalInput').value = lineTotal.toFixed(2);
+    }
+
+    const subtotal  = parseFloat(document.getElementById('subtotalInput').value) || 0;
+    const taxPct    = parseFloat(document.getElementById('taxInput').value)       || 0;
+    const discount  = parseFloat(document.getElementById('discountInput').value)  || 0;
+    const tax       = (subtotal * taxPct) / 100;
+    const total     = subtotal + tax - discount;
+
+    document.getElementById('displaySubtotal').textContent = '₹' + subtotal.toFixed(2);
+    document.getElementById('displayTax').textContent      = '₹' + tax.toFixed(2);
+    document.getElementById('displayDiscount').textContent = '-₹' + discount.toFixed(2);
+    document.getElementById('displayTotal').textContent    = '₹' + total.toFixed(2);
+}
+
+calcTotal();
+</script>
+{% endblock %}

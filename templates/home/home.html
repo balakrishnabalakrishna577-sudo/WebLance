@@ -1,0 +1,1995 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+
+{% block title %}WEBLANCE - Professional Website Development Company{% endblock %}
+
+
+
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/home_pro.css' %}?v=9">
+<style>
+
+/* ══ TRUSTED-BY MARQUEE ══ */
+
+.trusted-marquee-wrap { overflow: hidden; position: relative; }
+
+.trusted-marquee-wrap::before,
+
+.trusted-marquee-wrap::after {
+
+    content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+
+}
+
+.trusted-marquee-wrap::before { left: 0; background: linear-gradient(to right, #fff, transparent); }
+
+.trusted-marquee-wrap::after  { right: 0; background: linear-gradient(to left, #fff, transparent); }
+
+.trusted-marquee-track {
+
+    display: flex; gap: 32px; align-items: center;
+
+    animation: trustedScroll 22s linear infinite; width: max-content;
+
+}
+
+.trusted-marquee-track:hover { animation-play-state: paused; }
+
+@keyframes trustedScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+.trusted-city { display:flex;align-items:center;gap:6px;font-size:.82rem;color:#64748B;font-weight:600;white-space:nowrap; }
+
+.trusted-city i { color:#6366F1;font-size:.7rem; }
+
+
+
+/* ══ REVIEW CARDS ══ */
+
+.rv-home-card {
+
+    background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:24px;height:100%;
+
+    display:flex;flex-direction:column;transition:all .25s ease;
+
+    box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;overflow:hidden;
+
+}
+
+.rv-home-card::before {
+
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+
+    background:linear-gradient(90deg,#6366F1,#818CF8,#A5B4FC);border-radius:20px 20px 0 0;
+
+}
+
+.rv-home-card:hover { border-color:#C7D2FE;transform:translateY(-4px);box-shadow:0 16px 40px rgba(99,102,241,.12); }
+
+.rv-quote-icon { font-size:2.5rem;color:#EEF2FF;line-height:1;margin-bottom:8px;font-family:Georgia,serif; }
+
+
+
+/* ══ SECTION LABEL PILL ══ */
+
+.section-label-pill {
+
+    display:inline-flex;align-items:center;gap:6px;
+
+    background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;color:#4F46E5;
+
+    padding:5px 16px;border-radius:50px;font-size:.72rem;font-weight:700;
+
+    text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
+
+}
+
+/* ══ HERO TYPEWRITER ══ */
+.wl-hero-typewriter {
+    display: block;
+    white-space: nowrap ;
+    overflow: hidden;
+    min-height: 1.18em;
+    font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+    background: linear-gradient(130deg, #4338ca 0%, #6366F1 28%, #818CF8 55%, #06b6d4 80%, #22d3ee 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: titleGrad 6s ease infinite;
+    filter: drop-shadow(0 3px 14px rgba(99,102,241,.26));
+}
+.wl-hero-typewriter::after {
+    content: '|';
+    -webkit-text-fill-color: #6366F1;
+    color: #6366F1;
+    animation: cursorBlink 0.75s step-end infinite;
+    margin-left: 2px;
+    font-weight: 300;
+}
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+</style>
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<!-- ══════════════════════════════════════════════════════════
+
+     HERO — Premium Upgraded
+
+     ══════════════════════════════════════════════════════════ -->
+
+
+
+<section id="hero" class="wl-hero">
+    <div class="wl-hero-orb-bl"></div>
+    <div class="wl-hero-orb-mid"></div>
+
+    <div class="container wl-hero-inner">
+        <div class="row align-items-center g-3 g-lg-4">
+
+            <!-- ── LEFT: Copy ── -->
+            <div class="col-lg-6">
+
+                <div class="wl-hero-badge hero-reveal-1">
+                    <span class="wl-hero-badge-dot"></span>
+                    Available for new projects
+                </div>
+
+                <h1 class="wl-hero-title hero-reveal-2" style="font-size: clamp(2.4rem, 4.2vw, 4rem) !important; letter-spacing: -0.03em !important;">
+                    Professional websites that<br>
+                    <span class="wl-hero-typewriter" id="heroTypewriter"></span>
+                </h1>
+
+                <p class="wl-hero-lead hero-reveal-3">
+                    We design and develop fast, modern, SEO-friendly websites for startups and businesses across India — with clean UI, strong performance, and reliable support.
+                </p>
+
+                <div class="wl-hero-ctas hero-reveal-4">
+                    <a href="{% url 'request_website' %}" class="btn btn-green">
+                        Get a Free Quote <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                    <a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="btn btn-outline-indigo">
+                        <i class="fas fa-calendar-check me-2"></i> Book a Call
+                    </a>
+                </div>
+
+                <div class="wl-hero-proof hero-reveal-4">
+                    <div class="wl-proof-pill"><i class="fas fa-bolt"></i> Fast delivery</div>
+                    <div class="wl-proof-pill"><i class="fas fa-search"></i> SEO ready</div>
+                    <div class="wl-proof-pill"><i class="fas fa-mobile-alt"></i> Mobile-first</div>
+                    <div class="wl-proof-pill"><i class="fas fa-shield-alt"></i> Secure & scalable</div>
+                </div>
+
+                <div class="wl-hero-stats hero-reveal-5">
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num" data-target="150" data-suffix="+">0+</span>
+                        <span class="hero-stat-lbl">Projects</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num" data-target="120" data-suffix="+">0+</span>
+                        <span class="hero-stat-lbl">Happy clients</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num">5.0★</span>
+                        <span class="hero-stat-lbl">Rating</span>
+                    </div>
+                    <div class="hero-stat-item">
+                        <span class="hero-stat-num" data-target="4" data-suffix="+">0+</span>
+                        <span class="hero-stat-lbl">Yrs experience</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── RIGHT: Browser mockup ── -->
+            <div class="col-lg-6">
+                <div class="wl-hero-right hero-reveal-r">
+
+                    <!-- Glow halo -->
+                    <div class="wl-hero-halo"></div>
+
+                    <!-- Floating stat cards -->
+                    <div class="wl-hero-stat-card wl-hero-stat-card--tl">
+                        <div class="wl-hero-stat-card-icon" style="background:#FEF9C3;">
+                            <i class="fas fa-star" style="color:#D97706;"></i>
+                        </div>
+                        <div>
+                            <span class="wl-hero-stat-card-val">5.0 ★</span>
+                            <span class="wl-hero-stat-card-lbl">Client Rating</span>
+                        </div>
+                    </div>
+
+                    <div class="wl-hero-stat-card wl-hero-stat-card--tr">
+                        <div class="wl-hero-stat-card-icon" style="background:#EEF2FF;">
+                            <i class="fas fa-rocket" style="color:#6366F1;"></i>
+                        </div>
+                        <div>
+                            <span class="wl-hero-stat-card-val">7 Days</span>
+                            <span class="wl-hero-stat-card-lbl">Avg. Delivery</span>
+                        </div>
+                    </div>
+
+                    <div class="wl-hero-stat-card wl-hero-stat-card--bl">
+                        <div class="wl-hero-stat-card-icon" style="background:#F0FDF4;">
+                            <i class="fas fa-check-circle" style="color:#16a34a;"></i>
+                        </div>
+                        <div>
+                            <span class="wl-hero-stat-card-val">150+</span>
+                            <span class="wl-hero-stat-card-lbl">Projects Done</span>
+                        </div>
+                    </div>
+
+                    <!-- Browser card -->
+                    <div class="wl-hero-browser">
+                        <!-- Chrome bar -->
+                        <div class="wl-browser-chrome">
+                            <div class="wl-browser-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="wl-browser-url">
+                                <i class="fas fa-lock"></i>
+                                weblancehub.in
+                            </div>
+                        </div>
+
+                        <!-- Screenshot -->
+                        <div class="wl-browser-screen">
+                            <img src="{% static 'images/hero_mockup.jpg' %}"
+                                 alt="Weblance professional website preview"
+                                 loading="eager">
+
+                            <!-- Live activity pill overlaid on image -->
+                            <div class="wl-hero-delivered" style="gap:12px; padding:10px 18px;">
+                                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
+                                    <div style="width:8px;height:8px;background:#22c55e;border-radius:50%;animation:livePulse 2s infinite;box-shadow:0 0 0 0 rgba(34,197,94,.6);"></div>
+                                    <span style="font-size:.52rem;color:#94a3b8;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Live</span>
+                                </div>
+                                <div style="width:1px;height:28px;background:#e2e8f0;flex-shrink:0;"></div>
+                                <div style="display:flex;gap:20px;">
+                                    <div style="text-align:center;">
+                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#1e293b;line-height:1;letter-spacing:-.02em;">150+</span>
+                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:5px;">Projects</span>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#6366F1;line-height:1;letter-spacing:-.02em;">5.0★</span>
+                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Rating</span>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#1e293b;line-height:1;letter-spacing:-.02em;">on-time</span>
+                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Delivery</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- Hero counter animation script -->
+
+<script>
+
+/* ── Typewriter cycling effect ── */
+(function(){
+    var el = document.getElementById('heroTypewriter');
+    if(!el) return;
+
+    var phrases = [
+        'Convert visitors',
+        'Grow online',
+        'Rank on Google',
+        'Build your brand',
+        'Launch faster',
+        'Beat competitors'
+    ];
+
+    var phraseIndex = 0;
+    var charIndex   = 0;
+    var isDeleting  = false;
+    var typeSpeed   = 60;   // ms per char while typing
+    var deleteSpeed = 35;   // ms per char while deleting
+    var pauseAfter  = 2000; // pause at full phrase
+    var pauseEmpty  = 400;  // pause at empty before next phrase
+
+    function tick(){
+        var current = phrases[phraseIndex];
+
+        if(!isDeleting){
+            // typing
+            charIndex++;
+            el.textContent = current.slice(0, charIndex);
+            if(charIndex === current.length){
+                // finished typing — pause then delete
+                isDeleting = true;
+                setTimeout(tick, pauseAfter);
+                return;
+            }
+            setTimeout(tick, typeSpeed);
+        } else {
+            // deleting
+            charIndex--;
+            el.textContent = current.slice(0, charIndex);
+            if(charIndex === 0){
+                // finished deleting — move to next phrase
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(tick, pauseEmpty);
+                return;
+            }
+            setTimeout(tick, deleteSpeed);
+        }
+    }
+
+    // small initial delay so the page loads first
+    setTimeout(tick, 800);
+})();
+
+(function(){
+
+    function animateHeroCounter(el){
+
+        var target = parseInt(el.getAttribute('data-target'));
+
+        var suffix = el.getAttribute('data-suffix') || '';
+
+        var duration = 2000, start = null;
+
+        function step(ts){
+
+            if(!start) start = ts;
+
+            var p = Math.min((ts-start)/duration,1);
+
+            var ease = 1-Math.pow(1-p,3);
+
+            el.textContent = Math.floor(ease*target)+suffix;
+
+            if(p<1) requestAnimationFrame(step);
+
+        }
+
+        requestAnimationFrame(step);
+
+    }
+
+    var obs = new IntersectionObserver(function(entries){
+
+        entries.forEach(function(e){
+
+            if(e.isIntersecting){ animateHeroCounter(e.target); obs.unobserve(e.target); }
+
+        });
+
+    },{threshold:.5});
+
+    document.querySelectorAll('.hero-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
+
+})();
+
+</script>
+
+
+
+<!-- ── Trusted By / Social Proof Bar ── -->
+
+<section style="background:#fff;border-bottom:1px solid #E2E8F0;padding:18px 0;overflow:hidden;">
+
+    <div class="container">
+
+        <div class="d-flex align-items-center gap-4">
+
+            <span style="font-size:0.72rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0;">Trusted in</span>
+
+            <div class="trusted-marquee-wrap" style="flex:1;overflow:hidden;position:relative;">
+
+                <div class="trusted-marquee-wrap" style="overflow:hidden;">
+
+                    <div class="trusted-marquee-track">
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+
+                        <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;">🌍 International</span>
+
+                        <!-- Duplicate for seamless loop -->
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+
+                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+
+                        <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;">🌍 International</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Services Overview ── -->
+
+<section class="section services-3d-section" style="background: var(--bg-dark);">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate" data-reveal="fade-up">
+
+            <span class="label" data-i18n="label_whatwedo">What We Do</span>
+
+            <h2>Our <span class="text-green" data-i18n="sec_services">Services</span></h2>
+
+            <p data-i18n="sec_services_sub">Comprehensive web solutions tailored to your business needs</p>
+
+        </div>
+
+        <div class="row g-3">
+
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="0">
+
+                <div class="card-3d" data-popup-title="Custom Websites" data-popup-desc="Tailor-made websites designed specifically for your business. We build from scratch using modern frameworks, ensuring speed, security, and scalability. Every pixel is crafted to match your brand identity." data-popup-icon="fa-code" data-popup-color="#6366F1">
+
+                    <div class="card-3d-inner">
+
+                        <div class="card-3d-glow"></div>
+
+                        <div class="card-3d-icon"><i class="fas fa-code"></i></div>
+
+                        <h3>Custom Websites</h3>
+
+                        <p>Tailor-made websites designed specifically for your business requirements and brand identity.</p>
+
+                        <div class="card-3d-footer">
+
+                            <span class="card-3d-tag">HTML · CSS · Django</span>
+
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="100">
+
+                <div class="card-3d" data-popup-title="E-Commerce" data-popup-desc="Powerful online stores with secure payment gateways, inventory management, order tracking, and mobile-optimized shopping experience. We integrate Razorpay, Stripe, and PayPal." data-popup-icon="fa-shopping-cart" data-popup-color="#ffa500">
+
+                    <div class="card-3d-inner">
+
+                        <div class="card-3d-glow" style="--glow-color:rgba(255,165,0,0.3)"></div>
+
+                        <div class="card-3d-icon" style="background:rgba(255,165,0,0.1);color:#ffa500"><i class="fas fa-shopping-cart"></i></div>
+
+                        <h3>E-Commerce</h3>
+
+                        <p>Powerful online stores with secure payment integration and inventory management.</p>
+
+                        <div class="card-3d-footer">
+
+                            <span class="card-3d-tag">Razorpay · Stripe</span>
+
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="200">
+
+                <div class="card-3d" data-popup-title="SEO Optimization" data-popup-desc="Boost your Google rankings with technical SEO, keyword research, on-page optimization, speed improvements, and monthly performance reports. We've helped clients reach page 1." data-popup-icon="fa-search" data-popup-color="#6495ed">
+
+                    <div class="card-3d-inner">
+
+                        <div class="card-3d-glow" style="--glow-color:rgba(100,149,237,0.3)"></div>
+
+                        <div class="card-3d-icon" style="background:rgba(100,149,237,0.1);color:#6495ed"><i class="fas fa-search"></i></div>
+
+                        <h3>SEO Optimization</h3>
+
+                        <p>Boost your online presence with search engine optimized websites that rank higher.</p>
+
+                        <div class="card-3d-footer">
+
+                            <span class="card-3d-tag">Google · Analytics</span>
+
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="300">
+
+                <div class="card-3d" data-popup-title="UI/UX Design" data-popup-desc="Beautiful, intuitive interfaces designed with user psychology in mind. We create wireframes, prototypes, and pixel-perfect designs that convert visitors into customers." data-popup-icon="fa-paint-brush" data-popup-color="#ff6b9d">
+
+                    <div class="card-3d-inner">
+
+                        <div class="card-3d-glow" style="--glow-color:rgba(255,107,157,0.3)"></div>
+
+                        <div class="card-3d-icon" style="background:rgba(255,107,157,0.1);color:#ff6b9d"><i class="fas fa-paint-brush"></i></div>
+
+                        <h3>UI/UX Design</h3>
+
+                        <p>Modern, responsive designs that captivate your audience and enhance user experience.</p>
+
+                        <div class="card-3d-footer">
+
+                            <span class="card-3d-tag">Figma · Adobe XD</span>
+
+                            <button class="card-3d-more" aria-label="Learn more">+</button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-5 scroll-animate" data-reveal="fade-up">
+
+            <a href="{% url 'services' %}" class="btn btn-outline-indigo">Explore All Services</a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Service Card Popup ── -->
+
+<div id="card-popup-overlay">
+
+    <div class="card-popup" id="cardPopup" role="dialog" aria-modal="true">
+
+        <button class="card-popup-close" id="cardPopupClose" aria-label="Close"><i class="fas fa-times"></i></button>
+
+        <div class="card-popup-icon" id="cardPopupIcon"></div>
+
+        <h3 id="cardPopupTitle"></h3>
+
+        <p id="cardPopupDesc"></p>
+
+        <a href="{% url 'services' %}" class="btn btn-green mt-3">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
+
+    </div>
+
+</div>
+
+
+
+<!-- ── Why Choose Us ── -->
+
+<section class="section" style="background:#F8FAFF;">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">Why Us</span>
+
+            <h2>Why Choose <span class="text-green">WEBLANCE</span></h2>
+
+            <p>We deliver excellence in every project we take on</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-hover-card">
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:20px 20px 0 0;"></div>
+
+                    <div style="width:56px;height:56px;background:#EEF2FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-user-tie" style="color:#6366F1;"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Expert Team</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Skilled developers with years of hands-on experience in modern web technologies.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-hover-card">
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:20px 20px 0 0;"></div>
+
+                    <div style="width:56px;height:56px;background:#FEF9C3;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-rocket" style="color:#D97706;"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Fast Delivery</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">On-time project completion guaranteed — no delays, no excuses.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-hover-card">
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:20px 20px 0 0;"></div>
+
+                    <div style="width:56px;height:56px;background:#F0FDF4;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-chart-line" style="color:#15803D;"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">SEO Friendly</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Built-in SEO best practices so your site ranks higher from day one.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-hover-card">
+                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:20px 20px 0 0;"></div>
+
+                    <div style="width:56px;height:56px;background:#EFF6FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-mobile-alt" style="color:#1D4ED8;"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Mobile First</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Perfect display on every device — phones, tablets, and desktops.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Portfolio Preview ── -->
+
+<section class="section" style="background: var(--bg-dark);">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">Our Work</span>
+
+            <h2>Featured <span class="text-green">Portfolio</span></h2>
+
+            <p>Explore our recent projects and success stories</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            {% if portfolio_items %}
+
+                {% for item in portfolio_items|slice:"6" %}
+
+                <div class="col-lg-4 col-md-6 scroll-animate">
+
+                    <div class="portfolio-item">
+
+                        {% if item.image %}
+
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img">
+
+                        {% else %}
+
+                        <img src="https://via.placeholder.com/600x400/111111/00ff88?text={{ item.title|urlencode }}" alt="{{ item.title }}" class="portfolio-img">
+
+                        {% endif %}
+
+                        <div class="portfolio-overlay">
+
+                            <h3>{{ item.title }}</h3>
+
+                            <p>{{ item.description|truncatewords:12 }}</p>
+
+                            {% if item.live_url %}
+
+                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Site <i class="fas fa-external-link-alt ms-1"></i></a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="col-12 text-center py-5">
+
+                    <i class="fas fa-images fa-3x mb-3" style="color:var(--primary-green);opacity:0.4;"></i>
+
+                    <p style="color:var(--text-gray);">Portfolio projects coming soon.</p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="text-center mt-5 scroll-animate">
+
+            <a href="{% url 'portfolio' %}" class="btn btn-outline-indigo">View All Projects</a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Process Section ── -->
+
+<section class="section process-section" style="background:#fff;">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">How It Works</span>
+
+            <h2>Our <span class="text-green">Process</span></h2>
+
+            <p>Simple, transparent, and efficient from start to finish</p>
+
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 scroll-animate">
+                <div class="wl-process-card">
+                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">01</div>
+
+                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(99,102,241,0.3);"><i class="fas fa-comments"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Consultation</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We discuss your goals, requirements, and vision for the project.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-process-card">
+                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">02</div>
+
+                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(245,158,11,0.3);"><i class="fas fa-pencil-ruler"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Design</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We craft a beautiful, brand-aligned design for your approval.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-process-card">
+                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">03</div>
+
+                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#60a5fa);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(59,130,246,0.3);"><i class="fas fa-code"></i></div>
+
+                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Development</h4>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We build your site with clean code, speed, and SEO in mind.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div class="wl-process-card wl-process-card--primary">
+                    <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
+                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:-8px;">04</div>
+
+                    <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;"><i class="fas fa-rocket"></i></div>
+
+                    <h4 style="font-weight:800;color:#fff;margin-bottom:8px;">Launch</h4>
+
+                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.65;margin:0;">We deploy, test, and hand over your fully working website.</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+
+<!-- ── Tech Stack ── -->
+
+<section class="section tech-section" style="background:#E2E8F0;overflow:hidden;">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">Our Stack</span>
+
+            <h2>Technologies We <span class="text-green">Master</span></h2>
+
+            <p>Battle-tested tools we use to build fast, scalable, and beautiful websites</p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Row 1: Frontend + Backend — scrolls left -->
+
+    <div class="tech-marquee-wrap">
+
+        <div class="tech-marquee tech-marquee-left">
+
+            <div class="tech-marquee-track">
+
+                <!-- Frontend -->
+
+                <div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
+
+                <div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
+
+                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
+
+                <!-- Duplicate for seamless loop -->
+
+                <div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
+
+                <div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
+
+                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Row 2: Database + Cloud + Tools — scrolls right -->
+
+    <div class="tech-marquee-wrap" style="margin-top:14px;">
+
+        <div class="tech-marquee tech-marquee-right">
+
+            <div class="tech-marquee-track">
+
+                <div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
+
+                <div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
+
+                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
+
+                <!-- Duplicate -->
+
+                <div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
+
+                <div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
+
+                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
+
+                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
+
+                <div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Stats row -->
+
+    <div class="container">
+
+        <div class="tech-stats-row scroll-animate">
+
+            <div class="tech-stat-item">
+
+                <span class="tech-stat-num">20+</span>
+
+                <span class="tech-stat-lbl">Technologies</span>
+
+            </div>
+
+            <div class="tech-stat-item">
+
+                <span class="tech-stat-num">5+</span>
+
+                <span class="tech-stat-lbl">Years Experience</span>
+
+            </div>
+
+            <div class="tech-stat-item">
+
+                <span class="tech-stat-num">150+</span>
+
+                <span class="tech-stat-lbl">Projects Built</span>
+
+            </div>
+
+            <div class="tech-stat-item">
+
+                <span class="tech-stat-num">AI</span>
+
+                <span class="tech-stat-lbl">Powered Proposals</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Newsletter ── -->
+
+<section class="section newsletter-section">
+
+    <div class="container">
+
+        <div class="newsletter-card scroll-animate">
+
+            <div class="newsletter-glow"></div>
+
+            <div class="row align-items-center g-4">
+
+                <div class="col-lg-6">
+
+                    <span class="label">Stay Updated</span>
+
+                    <h2>Get Web Tips & <span class="text-green">Offers</span></h2>
+
+                    <p style="color:var(--text-gray);margin-top:8px;">Join 500+ business owners getting free web tips, design trends, and exclusive offers every month.</p>
+
+                </div>
+
+                <div class="col-lg-6">
+
+                    <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
+
+                        <div class="newsletter-input-wrap">
+
+                            <i class="fas fa-envelope newsletter-input-icon"></i>
+
+                            <input type="email" placeholder="Enter your email address" required>
+
+                            <button type="submit" class="btn btn-green">Subscribe <i class="fas fa-arrow-right ms-1"></i></button>
+
+                        </div>
+
+                        <p class="newsletter-note"><i class="fas fa-lock me-1"></i>No spam, ever. Unsubscribe anytime.</p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Client Dashboard Portal Section ── -->
+
+
+
+
+
+<!-- ── What We Deliver — Feature Highlights ── -->
+
+<section class="section" style="background:#fff;">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">What You Get</span>
+
+            <h2>Everything Your Business <span class="text-green">Needs</span></h2>
+
+            <p>Every website we build comes packed with features that drive real results</p>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-mobile-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">100% Mobile Responsive</h5>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Perfect on every screen — phones, tablets, and desktops. Google rewards mobile-first sites with higher rankings.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:52px;height:52px;background:#FEF9C3;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-bolt" style="color:#D97706;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Lightning Fast Speed</h5>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Optimized for sub-2 second load times. Fast websites convert 3x more visitors into customers.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:52px;height:52px;background:#F0FDF4;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-search" style="color:#15803D;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">SEO Built-In</h5>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Meta tags, structured data, sitemap, and page speed — all optimized from day one so you rank on Google.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-shield-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Secure & Reliable</h5>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">SSL certificates, regular backups, and security hardening. Your website stays safe and online 24/7.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:52px;height:52px;background:#FFF7ED;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-headset" style="color:#C2410C;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">30-Day Free Support</h5>
+
+                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">After launch, we're still here. 30 days of free support to fix bugs, make tweaks, and answer questions.</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6 scroll-animate">
+
+                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:18px;padding:28px;height:100%;position:relative;overflow:hidden;">
+
+                    <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;"></div>
+
+                    <div style="width:52px;height:52px;background:rgba(255,255,255,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-rocket" style="color:#fff;font-size:1.2rem;"></i></div>
+
+                    <h5 style="font-weight:800;color:#fff;margin-bottom:8px;">Ready to Start?</h5>
+
+                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:16px;">Get a free quote in 24 hours. No commitment required.</p>
+
+                    <a href="{% url 'request_website' %}" style="background:#fff;color:#6366F1;padding:8px 20px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+
+                        <i class="fas fa-arrow-right"></i> Get Free Quote
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Pricing Preview ── -->
+
+<section class="section" style="background:#F1F5F9;">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">Transparent Pricing</span>
+
+            <h2>Simple, Honest <span class="text-green">Pricing</span></h2>
+
+            <p>No hidden fees. No surprises. Just great websites at fair prices.</p>
+
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- Starter -->
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:48px;height:48px;background:#EEF2FF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-seedling" style="color:#6366F1;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">Starter</h5>
+
+                    <p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Landing Page</p>
+
+                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">₹8,000</div>
+
+                    <p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+
+                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>1–3 pages</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Mobile responsive</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Contact form</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>7–10 day delivery</li>
+
+                    </ul>
+
+                    <a href="{% url 'request_website' %}?plan=starter" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
+
+                </div>
+
+            </div>
+
+            <!-- Business — Popular -->
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:28px;text-align:center;height:100%;position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
+
+                    <div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.2);color:#fff;font-size:0.62rem;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;">Most Popular</div>
+
+                    <div style="width:48px;height:48px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-building" style="color:#fff;"></i></div>
+
+                    <h5 style="font-weight:800;color:#fff;margin-bottom:4px;">Business</h5>
+
+                    <p style="color:rgba(255,255,255,0.7);font-size:0.78rem;margin-bottom:16px;">Full Business Website</p>
+
+                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:4px;">₹15,000</div>
+
+                    <p style="color:rgba(255,255,255,0.6);font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+
+                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+
+                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>5–10 pages</li>
+
+                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>SEO optimized</li>
+
+                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>Admin panel</li>
+
+                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>15–20 day delivery</li>
+
+                    </ul>
+
+                    <a href="{% url 'request_website' %}?plan=business" style="display:block;background:#fff;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;">Get Started</a>
+
+                </div>
+
+            </div>
+
+            <!-- E-Commerce -->
+
+            <div class="col-lg-3 col-md-6 scroll-animate">
+
+                <div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+
+                    <div style="width:48px;height:48px;background:#FEF9C3;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-shopping-cart" style="color:#D97706;"></i></div>
+
+                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">E-Commerce</h5>
+
+                    <p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Online Store</p>
+
+                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">₹25,000</div>
+
+                    <p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+
+                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Full online store</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Razorpay / Stripe</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Inventory system</li>
+
+                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>25–35 day delivery</li>
+
+                    </ul>
+
+                    <a href="{% url 'request_website' %}?plan=e-commerce" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center mt-4 scroll-animate">
+
+            <a href="{% url 'pricing' %}" style="color:#6366F1;font-weight:700;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+
+                View all plans & compare features <i class="fas fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── CTA ── -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7 scroll-animate">
+
+                <h2>Ready to Build Your Website?</h2>
+
+                <p>Let's create something amazing together. Get a free quote today.</p>
+
+                <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+
+                    <a href="{% url 'request_website' %}" class="btn btn-green btn-lg">Get Free Quote</a>
+
+                    <a href="{% url 'contact' %}" class="btn btn-indigo btn-lg">Contact Us</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ── Quick Contact ── -->
+
+<section class="section" style="background: var(--bg-dark);">
+
+    <div class="container">
+
+        <div class="section-title scroll-animate">
+
+            <span class="label">Reach Out</span>
+
+            <h2>Get In <span class="text-green">Touch</span></h2>
+
+            <p>We're always happy to hear from you</p>
+
+        </div>
+
+        <div class="row g-4 justify-content-center">
+
+            <div class="col-lg-4 col-md-4 scroll-animate">
+
+                <div class="contact-quick-card">
+
+                    <div class="card-icon mx-auto"><i class="fas fa-phone"></i></div>
+
+                    <h5>Call Us</h5>
+
+                    <p>+91 7892934437<br>+91 8867156958</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-4 scroll-animate">
+
+                <div class="contact-quick-card">
+
+                    <div class="card-icon mx-auto"><i class="fas fa-envelope"></i></div>
+
+                    <h5>Email Us</h5>
+
+                    <p>infoweblance01@gmail.com</p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-4 scroll-animate">
+
+                <div class="contact-quick-card">
+
+                    <div class="card-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
+
+                    <h5>Location</h5>
+
+                    <p>Devanahalli, Karnataka, India</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════════════════
+
+     CLIENT REVIEWS — Real reviews from delivered projects
+
+     ══════════════════════════════════════════════════════════ -->
+
+<section style="background:#F8FAFF;padding:80px 0;border-top:1px solid #E2E8F0;">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="text-center mb-5 scroll-animate">
+            <span class="section-label-pill">
+                <i class="fas fa-star" style="color:#D97706;"></i> Verified Client Reviews
+            </span>
+            <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
+                What Our Clients <span style="color:#6366F1;">Say</span>
+            </h2>
+            <p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
+                Real feedback from real businesses we've helped grow — straight from their project dashboards.
+            </p>
+            <div style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid #E2E8F0;border-radius:50px;padding:8px 20px;margin-top:18px;box-shadow:0 2px 8px rgba(99,102,241,0.06);">
+                <div style="display:flex;gap:2px;">
+                    {% for i in "12345" %}<i class="fas fa-star" style="color:#f59e0b;font-size:0.9rem;"></i>{% endfor %}
+                </div>
+                <span style="font-weight:800;color:#1E293B;font-size:0.9rem;">{% if reviews %}{{ reviews|length }}+{% else %}5.0{% endif %} Rating</span>
+                <span style="color:#94A3B8;font-size:0.78rem;">· All from real projects</span>
+            </div>
+        </div>
+
+        <!-- Review cards grid -->
+        <div class="row g-4">
+
+            {% if reviews %}
+                {% for review in reviews %}
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="rv-home-card">
+                        <div class="rv-quote-icon">"</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                            <div style="display:flex;gap:3px;">
+                                {% for i in "12345" %}
+                                <i class="fas fa-star" style="font-size:0.85rem;color:{% if forloop.counter <= review.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
+                                {% endfor %}
+                            </div>
+                            <span style="font-size:0.7rem;color:#94A3B8;">{{ review.created_at|date:"M Y" }}</span>
+                        </div>
+                        {% if review.title %}
+                        <div style="font-weight:800;color:#1E293B;font-size:0.92rem;margin-bottom:8px;">{{ review.title }}</div>
+                        {% endif %}
+                        <p style="color:#475569;font-size:0.85rem;line-height:1.75;margin:0 0 18px;flex-grow:1;">{{ review.body|truncatewords:35 }}</p>
+                        <div style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid #F1F5F9;">
+                            <div style="width:38px;height:38px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.88rem;flex-shrink:0;">
+                                {{ review.client.username|slice:":1"|upper }}
+                            </div>
+                            <div style="min-width:0;">
+                                <div style="font-weight:700;color:#1E293B;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    {{ review.client.get_full_name|default:review.client.username }}
+                                </div>
+                                <div style="font-size:0.72rem;color:#94A3B8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                    <i class="fas fa-check-circle" style="color:#22c55e;margin-right:3px;"></i>Verified · {{ review.project.title|truncatechars:28 }}
+                                </div>
+                            </div>
+                            <div style="margin-left:auto;background:#EEF2FF;color:#6366F1;border-radius:8px;padding:4px 8px;font-size:0.7rem;font-weight:800;flex-shrink:0;">
+                                {{ review.rating }}/5
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            {% else %}
+                <!-- Placeholder cards shown until real reviews exist -->
+                {% for item in "123" %}
+                <div class="col-lg-4 col-md-6 scroll-animate">
+                    <div class="rv-home-card">
+                        <div class="rv-quote-icon">"</div>
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                            <div style="display:flex;gap:3px;">
+                                {% for i in "12345" %}<i class="fas fa-star" style="font-size:0.85rem;color:#f59e0b;"></i>{% endfor %}
+                            </div>
+                            <span style="font-size:0.7rem;color:#94A3B8;">May 2025</span>
+                        </div>
+                        <div style="font-weight:800;color:#1E293B;font-size:0.92rem;margin-bottom:8px;">
+                            {% if forloop.counter == 1 %}Outstanding work, delivered on time{% elif forloop.counter == 2 %}Exceeded all our expectations{% else %}Best investment for our business{% endif %}
+                        </div>
+                        <p style="color:#475569;font-size:0.85rem;line-height:1.75;margin:0 0 18px;flex-grow:1;">
+                            {% if forloop.counter == 1 %}Weblance built our business website in just 10 days. The design is clean, fast, and exactly what we needed. Highly recommend their team for any web project.{% elif forloop.counter == 2 %}From the first call to final delivery, the process was smooth and professional. Our e-commerce store looks amazing and sales have already improved.{% else %}We needed a complete website redesign and Weblance delivered beyond what we imagined. SEO-ready, mobile-first, and beautifully designed.{% endif %}
+                        </p>
+                        <div style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid #F1F5F9;">
+                            <div style="width:38px;height:38px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.88rem;flex-shrink:0;">
+                                {% if forloop.counter == 1 %}R{% elif forloop.counter == 2 %}P{% else %}A{% endif %}
+                            </div>
+                            <div style="min-width:0;">
+                                <div style="font-weight:700;color:#1E293B;font-size:0.85rem;">
+                                    {% if forloop.counter == 1 %}Rahul Sharma{% elif forloop.counter == 2 %}Priya Nair{% else %}Arjun Mehta{% endif %}
+                                </div>
+                                <div style="font-size:0.72rem;color:#94A3B8;">
+                                    <i class="fas fa-check-circle" style="color:#22c55e;margin-right:3px;"></i>Verified ·
+                                    {% if forloop.counter == 1 %}Business Website{% elif forloop.counter == 2 %}E-Commerce Store{% else %}Portfolio Site{% endif %}
+                                </div>
+                            </div>
+                            <div style="margin-left:auto;background:#EEF2FF;color:#6366F1;border-radius:8px;padding:4px 8px;font-size:0.7rem;font-weight:800;flex-shrink:0;">5/5</div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ══════════════════════════════════════════════════════════
+
+     FAQ — Last section before footer
+
+     ══════════════════════════════════════════════════════════ -->
+
+<section style="background:#F1F5F9;padding:72px 0 80px;">
+
+    <div class="container">
+
+        <!-- Header -->
+
+        <div class="text-center mb-5 scroll-animate">
+
+            <span style="display:inline-flex;align-items:center;gap:6px;background:#EEF2FF;border:1px solid #C7D2FE;color:#6366F1;padding:5px 16px;border-radius:50px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">
+
+                <i class="fas fa-question-circle"></i> Got Questions?
+
+            </span>
+
+            <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
+
+                Frequently Asked <span style="color:#6366F1;">Questions</span>
+
+            </h2>
+
+            <p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
+
+                Everything you need to know before getting started with Weblance.
+
+            </p>
+
+        </div>
+
+
+
+        <div class="row g-4 justify-content-center">
+
+            <!-- FAQ accordion -->
+
+            <div class="col-lg-7 scroll-animate">
+
+                <div style="display:flex;flex-direction:column;gap:12px;" id="faqAccordion">
+
+
+
+                    <!-- Item 1 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>How long does it take to build a website?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>Typically 7–30 business days depending on complexity. A simple landing page takes 7–10 days, a business website 15–20 days, and a full e-commerce store 30–45 days. We always provide a clear timeline before starting.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 2 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>What is included in the price?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>All packages include design, development, mobile responsiveness, basic SEO setup, contact form, and 30 days of free support after launch. Domain and hosting are separate unless specified in the package.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 3 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>Do you provide website maintenance?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>Yes! We offer monthly maintenance plans starting at ₹1,999/month covering security updates, content changes, performance monitoring, and technical support. Ask us for details.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 4 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>Can I update the website content myself?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>Absolutely. We build with a Django admin panel so you can easily update text, images, blog posts, and products without any coding knowledge. We also provide a walkthrough video after handover.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 5 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>Do you work with clients outside Devanahalli?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>Yes! We work with clients across India and internationally. All communication is done via WhatsApp, email, and video calls. Distance is never a barrier for great work.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 6 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>What payment methods do you accept?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>We accept UPI, bank transfer, Razorpay, and PayPal. We typically work on a 50% advance + 50% on delivery model to keep things fair for both sides.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Item 7 -->
+
+                    <div class="faq-new-item">
+                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+                            <span>Will my website rank on Google?</span>
+                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-new-body">
+                            <p>Every website we build includes on-page SEO — meta tags, structured data, fast loading, and mobile optimization. For ongoing SEO campaigns (keyword targeting, link building), we offer separate monthly SEO packages.</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Right: CTA card -->
+
+            <div class="col-lg-4 col-md-8 scroll-animate">
+
+                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:32px;text-align:center;position:sticky;top:90px;">
+
+                    <div style="width:56px;height:56px;background:rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;">💬</div>
+
+                    <h5 style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;margin-bottom:8px;">Still have questions?</h5>
+
+                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:20px;">Our team is happy to answer any questions you have. Reach out and we'll get back to you within 24 hours.</p>
+
+                    <a href="{% url 'contact' %}" style="display:block;background:#fff;color:#6366F1;padding:12px;border-radius:50px;font-size:0.875rem;font-weight:800;text-decoration:none;margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='#E0E7FF'" onmouseout="this.style.background='#fff'">
+
+                        <i class="fas fa-envelope me-2"></i>Send a Message
+
+                    </a>
+
+                    <a href="https://wa.me/917892934437" target="_blank" style="display:block;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:12px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+
+                        <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+
+                    </a>
+
+                    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);">
+
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;">Average response time</div>
+
+                        <div style="font-size:1.1rem;font-weight:800;color:#fff;">Under 2 hours</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+{% endblock %}
+
+
+
+{% block extra_js %}
+
+<script>
+
+// ── FAQ accordion ──
+
+function toggleFaq(btn) {
+
+    const item = btn.closest('.faq-new-item');
+
+    const body = item.querySelector('.faq-new-body');
+
+    const icon = btn.querySelector('i');
+
+    const iconWrap = btn.querySelector('span:last-child');
+
+    const isOpen = body.style.display === 'block';
+
+
+
+    // Close all others
+
+    document.querySelectorAll('.faq-new-item').forEach(function(el) {
+
+        el.querySelector('.faq-new-body').style.display = 'none';
+
+        el.querySelector('i').className = 'fas fa-plus';
+
+        el.querySelector('span:last-child').style.background = '#EEF2FF';
+
+        el.querySelector('span:last-child').style.transform = '';
+
+        el.style.borderColor = '#E2E8F0';
+
+    });
+
+
+
+    // Toggle current
+
+    if (!isOpen) {
+
+        body.style.display = 'block';
+
+        icon.className = 'fas fa-minus';
+
+        iconWrap.style.background = '#6366F1';
+
+        iconWrap.querySelector('i').style.color = '#fff';
+
+        iconWrap.style.transform = 'rotate(180deg)';
+
+        item.style.borderColor = '#6366F1';
+
+    }
+
+}
+
+// ── Tech tabs removed (replaced with marquee) ──
+
+(function() {
+
+    const container = document.getElementById('particles');
+
+    if (!container) return;
+
+    for (let i = 0; i < 30; i++) {
+
+        const p = document.createElement('div');
+
+        p.className = 'particle';
+
+        p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;`;
+
+        container.appendChild(p);
+
+    }
+
+})();
+
+
+
+// ── Typing animation ──
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    initTyping(document.getElementById('typed-word'), [
+
+        'Business Websites',
+
+        'E-Commerce Stores',
+
+        'Landing Pages',
+
+        'SEO Campaigns',
+
+        'Portfolio Sites',
+
+        'Restaurant Websites',
+
+        'Real Estate Portals',
+
+        'School Websites',
+
+        'Web Applications',
+
+        'Website Redesigns',
+
+    ], 75, 2000);
+
+
+
+    // ── Testimonials carousel ──
+
+    const track = document.getElementById('testimonialTrack');
+
+    const nav   = document.getElementById('testimonialNav');
+
+    if (!track || !nav) return;
+
+
+
+    const cards     = track.querySelectorAll('.testimonial-card');
+
+    const visible   = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+
+    const total     = cards.length;
+
+    let current     = 0;
+
+
+
+    // Build dots
+
+    const maxDots = total - visible + 1;
+
+    for (let i = 0; i < maxDots; i++) {
+
+        const d = document.createElement('button');
+
+        d.className = 't-dot' + (i === 0 ? ' active' : '');
+
+        d.addEventListener('click', () => goTo(i));
+
+        nav.appendChild(d);
+
+    }
+
+
+
+    function goTo(idx) {
+
+        current = Math.max(0, Math.min(idx, maxDots - 1));
+
+        const cardW = cards[0].offsetWidth + 24; // gap=24
+
+        track.style.transform = `translateX(-${current * cardW}px)`;
+
+        cards.forEach((c, i) => c.classList.toggle('active', i === current));
+
+        nav.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+
+    }
+
+
+
+    // Auto-advance
+
+    let timer = setInterval(() => goTo((current + 1) % maxDots), 4000);
+
+    track.addEventListener('mouseenter', () => clearInterval(timer));
+
+    track.addEventListener('mouseleave', () => { timer = setInterval(() => goTo((current + 1) % maxDots), 4000); });
+
+
+
+    // Touch swipe
+
+    let startX = 0;
+
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+
+    track.addEventListener('touchend',   e => {
+
+        const diff = startX - e.changedTouches[0].clientX;
+
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+
+    });
+
+});
+
+</script>
+
+{% endblock %}
+

@@ -1,0 +1,140 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Bot Conversations{% endblock %}
+{% block page_title %}AI Bot Conversations{% endblock %}
+
+{% block content %}
+
+<!-- Stats row -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(99,102,241,0.1);">
+                <i class="fas fa-robot" style="color:#6366F1;"></i>
+            </div>
+            <div>
+                <div class="ap-stat-num">{{ total }}</div>
+                <div class="ap-stat-label">Total Sessions</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:rgba(239,68,68,0.1);">
+                <i class="fas fa-circle" style="color:#ef4444;font-size:0.7rem;"></i>
+            </div>
+            <div>
+                <div class="ap-stat-num" style="color:#ef4444;">{{ unread }}</div>
+                <div class="ap-stat-label">Unread</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toolbar -->
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="?filter=all"
+           style="padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;text-decoration:none;
+                  {% if filter_by == 'all' %}background:#6366F1;color:#fff;{% else %}background:#F1F5F9;color:#64748B;border:1px solid #E2E8F0;{% endif %}">
+            All ({{ total }})
+        </a>
+        <a href="?filter=unread"
+           style="padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:600;text-decoration:none;
+                  {% if filter_by == 'unread' %}background:#ef4444;color:#fff;{% else %}background:#F1F5F9;color:#64748B;border:1px solid #E2E8F0;{% endif %}">
+            Unread ({{ unread }})
+        </a>
+    </div>
+    {% if unread > 0 %}
+    <form method="post" action="{% url 'admin_bot_chats_mark_read' %}">
+        {% csrf_token %}
+        <button type="submit" class="ap-btn ap-btn-outline" style="font-size:0.8rem;">
+            <i class="fas fa-check-double"></i> Mark All Read
+        </button>
+    </form>
+    {% endif %}
+</div>
+
+<!-- Sessions table -->
+{% if sessions %}
+<div class="ap-card">
+    <table class="ap-table">
+        <thead>
+            <tr>
+                <th>Session</th>
+                <th>Messages</th>
+                <th>IP Address</th>
+                <th>Page</th>
+                <th>Last Active</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in sessions %}
+            <tr>
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:36px;height:36px;background:{% if not s.is_read %}linear-gradient(135deg,#6366F1,#818CF8){% else %}#E2E8F0{% endif %};border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fas fa-robot" style="color:{% if not s.is_read %}#fff{% else %}#94A3B8{% endif %};font-size:0.85rem;"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:{% if not s.is_read %}700{% else %}500{% endif %};font-size:0.85rem;color:#1E293B;">
+                                Session {{ s.session_id|stringformat:"s"|slice:":8" }}…
+                            </div>
+                            <div style="font-size:0.72rem;color:#94A3B8;">{{ s.started_at|date:"d M Y, H:i" }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span style="background:#EEF2FF;color:#6366F1;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;">
+                        {{ s.message_count }} msg{{ s.message_count|pluralize }}
+                    </span>
+                    <span style="font-size:0.72rem;color:#94A3B8;margin-left:4px;">{{ s.user_message_count }} from visitor</span>
+                </td>
+                <td style="font-size:0.82rem;color:#475569;font-family:monospace;">
+                    {{ s.visitor_ip|default:"—" }}
+                </td>
+                <td style="font-size:0.78rem;color:#64748B;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                    {% if s.page_url %}
+                    <a href="{{ s.page_url }}" target="_blank" style="color:#6366F1;text-decoration:none;" title="{{ s.page_url }}">
+                        {{ s.page_url|truncatechars:30 }}
+                    </a>
+                    {% else %}—{% endif %}
+                </td>
+                <td style="font-size:0.82rem;color:#64748B;">{{ s.last_active|timesince }} ago</td>
+                <td>
+                    {% if not s.is_read %}
+                    <span class="ap-badge ap-badge-red">New</span>
+                    {% else %}
+                    <span class="ap-badge" style="background:#F1F5F9;color:#94A3B8;border:1px solid #E2E8F0;">Read</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div style="display:flex;gap:6px;justify-content:flex-end;">
+                        <a href="{% url 'admin_bot_chat_detail' s.session_id %}" class="ap-btn ap-btn-outline" style="font-size:0.75rem;padding:5px 12px;">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <form method="post" action="{% url 'admin_bot_chat_delete' s.session_id %}" onsubmit="return confirm('Delete this conversation?');" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red" style="font-size:0.75rem;padding:5px 10px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="ap-card" style="text-align:center;padding:60px 32px;">
+    <div style="width:72px;height:72px;background:#EEF2FF;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.8rem;color:#6366F1;">
+        <i class="fas fa-robot"></i>
+    </div>
+    <h5 style="color:#1E293B;font-weight:700;margin-bottom:8px;">No bot conversations yet</h5>
+    <p style="color:#64748B;font-size:0.9rem;">When visitors chat with the WebLance AI widget, their conversations will appear here.</p>
+</div>
+{% endif %}
+
+{% endblock %}

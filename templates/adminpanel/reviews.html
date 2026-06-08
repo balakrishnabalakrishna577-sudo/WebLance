@@ -1,0 +1,222 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Client Reviews{% endblock %}
+{% block page_title %}Client Reviews{% endblock %}
+
+{% block extra_css %}
+<style>
+.rv-star { font-size: 0.85rem; }
+.rv-star.filled { color: #f59e0b; }
+.rv-star.empty  { color: #E2E8F0; }
+.rv-body-text {
+    color: #475569;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+    <div>
+        <h4 style="color:#1E293B;margin:0;font-weight:800;">Client Reviews</h4>
+        <p style="color:#64748B;font-size:0.85rem;margin:4px 0 0;">Reviews submitted by clients after project delivery. Toggle visibility to show/hide on the home page.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+        <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:6px 14px;border-radius:20px;font-size:0.78rem;font-weight:700;">
+            <i class="fas fa-star me-1"></i>{{ reviews|length }} Total
+        </span>
+        <span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:6px 14px;border-radius:20px;font-size:0.78rem;font-weight:700;" id="publicCount">
+            <i class="fas fa-eye me-1"></i>
+            {% with public=reviews|length %}
+            {{ reviews|length }} Public
+            {% endwith %}
+        </span>
+    </div>
+</div>
+
+{% if reviews %}
+
+<!-- Stats bar -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#FEF9C3;"><i class="fas fa-star" style="color:#D97706;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ reviews|length }}</div>
+                <div class="ap-stat-label">Total Reviews</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#F0FDF4;"><i class="fas fa-eye" style="color:#15803D;"></i></div>
+            <div>
+                <div class="ap-stat-num">{% for r in reviews %}{% if r.is_public %}{% if forloop.first %}1{% else %}+{% endif %}{% endif %}{% endfor %}</div>
+                <div class="ap-stat-label">Public</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#EEF2FF;"><i class="fas fa-star-half-alt" style="color:#6366F1;"></i></div>
+            <div>
+                <div class="ap-stat-num">
+                    {% with total=reviews|length %}
+                    {% if total > 0 %}
+                    {% widthratio reviews|length 1 1 %}
+                    {% endif %}
+                    {% endwith %}
+                    ★
+                </div>
+                <div class="ap-stat-label">Avg Rating</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#FEF2F2;"><i class="fas fa-eye-slash" style="color:#DC2626;"></i></div>
+            <div>
+                <div class="ap-stat-num">{% for r in reviews %}{% if not r.is_public %}{% if forloop.first %}1{% else %}+{% endif %}{% endif %}{% endfor %}</div>
+                <div class="ap-stat-label">Hidden</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Reviews table -->
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-comment-dots"></i> All Reviews</h5>
+    </div>
+    <div style="overflow-x:auto;">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>Client</th>
+                    <th>Project</th>
+                    <th>Rating</th>
+                    <th>Review</th>
+                    <th>Date</th>
+                    <th>Visibility</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for review in reviews %}
+            <tr>
+                <!-- Client -->
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div style="width:34px;height:34px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.85rem;flex-shrink:0;">
+                            {{ review.client.username|slice:":1"|upper }}
+                        </div>
+                        <div>
+                            <div style="font-weight:700;color:#1E293B;font-size:0.85rem;">{{ review.client.get_full_name|default:review.client.username }}</div>
+                            <div style="color:#94A3B8;font-size:0.72rem;">{{ review.client.email|default:"—" }}</div>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Project -->
+                <td>
+                    <a href="{% url 'admin_project_detail' review.project.pk %}" style="color:#6366F1;font-weight:600;font-size:0.85rem;text-decoration:none;">
+                        {{ review.project.title|truncatechars:30 }}
+                    </a>
+                    <div style="color:#94A3B8;font-size:0.72rem;margin-top:2px;">
+                        <span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:1px 7px;border-radius:20px;font-size:0.65rem;font-weight:700;">Delivered</span>
+                    </div>
+                </td>
+
+                <!-- Rating -->
+                <td>
+                    <div style="display:flex;gap:2px;margin-bottom:3px;">
+                        {% for i in "12345" %}
+                        <i class="fas fa-star rv-star {% if forloop.counter <= review.rating %}filled{% else %}empty{% endif %}"></i>
+                        {% endfor %}
+                    </div>
+                    <div style="font-size:0.72rem;font-weight:800;color:#1E293B;">{{ review.rating }}/5</div>
+                </td>
+
+                <!-- Review text -->
+                <td style="max-width:260px;">
+                    {% if review.title %}
+                    <div style="font-weight:700;color:#1E293B;font-size:0.82rem;margin-bottom:4px;">{{ review.title }}</div>
+                    {% endif %}
+                    <div class="rv-body-text">{{ review.body }}</div>
+                </td>
+
+                <!-- Date -->
+                <td style="color:#64748B;font-size:0.78rem;white-space:nowrap;">
+                    {{ review.created_at|date:"d M Y" }}
+                    {% if review.updated_at != review.created_at %}
+                    <div style="color:#94A3B8;font-size:0.68rem;">Edited {{ review.updated_at|date:"d M Y" }}</div>
+                    {% endif %}
+                </td>
+
+                <!-- Visibility toggle -->
+                <td>
+                    <form method="post" action="{% url 'admin_review_toggle' review.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" style="
+                            display:inline-flex;align-items:center;gap:5px;
+                            padding:5px 12px;border-radius:20px;border:1px solid;
+                            font-size:0.72rem;font-weight:700;cursor:pointer;
+                            transition:all 0.2s;
+                            {% if review.is_public %}
+                            background:#F0FDF4;color:#15803D;border-color:#BBF7D0;
+                            {% else %}
+                            background:#FEF2F2;color:#DC2626;border-color:#FECACA;
+                            {% endif %}
+                        ">
+                            <i class="fas fa-{% if review.is_public %}eye{% else %}eye-slash{% endif %}"></i>
+                            {% if review.is_public %}Public{% else %}Hidden{% endif %}
+                        </button>
+                    </form>
+                </td>
+
+                <!-- Actions -->
+                <td>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        <a href="{% url 'admin_project_detail' review.project.pk %}" class="ap-btn ap-btn-outline" style="font-size:0.72rem;padding:5px 10px;" title="View Project">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <form method="post" action="{% url 'admin_review_delete' review.pk %}" onsubmit="return confirm('Delete this review by {{ review.client.username }}?')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red" style="font-size:0.72rem;padding:5px 10px;" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% else %}
+<!-- Empty state -->
+<div class="ap-card">
+    <div class="ap-card-body" style="text-align:center;padding:60px 20px;">
+        <div style="width:72px;height:72px;background:#EEF2FF;border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.8rem;">
+            <i class="fas fa-star" style="color:#6366F1;"></i>
+        </div>
+        <h5 style="color:#1E293B;font-weight:800;margin-bottom:8px;">No Reviews Yet</h5>
+        <p style="color:#64748B;font-size:0.88rem;max-width:380px;margin:0 auto 20px;">
+            Client reviews appear here once a project is marked as <strong>Delivered</strong> and the client submits a review from their project dashboard.
+        </p>
+        <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-green">
+            <i class="fas fa-tasks me-1"></i> View Projects
+        </a>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

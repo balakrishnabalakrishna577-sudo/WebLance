@@ -1,0 +1,103 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Client Projects{% endblock %}
+{% block page_title %}Client Projects{% endblock %}
+
+{% block extra_css %}
+<style>
+.proj-row:hover td { background: rgba(99,102,241,0.03); }
+.prog-bar { background: #E2E8F0; border-radius: 4px; height: 6px; overflow: hidden; width: 80px; display: inline-block; vertical-align: middle; }
+.prog-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, #6366F1, #818CF8); }
+.s-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: .65rem; font-weight: 700; text-transform: uppercase; }
+.s-planning    { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE68A; }
+.s-design      { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+.s-development { background: #F5F3FF; color: #5B21B6; border: 1px solid #DDD6FE; }
+.s-testing     { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
+.s-delivered   { background: #F0FDF4; color: #15803D; border: 1px solid #BBF7D0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+        <h4 style="color:#1E293B;margin:0;font-weight:800;">Client Projects</h4>
+        <small style="color:#64748B;">Manage and track all client projects</small>
+    </div>
+    <a href="{% url 'admin_project_create' %}" class="ap-btn ap-btn-green" style="color:#fff!important;">
+        <i class="fas fa-plus"></i> New Project
+    </a>
+</div>
+
+<div class="ap-card">
+    <div style="overflow-x:auto;">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Client</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                    <th>Deadline</th>
+                    <th>Messages</th>
+                    <th style="text-align:right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for p in projects %}
+            <tr class="proj-row">
+                <td>
+                    <div style="color:#1E293B;font-weight:700;font-size:.88rem;">{{ p.title }}</div>
+                    {% if p.description %}
+                    <div style="color:#94A3B8;font-size:.72rem;margin-top:2px;">{{ p.description|truncatechars:40 }}</div>
+                    {% endif %}
+                    {% if p.plan %}
+                    <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:1px 7px;border-radius:20px;font-size:.62rem;font-weight:700;">{{ p.plan.name }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div style="color:#1E293B;font-size:.85rem;font-weight:600;">{{ p.client.username }}</div>
+                    <div style="color:#64748B;font-size:.72rem;">{{ p.client.email }}</div>
+                </td>
+                <td><span class="s-badge s-{{ p.status }}">{{ p.get_status_display }}</span></td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <div class="prog-bar"><div class="prog-fill" style="width:{{ p.progress }}%"></div></div>
+                        <span style="color:#6366F1;font-size:.78rem;font-weight:700;">{{ p.progress }}%</span>
+                    </div>
+                </td>
+                <td style="color:#64748B;font-size:.8rem;">
+                    {% if p.deadline %}{{ p.deadline|date:"d M Y" }}{% else %}<span style="color:#CBD5E1;">—</span>{% endif %}
+                </td>
+                <td style="color:#64748B;font-size:.8rem;">
+                    {{ p.messages.count }} <i class="fas fa-comments ms-1" style="font-size:.7rem;color:#CBD5E1;"></i>
+                </td>
+                <td style="text-align:right;">
+                    <div style="display:flex;gap:6px;justify-content:flex-end;align-items:center;">
+                        <a href="{% url 'admin_project_detail' p.pk %}" class="ap-btn ap-btn-outline" style="font-size:.75rem;padding:5px 12px;">
+                            <i class="fas fa-eye me-1"></i>Manage
+                        </a>
+                        <form method="post" action="{% url 'admin_project_delete' p.pk %}"
+                              onsubmit="return confirm('Delete project &quot;{{ p.title|escapejs }}&quot;? This cannot be undone.')">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-red" style="font-size:.75rem;padding:5px 10px;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" style="text-align:center;padding:48px;">
+                    <div style="color:#94A3B8;font-size:.9rem;">
+                        <i class="fas fa-folder-open" style="font-size:1.5rem;display:block;margin-bottom:10px;color:#CBD5E1;"></i>
+                        No projects yet.
+                        <a href="{% url 'admin_project_create' %}" style="color:#6366F1;font-weight:600;">Create one →</a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

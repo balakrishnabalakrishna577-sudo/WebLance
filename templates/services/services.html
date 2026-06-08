@@ -1,0 +1,863 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Our Services - WEBLANCE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/services.css' %}?v=7">
+{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ── -->
+<section class="srv-hero">
+    <div class="container">
+        <span class="srv-label">What We Do</span>
+        <h1>Our <span class="text-green">Services</span></h1>
+        <p>Click any service to explore full details, pricing, and features.</p>
+        <nav aria-label="breadcrumb" style="display:flex;justify-content:center;position:relative;z-index:1;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Services</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- ── Main Services Layout ── -->
+<section class="section srv-main-section" style="padding-top:0;">
+    <div class="container">
+
+        <!-- Stats bar -->
+        <div class="srv-stats scroll-animate">
+            <div class="srv-stat-item">
+                <span class="srv-stat-num">150+</span>
+                <span class="srv-stat-lbl">Projects Delivered</span>
+            </div>
+            <div class="srv-stat-item">
+                <span class="srv-stat-num">10</span>
+                <span class="srv-stat-lbl">Core Services</span>
+            </div>
+            <div class="srv-stat-item">
+                <span class="srv-stat-num">24h</span>
+                <span class="srv-stat-lbl">Response Time</span>
+            </div>
+            <div class="srv-stat-item">
+                <span class="srv-stat-num">100%</span>
+                <span class="srv-stat-lbl">Satisfaction</span>
+            </div>
+        </div>
+
+        <!-- Two-column layout: sidebar + content -->
+        <div class="srv-layout">
+
+            <!-- Sidebar nav -->
+            <aside class="srv-sidebar">
+                <div class="srv-sidebar-inner">
+                    <p class="srv-sidebar-label">Choose a Service</p>
+                    <nav class="srv-nav">
+                        <button class="srv-nav-btn active" data-service="custom-website">
+                            <span class="srv-nav-icon" style="background:rgba(99,102,241,0.1);color:var(--primary-green);"><i class="fas fa-code"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Custom Website</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="ecommerce">
+                            <span class="srv-nav-icon" style="background:rgba(255,165,0,0.1);color:#ffa500;"><i class="fas fa-shopping-cart"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">E-Commerce</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="seo-optimization">
+                            <span class="srv-nav-icon" style="background:rgba(100,149,237,0.1);color:#6495ed;"><i class="fas fa-search"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">SEO Optimization</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="web-design">
+                            <span class="srv-nav-icon" style="background:rgba(167,139,250,0.1);color:#a78bfa;"><i class="fas fa-paint-brush"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Web Design</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="redesign">
+                            <span class="srv-nav-icon" style="background:rgba(255,99,132,0.1);color:#ff6384;"><i class="fas fa-sync-alt"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Website Redesign</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="maintenance">
+                            <span class="srv-nav-icon" style="background:rgba(99,102,241,0.1);color:var(--primary-green);"><i class="fas fa-tools"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Maintenance</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="landing-page">
+                            <span class="srv-nav-icon" style="background:rgba(16,185,129,0.1);color:#10b981;"><i class="fas fa-file-alt"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Landing Page</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="web-app">
+                            <span class="srv-nav-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-laptop-code"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Web App Development</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="api-integration">
+                            <span class="srv-nav-icon" style="background:rgba(59,130,246,0.1);color:#3b82f6;"><i class="fas fa-plug"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">API Integration</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                        <button class="srv-nav-btn" data-service="performance">
+                            <span class="srv-nav-icon" style="background:rgba(239,68,68,0.1);color:#ef4444;"><i class="fas fa-tachometer-alt"></i></span>
+                            <span class="srv-nav-text">
+                                <span class="srv-nav-name">Speed Optimization</span>
+                            </span>
+                            <i class="fas fa-chevron-right srv-nav-arrow"></i>
+                        </button>
+                    </nav>                </div>
+            </aside>
+
+            <!-- Detail panels -->
+            <div class="srv-detail-area">
+
+                <!-- 01 Custom Website -->
+                <div class="srv-detail active" id="custom-website">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.25);color:var(--primary-green);">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(99,102,241,0.08);color:var(--primary-green);border-color:rgba(99,102,241,0.2);">Most Popular</span>
+                            <h2 class="srv-detail-title">Custom Website Development</h2>
+                            <p class="srv-detail-sub">Tailor-made websites built from scratch to match your exact business requirements and brand identity.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>We design and develop fully custom websites that are unique to your brand. Every element — from layout to functionality — is built specifically for your business goals. No templates, no shortcuts.</p>
+                            <p>Our custom websites are built with Django, HTML5, CSS3, and JavaScript, ensuring they are fast, secure, SEO-ready, and fully responsive across all devices.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Custom Design & Development</li>
+                                <li><i class="fas fa-check-circle"></i> Responsive Across All Devices</li>
+                                <li><i class="fas fa-check-circle"></i> SEO-Friendly Structure</li>
+                                <li><i class="fas fa-check-circle"></i> Fast Loading Speed</li>
+                                <li><i class="fas fa-check-circle"></i> CMS / Admin Panel</li>
+                                <li><i class="fas fa-check-circle"></i> Third-Party API Support</li>
+                                <li><i class="fas fa-check-circle"></i> Contact Forms & Integrations</li>
+                                <li><i class="fas fa-check-circle"></i> 30 Days Free Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹15,000</span>
+                            <span class="srv-price-note">· Delivery in 15–20 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="custom-website" data-label="Custom Website Development">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 02 E-Commerce -->
+                <div class="srv-detail" id="ecommerce">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(255,165,0,0.1);border-color:rgba(255,165,0,0.25);color:#ffa500;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(255,165,0,0.08);color:#ffa500;border-color:rgba(255,165,0,0.2);">High Demand</span>
+                            <h2 class="srv-detail-title">E-Commerce Development</h2>
+                            <p class="srv-detail-sub">Powerful online stores that drive sales and provide excellent shopping experiences for your customers.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>We build full-featured e-commerce platforms with secure payment gateways, inventory management, and mobile-optimized shopping experiences. Whether you're selling 10 products or 10,000, we scale with you.</p>
+                            <p>Integrated with Razorpay, Stripe, and PayPal. Includes order tracking, customer accounts, and a powerful admin dashboard.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Full-Featured Online Store</li>
+                                <li><i class="fas fa-check-circle"></i> Secure Payment Gateway (Razorpay/Stripe)</li>
+                                <li><i class="fas fa-check-circle"></i> Inventory Management</li>
+                                <li><i class="fas fa-check-circle"></i> Shopping Cart & Checkout</li>
+                                <li><i class="fas fa-check-circle"></i> Order Tracking System</li>
+                                <li><i class="fas fa-check-circle"></i> Mobile-Optimized Shopping</li>
+                                <li><i class="fas fa-check-circle"></i> Customer Accounts & Wishlist</li>
+                                <li><i class="fas fa-check-circle"></i> Admin Dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹25,000</span>
+                            <span class="srv-price-note">· Delivery in 25–35 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="ecommerce" data-label="E-Commerce Development">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 03 SEO -->
+                <div class="srv-detail" id="seo-optimization">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(100,149,237,0.1);border-color:rgba(100,149,237,0.25);color:#6495ed;">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(100,149,237,0.08);color:#6495ed;border-color:rgba(100,149,237,0.2);">Monthly Plan</span>
+                            <h2 class="srv-detail-title">SEO Optimization</h2>
+                            <p class="srv-detail-sub">Improve your search engine rankings and drive consistent organic traffic to your website.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Our SEO service covers everything from technical audits to content strategy. We help your website rank higher on Google and bring in qualified leads every month — without paid ads.</p>
+                            <p>We provide monthly reports so you can track progress, keyword rankings, and traffic growth transparently.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Keyword Research & Analysis</li>
+                                <li><i class="fas fa-check-circle"></i> On-Page SEO Optimization</li>
+                                <li><i class="fas fa-check-circle"></i> Technical SEO Audit</li>
+                                <li><i class="fas fa-check-circle"></i> Content Strategy</li>
+                                <li><i class="fas fa-check-circle"></i> Link Building</li>
+                                <li><i class="fas fa-check-circle"></i> Google Search Console Setup</li>
+                                <li><i class="fas fa-check-circle"></i> Monthly Performance Reports</li>
+                                <li><i class="fas fa-check-circle"></i> Competitor Analysis</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹8,000<small>/mo</small></span>
+                            <span class="srv-price-note">· Monthly retainer</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="seo-optimization" data-label="SEO Optimization">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 04 Web Design -->
+                <div class="srv-detail" id="web-design">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.25);color:#a78bfa;">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(167,139,250,0.08);color:#a78bfa;border-color:rgba(167,139,250,0.2);">Creative</span>
+                            <h2 class="srv-detail-title">Web Design</h2>
+                            <p class="srv-detail-sub">Beautiful, modern designs that captivate your audience and enhance user experience at every touchpoint.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Great design is more than aesthetics — it's about guiding users to take action. We create wireframes, prototypes, and pixel-perfect designs that convert visitors into customers.</p>
+                            <p>All designs are delivered in Figma and are fully handoff-ready for development, or we can develop them for you.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Custom UI/UX Design</li>
+                                <li><i class="fas fa-check-circle"></i> Wireframing & Prototyping</li>
+                                <li><i class="fas fa-check-circle"></i> Brand-Aligned Visuals</li>
+                                <li><i class="fas fa-check-circle"></i> Interactive Elements</li>
+                                <li><i class="fas fa-check-circle"></i> User-Centered Approach</li>
+                                <li><i class="fas fa-check-circle"></i> Conversion Optimization</li>
+                                <li><i class="fas fa-check-circle"></i> Figma Design Files</li>
+                                <li><i class="fas fa-check-circle"></i> 2 Revision Rounds</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹10,000</span>
+                            <span class="srv-price-note">· Delivery in 7–10 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="web-design" data-label="Web Design">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 05 Redesign -->
+                <div class="srv-detail" id="redesign">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(255,99,132,0.1);border-color:rgba(255,99,132,0.25);color:#ff6384;">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(255,99,132,0.08);color:#ff6384;border-color:rgba(255,99,132,0.2);">Revamp</span>
+                            <h2 class="srv-detail-title">Website Redesign</h2>
+                            <p class="srv-detail-sub">Transform your outdated website into a modern, high-performing digital asset that converts.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Is your current website slow, outdated, or not converting? We'll give it a complete overhaul — new design, better performance, improved SEO, and a modern user experience.</p>
+                            <p>We migrate all your existing content, preserve your SEO rankings, and deliver a site that looks and performs like it was built today.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Complete Visual Overhaul</li>
+                                <li><i class="fas fa-check-circle"></i> Improved Navigation & UX</li>
+                                <li><i class="fas fa-check-circle"></i> Mobile Responsiveness</li>
+                                <li><i class="fas fa-check-circle"></i> Performance Enhancement</li>
+                                <li><i class="fas fa-check-circle"></i> Content Migration</li>
+                                <li><i class="fas fa-check-circle"></i> SEO Preservation</li>
+                                <li><i class="fas fa-check-circle"></i> Speed Optimization</li>
+                                <li><i class="fas fa-check-circle"></i> 30 Days Free Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹12,000</span>
+                            <span class="srv-price-note">· Delivery in 10–15 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="redesign" data-label="Website Redesign">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 06 Maintenance -->
+                <div class="srv-detail" id="maintenance">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.25);color:var(--primary-green);">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(99,102,241,0.08);color:var(--primary-green);border-color:rgba(99,102,241,0.2);">Ongoing</span>
+                            <h2 class="srv-detail-title">Website Maintenance</h2>
+                            <p class="srv-detail-sub">Keep your website secure, updated, and running at peak performance with our care plans.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Your website needs regular care to stay secure and fast. Our maintenance plans cover everything from security patches to content updates, so you can focus on running your business.</p>
+                            <p>We monitor your site 24/7, handle backups, fix bugs, and make content changes as needed — all for a flat monthly fee.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Regular Security Updates</li>
+                                <li><i class="fas fa-check-circle"></i> Bug Fixes & Troubleshooting</li>
+                                <li><i class="fas fa-check-circle"></i> Content Updates (up to 5/mo)</li>
+                                <li><i class="fas fa-check-circle"></i> Performance Monitoring</li>
+                                <li><i class="fas fa-check-circle"></i> Weekly Backups</li>
+                                <li><i class="fas fa-check-circle"></i> Uptime Monitoring</li>
+                                <li><i class="fas fa-check-circle"></i> SSL Certificate Management</li>
+                                <li><i class="fas fa-check-circle"></i> 24/7 Technical Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹3,000<small>/mo</small></span>
+                            <span class="srv-price-note">· Cancel anytime</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="maintenance" data-label="Website Maintenance">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 07 Landing Page -->
+                <div class="srv-detail" id="landing-page">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.25);color:#10b981;">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(16,185,129,0.08);color:#10b981;border-color:rgba(16,185,129,0.2);">Fast Delivery</span>
+                            <h2 class="srv-detail-title">Landing Page Development</h2>
+                            <p class="srv-detail-sub">High-converting, focused landing pages designed to turn visitors into leads and customers.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>A great landing page is laser-focused on one goal — getting conversions. We build fast, visually compelling landing pages for product launches, ad campaigns, lead generation, and events.</p>
+                            <p>Every element is crafted with conversion rate optimization (CRO) principles: clear headlines, strong CTAs, social proof, and minimal distractions to keep visitors moving toward action.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Single-Page Conversion Design</li>
+                                <li><i class="fas fa-check-circle"></i> CRO-Focused Layout</li>
+                                <li><i class="fas fa-check-circle"></i> Lead Capture Form</li>
+                                <li><i class="fas fa-check-circle"></i> Mobile-First Responsive</li>
+                                <li><i class="fas fa-check-circle"></i> Fast Load Time (&lt;2s)</li>
+                                <li><i class="fas fa-check-circle"></i> Google Analytics Setup</li>
+                                <li><i class="fas fa-check-circle"></i> A/B Testing Ready</li>
+                                <li><i class="fas fa-check-circle"></i> Delivery in 3–5 Days</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹5,000</span>
+                            <span class="srv-price-note">· Delivery in 3–5 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="landing-page" data-label="Landing Page Development">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 08 Web App Development -->
+                <div class="srv-detail" id="web-app">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(245,158,11,0.1);border-color:rgba(245,158,11,0.25);color:#f59e0b;">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(245,158,11,0.08);color:#f59e0b;border-color:rgba(245,158,11,0.2);">Advanced</span>
+                            <h2 class="srv-detail-title">Web App Development</h2>
+                            <p class="srv-detail-sub">Full-stack web applications with powerful backends, real-time features, and seamless user experiences.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Beyond static websites, we build dynamic web applications — SaaS platforms, client portals, booking systems, dashboards, and more. Built with Django and React for a robust, scalable architecture.</p>
+                            <p>We handle everything from database design and authentication to real-time notifications and role-based access control, delivering a production-ready application.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Full-Stack Django + React</li>
+                                <li><i class="fas fa-check-circle"></i> User Authentication & Roles</li>
+                                <li><i class="fas fa-check-circle"></i> Database Design & Optimization</li>
+                                <li><i class="fas fa-check-circle"></i> REST API Development</li>
+                                <li><i class="fas fa-check-circle"></i> Real-Time Features (WebSockets)</li>
+                                <li><i class="fas fa-check-circle"></i> Admin Dashboard</li>
+                                <li><i class="fas fa-check-circle"></i> Cloud Deployment (AWS/Render)</li>
+                                <li><i class="fas fa-check-circle"></i> 60 Days Free Support</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹40,000</span>
+                            <span class="srv-price-note">· Delivery in 30–60 days</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="web-app" data-label="Web App Development">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 09 API Integration -->
+                <div class="srv-detail" id="api-integration">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.25);color:#3b82f6;">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(59,130,246,0.08);color:#3b82f6;border-color:rgba(59,130,246,0.2);">Technical</span>
+                            <h2 class="srv-detail-title">API Integration</h2>
+                            <p class="srv-detail-sub">Connect your website to third-party services, automate workflows, and unlock powerful new capabilities.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>Modern websites rely on dozens of services — payment gateways, CRMs, email platforms, maps, SMS providers, and more. We integrate any third-party API into your existing website or application cleanly and securely.</p>
+                            <p>We also build custom REST APIs so your website can communicate with mobile apps, external tools, or partner platforms — with proper authentication, rate limiting, and documentation.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Payment Gateway (Razorpay/Stripe)</li>
+                                <li><i class="fas fa-check-circle"></i> SMS & Email API (Twilio/SendGrid)</li>
+                                <li><i class="fas fa-check-circle"></i> Google Maps & Places API</li>
+                                <li><i class="fas fa-check-circle"></i> CRM Integration (HubSpot/Zoho)</li>
+                                <li><i class="fas fa-check-circle"></i> Custom REST API Development</li>
+                                <li><i class="fas fa-check-circle"></i> Webhook Setup & Management</li>
+                                <li><i class="fas fa-check-circle"></i> OAuth & Secure Authentication</li>
+                                <li><i class="fas fa-check-circle"></i> API Documentation</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹8,000</span>
+                            <span class="srv-price-note">· Per integration</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="api-integration" data-label="API Integration">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+                <!-- 10 Speed & Performance Optimization -->
+                <div class="srv-detail" id="performance">
+                    <div class="srv-detail-header">
+                        <div class="srv-detail-icon" style="background:rgba(239,68,68,0.1);border-color:rgba(239,68,68,0.25);color:#ef4444;">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div>
+                            <span class="srv-detail-tag" style="background:rgba(239,68,68,0.08);color:#ef4444;border-color:rgba(239,68,68,0.2);">Quick Win</span>
+                            <h2 class="srv-detail-title">Speed & Performance Optimization</h2>
+                            <p class="srv-detail-sub">Make your website blazing fast — improve Core Web Vitals, reduce bounce rates, and rank higher on Google.</p>
+                        </div>
+                    </div>
+                    <div class="srv-detail-body">
+                        <div class="srv-detail-desc">
+                            <p>A slow website costs you visitors, rankings, and revenue. We audit your site's performance and apply targeted optimizations to dramatically improve load times, Google PageSpeed scores, and Core Web Vitals.</p>
+                            <p>From image compression and lazy loading to server-side caching and CDN setup, we tackle every bottleneck — delivering measurable results you can see in Google Search Console and Analytics.</p>
+                        </div>
+                        <div class="srv-detail-features">
+                            <h5>What's Included</h5>
+                            <ul class="srv-features">
+                                <li><i class="fas fa-check-circle"></i> Full Performance Audit</li>
+                                <li><i class="fas fa-check-circle"></i> Image Compression & WebP Conversion</li>
+                                <li><i class="fas fa-check-circle"></i> CSS/JS Minification & Bundling</li>
+                                <li><i class="fas fa-check-circle"></i> Server-Side Caching Setup</li>
+                                <li><i class="fas fa-check-circle"></i> CDN Configuration</li>
+                                <li><i class="fas fa-check-circle"></i> Lazy Loading Implementation</li>
+                                <li><i class="fas fa-check-circle"></i> Core Web Vitals Improvement</li>
+                                <li><i class="fas fa-check-circle"></i> Before & After Report</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="srv-detail-footer">
+                        <div class="srv-detail-price">
+                            <span class="srv-price-from">Starting from</span>
+                            <span class="srv-price-amt">₹6,000</span>
+                            <span class="srv-price-note">· One-time audit + fix</span>
+                        </div>
+                        <a href="#" class="btn btn-green srv-quote-btn" data-service="performance" data-label="Speed & Performance Optimization">Get a Free Quote <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+
+            </div><!-- /srv-detail-area -->
+        </div><!-- /srv-layout -->
+    </div>
+</section>
+
+<!-- ── Process ── -->
+<section class="section" style="background:var(--bg-dark);">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">How We Work</span>
+            <h2>Our <span class="text-green">Process</span></h2>
+            <p>Simple, transparent, and results-driven from start to finish</p>
+        </div>
+        <div class="srv-process-wrap scroll-animate">
+            <div class="srv-process-step">
+                <div class="srv-process-num">01</div>
+                <h5>Discovery</h5>
+                <p>We understand your goals and requirements</p>
+            </div>
+            <div class="srv-process-step">
+                <div class="srv-process-num">02</div>
+                <h5>Design</h5>
+                <p>Wireframes crafted to your brand</p>
+            </div>
+            <div class="srv-process-step">
+                <div class="srv-process-num">03</div>
+                <h5>Development</h5>
+                <p>Clean, fast, scalable code</p>
+            </div>
+            <div class="srv-process-step">
+                <div class="srv-process-num">04</div>
+                <h5>Testing</h5>
+                <p>QA across devices and browsers</p>
+            </div>
+            <div class="srv-process-step">
+                <div class="srv-process-num">05</div>
+                <h5>Launch</h5>
+                <p>Go live with full support</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ── Tech Stack ── -->
+<section class="section">
+    <div class="container">
+        <div class="section-title scroll-animate">
+            <span class="label">Our Stack</span>
+            <h2>Technologies We <span class="text-green">Use</span></h2>
+            <p>Modern, battle-tested tools for fast and scalable websites</p>
+        </div>
+        <div class="srv-tech-wrap scroll-animate">
+            <span class="srv-tech-pill">HTML5</span>
+            <span class="srv-tech-pill">CSS3</span>
+            <span class="srv-tech-pill">JavaScript</span>
+            <span class="srv-tech-pill">Python</span>
+            <span class="srv-tech-pill">Django</span>
+            <span class="srv-tech-pill">React</span>
+            <span class="srv-tech-pill">Bootstrap</span>
+            <span class="srv-tech-pill">Tailwind CSS</span>
+            <span class="srv-tech-pill">MySQL</span>
+            <span class="srv-tech-pill">PostgreSQL</span>
+            <span class="srv-tech-pill">WordPress</span>
+            <span class="srv-tech-pill">Figma</span>
+            <span class="srv-tech-pill">Git</span>
+            <span class="srv-tech-pill">Razorpay</span>
+        </div>
+    </div>
+</section>
+
+<!-- ── Quote Modal ── -->
+<div id="srvQuoteModal" class="srv-modal" role="dialog" aria-modal="true" aria-labelledby="srvModalTitle">
+    <div id="srvModalOverlay" class="srv-modal-overlay"></div>
+    <div class="srv-modal-box">
+        <button id="srvModalClose" class="srv-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+        <input type="hidden" id="srvSlugInput">
+
+        <!-- Form -->
+        <div id="srvFormWrap">
+            <div class="srv-modal-header">
+                <div class="srv-modal-icon"><i class="fas fa-file-alt"></i></div>
+                <h3 id="srvModalTitle">Get a Free Quote</h3>
+                <p>Fill in your details and we'll get back to you within 24 hours.</p>
+            </div>
+            <form id="srvQuoteForm" novalidate>
+                {% csrf_token %}
+                <div class="srv-form-row">
+                    <div class="srv-form-group">
+                        <label>Your Name *</label>
+                        <input type="text" name="name" class="srv-form-input" placeholder="John Doe" required>
+                        <span class="srv-field-error" id="err_name"></span>
+                    </div>
+                    <div class="srv-form-group">
+                        <label>Business Name *</label>
+                        <input type="text" name="business_name" class="srv-form-input" placeholder="Your Company" required>
+                        <span class="srv-field-error" id="err_business_name"></span>
+                    </div>
+                </div>
+                <div class="srv-form-row">
+                    <div class="srv-form-group">
+                        <label>Phone *</label>
+                        <input type="tel" name="phone" class="srv-form-input" placeholder="+91 98765 43210" required>
+                        <span class="srv-field-error" id="err_phone"></span>
+                    </div>
+                    <div class="srv-form-group">
+                        <label>Email *</label>
+                        <input type="email" name="email" class="srv-form-input" placeholder="you@example.com" required>
+                        <span class="srv-field-error" id="err_email"></span>
+                    </div>
+                </div>
+                <div class="srv-form-group">
+                    <label>Budget Range</label>
+                    <select name="budget" class="srv-form-input">
+                        <option value="low">Below ₹10,000</option>
+                        <option value="medium" selected>₹10,000 – ₹25,000</option>
+                        <option value="high">₹25,000 – ₹50,000</option>
+                        <option value="premium">Above ₹50,000</option>
+                    </select>
+                </div>
+                <div class="srv-form-group">
+                    <label>Project Description *</label>
+                    <textarea name="description" class="srv-form-input" rows="5" placeholder="Describe your project requirements..." required></textarea>
+                    <span class="srv-field-error" id="err_description"></span>
+                </div>
+                <button type="submit" class="btn btn-green w-100" style="padding:14px;font-size:1rem;font-weight:700;">
+                    <i class="fas fa-paper-plane me-2"></i>Send Quote Request
+                </button>
+            </form>
+        </div>
+
+        <!-- Success state -->
+        <div id="srvSuccessWrap" style="display:none;" class="srv-modal-success">
+            <div class="srv-success-icon"><i class="fas fa-check-circle"></i></div>
+            <h3>Request Sent!</h3>
+            <p id="srvSuccessMsg"></p>
+            <p style="color:var(--text-gray);font-size:0.85rem;margin-top:8px;">Check your inbox for a confirmation email from us.</p>
+            <p id="srvDashboardNote" style="display:none;color:#6366F1;font-size:0.82rem;margin-top:6px;font-weight:600;">
+                <i class="fas fa-arrow-right me-1"></i> Redirecting you to your dashboard...
+            </p>
+            <button class="btn btn-outline-indigo mt-3" onclick="document.getElementById('srvQuoteModal').classList.remove('open');document.body.style.overflow='';">
+                Close
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ── CTA ── -->
+<section class="cta-section">    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 scroll-animate text-center">
+                <h2>Ready to Build Something <span class="text-green">Great?</span></h2>
+                <p>Let's discuss your project and find the perfect solution for your business.</p>
+                <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+                    <a href="{% url 'request_website' %}" class="btn btn-green btn-lg">Start Your Project</a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-indigo btn-lg">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function() {
+    // ── Service tab switching ──
+    const btns    = document.querySelectorAll('.srv-nav-btn');
+    const details = document.querySelectorAll('.srv-detail');
+
+    function activate(id) {
+        btns.forEach(b => b.classList.toggle('active', b.dataset.service === id));
+        details.forEach(d => {
+            const isTarget = d.id === id;
+            d.classList.toggle('active', isTarget);
+        });
+        // Update URL hash without scrolling
+        history.replaceState(null, '', '#' + id);
+    }
+
+    btns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            activate(this.dataset.service);
+        });
+    });
+
+    // ── Activate from URL hash (footer links) ──
+    function activateFromHash() {
+        const hash = window.location.hash.replace('#', '');
+        const validIds = ['custom-website','ecommerce','seo-optimization','web-design','redesign','maintenance'];
+        if (hash && validIds.includes(hash)) {
+            activate(hash);
+            setTimeout(function() {
+                const area = document.querySelector('.srv-layout');
+                if (area) {
+                    const navH = document.querySelector('.wl-nav')?.offsetHeight || 70;
+                    const top = area.getBoundingClientRect().top + window.scrollY - navH - 20;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }
+            }, 100);
+        }
+    }
+
+    // Run after full page load (handles footer link navigation)
+    window.addEventListener('load', activateFromHash);
+
+    // Also handle same-page hash changes (if already on services page)
+    window.addEventListener('hashchange', activateFromHash);
+
+    // ── Quote Modal ──
+    const modal       = document.getElementById('srvQuoteModal');
+    const modalClose  = document.getElementById('srvModalClose');
+    const modalOverlay= document.getElementById('srvModalOverlay');
+    const modalTitle  = document.getElementById('srvModalTitle');
+    const slugInput   = document.getElementById('srvSlugInput');
+    const quoteForm   = document.getElementById('srvQuoteForm');
+    const formWrap    = document.getElementById('srvFormWrap');
+    const successWrap = document.getElementById('srvSuccessWrap');
+    const successMsg  = document.getElementById('srvSuccessMsg');
+
+    // Pre-filled description templates per service
+    const descTemplates = {
+        'custom-website':   'I need a custom website for my business.\n\nKey requirements:\n- Pages needed: Home, About, Services, Contact\n- Features: Contact form, mobile responsive\n- Style preference: Modern and professional\n- Any specific functionality: ',
+        'ecommerce':        'I need an e-commerce website to sell my products online.\n\nKey requirements:\n- Number of products: \n- Payment gateway preference: Razorpay / Stripe\n- Features needed: Cart, checkout, order tracking\n- Product categories: ',
+        'seo-optimization': 'I need SEO optimization for my existing website.\n\nCurrent situation:\n- Website URL: \n- Current monthly visitors (approx): \n- Target keywords / niche: \n- Main goal: Increase organic traffic / rank on page 1',
+        'web-design':       'I need a professional web design for my business.\n\nKey requirements:\n- Number of pages to design: \n- Brand colors / style guide available: Yes / No\n- Reference websites I like: \n- Deliverable needed: Figma files / Full development',
+        'redesign':         'I need my existing website redesigned.\n\nCurrent website:\n- Website URL: \n- Main issues with current site: Outdated design / Slow / Not mobile-friendly\n- Pages to redesign: \n- Keep existing content: Yes / No',
+        'maintenance':      'I need ongoing maintenance for my website.\n\nWebsite details:\n- Website URL: \n- Platform / Tech stack: \n- Current issues: \n- Updates needed per month (approx): \n- Priority: Security / Performance / Content updates',
+    };
+
+    function openModal(serviceSlug, serviceLabel) {
+        modalTitle.textContent = 'Get a Free Quote — ' + serviceLabel;
+        slugInput.value = serviceSlug;
+        formWrap.style.display = 'block';
+        successWrap.style.display = 'none';
+        quoteForm.reset();
+        clearErrors();
+        // Auto-fill description
+        const descField = quoteForm.querySelector('[name="description"]');
+        if (descField && descTemplates[serviceSlug]) {
+            descField.value = descTemplates[serviceSlug];
+        }
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    function clearErrors() {
+        modal.querySelectorAll('.srv-field-error').forEach(e => e.textContent = '');
+        modal.querySelectorAll('.srv-form-input').forEach(i => i.classList.remove('error'));
+    }
+
+    document.querySelectorAll('.srv-quote-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            openModal(this.dataset.service, this.dataset.label);
+        });
+    });
+
+    if (modalClose)   modalClose.addEventListener('click', closeModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+    // Form submit
+    if (quoteForm) {
+        quoteForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            clearErrors();
+            const submitBtn = quoteForm.querySelector('[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
+
+            const fd = new FormData(quoteForm);
+            fd.append('service_slug', slugInput.value);
+
+            try {
+                const res = await fetch('{% url "service_quote" %}', {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+                    body: fd,
+                });
+                const data = await res.json();
+
+                if (data.ok) {
+                    formWrap.style.display = 'none';
+                    successWrap.style.display = 'block';
+                    successMsg.innerHTML = data.message;
+                    // Redirect to dashboard after 2.5s if user is logged in
+                    if (data.dashboard_url) {
+                        const note = document.getElementById('srvDashboardNote');
+                        if (note) note.style.display = 'block';
+                        setTimeout(function() {
+                            window.location.href = data.dashboard_url;
+                        }, 2500);
+                    }
+                } else if (data.errors) {
+                    Object.entries(data.errors).forEach(([field, msg]) => {
+                        const errEl = document.getElementById('err_' + field);
+                        const input = quoteForm.querySelector('[name="' + field + '"]');
+                        if (errEl) errEl.textContent = msg;
+                        if (input) input.classList.add('error');
+                    });
+                } else {
+                    alert('Something went wrong. Please try again.');
+                }
+            } catch (err) {
+                alert('Network error. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i>Send Quote Request';
+            }
+        });
+    }
+})();
+</script>
+{% endblock %}

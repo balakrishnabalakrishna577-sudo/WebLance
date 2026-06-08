@@ -1,0 +1,615 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+.mini-chart-bar {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 60px;
+}
+.mini-bar {
+    flex: 1;
+    border-radius: 4px 4px 0 0;
+    min-width: 12px;
+    transition: opacity 0.2s;
+    position: relative;
+    cursor: default;
+}
+.mini-bar:hover { opacity: 0.8; }
+.mini-bar-label {
+    font-size: 0.6rem;
+    color: #94A3B8;
+    text-align: center;
+    margin-top: 4px;
+    white-space: nowrap;
+}
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #F1F5F9;
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+}
+.quick-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #F8FAFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #1E293B;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+}
+.quick-action:hover {
+    border-color: #6366F1;
+    background: #EEF2FF;
+    color: #6366F1;
+    transform: translateX(4px);
+}
+.quick-action i { color: #6366F1; width: 16px; text-align: center; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ── Top Stats Row ── -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#EEF2FF;"><i class="fas fa-users" style="color:#6366F1;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_users }}</div>
+                <div class="ap-stat-label">Clients</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#FEF9C3;"><i class="fas fa-rocket" style="color:#D97706;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_requests }}</div>
+                <div class="ap-stat-label">Quote Requests</div>
+                <div class="ap-stat-sub">+{{ new_requests }} this week</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#F0FDF4;"><i class="fas fa-tasks" style="color:#15803D;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_projects }}</div>
+                <div class="ap-stat-label">Projects</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#EEF2FF;"><i class="fas fa-calendar-check" style="color:#6366F1;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_bookings }}</div>
+                <div class="ap-stat-label">Bookings</div>
+                <div class="ap-stat-sub">{{ pending_bookings }} pending</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Second Stats Row ── -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#EFF6FF;"><i class="fas fa-envelope" style="color:#1D4ED8;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_contacts }}</div>
+                <div class="ap-stat-label">Contact Msgs</div>
+                <div class="ap-stat-sub">+{{ new_contacts }} this week</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#F0FDF4;"><i class="fas fa-file-invoice-dollar" style="color:#15803D;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_invoices }}</div>
+                <div class="ap-stat-label">Invoices</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#EEF2FF;"><i class="fas fa-comments" style="color:#6366F1;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ unread_chats }}</div>
+                <div class="ap-stat-label">Unread Chats</div>
+                {% if unread_chats > 0 %}
+                <div class="ap-stat-sub" style="color:#ef4444;">Needs attention</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <a href="{% url 'admin_bot_chats' %}" style="text-decoration:none;">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#F0FDF4;"><i class="fas fa-robot" style="color:#16a34a;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_bot }}</div>
+                <div class="ap-stat-label">Bot Conversations</div>
+                {% if unread_bot > 0 %}
+                <div class="ap-stat-sub" style="color:#ef4444;">{{ unread_bot }} new</div>
+                {% else %}
+                <div class="ap-stat-sub">All read</div>
+                {% endif %}
+            </div>
+        </div>
+        </a>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#F5F3FF;"><i class="fas fa-images" style="color:#5B21B6;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_portfolio }}</div>
+                <div class="ap-stat-label">Portfolio Items</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-xl-3">
+        <div class="ap-stat">
+            <div class="ap-stat-icon" style="background:#FEF9C3;"><i class="fas fa-star" style="color:#D97706;"></i></div>
+            <div>
+                <div class="ap-stat-num">{{ total_reviews }}</div>
+                <div class="ap-stat-label">Client Reviews</div>
+                <div class="ap-stat-sub">{{ public_reviews }} public</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Charts + Quick Actions ── -->
+<div class="row g-4 mb-4">
+
+    <!-- Quote Requests Chart -->
+    <div class="col-lg-4">
+        <div class="ap-card" style="height:100%;">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-chart-bar"></i> Quote Request Status</h5>
+            </div>
+            <div class="ap-card-body">
+                <div class="mini-chart-bar" id="reqChart">
+                    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+                        <div class="mini-bar" style="background:#FDE68A;height:{% widthratio req_new total_requests 60 %}px;" title="{{ req_new }} New"></div>
+                        <div class="mini-bar-label">New<br><strong style="color:#1E293B;">{{ req_new }}</strong></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+                        <div class="mini-bar" style="background:#BFDBFE;height:{% widthratio req_received total_requests 60 %}px;" title="{{ req_received }} Received"></div>
+                        <div class="mini-bar-label">Review<br><strong style="color:#1E293B;">{{ req_received }}</strong></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+                        <div class="mini-bar" style="background:#C7D2FE;height:{% widthratio req_in_progress total_requests 60 %}px;" title="{{ req_in_progress }} In Progress"></div>
+                        <div class="mini-bar-label">Active<br><strong style="color:#1E293B;">{{ req_in_progress }}</strong></div>
+                    </div>
+                    <div style="display:flex;flex-direction:column;align-items:center;flex:1;">
+                        <div class="mini-bar" style="background:#BBF7D0;height:{% widthratio req_completed total_requests 60 %}px;" title="{{ req_completed }} Completed"></div>
+                        <div class="mini-bar-label">Done<br><strong style="color:#1E293B;">{{ req_completed }}</strong></div>
+                    </div>
+                </div>
+                <div style="margin-top:16px;padding-top:12px;border-top:1px solid #F1F5F9;">
+                    <div style="font-size:0.75rem;color:#64748B;">Total: <strong style="color:#6366F1;">{{ total_requests }}</strong> requests</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Chart -->
+    <div class="col-lg-4">
+        <div class="ap-card" style="height:100%;">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-chart-pie"></i> Project Pipeline</h5>
+                <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-outline" style="font-size:0.72rem;">View All</a>
+            </div>
+            <div class="ap-card-body">
+                {% if total_projects > 0 %}
+                <div style="display:flex;flex-direction:column;gap:8px;">
+                    {% if proj_planning %}
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                            <span style="font-size:0.75rem;color:#64748B;">Planning</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:#1E293B;">{{ proj_planning }}</span>
+                        </div>
+                        <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;">
+                            <div style="height:100%;width:{% widthratio proj_planning total_projects 100 %}%;background:#FDE68A;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if proj_design %}
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                            <span style="font-size:0.75rem;color:#64748B;">Design</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:#1E293B;">{{ proj_design }}</span>
+                        </div>
+                        <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;">
+                            <div style="height:100%;width:{% widthratio proj_design total_projects 100 %}%;background:#BFDBFE;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if proj_development %}
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                            <span style="font-size:0.75rem;color:#64748B;">Development</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:#1E293B;">{{ proj_development }}</span>
+                        </div>
+                        <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;">
+                            <div style="height:100%;width:{% widthratio proj_development total_projects 100 %}%;background:#C7D2FE;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if proj_testing %}
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                            <span style="font-size:0.75rem;color:#64748B;">Testing</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:#1E293B;">{{ proj_testing }}</span>
+                        </div>
+                        <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;">
+                            <div style="height:100%;width:{% widthratio proj_testing total_projects 100 %}%;background:#FED7AA;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if proj_delivered %}
+                    <div>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                            <span style="font-size:0.75rem;color:#64748B;">Delivered</span>
+                            <span style="font-size:0.75rem;font-weight:700;color:#1E293B;">{{ proj_delivered }}</span>
+                        </div>
+                        <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;">
+                            <div style="height:100%;width:{% widthratio proj_delivered total_projects 100 %}%;background:#BBF7D0;border-radius:4px;"></div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% else %}
+                <div style="text-align:center;padding:20px;color:#94A3B8;font-size:0.85rem;">No projects yet.</div>
+                {% endif %}
+                <div style="margin-top:12px;padding-top:12px;border-top:1px solid #F1F5F9;">
+                    <a href="{% url 'admin_project_create' %}" style="font-size:0.78rem;color:#6366F1;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;">
+                        <i class="fas fa-plus-circle"></i> New Project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="col-lg-4">
+        <div class="ap-card" style="height:100%;">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-bolt"></i> Quick Actions</h5>
+            </div>
+            <div class="ap-card-body">
+                <a href="{% url 'admin_project_create' %}" class="quick-action">
+                    <i class="fas fa-plus-circle"></i> New Client Project
+                </a>
+                <a href="{% url 'invoice_create' %}" class="quick-action">
+                    <i class="fas fa-file-invoice-dollar"></i> Create Invoice
+                </a>
+                <a href="{% url 'agreement_create' %}" class="quick-action">
+                    <i class="fas fa-file-contract"></i> New Agreement
+                </a>
+                <a href="{% url 'booking_admin' %}" class="quick-action">
+                    <i class="fas fa-calendar-check"></i> Manage Bookings
+                    {% if pending_bookings > 0 %}
+                    <span style="margin-left:auto;background:#6366F1;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:20px;">{{ pending_bookings }}</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'chat_list' %}" class="quick-action">
+                    <i class="fas fa-comments"></i> Client Chats
+                    {% if unread_chats > 0 %}
+                    <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:20px;">{{ unread_chats }}</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'admin_bot_chats' %}" class="quick-action">
+                    <i class="fas fa-robot"></i> Bot Conversations
+                    {% if unread_bot > 0 %}
+                    <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:0.65rem;font-weight:800;padding:2px 7px;border-radius:20px;">{{ unread_bot }}</span>
+                    {% endif %}
+                </a>
+                <a href="{% url 'invoice_list' %}" class="quick-action">
+                    <i class="fas fa-list"></i> All Invoices
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Recent Activity ── -->
+<div class="row g-4">
+
+    <!-- Recent Quote Requests -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-rocket"></i> Recent Quote Requests</h5>
+                <a href="{% url 'admin_requests' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>Business</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for r in recent_requests %}
+                    <tr>
+                        <td>
+                            <div style="font-weight:600;color:#1E293B;">{{ r.business_name }}</div>
+                            <div style="color:#64748B;font-size:0.75rem;">{{ r.name }}</div>
+                        </td>
+                        <td><span class="ap-badge ap-badge-yellow">{{ r.get_website_type_display }}</span></td>
+                        <td>
+                            {% if r.status == 'new' %}<span class="ap-badge ap-badge-yellow">New</span>
+                            {% elif r.status == 'received' %}<span class="ap-badge ap-badge-blue">Review</span>
+                            {% elif r.status == 'in_progress' %}<span class="ap-badge ap-badge-purple">Active</span>
+                            {% else %}<span class="ap-badge ap-badge-green">Done</span>{% endif %}
+                        </td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ r.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="text-align:center;color:#94A3B8;padding:24px;">No requests yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Projects -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-tasks"></i> Recent Projects</h5>
+                <a href="{% url 'admin_projects' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Client</th>
+                            <th>Progress</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for p in recent_projects %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'admin_project_detail' p.pk %}" style="font-weight:600;color:#6366F1;text-decoration:none;">{{ p.title|truncatechars:25 }}</a>
+                        </td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ p.client.username }}</td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <div style="background:#E2E8F0;border-radius:4px;height:6px;overflow:hidden;width:60px;">
+                                    <div style="height:100%;width:{{ p.progress }}%;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:4px;"></div>
+                                </div>
+                                <span style="font-size:0.72rem;color:#6366F1;font-weight:700;">{{ p.progress }}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            {% if p.status == 'planning' %}<span class="ap-badge ap-badge-yellow">Planning</span>
+                            {% elif p.status == 'design' %}<span class="ap-badge ap-badge-blue">Design</span>
+                            {% elif p.status == 'development' %}<span class="ap-badge ap-badge-purple">Dev</span>
+                            {% elif p.status == 'testing' %}<span class="ap-badge ap-badge-red">Testing</span>
+                            {% else %}<span class="ap-badge ap-badge-green">Delivered</span>{% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="text-align:center;color:#94A3B8;padding:24px;">No projects yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Bookings -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-calendar-check"></i> Recent Bookings</h5>
+                <a href="{% url 'booking_admin' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Date</th>
+                            <th>Service</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for b in recent_bookings %}
+                    <tr>
+                        <td>
+                            <div style="font-weight:600;color:#1E293B;">{{ b.name }}</div>
+                            <div style="color:#64748B;font-size:0.72rem;">{{ b.email }}</div>
+                        </td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ b.slot.date|date:"d M Y" }}<br>{{ b.slot.start_time|time:"g:i A" }}</td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ b.service|default:"Consultation"|truncatechars:20 }}</td>
+                        <td>
+                            {% if b.status == 'pending' %}<span class="ap-badge ap-badge-yellow">Pending</span>
+                            {% elif b.status == 'confirmed' %}<span class="ap-badge ap-badge-green">Confirmed</span>
+                            {% elif b.status == 'completed' %}<span class="ap-badge ap-badge-blue">Done</span>
+                            {% else %}<span class="ap-badge ap-badge-red">Cancelled</span>{% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="text-align:center;color:#94A3B8;padding:24px;">No bookings yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Contacts -->
+    <div class="col-lg-6">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-envelope"></i> Recent Contact Messages</h5>
+                <a href="{% url 'admin_contacts' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for c in recent_contacts %}
+                    <tr>
+                        <td style="font-weight:600;color:#1E293B;">{{ c.name }}</td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ c.email }}</td>
+                        <td style="color:#94A3B8;font-size:0.75rem;">{{ c.message|truncatechars:40 }}</td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ c.created_at|date:"d M Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4" style="text-align:center;color:#94A3B8;padding:24px;">No messages yet</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Users -->
+    <div class="col-12">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-users"></i> Recent Clients</h5>
+                <a href="{% url 'admin_users' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Requests</th>
+                            <th>Joined</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for u in recent_users %}
+                    <tr>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div style="width:32px;height:32px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.85rem;flex-shrink:0;">{{ u.username|slice:":1"|upper }}</div>
+                                <strong style="color:#1E293B;">{{ u.username }}</strong>
+                            </div>
+                        </td>
+                        <td style="color:#64748B;font-size:0.82rem;">{{ u.email|default:"—" }}</td>
+                        <td>
+                            <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:2px 8px;border-radius:20px;font-size:0.68rem;font-weight:700;">
+                                {{ u.website_requests.count }} request{{ u.website_requests.count|pluralize }}
+                            </span>
+                        </td>
+                        <td style="color:#64748B;font-size:0.78rem;">{{ u.date_joined|date:"d M Y" }}</td>
+                        <td>
+                            <a href="{% url 'admin_user_edit' u.pk %}" class="ap-btn ap-btn-outline" style="font-size:0.72rem;padding:4px 10px;">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Reviews -->
+    {% if recent_reviews %}
+    <div class="col-12">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <h5><i class="fas fa-star" style="color:#D97706;"></i> Recent Client Reviews</h5>
+                <a href="{% url 'admin_reviews' %}" class="ap-btn ap-btn-outline">View All</a>
+            </div>
+            <div style="overflow-x:auto;">
+                <table class="ap-table">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Project</th>
+                            <th>Rating</th>
+                            <th>Review</th>
+                            <th>Date</th>
+                            <th>Visibility</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for review in recent_reviews %}
+                    <tr>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <div style="width:30px;height:30px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.78rem;flex-shrink:0;">{{ review.client.username|slice:":1"|upper }}</div>
+                                <span style="font-weight:600;color:#1E293B;font-size:0.85rem;">{{ review.client.username }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="{% url 'admin_project_detail' review.project.pk %}" style="color:#6366F1;font-weight:600;font-size:0.82rem;text-decoration:none;">{{ review.project.title|truncatechars:25 }}</a>
+                        </td>
+                        <td>
+                            <div style="display:flex;gap:2px;">
+                                {% for i in "12345" %}
+                                <i class="fas fa-star" style="font-size:0.75rem;color:{% if forloop.counter <= review.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
+                                {% endfor %}
+                            </div>
+                        </td>
+                        <td style="color:#64748B;font-size:0.82rem;max-width:220px;">
+                            {% if review.title %}<strong style="color:#1E293B;">{{ review.title }}</strong> — {% endif %}
+                            {{ review.body|truncatechars:60 }}
+                        </td>
+                        <td style="color:#64748B;font-size:0.78rem;white-space:nowrap;">{{ review.created_at|date:"d M Y" }}</td>
+                        <td>
+                            {% if review.is_public %}
+                            <span style="background:#F0FDF4;color:#15803D;border:1px solid #BBF7D0;padding:2px 8px;border-radius:20px;font-size:0.68rem;font-weight:700;"><i class="fas fa-eye me-1"></i>Public</span>
+                            {% else %}
+                            <span style="background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;padding:2px 8px;border-radius:20px;font-size:0.68rem;font-weight:700;"><i class="fas fa-eye-slash me-1"></i>Hidden</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

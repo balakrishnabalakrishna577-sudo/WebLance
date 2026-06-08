@@ -1,0 +1,51 @@
+from django.conf import settings
+
+
+def recaptcha_key(request):
+    return {
+        'RECAPTCHA_SITE_KEY': getattr(settings, 'RECAPTCHA_SITE_KEY', ''),
+    }
+
+
+def notifications(request):
+    """
+    Inject unread notification count + latest items for the navbar bell.
+    Reads from the persistent Notification model.
+    """
+    if not request.user.is_authenticated:
+        return {'notif_count': 0, 'notif_items': []}
+
+    try:
+        from notifications.models import Notification as N
+        qs = N.objects.filter(recipient=request.user).order_by('-created_at')[:8]
+        unread = N.objects.filter(recipient=request.user, is_read=False).count()
+
+        items = [{
+            'id':      n.pk,
+            'icon':    n.icon,
+            'color':   n.color,
+            'title':   n.title,
+            'sub':     n.message,
+            'time':    n.created_at,
+            'url':     n.url,
+            'is_read': n.is_read,
+            'badge':   None if n.is_read else 'NEW',
+        } for n in qs]
+
+        return {
+            'notif_count': unread,
+            'notif_items': items,
+        }
+    except Exception:
+        return {'notif_count': 0, 'notif_items': []}
+
+
+def bot_unread(request):
+    """Inject unread bot conversation count for the admin sidebar badge."""
+    if not (request.user.is_authenticated and request.user.is_staff):
+        return {'bot_unread_count': 0}
+    try:
+        from agent.models import BotSession
+        return {'bot_unread_count': BotSession.objects.filter(is_read=False).count()}
+    except Exception:
+        return {'bot_unread_count': 0}

@@ -1,0 +1,160 @@
+/* ========================================
+   WEBLANCE - Pro Design System (Global)
+   Purpose: make all public pages look consistent and professional.
+   Loaded AFTER style.css so it can override safely.
+   ======================================== */
+
+:root {
+  /* Subtle pro backgrounds */
+  --pro-surface: #ffffff;
+  --pro-surface-2: #f8fafc;
+  --pro-surface-3: #eef2ff;
+  --pro-text: #0f172a;
+  --pro-muted: #475569;
+}
+
+/* Consistent container width on large screens */
+.container {
+  max-width: 1180px;
+}
+
+/* Section spacing */
+.section {
+  padding: 88px 0;
+}
+@media (max-width: 767px) {
+  .section {
+    padding: 64px 0;
+  }
+}
+
+/* Page header (used by Pricing / Portfolio / Request / Contact etc.) */
+.page-header {
+  padding: 90px 0 90px;
+  background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 50%, #C7D2FE 100%) !important;
+  border-bottom: 1px solid rgba(99,102,241,0.15);
+}
+.page-header h1 {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #1e1b4b !important;
+  text-shadow: none;
+}
+.page-header p {
+  color: #475569 !important;
+}
+.page-header .breadcrumb {
+  background: rgba(255,255,255,0.65) !important;
+  border: 1px solid rgba(99,102,241,0.2) !important;
+  backdrop-filter: blur(12px);
+}
+.page-header .breadcrumb-item a { color: #6366F1 !important; }
+.page-header .breadcrumb-item.active { color: #64748b !important; }
+.page-header .breadcrumb-item + .breadcrumb-item::before { color: #94a3b8 !important; }
+.page-header h1 .text-green {
+  background: linear-gradient(135deg, #6366F1 0%, #818CF8 40%, #4F46E5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Section title */
+.section-title {
+  text-align: center;
+  margin-bottom: 42px;
+}
+.section-title .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(79, 70, 229, 0.08);
+  border: 1px solid rgba(79, 70, 229, 0.18);
+  color: var(--dark-green);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.section-title h2 {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.section-title p {
+  color: #64748b;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* Cards */
+.card-custom,
+.contact-form-card,
+.contact-info-card {
+  background: var(--pro-surface);
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.06);
+}
+.card-custom:hover {
+  box-shadow: 0 22px 60px rgba(79, 70, 229, 0.10);
+}
+
+/* Buttons: consistent focus */
+.btn:focus {
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.14) !important;
+}
+
+/* Forms */
+.form-control,
+select.form-control,
+textarea.form-control {
+  background: #fff !important;
+  border: 1px solid rgba(15, 23, 42, 0.12) !important;
+  color: #0f172a !important;
+}
+.form-control::placeholder {
+  color: #94a3b8 !important;
+}
+.form-control:focus {
+  border-color: rgba(79, 70, 229, 0.55) !important;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+}
+
+/* Pricing table: make it look premium + readable */
+.table-dark {
+  --bs-table-bg: #ffffff;
+  --bs-table-color: #0f172a;
+  --bs-table-border-color: rgba(15, 23, 42, 0.10);
+}
+.table-dark thead th {
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 900;
+}
+.table-hover tbody tr:hover {
+  background: rgba(79, 70, 229, 0.05);
+}
+
+/* CTA section */
+.cta-section {
+  background:
+    radial-gradient(900px 420px at 20% 10%, rgba(255, 255, 255, 0.18), transparent 60%),
+    linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #06b6d4 130%);
+}
+.cta-section h2 {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.cta-section p {
+  color: rgba(255, 255, 255, 0.86);
+}
+
+@media (max-width: 991px) {
+  .page-header {
+    padding: 78px 0 46px;
+    text-align: center;
+  }
+}
+

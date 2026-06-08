@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Delete Agreement — Weblance{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <h1>Delete Agreement</h1>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card-custom text-center" style="padding: 40px;">
+                    <div style="width:64px;height:64px;background:#FEE2E2;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
+                        <i class="fas fa-trash-alt" style="color:#EF4444;font-size:1.4rem;"></i>
+                    </div>
+                    <h4 style="color:#1E293B;font-weight:800;margin-bottom:8px;">Confirm Deletion</h4>
+                    <p style="color:#64748B;font-size:0.9rem;margin-bottom:8px;">
+                        Are you sure you want to delete agreement
+                        <strong style="color:#1E293B;">{{ agr.short_ref }}</strong>?
+                    </p>
+                    <p style="color:#64748B;font-size:0.85rem;margin-bottom:28px;">
+                        <strong>{{ agr.project_title }}</strong> — {{ agr.client_name }}<br>
+                        This action cannot be undone.
+                    </p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                            <button type="submit"
+                                    style="background:#EF4444;color:#fff;border:none;padding:10px 28px;border-radius:50px;font-weight:700;font-size:0.88rem;cursor:pointer;">
+                                <i class="fas fa-trash-alt me-2"></i>Yes, Delete
+                            </button>
+                            <a href="{% url 'agreement_detail' agr.pk %}"
+                               style="background:#F1F5F9;color:#475569;padding:10px 28px;border-radius:50px;font-weight:700;font-size:0.88rem;text-decoration:none;">
+                                <i class="fas fa-times me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+databases:
+  - name: weblance-db
+    databaseName: weblance_db_npkh
+    user: weblance_db_user
+    plan: free
+    region: singapore
+
+services:
+  - type: web
+    name: weblance
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: "chmod +x build.sh && ./build.sh"
+    startCommand: "gunicorn weblance_project.wsgi:application --workers 2 --timeout 120 --bind 0.0.0.0:$PORT"
+    healthCheckPath: /health/
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: weblance-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.12.0"
+      - key: SITE_URL
+        value: "https://weblancehub.in"
+      - key: ALLOWED_HOSTS
+        value: "weblancehub.in,www.weblancehub.in,weblance-5u4i.onrender.com,weblance.onrender.com"
+      - key: ADMIN_USER
+        value: "balakrishna"
+      - key: ADMIN_EMAIL
+        value: "infoweblance01@gmail.com"
+      - key: ADMIN_PASS
+        value: "admin123"
+      - key: EMAIL_BACKEND
+        value: "django.core.mail.backends.smtp.EmailBackend"
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: "587"
+      - key: EMAIL_USE_TLS
+        value: "True"
+      - key: EMAIL_HOST_USER
+        value: "infoweblance01@gmail.com"
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://weblancehub.in,https://www.weblancehub.in"
+
+  # ── Keep-alive cron: pings /health/ every 14 minutes to prevent cold starts ──
+  - type: cron
+    name: weblance-keepalive
+    runtime: python
+    region: singapore
+    plan: free
+    schedule: "*/14 * * * *"
+    buildCommand: "pip install requests"
+    startCommand: "python -c \"import requests; r = requests.get('https://weblancehub.in/health/', timeout=30); print('ping', r.status_code)\""
