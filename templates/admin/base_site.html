@@ -1,0 +1,45 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Weblance Admin{% endblock %}
+
+{% block branding %}
+<div id="site-name" style="display:flex;align-items:center;gap:10px;">
+    <img src="{% static 'images/favicon.svg' %}" alt="Weblance" width="32" height="32"
+         style="border-radius:8px;vertical-align:middle;">
+    <a href="{% url 'admin:index' %}" style="color:#fff;text-decoration:none;font-weight:700;font-size:1.1rem;letter-spacing:1px;">
+        WEBLANCE Admin
+    </a>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="icon" type="image/svg+xml" href="{% static 'images/favicon.svg' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/fav-icon.png' %}">
+<style>
+    #header {
+        background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+        box-shadow: 0 2px 12px rgba(99,102,241,0.3);
+    }
+    #header a:link, #header a:visited {
+        color: #fff !important;
+    }
+    #branding h1 { display: none; }
+    div#site-name a { font-family: 'Segoe UI', sans-serif; }
+    .module h2, .module caption, .inline-group h2 {
+        background: linear-gradient(135deg, #6366F1, #4F46E5) !important;
+    }
+    #nav-sidebar .current-app .section:link,
+    #nav-sidebar .current-app .section:visited {
+        color: #6366F1 !important;
+    }
+    .button, input[type=submit], input[type=button], .submit-row input, a.button {
+        background: #6366F1 !important;
+        border-color: #4F46E5 !important;
+    }
+    .button:hover, input[type=submit]:hover {
+        background: #4F46E5 !important;
+    }
+</style>
+{% endblock %}
