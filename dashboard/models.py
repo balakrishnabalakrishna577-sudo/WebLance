@@ -53,7 +53,6 @@ class ProjectFile(models.Model):
     def __str__(self):
         return self.name
 
-
 class ProjectMessage(models.Model):
     project    = models.ForeignKey(ClientProject, on_delete=models.CASCADE, related_name='messages')
     sender     = models.ForeignKey(User, on_delete=models.CASCADE)
