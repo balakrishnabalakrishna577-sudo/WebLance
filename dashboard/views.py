@@ -257,6 +257,22 @@ def cancel_quote_request(request, pk):
 
 @admin_required
 @require_POST
+def delete_project_file(request, pk):
+    """Admin deletes an uploaded project file."""
+    file_obj = get_object_or_404(ProjectFile, pk=pk)
+    project_pk = file_obj.project.pk
+    # Delete the actual file from storage
+    try:
+        file_obj.file.delete(save=False)
+    except Exception:
+        pass
+    file_obj.delete()
+    messages.success(request, f'File "{file_obj.name}" deleted.')
+    return redirect('admin_project_detail', pk=project_pk)
+
+
+@admin_required
+@require_POST
 def admin_project_delete(request, pk):
     project = get_object_or_404(ClientProject, pk=pk)
     title = project.title
