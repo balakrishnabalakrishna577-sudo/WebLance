@@ -736,11 +736,13 @@
 
                         {% if item.image %}
 
-                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img">
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
+                             onerror="this.onerror=null;this.src=this.dataset.fallback;"
+                             data-fallback="{% static 'images/w1.png' %}">
 
                         {% else %}
 
-                        <img src="https://via.placeholder.com/600x400/111111/00ff88?text={{ item.title|urlencode }}" alt="{{ item.title }}" class="portfolio-img">
+                        <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
 
                         {% endif %}
 

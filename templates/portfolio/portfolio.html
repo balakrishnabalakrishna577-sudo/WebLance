@@ -53,7 +53,8 @@
                         {% endif %}
                         {% if item.image and item.image.name %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.src='{% static 'images/w1.png' %}'">
+                             onerror="this.onerror=null;this.src=this.dataset.fallback;"
+                             data-fallback="{% static 'images/w1.png' %}">
                         {% else %}
                         <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
                         {% endif %}
