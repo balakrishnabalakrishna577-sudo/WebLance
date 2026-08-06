@@ -247,14 +247,12 @@ body { background: #F1F5F9; }
                                 <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
                             </div>
                             <div style="display:flex;gap:8px;align-items:center;">
-                                <a href="#" target="_blank"
-                                   data-url="{{ f.file.url }}"
-                                   onclick="openFileInline(this); return false;"
+                                <a href="{% url 'download_project_file' f.pk %}?view=1" target="_blank"
                                    style="color:#6366F1;font-size:.75rem;font-weight:600;text-decoration:none;background:#EEF2FF;border:1px solid #C7D2FE;padding:4px 10px;border-radius:6px;"
                                    title="Preview">
                                     <i class="fas fa-eye me-1"></i>View
                                 </a>
-                                <a href="{{ f.file.url }}" download="{{ f.name }}"
+                                <a href="{% url 'download_project_file' f.pk %}"
                                    style="color:#475569;font-size:.75rem;font-weight:600;text-decoration:none;background:#F1F5F9;border:1px solid #E2E8F0;padding:4px 10px;border-radius:6px;"
                                    title="Download">
                                     <i class="fas fa-download me-1"></i>Download

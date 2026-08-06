@@ -15,4 +15,5 @@ urlpatterns = [
     path('admin/projects/<int:pk>/',            views.admin_project_detail,   name='admin_project_detail'),
     path('admin/projects/<int:pk>/delete/',     views.admin_project_delete,   name='admin_project_delete'),
     path('admin/files/<int:pk>/delete/',        views.delete_project_file,    name='delete_project_file'),
+    path('files/<int:pk>/download/',            views.download_project_file,  name='download_project_file'),
 ]

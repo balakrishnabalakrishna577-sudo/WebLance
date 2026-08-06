@@ -255,6 +255,58 @@ def cancel_quote_request(request, pk):
     return redirect('client_dashboard')
 
 
+@login_required
+def download_project_file(request, pk):
+    """Stream a project file to the client — works for both Cloudinary and local files."""
+    import urllib.request
+    import mimetypes
+
+    file_obj = get_object_or_404(ProjectFile, pk=pk)
+
+    # Security: only the project client or staff can access
+    project = file_obj.project
+    if not (request.user.is_staff or project.client == request.user):
+        from django.http import HttpResponseForbidden
+        return HttpResponseForbidden('Access denied.')
+
+    file_url = file_obj.file.url
+    file_name = file_obj.name
+    view_mode = request.GET.get('view', '')
+
+    # Determine content type
+    mime_type, _ = mimetypes.guess_type(file_name)
+    if not mime_type:
+        mime_type = 'application/octet-stream'
+
+    try:
+        # Fetch the file from Cloudinary (or local URL)
+        if file_url.startswith('http'):
+            req = urllib.request.urlopen(file_url, timeout=30)
+            file_data = req.read()
+        else:
+            # Local file
+            from django.conf import settings as dj_settings
+            import os
+            local_path = os.path.join(dj_settings.MEDIA_ROOT, str(file_obj.file))
+            with open(local_path, 'rb') as f:
+                file_data = f.read()
+
+        from django.http import HttpResponse
+        response = HttpResponse(file_data, content_type=mime_type)
+        if view_mode:
+            # Inline — browser displays it
+            response['Content-Disposition'] = f'inline; filename="{file_name}"'
+        else:
+            # Attachment — browser downloads it
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+        return response
+
+    except Exception as e:
+        from django.contrib import messages as msg
+        msg.error(request, f'File not available: {file_name}')
+        return redirect('project_detail', pk=project.pk)
+
+
 @admin_required
 @require_POST
 def delete_project_file(request, pk):
