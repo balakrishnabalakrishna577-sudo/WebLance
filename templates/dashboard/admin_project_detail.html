@@ -121,15 +121,11 @@
                         <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
                     </div>
                     <a href="{{ f.file.url }}" target="_blank" style="color:#6366F1;font-size:.75rem;text-decoration:none;margin-right:8px;">Download</a>
-                    <form method="post" action="{% url 'delete_project_file' f.pk %}"
-                          onsubmit="return confirm('Delete {{ f.name }}? This cannot be undone.');"
-                          style="margin:0;">
-                        {% csrf_token %}
-                        <button type="submit" title="Delete file"
-                                style="background:none;border:none;cursor:pointer;padding:0;line-height:1;">
-                            <i class="fas fa-trash-alt" style="color:#EF4444;font-size:.8rem;"></i>
-                        </button>
-                    </form>
+                    <button type="button" title="Delete file"
+                            onclick="deleteFile({{ f.pk }}, '{{ f.name|escapejs }}')"
+                            style="background:none;border:none;cursor:pointer;padding:0;line-height:1;">
+                        <i class="fas fa-trash-alt" style="color:#EF4444;font-size:.8rem;"></i>
+                    </button>
                 </div>
                 {% endfor %}
             </div>
@@ -286,6 +282,30 @@ if (quickSendBtn && quickMsg && quickForm) {
             if (e.key === 'Enter') { e.preventDefault(); quickSend(); }
         });
     }
+}
+
+// ── Delete project file via fetch (avoids CSRF form issues) ──────
+function deleteFile(pk, name) {
+    if (!confirm('Delete "' + name + '"? This cannot be undone.')) return;
+    // Get CSRF token from the existing form on the page
+    const csrf = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    fetch('/panel/projects/admin/files/' + pk + '/delete/', {
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrf, 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: ''
+    }).then(function(res) {
+        if (res.ok || res.redirected) {
+            // Remove the file row from DOM immediately
+            const btn = document.querySelector('[onclick*="deleteFile(' + pk + ',"]');
+            if (btn) btn.closest('.file-row').remove();
+            // Reload to reflect updated state
+            window.location.reload();
+        } else {
+            alert('Delete failed. Please try again.');
+        }
+    }).catch(function() {
+        alert('Delete failed. Please check your connection.');
+    });
 }
 </script>
 {% endblock %}
