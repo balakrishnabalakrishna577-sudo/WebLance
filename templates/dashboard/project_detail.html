@@ -247,7 +247,9 @@ body { background: #F1F5F9; }
                                 <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
                             </div>
                             <div style="display:flex;gap:8px;align-items:center;">
-                                <a href="{{ f.file.url }}" target="_blank"
+                                <a href="#" target="_blank"
+                                   data-url="{{ f.file.url }}"
+                                   onclick="openFileInline(this); return false;"
                                    style="color:#6366F1;font-size:.75rem;font-weight:600;text-decoration:none;background:#EEF2FF;border:1px solid #C7D2FE;padding:4px 10px;border-radius:6px;"
                                    title="Preview">
                                     <i class="fas fa-eye me-1"></i>View
@@ -548,5 +550,16 @@ async function pollProgress() {
 
 // Poll every 15 seconds
 if (POLL_URL) setInterval(pollProgress, 15000);
+
+// ── Inline file viewer (fixes Cloudinary forced-download) ────────
+function openFileInline(el) {
+    let url = el.dataset.url || el.href;
+    // For Cloudinary URLs: replace /upload/ with /upload/fl_inline/
+    // This overrides the Content-Disposition: attachment header
+    if (url.includes('res.cloudinary.com')) {
+        url = url.replace('/upload/', '/upload/fl_inline/');
+    }
+    window.open(url, '_blank');
+}
 </script>
 {% endblock %}
