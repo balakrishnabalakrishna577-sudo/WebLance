@@ -1247,6 +1247,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     <a href="{% url 'client_dashboard' %}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#6366F1;font-size:0.88rem;cursor:pointer;border-radius:10px;text-decoration:none;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='none'">
                         <i class="fas fa-tachometer-alt"></i> My Projects
                     </a>
+                    <a href="{% url 'profile_edit' %}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#475569;font-size:0.88rem;cursor:pointer;border-radius:10px;text-decoration:none;" onmouseover="this.style.background='rgba(99,102,241,0.06)'" onmouseout="this.style.background='none'">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
                     {% endif %}
                     {% if user.is_staff %}
                     <a href="{% url 'admin_dashboard' %}" style="display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;background:none;border:none;color:#6366F1;font-size:0.88rem;cursor:pointer;border-radius:10px;text-decoration:none;" onmouseover="this.style.background='rgba(99,102,241,0.08)'" onmouseout="this.style.background='none'">

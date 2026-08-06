@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Profile - WEBLANCE{% endblock %}
+
+{% block content %}
+<section style="padding:48px 0 64px;background:#F1F5F9;min-height:80vh;">
+    <div class="container" style="max-width:640px;">
+
+        <!-- Header -->
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:28px;">
+            <a href="{% url 'client_dashboard' %}"
+               style="color:#64748B;text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:5px;">
+                <i class="fas fa-arrow-left"></i> Dashboard
+            </a>
+            <span style="color:#CBD5E1;">/</span>
+            <span style="color:#1E293B;font-size:.85rem;font-weight:600;">My Profile</span>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+            <div style="padding:13px 16px;border-radius:10px;margin-bottom:16px;font-size:0.875rem;
+                        {% if message.tags == 'success' %}
+                        background:#F0FDF4;border:1px solid #BBF7D0;color:#15803D;
+                        {% else %}
+                        background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;
+                        {% endif %}">
+                <i class="fas fa-{% if message.tags == 'success' %}check-circle{% else %}exclamation-triangle{% endif %} me-2"></i>
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Profile Card -->
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(99,102,241,0.06);">
+
+            <!-- Avatar Banner -->
+            <div style="background:linear-gradient(135deg,#6366F1,#818CF8);padding:28px 28px 20px;text-align:center;">
+                <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);
+                            border:3px solid rgba(255,255,255,0.5);display:flex;align-items:center;
+                            justify-content:center;margin:0 auto 12px;font-size:1.8rem;color:#fff;font-weight:800;">
+                    {{ user.username|slice:":1"|upper }}
+                </div>
+                <div style="color:#fff;font-weight:700;font-size:1rem;">{{ user.get_full_name|default:user.username }}</div>
+                <div style="color:rgba(255,255,255,0.75);font-size:0.78rem;margin-top:2px;">{{ user.email }}</div>
+                <div style="color:rgba(255,255,255,0.6);font-size:0.72rem;margin-top:2px;">
+                    Member since {{ user.date_joined|date:"d M Y" }}
+                </div>
+            </div>
+
+            <!-- Form -->
+            <form method="post" action="{% url 'profile_edit' %}" style="padding:28px;">
+                {% csrf_token %}
+
+                <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+                            color:#6366F1;margin-bottom:16px;border-bottom:1px solid #F1F5F9;padding-bottom:10px;">
+                    <i class="fas fa-user me-1"></i> Personal Information
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                    <div>
+                        <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">First Name</label>
+                        <input type="text" name="first_name" value="{{ user.first_name }}"
+                               placeholder="First name"
+                               style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                      padding:10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                      transition:border-color .2s;box-sizing:border-box;"
+                               onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    </div>
+                    <div>
+                        <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">Last Name</label>
+                        <input type="text" name="last_name" value="{{ user.last_name }}"
+                               placeholder="Last name"
+                               style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                      padding:10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                      transition:border-color .2s;box-sizing:border-box;"
+                               onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">
+                        Email Address <span style="color:#ef4444;">*</span>
+                    </label>
+                    <input type="email" name="email" value="{{ user.email }}"
+                           placeholder="your@email.com" required
+                           style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                  padding:10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                  transition:border-color .2s;box-sizing:border-box;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                </div>
+
+                <div style="margin-bottom:24px;">
+                    <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">
+                        Mobile Number
+                    </label>
+                    <input type="tel" name="phone" value="{{ profile.phone }}"
+                           placeholder="+91 9876543210"
+                           style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                  padding:10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                  transition:border-color .2s;box-sizing:border-box;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                </div>
+
+                <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+                            color:#6366F1;margin-bottom:16px;border-bottom:1px solid #F1F5F9;padding-bottom:10px;">
+                    <i class="fas fa-lock me-1"></i> Change Password <span style="color:#94A3B8;font-weight:400;text-transform:none;letter-spacing:0;">(leave blank to keep current)</span>
+                </div>
+
+                <div style="margin-bottom:16px;position:relative;">
+                    <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">New Password</label>
+                    <input type="password" name="new_password" id="newPwd"
+                           placeholder="Minimum 8 characters"
+                           style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                  padding:10px 40px 10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                  transition:border-color .2s;box-sizing:border-box;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    <button type="button" onclick="togglePwd('newPwd',this)"
+                            style="position:absolute;right:12px;top:34px;background:none;border:none;
+                                   cursor:pointer;color:#94A3B8;padding:0;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <div style="margin-bottom:28px;position:relative;">
+                    <label style="font-size:.78rem;color:#64748B;display:block;margin-bottom:6px;">Confirm New Password</label>
+                    <input type="password" name="confirm_password" id="confirmPwd"
+                           placeholder="Repeat new password"
+                           style="width:100%;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:10px;
+                                  padding:10px 40px 10px 12px;font-size:.88rem;color:#1E293B;outline:none;
+                                  transition:border-color .2s;box-sizing:border-box;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    <button type="button" onclick="togglePwd('confirmPwd',this)"
+                            style="position:absolute;right:12px;top:34px;background:none;border:none;
+                                   cursor:pointer;color:#94A3B8;padding:0;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+
+                <button type="submit"
+                        style="width:100%;background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;
+                               border:none;border-radius:12px;padding:13px;font-weight:700;font-size:.9rem;
+                               cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </form>
+        </div>
+
+        <!-- Account info (read-only) -->
+        <div style="background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:20px 24px;
+                    margin-top:16px;box-shadow:0 2px 8px rgba(99,102,241,0.04);">
+            <div style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;
+                        color:#94A3B8;margin-bottom:12px;">Account Info</div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                <span style="font-size:.82rem;color:#64748B;">Username</span>
+                <span style="font-size:.82rem;font-weight:600;color:#1E293B;">{{ user.username }}</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #F1F5F9;">
+                <span style="font-size:.82rem;color:#64748B;">Account Type</span>
+                <span style="font-size:.82rem;font-weight:600;color:#1E293B;">
+                    {% if user.is_staff %}Administrator{% else %}Client{% endif %}
+                </span>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:8px 0;">
+                <span style="font-size:.82rem;color:#64748B;">Member Since</span>
+                <span style="font-size:.82rem;font-weight:600;color:#1E293B;">{{ user.date_joined|date:"d M Y" }}</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function togglePwd(id, btn) {
+    const input = document.getElementById(id);
+    const icon  = btn.querySelector('i');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    icon.className = input.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+}
+</script>
+{% endblock %}

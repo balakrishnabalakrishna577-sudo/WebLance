@@ -14,65 +14,75 @@
 
         {% if messages %}
             {% for message in messages %}
-            <div style="padding:12px 16px;border-radius:10px;margin-bottom:20px;font-size:0.88rem;
+            <div style="padding:12px 16px;border-radius:10px;margin-bottom:12px;font-size:0.88rem;
                         background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;">
-                {{ message }}
+                <i class="fas fa-exclamation-triangle me-2"></i>{{ message }}
             </div>
             {% endfor %}
         {% endif %}
 
-        <form method="post" action="{% url 'register' %}">
+        <form method="post" action="{% url 'register' %}" novalidate>
             {% csrf_token %}
 
             <div class="auth-input-group">
-                <label for="id_username">Username</label>
+                <label for="id_username">Username <span style="color:#ef4444;">*</span></label>
                 <input type="text" id="id_username" name="username"
-                       value="{{ form.username.value|default:'' }}"
+                       value="{{ form_data.username|default:'' }}"
                        placeholder="Choose a username" autocomplete="username" required>
                 <i class="fas fa-user input-icon"></i>
-                {% if form.username.errors %}
-                    <ul class="errorlist">{% for e in form.username.errors %}<li>{{ e }}</li>{% endfor %}</ul>
-                {% endif %}
             </div>
 
             <div class="auth-input-group">
-                <label for="id_email">Email <span style="color:var(--text-gray);font-weight:400;">(optional)</span></label>
-                <input type="email" id="id_email" name="email"
-                       value="{{ form.email.value|default:'' }}"
-                       placeholder="your@email.com" autocomplete="email">
-                <i class="fas fa-envelope input-icon"></i>
+                <label for="id_email">Email Address <span style="color:#ef4444;">*</span></label>
+                <div style="position:relative;">
+                    <input type="email" id="id_email" name="email"
+                           value="{{ form_data.email|default:'' }}"
+                           placeholder="your@email.com" autocomplete="email" required>
+                    <i class="fas fa-envelope input-icon"></i>
+                </div>
+                <small style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
+                    Must be a valid email — e.g. name@gmail.com
+                </small>
             </div>
 
             <div class="auth-input-group">
-                <label for="id_password1">Password</label>
+                <label for="id_phone">Mobile Number <span style="color:#ef4444;">*</span></label>
+                <div style="position:relative;">
+                    <input type="tel" id="id_phone" name="phone"
+                           value="{{ form_data.phone|default:'' }}"
+                           placeholder="+91 1234567890" autocomplete="tel" required
+                           pattern="[\+]?[0-9\s\-]{10,15}">
+                    <i class="fas fa-phone input-icon"></i>
+                </div>
+                <small style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
+                    10 digit mobile number
+                </small>
+            </div>
+
+            <div class="auth-input-group">
+                <label for="id_password1">Password <span style="color:#ef4444;">*</span></label>
                 <input type="password" id="id_password1" name="password1"
                        placeholder="Create a strong password" autocomplete="new-password" required>
                 <i class="fas fa-lock input-icon"></i>
                 <button type="button" class="password-toggle" onclick="togglePwd('id_password1',this)">
                     <i class="fas fa-eye"></i>
                 </button>
-                {% if form.password1.errors %}
-                    <ul class="errorlist">{% for e in form.password1.errors %}<li>{{ e }}</li>{% endfor %}</ul>
-                {% endif %}
             </div>
 
             <div class="auth-input-group">
-                <label for="id_password2">Confirm Password</label>
+                <label for="id_password2">Confirm Password <span style="color:#ef4444;">*</span></label>
                 <input type="password" id="id_password2" name="password2"
                        placeholder="Repeat your password" autocomplete="new-password" required>
                 <i class="fas fa-lock input-icon"></i>
                 <button type="button" class="password-toggle" onclick="togglePwd('id_password2',this)">
                     <i class="fas fa-eye"></i>
                 </button>
-                {% if form.password2.errors %}
-                    <ul class="errorlist">{% for e in form.password2.errors %}<li>{{ e }}</li>{% endfor %}</ul>
-                {% endif %}
             </div>
 
             <div style="background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.12);
                         border-radius:10px;padding:12px 14px;margin-bottom:20px;font-size:0.8rem;color:var(--text-gray);">
                 <i class="fas fa-shield-alt me-2" style="color:var(--primary-green);"></i>
-                Password must be at least 8 characters and not entirely numeric.
+                Password must be at least 8 characters. add special characters.
             </div>
 
             <button type="submit" class="btn-auth">
