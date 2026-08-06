@@ -551,15 +551,27 @@ async function pollProgress() {
 // Poll every 15 seconds
 if (POLL_URL) setInterval(pollProgress, 15000);
 
-// ── Inline file viewer (fixes Cloudinary forced-download) ────────
+// ── Inline file viewer (opens PDF/docs in Google Docs viewer, images directly) ────────
 function openFileInline(el) {
     let url = el.dataset.url || el.href;
-    // For Cloudinary URLs: replace /upload/ with /upload/fl_inline/
-    // This overrides the Content-Disposition: attachment header
-    if (url.includes('res.cloudinary.com')) {
-        url = url.replace('/upload/', '/upload/fl_inline/');
+
+    // Fix Cloudinary raw URLs: fl_inline doesn't work on raw type,
+    // so use Google Docs viewer which works for PDF, DOCX, XLSX, PPTX etc.
+    const ext = url.split('?')[0].split('.').pop().toLowerCase();
+    const previewInBrowser = ['jpg','jpeg','png','gif','webp','svg','bmp','ico'];
+    const useGoogleViewer  = ['pdf','doc','docx','xls','xlsx','ppt','pptx','txt','csv'];
+
+    if (previewInBrowser.includes(ext)) {
+        // Images open directly
+        window.open(url, '_blank');
+    } else if (useGoogleViewer.includes(ext)) {
+        // Use Google Docs Viewer for documents
+        const viewer = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(url);
+        window.open(viewer, '_blank');
+    } else {
+        // Fallback: just open directly
+        window.open(url, '_blank');
     }
-    window.open(url, '_blank');
 }
 </script>
 {% endblock %}
