@@ -257,53 +257,56 @@ def cancel_quote_request(request, pk):
 
 @login_required
 def download_project_file(request, pk):
-    """Stream a project file to the client — works for both Cloudinary and local files."""
-    import urllib.request
+    """Stream a project file to the client — works for Cloudinary and local files."""
     import mimetypes
+    from django.http import HttpResponse, HttpResponseForbidden, StreamingHttpResponse
 
     file_obj = get_object_or_404(ProjectFile, pk=pk)
+    project  = file_obj.project
 
-    # Security: only the project client or staff can access
-    project = file_obj.project
+    # Access control: only project client or staff
     if not (request.user.is_staff or project.client == request.user):
-        from django.http import HttpResponseForbidden
         return HttpResponseForbidden('Access denied.')
 
-    file_url = file_obj.file.url
     file_name = file_obj.name
     view_mode = request.GET.get('view', '')
-
-    # Determine content type
     mime_type, _ = mimetypes.guess_type(file_name)
     if not mime_type:
         mime_type = 'application/octet-stream'
 
+    disposition = 'inline' if view_mode else 'attachment'
+
     try:
-        # Fetch the file from Cloudinary (or local URL)
+        file_url = file_obj.file.url
+
         if file_url.startswith('http'):
-            req = urllib.request.urlopen(file_url, timeout=30)
-            file_data = req.read()
+            # Cloudinary or remote — stream via requests
+            import requests as req_lib
+            r = req_lib.get(file_url, stream=True, timeout=30)
+            r.raise_for_status()
+
+            def file_iterator():
+                for chunk in r.iter_content(chunk_size=8192):
+                    yield chunk
+
+            response = StreamingHttpResponse(file_iterator(), content_type=mime_type)
+            response['Content-Disposition'] = f'{disposition}; filename="{file_name}"'
+            if r.headers.get('Content-Length'):
+                response['Content-Length'] = r.headers['Content-Length']
+            return response
         else:
             # Local file
-            from django.conf import settings as dj_settings
             import os
+            from django.conf import settings as dj_settings
             local_path = os.path.join(dj_settings.MEDIA_ROOT, str(file_obj.file))
             with open(local_path, 'rb') as f:
-                file_data = f.read()
+                data = f.read()
+            response = HttpResponse(data, content_type=mime_type)
+            response['Content-Disposition'] = f'{disposition}; filename="{file_name}"'
+            return response
 
-        from django.http import HttpResponse
-        response = HttpResponse(file_data, content_type=mime_type)
-        if view_mode:
-            # Inline — browser displays it
-            response['Content-Disposition'] = f'inline; filename="{file_name}"'
-        else:
-            # Attachment — browser downloads it
-            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
-        return response
-
-    except Exception as e:
-        from django.contrib import messages as msg
-        msg.error(request, f'File not available: {file_name}')
+    except Exception:
+        messages.error(request, f'File not available: {file_name}. Please contact the admin.')
         return redirect('project_detail', pk=project.pk)
 
 
