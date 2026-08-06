@@ -120,7 +120,16 @@
                         <div style="color:#1E293B;font-size:.83rem;font-weight:600;">{{ f.name }}</div>
                         <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
                     </div>
-                    <a href="{{ f.file.url }}" target="_blank" style="color:#6366F1;font-size:.75rem;text-decoration:none;">Download</a>
+                    <a href="{{ f.file.url }}" target="_blank" style="color:#6366F1;font-size:.75rem;text-decoration:none;margin-right:8px;">Download</a>
+                    <form method="post" action="{% url 'delete_project_file' f.pk %}"
+                          onsubmit="return confirm('Delete {{ f.name }}? This cannot be undone.');"
+                          style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" title="Delete file"
+                                style="background:none;border:none;cursor:pointer;padding:0;line-height:1;">
+                            <i class="fas fa-trash-alt" style="color:#EF4444;font-size:.8rem;"></i>
+                        </button>
+                    </form>
                 </div>
                 {% endfor %}
             </div>
