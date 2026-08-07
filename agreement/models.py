@@ -18,7 +18,7 @@ class Agreement(models.Model):
         ('realestate',  'Real Estate Website'),
         ('hospital',    'Hospital / Clinic Website'),
         ('webapp',      'Web Application Development'),
-        ('college',     'College Project Website'),
+        ('college',     'College Project'),
         ('miniproject', 'Mini Project'),
         ('custom',      'Custom Project'),
     ]
