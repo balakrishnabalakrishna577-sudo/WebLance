@@ -21,7 +21,7 @@
             {% endfor %}
         {% endif %}
 
-        <form method="post" action="{% url 'register' %}" novalidate>
+        <form id="registerForm" method="post" action="{% url 'register' %}" novalidate>
             {% csrf_token %}
 
             <div class="auth-input-group">
@@ -40,7 +40,7 @@
                            placeholder="your@email.com" autocomplete="email" required>
                     <i class="fas fa-envelope input-icon"></i>
                 </div>
-                <small style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
+                <small id="emailHint" style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
                     Must be a valid email — e.g. name@gmail.com
                 </small>
             </div>
@@ -54,7 +54,7 @@
                            pattern="[\+]?[0-9\s\-]{10,15}">
                     <i class="fas fa-phone input-icon"></i>
                 </div>
-                <small style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
+                <small id="phoneHint" style="color:#94a3b8;font-size:0.75rem;display:block;margin-top:4px;">
                     10 digit mobile number
                 </small>
             </div>
@@ -85,9 +85,41 @@
                 Password must be at least 8 characters. add special characters.
             </div>
 
-            <button type="submit" class="btn-auth">
+            <!-- OTP Section (hidden until OTP is sent) -->
+            <div id="otpSection" style="display:none;">
+                <div class="auth-input-group">
+                    <label>Verification Code <span style="color:#ef4444;">*</span></label>
+                    <input type="text" name="otp" id="otpInput" maxlength="6"
+                           placeholder="Enter 6-digit OTP" autocomplete="off"
+                           inputmode="numeric"
+                           style="letter-spacing:4px;font-weight:700;font-size:1.1rem;text-align:center;">
+                    <i class="fas fa-shield-alt input-icon"></i>
+                </div>
+                <div id="otpStatus" style="font-size:0.82rem;margin-bottom:12px;"></div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                    <span id="otpCountdown" style="font-size:0.82rem;color:#94a3b8;"></span>
+                    <button type="button" id="resendOtpBtn"
+                            style="background:none;border:none;color:#6366F1;font-size:0.82rem;
+                                   cursor:pointer;padding:0;text-decoration:underline;display:none;">
+                        Resend OTP
+                    </button>
+                </div>
+            </div>
+
+            <!-- Primary action button -->
+            <button type="button" id="sendOtpBtn" class="btn-auth">
+                <i class="fas fa-paper-plane me-2"></i> Send OTP &amp; Verify
+            </button>
+
+            <!-- Submit button (hidden until OTP section appears) -->
+            <button type="submit" id="submitBtn" class="btn-auth" style="display:none;margin-top:10px;">
                 <i class="fas fa-user-plus me-2"></i> Create Account
             </button>
+
+            <!-- Inline alert for AJAX errors -->
+            <div id="otpAlert" style="display:none;padding:12px 16px;border-radius:10px;margin-top:12px;
+                        font-size:0.88rem;background:rgba(255,107,107,0.1);
+                        border:1px solid rgba(255,107,107,0.3);color:#ff6b6b;"></div>
         </form>
 
         <div class="auth-footer">
@@ -99,11 +131,176 @@
 
 {% block extra_js %}
 <script>
+// ── Password toggle ──
 function togglePwd(id, btn) {
     const input = document.getElementById(id);
     const icon  = btn.querySelector('i');
     input.type = input.type === 'password' ? 'text' : 'password';
     icon.className = input.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
 }
+
+// ── Real-time email validation ──
+const emailInput = document.getElementById('id_email');
+const emailHint  = document.getElementById('emailHint');
+if (emailInput && emailHint) {
+    emailInput.addEventListener('input', function () {
+        const val   = this.value.trim();
+        const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+        if (!val) {
+            emailHint.textContent = 'Must be a valid email — e.g. name@gmail.com';
+            emailHint.style.color = '#94a3b8';
+        } else if (valid) {
+            emailHint.textContent = '✓ Valid email address';
+            emailHint.style.color = '#22c55e';
+        } else {
+            emailHint.textContent = '✗ Invalid format — e.g. name@gmail.com';
+            emailHint.style.color = '#ef4444';
+        }
+    });
+}
+
+// ── Real-time phone validation ──
+const phoneInput = document.getElementById('id_phone');
+const phoneHint  = document.getElementById('phoneHint');
+if (phoneInput && phoneHint) {
+    phoneInput.addEventListener('input', function () {
+        const val   = this.value.replace(/[\s\-]/g, '');
+        const valid = /^\+?[0-9]{10,15}$/.test(val);
+        if (!val) {
+            phoneHint.textContent = '10–15 digit mobile number';
+            phoneHint.style.color = '#94a3b8';
+        } else if (valid) {
+            phoneHint.textContent = '✓ Valid mobile number';
+            phoneHint.style.color = '#22c55e';
+        } else {
+            phoneHint.textContent = '✗ Enter 10–15 digits (e.g. +91 9876543210)';
+            phoneHint.style.color = '#ef4444';
+        }
+    });
+}
+
+// ── OTP flow ──
+const sendOtpBtn  = document.getElementById('sendOtpBtn');
+const submitBtn   = document.getElementById('submitBtn');
+const otpSection  = document.getElementById('otpSection');
+const otpInput    = document.getElementById('otpInput');
+const otpStatus   = document.getElementById('otpStatus');
+const otpAlert    = document.getElementById('otpAlert');
+const resendBtn   = document.getElementById('resendOtpBtn');
+const otpCountdown = document.getElementById('otpCountdown');
+
+let countdownTimer = null;
+
+function getCsrfToken() {
+    const el = document.querySelector('[name=csrfmiddlewaretoken]');
+    return el ? el.value : '';
+}
+
+function showAlert(msg) {
+    otpAlert.textContent = msg;
+    otpAlert.style.display = 'block';
+}
+
+function hideAlert() {
+    otpAlert.style.display = 'none';
+}
+
+function startCountdown(seconds) {
+    clearInterval(countdownTimer);
+    resendBtn.style.display = 'none';
+    let remaining = seconds;
+
+    function tick() {
+        const m = String(Math.floor(remaining / 60)).padStart(2, '0');
+        const s = String(remaining % 60).padStart(2, '0');
+        otpCountdown.textContent = `Code expires in ${m}:${s}`;
+        if (remaining <= 0) {
+            clearInterval(countdownTimer);
+            otpCountdown.textContent = 'OTP has expired.';
+            otpCountdown.style.color = '#ef4444';
+            resendBtn.style.display = 'inline';
+        }
+        remaining--;
+    }
+    tick();
+    countdownTimer = setInterval(tick, 1000);
+}
+
+async function requestOtp() {
+    hideAlert();
+    const email = emailInput ? emailInput.value.trim() : '';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        showAlert('Please enter a valid email address before requesting OTP.');
+        return false;
+    }
+
+    sendOtpBtn.disabled = true;
+    sendOtpBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending…';
+
+    try {
+        const resp = await fetch('{% url "send_otp" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCsrfToken(),
+            },
+            body: JSON.stringify({ email }),
+        });
+        const data = await resp.json();
+
+        if (data.ok) {
+            // Show OTP section
+            otpSection.style.display = 'block';
+            sendOtpBtn.style.display = 'none';
+            submitBtn.style.display  = 'block';
+
+            otpStatus.textContent = `✓ OTP sent to ${email}`;
+            otpStatus.style.color = '#22c55e';
+
+            startCountdown(600);
+            otpInput.focus();
+            return true;
+        } else {
+            showAlert(data.error || 'Could not send OTP. Please try again.');
+            sendOtpBtn.disabled = false;
+            sendOtpBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i> Send OTP &amp; Verify';
+            return false;
+        }
+    } catch (err) {
+        showAlert('Network error. Please check your connection and try again.');
+        sendOtpBtn.disabled = false;
+        sendOtpBtn.innerHTML = '<i class="fas fa-paper-plane me-2"></i> Send OTP &amp; Verify';
+        return false;
+    }
+}
+
+sendOtpBtn.addEventListener('click', requestOtp);
+
+resendBtn.addEventListener('click', async function () {
+    otpStatus.textContent = '';
+    otpInput.value = '';
+    await requestOtp();
+    // Re-show resend button area is handled inside requestOtp → startCountdown
+});
+
+// Auto-submit when 6 digits are entered
+if (otpInput) {
+    otpInput.addEventListener('input', function () {
+        // Allow digits only
+        this.value = this.value.replace(/\D/g, '');
+        if (this.value.length === 6) {
+            submitBtn.click();
+        }
+    });
+}
+
+// If the page reloaded with errors and OTP was already sent, re-show OTP section
+{% if form_data %}
+(function () {
+    const otpMsg = document.querySelector('#otpSection');
+    // Only auto-show if there's a retained form — user had already sent OTP
+    // We rely on the hidden otpSection; server messages will guide the user.
+})();
+{% endif %}
 </script>
 {% endblock %}

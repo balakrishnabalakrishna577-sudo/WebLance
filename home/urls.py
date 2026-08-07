@@ -5,6 +5,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('privacy-policy/', views.privacy_policy, name='privacy_policy'),
     path('register/', views.register, name='register'),
+    path('register/send-otp/', views.send_otp, name='send_otp'),
     path('clear-cookie-flag/', views.clear_cookie_flag, name='clear_cookie_flag'),
     path('captcha/', views.captcha_image, name='captcha_image'),
     path('health/', views.health_check, name='health_check'),
