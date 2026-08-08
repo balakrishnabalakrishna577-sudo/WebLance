@@ -247,6 +247,7 @@ body { background: #F1F5F9; }
                                 <div style="color:#94A3B8;font-size:.72rem;">{{ f.uploaded_at|date:"d M Y" }}</div>
                             </div>
                             <div style="display:flex;gap:8px;align-items:center;">
+                                {% if f.file %}
                                 <a href="{% url 'download_project_file' f.pk %}?view=1" target="_blank"
                                    style="color:#6366F1;font-size:.75rem;font-weight:600;text-decoration:none;background:#EEF2FF;border:1px solid #C7D2FE;padding:4px 10px;border-radius:6px;"
                                    title="Preview">
@@ -257,6 +258,11 @@ body { background: #F1F5F9; }
                                    title="Download">
                                     <i class="fas fa-download me-1"></i>Download
                                 </a>
+                                {% else %}
+                                <span style="color:#94A3B8;font-size:.75rem;font-style:italic;">
+                                    <i class="fas fa-exclamation-circle me-1"></i>File removed
+                                </span>
+                                {% endif %}
                             </div>
                         </div>
                         {% endfor %}

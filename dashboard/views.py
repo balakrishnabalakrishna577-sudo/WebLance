@@ -280,7 +280,6 @@ def download_project_file(request, pk):
         file_url = file_obj.file.url
 
         if file_url.startswith('http'):
-            # Cloudinary or remote — stream via requests
             import requests as req_lib
             r = req_lib.get(file_url, stream=True, timeout=30)
             r.raise_for_status()
@@ -295,7 +294,6 @@ def download_project_file(request, pk):
                 response['Content-Length'] = r.headers['Content-Length']
             return response
         else:
-            # Local file
             import os
             from django.conf import settings as dj_settings
             local_path = os.path.join(dj_settings.MEDIA_ROOT, str(file_obj.file))
@@ -306,7 +304,12 @@ def download_project_file(request, pk):
             return response
 
     except Exception:
-        messages.error(request, f'File not available: {file_name}. Please contact the admin.')
+        # File no longer exists — show friendly message and redirect back
+        messages.warning(request,
+            f'"{file_name}" is no longer available. '
+            f'Please contact us if you need this file.')
+        if request.user.is_staff:
+            return redirect('admin_project_detail', pk=project.pk)
         return redirect('project_detail', pk=project.pk)
 
 

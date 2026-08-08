@@ -19,6 +19,7 @@ class Agreement(models.Model):
         ('hospital',    'Hospital / Clinic Website'),
         ('webapp',      'Web Application Development'),
         ('college',     'College Project'),
+        ('academic',    'Academic Project'),
         ('miniproject', 'Mini Project'),
         ('custom',      'Custom Project'),
     ]
