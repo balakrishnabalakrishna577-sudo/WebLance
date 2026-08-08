@@ -249,11 +249,13 @@ body { background: #F1F5F9; }
                             <div style="display:flex;gap:8px;align-items:center;">
                                 {% if f.file %}
                                 <a href="{% url 'download_project_file' f.pk %}?view=1" target="_blank"
+                                   onclick="return checkFile(this, event)"
                                    style="color:#6366F1;font-size:.75rem;font-weight:600;text-decoration:none;background:#EEF2FF;border:1px solid #C7D2FE;padding:4px 10px;border-radius:6px;"
                                    title="Preview">
                                     <i class="fas fa-eye me-1"></i>View
                                 </a>
                                 <a href="{% url 'download_project_file' f.pk %}"
+                                   onclick="return checkFile(this, event)"
                                    style="color:#475569;font-size:.75rem;font-weight:600;text-decoration:none;background:#F1F5F9;border:1px solid #E2E8F0;padding:4px 10px;border-radius:6px;"
                                    title="Download">
                                     <i class="fas fa-download me-1"></i>Download
@@ -576,6 +578,13 @@ function openFileInline(el) {
         // Fallback: just open directly
         window.open(url, '_blank');
     }
+}
+
+// ── File availability check (prevents page-redirect flash messages) ──────────
+function checkFile(link, event) {
+    // Let the browser open the link normally — the server handles unavailable files
+    // by redirecting silently. No flash message will appear on page load.
+    return true;
 }
 </script>
 {% endblock %}

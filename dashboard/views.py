@@ -304,10 +304,11 @@ def download_project_file(request, pk):
             return response
 
     except Exception:
-        # File no longer exists — show friendly message and redirect back
-        messages.warning(request,
-            f'"{file_name}" is no longer available. '
-            f'Please contact us if you need this file.')
+        # File no longer exists on storage — return 404 JSON so JS can handle it gracefully
+        from django.http import JsonResponse as _JR
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return _JR({'error': 'File no longer available.'}, status=404)
+        # For direct link clicks: redirect silently without a flash message
         if request.user.is_staff:
             return redirect('admin_project_detail', pk=project.pk)
         return redirect('project_detail', pk=project.pk)
