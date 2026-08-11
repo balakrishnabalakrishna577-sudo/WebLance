@@ -36,6 +36,18 @@
                         style="width:100%;background:#F1F5F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#1E293B;font-size:0.9rem;outline:none"
                         onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
                 </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Mobile Number</label>
+                    <input type="tel" name="phone" value="{{ u.profile.phone|default:'' }}"
+                        placeholder="+91 9876543210"
+                        style="width:100%;background:#F1F5F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#1E293B;font-size:0.9rem;outline:none"
+                        onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Member Since</label>
+                    <input type="text" value="{{ u.date_joined|date:'d M Y' }}" disabled
+                        style="width:100%;background:#F8FAFF;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#94A3B8;font-size:0.9rem;outline:none;cursor:not-allowed;">
+                </div>
             </div>
             <div style="margin-bottom:16px;">
                 <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">

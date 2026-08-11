@@ -11,11 +11,12 @@
     <!-- ── Desktop Table (≥992px) ── -->
     <div class="users-table-wrap">
         <table class="ap-table">
-            <thead>
+            <thead> 
                 <tr>
                     <th>#</th>
                     <th>User</th>
                     <th>Email</th>
+                    <th>Phone</th>
                     <th>Role</th>
                     <th>Status</th>
                     <th>Activity</th>
@@ -38,6 +39,9 @@
                     </div>
                 </td>
                 <td style="color:var(--gray);font-size:0.82rem">{{ u.email|default:"—" }}</td>
+                <td style="color:var(--gray);font-size:0.82rem">
+                    {% if u.profile.phone %}{{ u.profile.phone }}{% else %}—{% endif %}
+                </td>
                 <td>
                     {% if u.is_superuser %}<span class="ap-badge ap-badge-red">Superuser</span>
                     {% elif u.is_staff %}<span class="ap-badge ap-badge-yellow">Admin</span>
@@ -99,6 +103,7 @@
                     <div style="min-width:0;">
                         <div class="u-card-name">{{ u.username }}{% if u == request.user %} <span style="color:var(--green);font-size:0.7rem">● you</span>{% endif %}</div>
                         <div class="u-card-email">{{ u.email|default:"No email" }}</div>
+                        {% if u.profile.phone %}<div style="font-size:0.75rem;color:var(--gray);margin-top:2px;"><i class="fas fa-phone" style="font-size:0.65rem;"></i> {{ u.profile.phone }}</div>{% endif %}
                     </div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;">

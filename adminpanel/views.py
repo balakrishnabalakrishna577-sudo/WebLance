@@ -195,6 +195,12 @@ def user_edit(request, pk):
         if new_pass:
             u.set_password(new_pass)
         u.save()
+        # Save phone to UserProfile
+        from home.models import UserProfile
+        phone = request.POST.get('phone', '').strip()
+        profile, _ = UserProfile.objects.get_or_create(user=u)
+        profile.phone = phone
+        profile.save()
         messages.success(request, f'User {u.username} updated.')
         return redirect('admin_users')
     return render(request, 'adminpanel/user_edit.html', {'u': u})
