@@ -40,7 +40,7 @@
                 </td>
                 <td style="color:var(--gray);font-size:0.82rem">{{ u.email|default:"—" }}</td>
                 <td style="color:var(--gray);font-size:0.82rem">
-                    {% if u.profile.phone %}{{ u.profile.phone }}{% else %}—{% endif %}
+                    {% if u.profile.phone %}{{ u.profile.phone }}{% else %}<span style="color:#CBD5E1;">—</span>{% endif %}
                 </td>
                 <td>
                     {% if u.is_superuser %}<span class="ap-badge ap-badge-red">Superuser</span>

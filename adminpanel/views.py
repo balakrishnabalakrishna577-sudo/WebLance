@@ -175,9 +175,12 @@ def request_status(request, pk):
 @admin_required
 def users_list(request):
     users = User.objects.order_by('-date_joined')
+    from home.models import UserProfile
     for u in users:
         u.contact_count = ContactMessage.objects.filter(email=u.email).count() if u.email else 0
         u.request_count = WebsiteRequest.objects.filter(email=u.email).count() if u.email else 0
+        # Ensure every user has a profile
+        UserProfile.objects.get_or_create(user=u)
     return render(request, 'adminpanel/users.html', {'users': users})
 
 
