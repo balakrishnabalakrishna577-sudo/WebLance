@@ -1620,11 +1620,16 @@
     var total = cards.length;
     var pages = Math.ceil(total / PER_PAGE);
     var current = 1;
+    var autoTimer = null;
+    var AUTO_INTERVAL = 3500; // ms between auto-advances
 
     if (pages <= 1) return;
 
+    var section = document.getElementById('rvCardsGrid');
+    var sectionWrap = section ? section.closest('section') : null;
+
     function showPage(p) {
-        current = p;
+        current = ((p - 1 + pages) % pages) + 1; // wrap around
         cards.forEach(function (card) {
             var idx = parseInt(card.getAttribute('data-rv-index'));
             var start = (current - 1) * PER_PAGE;
@@ -1648,13 +1653,36 @@
             dot.setAttribute('aria-label', 'Page ' + i);
             dot.setAttribute('aria-current', i === current ? 'page' : 'false');
             (function (page) {
-                dot.addEventListener('click', function () { showPage(page); });
+                dot.addEventListener('click', function () {
+                    showPage(page);
+                    stopAuto();
+                    startAuto(); // restart timer after manual click
+                });
             })(i);
             wrap.appendChild(dot);
         }
     }
 
+    function startAuto() {
+        stopAuto();
+        autoTimer = setInterval(function () {
+            showPage(current + 1);
+        }, AUTO_INTERVAL);
+    }
+
+    function stopAuto() {
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    }
+
+    // Pause on hover, resume on mouse leave
+    if (sectionWrap) {
+        sectionWrap.addEventListener('mouseenter', stopAuto);
+        sectionWrap.addEventListener('mouseleave', startAuto);
+    }
+
+    // Init
     showPage(1);
+    startAuto();
 })();
 </script>
 
