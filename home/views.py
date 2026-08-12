@@ -35,7 +35,7 @@ def home(request):
     portfolio_items = PortfolioItem.objects.all()[:6]
     reviews = ProjectReview.objects.filter(
         is_public=True, project__status='delivered'
-    ).select_related('client', 'project').order_by('-created_at')[:8]
+    ).select_related('client', 'project').order_by('-created_at')[:18]
     return render(request, 'home/home.html', {
         'portfolio_items': portfolio_items,
         'reviews': reviews,
