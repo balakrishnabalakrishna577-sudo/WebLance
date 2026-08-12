@@ -1501,7 +1501,7 @@
 
      ══════════════════════════════════════════════════════════ -->
 
-<section style="background:#F8FAFF;padding:80px 0;border-top:1px solid #E2E8F0;">
+<section class="rv-section" style="background:#F8FAFF;border-top:1px solid #E2E8F0;">
     <div class="container">
 
         <!-- Header -->
@@ -1580,6 +1580,11 @@
 
 <!-- ── Review Pagination Styles ── -->
 <style>
+.rv-section { padding: 80px 0; }
+@media (max-width: 767px) {
+    .rv-section { padding: 48px 0; }
+}
+
 .rv-pagination-wrap {
     display: flex;
     align-items: center;
@@ -1611,34 +1616,45 @@
 .rv-card-item.rv-hidden {
     display: none !important;
 }
+
+/* Mobile: 1 card full width */
+@media (max-width: 575px) {
+    .rv-card-item { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; }
+    .rv-home-card { padding: 18px; }
+}
+/* Tablet: 2 cards per row — override col-lg-4 */
+@media (min-width: 576px) and (max-width: 991px) {
+    .rv-card-item { width: 50% !important; flex: 0 0 50% !important; max-width: 50% !important; }
+}
 </style>
 
 <script>
 (function () {
-    var PER_PAGE = 3;
-    var cards = document.querySelectorAll('.rv-card-item');
-    var total = cards.length;
-    var pages = Math.ceil(total / PER_PAGE);
-    var current = 1;
-    var autoTimer = null;
-    var AUTO_INTERVAL = 3500; // ms between auto-advances
+    // Responsive: cards visible per page depends on viewport
+    function perPage() {
+        if (window.innerWidth < 576) return 1;
+        if (window.innerWidth < 992) return 2;
+        return 3;
+    }
 
-    if (pages <= 1) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.rv-card-item'));
+    var total = cards.length;
+    var current = 1;
+    var pp = perPage();
+    var pages = Math.ceil(total / pp);
 
     var section = document.getElementById('rvCardsGrid');
     var sectionWrap = section ? section.closest('section') : null;
 
     function showPage(p) {
-        current = ((p - 1 + pages) % pages) + 1; // wrap around
+        pp = perPage();
+        pages = Math.ceil(total / pp);
+        current = ((p - 1 + pages) % pages) + 1;
         cards.forEach(function (card) {
             var idx = parseInt(card.getAttribute('data-rv-index'));
-            var start = (current - 1) * PER_PAGE;
-            var end   = start + PER_PAGE - 1;
-            if (idx >= start && idx <= end) {
-                card.classList.remove('rv-hidden');
-            } else {
-                card.classList.add('rv-hidden');
-            }
+            var start = (current - 1) * pp;
+            var end   = start + pp - 1;
+            card.classList.toggle('rv-hidden', !(idx >= start && idx <= end));
         });
         renderDots();
     }
@@ -1646,6 +1662,8 @@
     function renderDots() {
         var wrap = document.getElementById('rvPaginationBottom');
         if (!wrap) return;
+        // hide dots if only one page
+        wrap.style.display = pages <= 1 ? 'none' : 'flex';
         wrap.innerHTML = '';
         for (var i = 1; i <= pages; i++) {
             var dot = document.createElement('button');
@@ -1653,36 +1671,39 @@
             dot.setAttribute('aria-label', 'Page ' + i);
             dot.setAttribute('aria-current', i === current ? 'page' : 'false');
             (function (page) {
-                dot.addEventListener('click', function () {
-                    showPage(page);
-                    stopAuto();
-                    startAuto(); // restart timer after manual click
-                });
+                dot.addEventListener('click', function () { showPage(page); });
             })(i);
             wrap.appendChild(dot);
         }
     }
 
-    function startAuto() {
-        stopAuto();
-        autoTimer = setInterval(function () {
-            showPage(current + 1);
-        }, AUTO_INTERVAL);
-    }
-
-    function stopAuto() {
-        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-    }
-
-    // Pause on hover, resume on mouse leave
+    // Advance one page each time the cursor enters the section (desktop)
     if (sectionWrap) {
-        sectionWrap.addEventListener('mouseenter', stopAuto);
-        sectionWrap.addEventListener('mouseleave', startAuto);
+        sectionWrap.addEventListener('mouseenter', function () {
+            if (window.innerWidth >= 576) showPage(current + 1);
+        });
     }
 
-    // Init
+    // Touch swipe support for mobile
+    var touchStartX = 0;
+    if (sectionWrap) {
+        sectionWrap.addEventListener('touchstart', function (e) {
+            touchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+        sectionWrap.addEventListener('touchend', function (e) {
+            var dx = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(dx) > 40) showPage(dx < 0 ? current + 1 : current - 1);
+        }, { passive: true });
+    }
+
+    // Recalculate on resize
+    var resizeTimer;
+    window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { showPage(1); }, 150);
+    });
+
     showPage(1);
-    startAuto();
 })();
 </script>
 
