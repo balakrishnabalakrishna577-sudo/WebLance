@@ -1,4 +1,6 @@
 from django.conf import settings
+from django.db.models import Q
+from django.utils import timezone
 
 
 def recaptcha_key(request):
@@ -10,7 +12,6 @@ def recaptcha_key(request):
 def notifications(request):
     """
     Inject unread notification count + latest items for the navbar bell.
-    Reads from the persistent Notification model.
     """
     if not request.user.is_authenticated:
         return {'notif_count': 0, 'notif_items': []}
@@ -49,3 +50,19 @@ def bot_unread(request):
         return {'bot_unread_count': BotSession.objects.filter(is_read=False).count()}
     except Exception:
         return {'bot_unread_count': 0}
+
+
+def active_offers(request):
+    """
+    Inject active, non-expired offers into every template context.
+    Used by base.html to show an offer notification banner on all pages.
+    """
+    try:
+        from home.models import Offer
+        today = timezone.now().date()
+        offers = Offer.objects.filter(is_active=True).filter(
+            Q(valid_until__isnull=True) | Q(valid_until__gte=today)
+        ).order_by('order', '-created_at')[:5]
+        return {'global_offers': offers, 'global_offers_count': offers.count()}
+    except Exception:
+        return {'global_offers': [], 'global_offers_count': 0}

@@ -2,6 +2,8 @@ import re
 import json
 import random
 import time
+from django.db import models
+from django.db.models import Q
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -13,7 +15,7 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.views.decorators.http import require_POST
 from portfolio.models import PortfolioItem
 from home.captcha import generate_captcha_text, generate_captcha_image
-from home.models import UserProfile
+from home.models import UserProfile, Offer
 from dashboard.models import ProjectReview
 
 
@@ -32,13 +34,19 @@ def _is_valid_phone(phone):
 # ── Public pages ───────────────────────────────────────────────────
 
 def home(request):
+    from django.utils import timezone
     portfolio_items = PortfolioItem.objects.all()[:6]
     reviews = ProjectReview.objects.filter(
         is_public=True, project__status='delivered'
     ).select_related('client', 'project').order_by('-created_at')[:18]
+    # Active offers: is_active=True and either no expiry or expiry in the future
+    offers = Offer.objects.filter(is_active=True).filter(
+        Q(valid_until__isnull=True) | Q(valid_until__gte=timezone.now().date())
+    ).order_by('order', '-created_at')
     return render(request, 'home/home.html', {
         'portfolio_items': portfolio_items,
         'reviews': reviews,
+        'offers': offers,
     })
 
 

@@ -1,0 +1,180 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{% if offer %}Edit Offer{% else %}New Offer{% endif %}{% endblock %}
+{% block page_title %}{% if offer %}Edit Offer{% else %}Create New Offer{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+<div class="col-lg-8">
+
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-tag"></i> {% if offer %}Edit: {{ offer.title }}{% else %}New Offer{% endif %}</h5>
+        <a href="{% url 'admin_offers' %}" class="ap-btn ap-btn-outline">
+            <i class="fas fa-arrow-left me-1"></i> Back to Offers
+        </a>
+    </div>
+    <div class="ap-card-body" style="padding:24px;">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Title -->
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                    Offer Title <span style="color:#ef4444;">*</span>
+                </label>
+                <input type="text" name="title" required maxlength="200"
+                       value="{{ offer.title|default:'' }}"
+                       placeholder="e.g. Summer Special — 20% OFF on all websites"
+                       style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                       onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+            </div>
+
+            <!-- Description -->
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                    Description <span style="color:#ef4444;">*</span>
+                </label>
+                <textarea name="description" required rows="3"
+                          placeholder="Short description shown on the offer card on the homepage."
+                          style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;resize:vertical;transition:border-color 0.2s;"
+                          onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">{{ offer.description|default:'' }}</textarea>
+            </div>
+
+            <!-- Row: Badge text + Badge color -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Badge Label <span style="color:#94A3B8;font-weight:400;">(optional)</span>
+                    </label>
+                    <input type="text" name="badge_text" maxlength="60"
+                           value="{{ offer.badge_text|default:'' }}"
+                           placeholder="e.g. Limited Time"
+                           style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Badge Color
+                    </label>
+                    <select name="badge_color"
+                            style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;background:#fff;transition:border-color 0.2s;"
+                            onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                        {% for value, label in colors %}
+                        <option value="{{ value }}" {% if offer and offer.badge_color == value %}selected{% elif not offer and value == 'indigo' %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Row: Discount + Order -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Discount % <span style="color:#94A3B8;font-weight:400;">(optional)</span>
+                    </label>
+                    <input type="number" name="discount_percent" min="1" max="100"
+                           value="{{ offer.discount_percent|default:'' }}"
+                           placeholder="e.g. 20"
+                           style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    <p style="font-size:0.72rem;color:#94A3B8;margin-top:4px;">Shown as big "20% OFF" on the card</p>
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Display Order
+                    </label>
+                    <input type="number" name="order" min="0"
+                           value="{{ offer.order|default:'0' }}"
+                           placeholder="0"
+                           style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    <p style="font-size:0.72rem;color:#94A3B8;margin-top:4px;">Lower number shown first. Banner uses #1.</p>
+                </div>
+            </div>
+
+            <!-- Row: CTA label + CTA URL -->
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:16px;margin-bottom:20px;">
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Button Text
+                    </label>
+                    <input type="text" name="cta_label" maxlength="80"
+                           value="{{ offer.cta_label|default:'Claim Offer' }}"
+                           placeholder="Claim Offer"
+                           style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Button URL
+                    </label>
+                    <input type="text" name="cta_url" maxlength="300"
+                           value="{{ offer.cta_url|default:'/request-website/' }}"
+                           placeholder="/request-website/"
+                           style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                           onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                </div>
+            </div>
+
+            <!-- Valid until -->
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                    Valid Until <span style="color:#94A3B8;font-weight:400;">(leave blank = no expiry)</span>
+                </label>
+                <input type="date" name="valid_until"
+                       value="{{ offer.valid_until|date:'Y-m-d'|default:'' }}"
+                       style="width:100%;max-width:260px;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
+                       onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+            </div>
+
+            <!-- Is active toggle -->
+            <div style="margin-bottom:28px;display:flex;align-items:center;gap:12px;background:#F8FAFF;border:1px solid #E2E8F0;border-radius:12px;padding:14px 16px;">
+                <label class="ap-toggle" style="flex-shrink:0;cursor:pointer;">
+                    <input type="checkbox" name="is_active" {% if offer.is_active or not offer %}checked{% endif %}
+                           id="isActiveToggle" style="display:none;">
+                    <span class="ap-toggle-slider" id="toggleSlider"
+                          style="display:inline-block;width:44px;height:24px;border-radius:12px;position:relative;cursor:pointer;transition:background 0.25s;background:{% if offer.is_active or not offer %}#6366F1{% else %}#CBD5E1{% endif %};">
+                        <span style="position:absolute;top:3px;transition:left 0.25s;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.2);left:{% if offer.is_active or not offer %}23px{% else %}3px{% endif %};" id="toggleKnob"></span>
+                    </span>
+                </label>
+                <div>
+                    <div style="font-size:0.88rem;font-weight:700;color:#1E293B;">Make this offer live</div>
+                    <div style="font-size:0.75rem;color:#64748B;">When ON, this offer shows on the homepage and as a banner on every page of the website.</div>
+                </div>
+            </div>
+
+            <!-- Submit -->
+            <div style="display:flex;gap:12px;">
+                <button type="submit" class="ap-btn ap-btn-primary" style="padding:11px 28px;font-size:0.88rem;">
+                    <i class="fas fa-save me-2"></i>{% if offer %}Save Changes{% else %}Create Offer{% endif %}
+                </button>
+                <a href="{% url 'admin_offers' %}" class="ap-btn ap-btn-outline" style="padding:11px 20px;font-size:0.88rem;">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+</div>
+</div>
+
+<script>
+/* Custom toggle behaviour */
+var cb     = document.getElementById('isActiveToggle');
+var slider = document.getElementById('toggleSlider');
+var knob   = document.getElementById('toggleKnob');
+
+function applyToggle(checked) {
+    slider.style.background = checked ? '#6366F1' : '#CBD5E1';
+    knob.style.left = checked ? '23px' : '3px';
+}
+
+slider.addEventListener('click', function () {
+    cb.checked = !cb.checked;
+    applyToggle(cb.checked);
+});
+</script>
+{% endblock %}

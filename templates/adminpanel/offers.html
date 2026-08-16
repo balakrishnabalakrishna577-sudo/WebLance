@@ -1,0 +1,111 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Offers{% endblock %}
+{% block page_title %}Special Offers{% endblock %}
+
+{% block content %}
+<div class="ap-card">
+    <div class="ap-card-header">
+        <h5><i class="fas fa-tag"></i> All Offers ({{ offers.count }})</h5>
+        <a href="{% url 'admin_offer_add' %}" class="ap-btn ap-btn-primary">
+            <i class="fas fa-plus"></i> Add New Offer
+        </a>
+    </div>
+
+    {% if offers %}
+    <div style="overflow-x:auto;">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Discount</th>
+                    <th>Badge</th>
+                    <th>Expires</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for offer in offers %}
+            <tr>
+                <td>
+                    <div style="font-weight:700;color:#1E293B;">{{ offer.title }}</div>
+                    <div style="color:#94A3B8;font-size:0.75rem;max-width:260px;">{{ offer.description|truncatechars:60 }}</div>
+                </td>
+                <td>
+                    {% if offer.discount_percent %}
+                    <span style="background:#EEF2FF;color:#4F46E5;border:1px solid #C7D2FE;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:800;">
+                        {{ offer.discount_percent }}% OFF
+                    </span>
+                    {% else %}
+                    <span style="color:#94A3B8;font-size:0.78rem;">—</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if offer.badge_text %}
+                    <span style="background:#F8FAFF;border:1px solid #E2E8F0;padding:2px 8px;border-radius:20px;font-size:0.72rem;font-weight:600;color:#475569;">
+                        {{ offer.badge_text }}
+                    </span>
+                    {% else %}—{% endif %}
+                </td>
+                <td>
+                    {% if offer.valid_until %}
+                        {% if offer.is_expired %}
+                        <span style="color:#ef4444;font-size:0.78rem;font-weight:600;">
+                            <i class="fas fa-exclamation-circle me-1"></i>Expired {{ offer.valid_until|date:"d M Y" }}
+                        </span>
+                        {% else %}
+                        <span style="color:#15803D;font-size:0.78rem;">
+                            <i class="fas fa-clock me-1"></i>{{ offer.valid_until|date:"d M Y" }}
+                        </span>
+                        {% endif %}
+                    {% else %}
+                    <span style="color:#94A3B8;font-size:0.78rem;">No expiry</span>
+                    {% endif %}
+                </td>
+                <td style="color:#64748B;font-size:0.82rem;text-align:center;">{{ offer.order }}</td>
+                <td>
+                    {% if offer.is_active and not offer.is_expired %}
+                    <span class="ap-badge ap-badge-green"><i class="fas fa-eye me-1"></i>Live</span>
+                    {% elif offer.is_expired %}
+                    <span class="ap-badge ap-badge-red">Expired</span>
+                    {% else %}
+                    <span class="ap-badge ap-badge-yellow">Hidden</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:nowrap;">
+                        <a href="{% url 'admin_offer_edit' offer.pk %}" class="ap-btn ap-btn-outline" style="font-size:0.72rem;padding:4px 10px;" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form method="post" action="{% url 'admin_offer_toggle' offer.pk %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn {% if offer.is_active %}ap-btn-outline{% else %}ap-btn-primary{% endif %}" style="font-size:0.72rem;padding:4px 10px;" title="{% if offer.is_active %}Hide{% else %}Make Live{% endif %}">
+                                <i class="fas fa-{% if offer.is_active %}eye-slash{% else %}eye{% endif %}"></i>
+                            </button>
+                        </form>
+                        <form method="post" action="{% url 'admin_offer_delete' offer.pk %}" style="display:inline;" onsubmit="return confirm('Delete offer \'{{ offer.title }}\'?');">
+                            {% csrf_token %}
+                            <button type="submit" class="ap-btn ap-btn-danger" style="font-size:0.72rem;padding:4px 10px;" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div style="text-align:center;padding:60px 20px;">
+        <div style="font-size:3rem;margin-bottom:16px;">🏷️</div>
+        <h5 style="color:#1E293B;margin-bottom:8px;">No offers yet</h5>
+        <p style="color:#64748B;margin-bottom:24px;">Create your first offer — it will appear on the homepage and as a banner on every page.</p>
+        <a href="{% url 'admin_offer_add' %}" class="ap-btn ap-btn-primary">
+            <i class="fas fa-plus me-2"></i>Create First Offer
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

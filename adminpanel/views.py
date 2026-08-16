@@ -409,3 +409,78 @@ def bot_chat_mark_all_read(request):
     BotSession.objects.filter(is_read=False).update(is_read=True)
     messages.success(request, 'All bot conversations marked as read.')
     return redirect('admin_bot_chats')
+
+
+# ── Offers ─────────────────────────────────────────────────────────
+
+@admin_required
+def offers_list(request):
+    from home.models import Offer
+    offers = Offer.objects.all().order_by('order', '-created_at')
+    return render(request, 'adminpanel/offers.html', {'offers': offers})
+
+
+@admin_required
+def offer_add(request):
+    from home.models import Offer
+    if request.method == 'POST':
+        Offer.objects.create(
+            title=request.POST.get('title', '').strip(),
+            description=request.POST.get('description', '').strip(),
+            badge_text=request.POST.get('badge_text', '').strip(),
+            badge_color=request.POST.get('badge_color', 'indigo'),
+            discount_percent=request.POST.get('discount_percent') or None,
+            cta_label=request.POST.get('cta_label', 'Claim Offer').strip(),
+            cta_url=request.POST.get('cta_url', '/request-website/').strip(),
+            valid_until=request.POST.get('valid_until') or None,
+            is_active=bool(request.POST.get('is_active')),
+            order=int(request.POST.get('order', 0) or 0),
+        )
+        messages.success(request, 'Offer created and is now live on the website.')
+        return redirect('admin_offers')
+    from home.models import Offer
+    return render(request, 'adminpanel/offer_form.html', {'offer': None, 'colors': Offer.BADGE_COLOR_CHOICES})
+
+
+@admin_required
+def offer_edit(request, pk):
+    from home.models import Offer
+    offer = get_object_or_404(Offer, pk=pk)
+    if request.method == 'POST':
+        offer.title = request.POST.get('title', offer.title).strip()
+        offer.description = request.POST.get('description', offer.description).strip()
+        offer.badge_text = request.POST.get('badge_text', offer.badge_text).strip()
+        offer.badge_color = request.POST.get('badge_color', offer.badge_color)
+        offer.discount_percent = request.POST.get('discount_percent') or None
+        offer.cta_label = request.POST.get('cta_label', offer.cta_label).strip()
+        offer.cta_url = request.POST.get('cta_url', offer.cta_url).strip()
+        offer.valid_until = request.POST.get('valid_until') or None
+        offer.is_active = bool(request.POST.get('is_active'))
+        offer.order = int(request.POST.get('order', offer.order) or offer.order)
+        offer.save()
+        messages.success(request, 'Offer updated.')
+        return redirect('admin_offers')
+    return render(request, 'adminpanel/offer_form.html', {'offer': offer, 'colors': Offer.BADGE_COLOR_CHOICES})
+
+
+@admin_required
+@require_POST
+def offer_toggle(request, pk):
+    from home.models import Offer
+    offer = get_object_or_404(Offer, pk=pk)
+    offer.is_active = not offer.is_active
+    offer.save(update_fields=['is_active'])
+    state = 'now live' if offer.is_active else 'now hidden'
+    messages.success(request, f'"{offer.title}" is {state}.')
+    return redirect('admin_offers')
+
+
+@admin_required
+@require_POST
+def offer_delete(request, pk):
+    from home.models import Offer
+    offer = get_object_or_404(Offer, pk=pk)
+    title = offer.title
+    offer.delete()
+    messages.success(request, f'Offer "{title}" deleted.')
+    return redirect('admin_offers')

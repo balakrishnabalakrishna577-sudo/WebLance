@@ -26,6 +26,13 @@ urlpatterns = [
     path('reviews/<int:pk>/toggle/', views.review_toggle_public, name='admin_review_toggle'),
     path('reviews/<int:pk>/delete/', views.review_delete, name='admin_review_delete'),
 
+    # Offers
+    path('offers/', views.offers_list, name='admin_offers'),
+    path('offers/add/', views.offer_add, name='admin_offer_add'),
+    path('offers/<int:pk>/edit/', views.offer_edit, name='admin_offer_edit'),
+    path('offers/<int:pk>/toggle/', views.offer_toggle, name='admin_offer_toggle'),
+    path('offers/<int:pk>/delete/', views.offer_delete, name='admin_offer_delete'),
+
     # Bot (AI Widget) Conversations
     path('bot-chats/', views.bot_chats_list, name='admin_bot_chats'),
     path('bot-chats/mark-all-read/', views.bot_chat_mark_all_read, name='admin_bot_chats_mark_read'),

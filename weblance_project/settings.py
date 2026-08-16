@@ -100,6 +100,7 @@ TEMPLATES = [
                     'weblance_project.context_processors.recaptcha_key',
                     'weblance_project.context_processors.notifications',
                     'weblance_project.context_processors.bot_unread',
+                    'weblance_project.context_processors.active_offers',
                 ],
         },
     },
