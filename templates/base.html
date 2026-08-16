@@ -1126,34 +1126,80 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- ── Global Offers Banner ── -->
 {% if global_offers %}
-<div id="wlOfferBanner" style="background:linear-gradient(90deg,#4F46E5 0%,#6366F1 50%,#818CF8 100%);padding:0;overflow:hidden;position:relative;z-index:9980;">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 48px 8px 16px;flex-wrap:wrap;">
-        <span style="display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.18);border-radius:50px;padding:2px 10px;font-family:'Poppins',sans-serif;font-size:0.68rem;font-weight:700;color:#fff;letter-spacing:0.06em;text-transform:uppercase;flex-shrink:0;">
+<div id="wlOfferBanner"
+     style="background:linear-gradient(90deg,#4F46E5 0%,#6366F1 50%,#818CF8 100%);
+            padding:0;overflow:hidden;position:relative;z-index:9980;">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;
+                padding:9px 52px 9px 16px;flex-wrap:wrap;">
+        <!-- Label pill -->
+        <span style="display:inline-flex;align-items:center;gap:5px;
+                     background:rgba(255,255,255,0.18);border-radius:50px;padding:3px 12px;
+                     font-family:'Poppins',sans-serif;font-size:0.68rem;font-weight:700;
+                     color:#fff;letter-spacing:0.06em;text-transform:uppercase;flex-shrink:0;">
             <i class="fas fa-tag" style="font-size:0.6rem;"></i> Special Offer
         </span>
-        {% with global_offers.0 as offer %}
-        <span style="font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:600;color:#fff;">
-            {% if offer.discount_percent %}<strong style="color:#fde68a;">{{ offer.discount_percent }}% OFF</strong> &nbsp;—&nbsp; {% endif %}{{ offer.title }}
+        {% with global_offers.0 as o %}
+        <!-- Title + discount -->
+        <span style="font-family:'Poppins',sans-serif;font-size:0.82rem;font-weight:600;color:#fff;">
+            {% if o.discount_percent %}
+                <strong style="color:#fde68a;font-weight:900;">{{ o.discount_percent }}% OFF</strong>
+                &nbsp;&mdash;&nbsp;
+            {% endif %}
+            {{ o.title }}
         </span>
-        {% if offer.valid_until %}
-        <span style="font-family:'Poppins',sans-serif;font-size:0.72rem;color:rgba(255,255,255,0.65);flex-shrink:0;">
-            <i class="fas fa-clock" style="font-size:0.62rem;"></i> Ends {{ offer.valid_until|date:"d M" }}
+        <!-- Expiry -->
+        {% if o.valid_until %}
+        <span style="font-family:'Poppins',sans-serif;font-size:0.72rem;
+                     color:rgba(255,255,255,0.7);flex-shrink:0;">
+            <i class="fas fa-clock" style="font-size:0.6rem;margin-right:3px;"></i>
+            Ends {{ o.valid_until|date:"d M Y" }}
         </span>
         {% endif %}
-        <a href="{{ offer.cta_url }}" style="display:inline-flex;align-items:center;gap:5px;background:#fff;color:#4F46E5;border-radius:50px;padding:4px 14px;font-family:'Poppins',sans-serif;font-size:0.72rem;font-weight:700;text-decoration:none;flex-shrink:0;transition:opacity 0.2s;">
-            {{ offer.cta_label }} <i class="fas fa-arrow-right" style="font-size:0.6rem;"></i>
+        <!-- CTA -->
+        <a href="{{ o.cta_url }}"
+           style="display:inline-flex;align-items:center;gap:5px;
+                  background:#fff;color:#4F46E5;border-radius:50px;
+                  padding:5px 16px;font-family:'Poppins',sans-serif;
+                  font-size:0.75rem;font-weight:700;text-decoration:none;
+                  flex-shrink:0;white-space:nowrap;
+                  box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+            {{ o.cta_label }} <i class="fas fa-arrow-right" style="font-size:0.6rem;"></i>
         </a>
         {% endwith %}
     </div>
-    <button onclick="this.parentElement.style.display='none';sessionStorage.setItem('wlOfferBannerDismissed','1');"
-            style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);border-radius:6px;color:#fff;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;cursor:pointer;padding:0;line-height:1;"
+    <!-- Dismiss button -->
+    <button id="wlOfferBannerClose"
+            style="position:absolute;right:10px;top:50%;transform:translateY(-50%);
+                   background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);
+                   border-radius:6px;color:#fff;width:24px;height:24px;
+                   display:flex;align-items:center;justify-content:center;
+                   font-size:0.7rem;cursor:pointer;padding:0;line-height:1;"
             aria-label="Dismiss offer banner">✕</button>
 </div>
 <script>
-if (sessionStorage.getItem('wlOfferBannerDismissed')) {
-    var b = document.getElementById('wlOfferBanner');
-    if (b) b.style.display = 'none';
-}
+(function(){
+    var banner = document.getElementById('wlOfferBanner');
+    var btn    = document.getElementById('wlOfferBannerClose');
+    if (!banner) return;
+
+    /* Use a per-offer key so a NEW offer always shows, even if a previous was dismissed */
+    var key = 'wlOfferDismissed_{{ global_offers.0.pk }}';
+    if (sessionStorage.getItem(key)) {
+        banner.style.display = 'none';
+    } else {
+        /* Push body down so content isn't hidden under navbar+banner */
+        var bh = banner.offsetHeight;
+        document.body.style.paddingTop = (68 + bh) + 'px';
+    }
+
+    if (btn) {
+        btn.addEventListener('click', function(){
+            banner.style.display = 'none';
+            sessionStorage.setItem(key, '1');
+            document.body.style.paddingTop = '68px';
+        });
+    }
+})();
 </script>
 {% endif %}
 
