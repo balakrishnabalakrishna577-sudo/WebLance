@@ -1126,18 +1126,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- ── Global Offers Banner ── -->
 {% if global_offers %}
+{% with global_offers.0 as o %}
 <div id="wlOfferBanner"
-     style="background:linear-gradient(90deg,#4F46E5 0%,#6366F1 50%,#818CF8 100%);
-            padding:0;overflow:hidden;position:relative;z-index:9980;margin-top:0;">
+     style="position:fixed;top:68px;left:0;right:0;z-index:9970;
+            background:linear-gradient(90deg,#4F46E5 0%,#6366F1 50%,#818CF8 100%);
+            overflow:hidden;">
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;
-                padding:6px 48px 6px 12px;flex-wrap:wrap;">
+                padding:5px 44px 5px 12px;flex-wrap:wrap;">
         <span style="display:inline-flex;align-items:center;gap:4px;
                      background:rgba(255,255,255,0.18);border-radius:50px;padding:2px 8px;
                      font-family:'Poppins',sans-serif;font-size:0.62rem;font-weight:700;
                      color:#fff;letter-spacing:0.06em;text-transform:uppercase;flex-shrink:0;">
             <i class="fas fa-tag" style="font-size:0.55rem;"></i> Offer
         </span>
-        {% with global_offers.0 as o %}
         <span style="font-family:'Poppins',sans-serif;font-size:0.75rem;font-weight:600;color:#fff;">
             {% if o.discount_percent %}<strong style="color:#fde68a;font-weight:900;">{{ o.discount_percent }}% OFF</strong> &nbsp;&mdash;&nbsp; {% endif %}{{ o.title }}
         </span>
@@ -1151,11 +1152,9 @@ document.addEventListener('DOMContentLoaded', function() {
                   background:#fff;color:#4F46E5;border-radius:50px;
                   padding:3px 12px;font-family:'Poppins',sans-serif;
                   font-size:0.68rem;font-weight:700;text-decoration:none;
-                  flex-shrink:0;white-space:nowrap;
-                  box-shadow:0 1px 6px rgba(0,0,0,0.12);">
+                  flex-shrink:0;white-space:nowrap;box-shadow:0 1px 6px rgba(0,0,0,0.12);">
             {{ o.cta_label }} <i class="fas fa-arrow-right" style="font-size:0.55rem;"></i>
         </a>
-        {% endwith %}
     </div>
     <button id="wlOfferBannerClose"
             style="position:absolute;right:8px;top:50%;transform:translateY(-50%);
@@ -1169,33 +1168,39 @@ document.addEventListener('DOMContentLoaded', function() {
 (function(){
     var banner = document.getElementById('wlOfferBanner');
     var btn    = document.getElementById('wlOfferBannerClose');
-    if (!banner) return;
-    var key = 'wlOfferDismissed_{{ global_offers.0.pk }}';
-    if (sessionStorage.getItem(key)) {
-        banner.style.display = 'none';
-    } else {
-        /* Push body padding to avoid content hidden under navbar+banner */
+    var key    = 'wlOfferDismissed_{{ o.pk }}';
+
+    function applyBannerHeight() {
+        if (!banner) return;
         var bh = banner.offsetHeight;
+        /* Push body down by navbar(68) + banner height */
         document.body.style.paddingTop = (68 + bh) + 'px';
     }
+
+    if (sessionStorage.getItem(key)) {
+        if (banner) banner.style.display = 'none';
+        /* Banner gone — restore normal navbar padding */
+        document.body.style.paddingTop = '68px';
+    } else {
+        applyBannerHeight();
+        window.addEventListener('resize', applyBannerHeight);
+    }
+
     if (btn) {
         btn.addEventListener('click', function(){
-            banner.style.transition = 'max-height 0.3s ease, opacity 0.3s ease';
-            banner.style.overflow   = 'hidden';
-            banner.style.maxHeight  = banner.scrollHeight + 'px';
-            requestAnimationFrame(function(){
-                banner.style.maxHeight = '0';
-                banner.style.opacity   = '0';
-            });
+            if (!banner) return;
+            banner.style.transition = 'opacity 0.25s ease';
+            banner.style.opacity = '0';
             setTimeout(function(){
                 banner.style.display = 'none';
                 document.body.style.paddingTop = '68px';
-            }, 320);
+            }, 260);
             sessionStorage.setItem(key, '1');
         });
     }
 })();
 </script>
+{% endwith %}
 {% endif %}
 
 <!-- ── Navbar ── -->

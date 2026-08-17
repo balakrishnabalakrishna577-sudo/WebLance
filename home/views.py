@@ -97,7 +97,15 @@ def custom_login(request):
         else:
             user = authenticate(request, username=username, password=password)
             if user:
+                # ── Welcome email on very first login ─────────────────
+                is_first_login = user.last_login is None
                 login(request, user)
+                if is_first_login and not user.is_staff and user.email:
+                    try:
+                        from weblance_project.emails import send_welcome
+                        send_welcome(user)
+                    except Exception:
+                        pass
                 request.session['show_cookie_banner'] = True
                 request.session.pop('captcha_text', None)
                 if next_url and next_url != '/' and not next_url.startswith('/accounts/login'):
@@ -258,6 +266,13 @@ def register(request):
 
         login(request, user)
         request.session['show_cookie_banner'] = True
+        # ── Welcome email for new registrations ───────────────────
+        if user.email:
+            try:
+                from weblance_project.emails import send_welcome
+                send_welcome(user)
+            except Exception:
+                pass
         messages.success(request, f'Welcome, {username}! Your account has been created.')
         return redirect('client_dashboard')
 

@@ -603,27 +603,25 @@ def booking_page(request):
         except Exception:
             pass
 
-        # Confirmation email to client
+        # ── Confirmation email to client (HTML) ─────────────────────
+        try:
+            booking_obj = Booking.objects.select_related('slot').get(
+                slot=slot, name=name, email=email
+            )
+            from weblance_project.emails import send_booking_confirmation
+            send_booking_confirmation(booking_obj)
+        except Exception:
+            pass
+        # Admin plain-text notification
         try:
             send_mail(
-                subject='Consultation Booking Confirmed — Weblance',
-                message=(
-                    f'Hi {name},\n\n'
-                    f'Your consultation call has been booked!\n\n'
-                    f'Date: {slot.date.strftime("%d %B %Y")}\n'
-                    f'Time: {slot.start_time.strftime("%I:%M %p")} – {slot.end_time.strftime("%I:%M %p")}\n'
-                    f'Service: {service or "General Consultation"}\n\n'
-                    f'We will send you a meeting link before the call.\n\n'
-                    f'WhatsApp: +91 7892934437\n'
-                    f'— Weblance Team'
-                ),
-                from_email='Weblance <infoweblance01@gmail.com>',
-                recipient_list=[email],
-                fail_silently=True,
-            )
-            send_mail(
                 subject=f'[New Booking] {name} — {slot.date}',
-                message=f'New consultation booking:\n\nName: {name}\nEmail: {email}\nPhone: {phone}\nService: {service}\nDate: {slot.date}\nTime: {slot.start_time}\nMessage: {msg}',
+                message=(
+                    f'New consultation booking:\n\n'
+                    f'Name   : {name}\nEmail  : {email}\nPhone  : {phone}\n'
+                    f'Service: {service}\nDate   : {slot.date}\n'
+                    f'Time   : {slot.start_time}\nMessage: {msg}'
+                ),
                 from_email='Weblance <infoweblance01@gmail.com>',
                 recipient_list=['infoweblance01@gmail.com'],
                 fail_silently=True,

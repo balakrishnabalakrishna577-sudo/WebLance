@@ -135,7 +135,7 @@ def admin_project_detail(request, pk):
             project.progress = progress
             project.status   = request.POST.get('status', project.status)
             project.save()
-            # ── Notify client on status change ─────────────────────────
+            # ── Notify + email client on status change ─────────────
             if project.status != old_status:
                 try:
                     from notifications.models import Notification
@@ -148,13 +148,18 @@ def admin_project_detail(request, pk):
                     )
                 except Exception:
                     pass
+                try:
+                    from weblance_project.emails import send_project_status_change
+                    send_project_status_change(project, old_status)
+                except Exception:
+                    pass
             messages.success(request, 'Progress updated.')
 
         elif action == 'add_update':
             msg = request.POST.get('message', '').strip()
             if msg:
                 ProjectUpdate.objects.create(project=project, message=msg, created_by=request.user)
-                # ── Notify the client ──────────────────────────────────
+                # ── Notify + email client ──────────────────────────
                 try:
                     from notifications.models import Notification
                     Notification.send(
@@ -164,6 +169,11 @@ def admin_project_detail(request, pk):
                         notif_type='project_update',
                         url=f'/panel/projects/project/{project.pk}/',
                     )
+                except Exception:
+                    pass
+                try:
+                    from weblance_project.emails import send_project_update
+                    send_project_update(project, msg)
                 except Exception:
                     pass
                 messages.success(request, 'Update added.')
