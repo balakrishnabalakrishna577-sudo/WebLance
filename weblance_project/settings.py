@@ -199,13 +199,19 @@ SESSION_SAVE_EVERY_REQUEST = True
 # ── Email ─────────────────────────────────────────────────────────
 # Uses Gmail SMTP. Set EMAIL_HOST_PASSWORD to your Gmail App Password.
 # Generate at: https://myaccount.google.com/apppasswords
-EMAIL_BACKEND       = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
-EMAIL_HOST          = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT          = int(os.environ.get('EMAIL_PORT', 465))
-EMAIL_USE_TLS       = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
-EMAIL_USE_SSL       = os.environ.get('EMAIL_USE_SSL', 'True')  == 'True'
-EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+# -- Email: use Brevo REST API backend when BREVO_API_KEY is set,
+# -- else fall back to SMTP (for local dev with Gmail).
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY', '')
+if BREVO_API_KEY:
+    EMAIL_BACKEND = 'weblance_project.brevo_backend.BrevoAPIBackend'
+else:
+    EMAIL_BACKEND       = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+    EMAIL_HOST          = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+    EMAIL_PORT          = int(os.environ.get('EMAIL_PORT', 465))
+    EMAIL_USE_TLS       = os.environ.get('EMAIL_USE_TLS', 'False') == 'True'
+    EMAIL_USE_SSL       = os.environ.get('EMAIL_USE_SSL', 'True')  == 'True'
+    EMAIL_HOST_USER     = os.environ.get('EMAIL_HOST_USER', '')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
 DEFAULT_FROM_EMAIL  = os.environ.get('DEFAULT_FROM_EMAIL', 'Weblance <infoweblance01@gmail.com>')
 SERVER_EMAIL        = 'infoweblance01@gmail.com'
 GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY', '')
