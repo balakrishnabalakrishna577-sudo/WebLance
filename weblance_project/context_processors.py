@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 
