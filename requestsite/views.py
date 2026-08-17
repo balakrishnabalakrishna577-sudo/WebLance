@@ -13,19 +13,51 @@ import logging
 logger = logging.getLogger(__name__)
 
 TYPE_MAP = {
-    'custom website development': 'custom',
-    'e-commerce development':     'ecommerce',
-    'seo optimization':           'custom',
-    'web design':                 'custom',
-    'website redesign':           'custom',
-    'website maintenance':        'custom',
-    'starter':                    'business',
-    'starter website':            'business',
-    'business':                   'business',
-    'business website':           'business',
-    'e-commerce':                 'ecommerce',
-    'e-commerce website':         'ecommerce',
-    'premium':                    'custom',
+    # plain slugs
+    'website':      'website',
+    'ecommerce':    'ecommerce',
+    'seo':          'seo',
+    'redesign':     'redesign',
+    'landing':      'landing',
+    'maintenance':  'maintenance',
+    'portfolio':    'portfolio',
+    'blog':         'blog',
+    'education':    'education',
+    'restaurant':   'restaurant',
+    'realestate':   'realestate',
+    'hospital':     'hospital',
+    'webapp':       'webapp',
+    'college':      'college',
+    'academic':     'academic',
+    'miniproject':  'miniproject',
+    'custom':       'custom',
+    # display labels
+    'website development':          'website',
+    'e-commerce website':           'ecommerce',
+    'e-commerce development':       'ecommerce',
+    'seo optimization':             'seo',
+    'website redesign':             'redesign',
+    'landing page':                 'landing',
+    'website maintenance':          'maintenance',
+    'portfolio website':            'portfolio',
+    'blog / news website':          'blog',
+    'school / education website':   'education',
+    'restaurant website':           'restaurant',
+    'real estate website':          'realestate',
+    'hospital / clinic website':    'hospital',
+    'web application development':  'webapp',
+    'college project':              'college',
+    'academic project':             'academic',
+    'mini project':                 'miniproject',
+    'custom project':               'custom',
+    # legacy
+    'business':                     'website',
+    'business website':             'website',
+    'starter':                      'website',
+    'starter website':              'website',
+    'premium':                      'custom',
+    'custom website development':   'custom',
+    'web design':                   'website',
 }
 
 BUDGET_MAP = {
@@ -216,6 +248,22 @@ def request_website(request):
     preset_type   = TYPE_MAP.get(label.lower(), '')
     preset_budget = BUDGET_MAP.get(label.lower(), '')
 
+    # ── Offer pre-fill ────────────────────────────────────────────
+    offer_obj = None
+    offer_id  = request.GET.get('offer', '').strip()
+    if offer_id:
+        try:
+            from home.models import Offer
+            from django.utils import timezone as tz
+            o = Offer.objects.get(pk=offer_id, is_active=True)
+            if not o.is_expired:
+                offer_obj = o
+                # Pre-fill type from offer if not already set by plan/service
+                if not preset_type and o.service_type:
+                    preset_type = o.service_type
+        except Exception:
+            pass
+
     if request.method == 'POST':
         form = WebsiteRequestForm(request.POST)
         if form.is_valid():
@@ -304,6 +352,7 @@ def request_website(request):
         'service_label': label,
         'preset_type':   preset_type,
         'preset_budget': preset_budget,
+        'offer':         offer_obj,
     })
 
 

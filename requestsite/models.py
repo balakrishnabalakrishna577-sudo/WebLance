@@ -4,10 +4,23 @@ from django.contrib.auth.models import User
 
 class WebsiteRequest(models.Model):
     WEBSITE_TYPE_CHOICES = [
-        ('business', 'Business Website'),
-        ('ecommerce', 'E-Commerce Website'),
-        ('landing', 'Landing Page'),
-        ('custom', 'Custom Website'),
+        ('website',     'Website Development'),
+        ('ecommerce',   'E-Commerce Website'),
+        ('seo',         'SEO Optimization'),
+        ('redesign',    'Website Redesign'),
+        ('landing',     'Landing Page'),
+        ('maintenance', 'Website Maintenance'),
+        ('portfolio',   'Portfolio Website'),
+        ('blog',        'Blog / News Website'),
+        ('education',   'School / Education Website'),
+        ('restaurant',  'Restaurant Website'),
+        ('realestate',  'Real Estate Website'),
+        ('hospital',    'Hospital / Clinic Website'),
+        ('webapp',      'Web Application Development'),
+        ('college',     'College Project'),
+        ('academic',    'Academic Project'),
+        ('miniproject', 'Mini Project'),
+        ('custom',      'Custom Project'),
     ]
     
     BUDGET_CHOICES = [

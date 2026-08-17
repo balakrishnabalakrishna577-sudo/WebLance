@@ -45,6 +45,34 @@
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
                 <div>
                     <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                        Service Type <span style="color:#94A3B8;font-weight:400;">(pre-fills request form)</span>
+                    </label>
+                    <select name="service_type"
+                            style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;background:#fff;transition:border-color 0.2s;"
+                            onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                        <option value=""           {% if not offer or offer.service_type == '' %}selected{% endif %}>Any Service (General Offer)</option>
+                        <option value="website"     {% if offer and offer.service_type == 'website'     %}selected{% endif %}>Website Development</option>
+                        <option value="ecommerce"   {% if offer and offer.service_type == 'ecommerce'   %}selected{% endif %}>E-Commerce Website</option>
+                        <option value="seo"         {% if offer and offer.service_type == 'seo'         %}selected{% endif %}>SEO Optimization</option>
+                        <option value="redesign"    {% if offer and offer.service_type == 'redesign'    %}selected{% endif %}>Website Redesign</option>
+                        <option value="landing"     {% if offer and offer.service_type == 'landing'     %}selected{% endif %}>Landing Page</option>
+                        <option value="maintenance" {% if offer and offer.service_type == 'maintenance' %}selected{% endif %}>Website Maintenance</option>
+                        <option value="portfolio"   {% if offer and offer.service_type == 'portfolio'   %}selected{% endif %}>Portfolio Website</option>
+                        <option value="blog"        {% if offer and offer.service_type == 'blog'        %}selected{% endif %}>Blog / News Website</option>
+                        <option value="education"   {% if offer and offer.service_type == 'education'   %}selected{% endif %}>School / Education Website</option>
+                        <option value="restaurant"  {% if offer and offer.service_type == 'restaurant'  %}selected{% endif %}>Restaurant Website</option>
+                        <option value="realestate"  {% if offer and offer.service_type == 'realestate'  %}selected{% endif %}>Real Estate Website</option>
+                        <option value="hospital"    {% if offer and offer.service_type == 'hospital'    %}selected{% endif %}>Hospital / Clinic Website</option>
+                        <option value="webapp"      {% if offer and offer.service_type == 'webapp'      %}selected{% endif %}>Web Application Development</option>
+                        <option value="college"     {% if offer and offer.service_type == 'college'     %}selected{% endif %}>College Project</option>
+                        <option value="academic"    {% if offer and offer.service_type == 'academic'    %}selected{% endif %}>Academic Project</option>
+                        <option value="miniproject" {% if offer and offer.service_type == 'miniproject' %}selected{% endif %}>Mini Project</option>
+                        <option value="custom"      {% if offer and offer.service_type == 'custom'      %}selected{% endif %}>Custom Project</option>
+                    </select>
+                    <p style="font-size:0.72rem;color:#94A3B8;margin-top:4px;">When user clicks "Claim Offer", this type is pre-selected in the request form.</p>
+                </div>
+                <div>
+                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
                         Badge Label <span style="color:#94A3B8;font-weight:400;">(optional)</span>
                     </label>
                     <input type="text" name="badge_text" maxlength="60"
@@ -53,18 +81,20 @@
                            style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;transition:border-color 0.2s;"
                            onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
                 </div>
-                <div>
-                    <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
-                        Badge Color
-                    </label>
-                    <select name="badge_color"
-                            style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;background:#fff;transition:border-color 0.2s;"
-                            onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
-                        {% for value, label in colors %}
-                        <option value="{{ value }}" {% if offer and offer.badge_color == value %}selected{% elif not offer and value == 'indigo' %}selected{% endif %}>{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+            </div>
+
+            <!-- Badge color -->
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:0.82rem;font-weight:700;color:#374151;margin-bottom:6px;">
+                    Badge Color
+                </label>
+                <select name="badge_color"
+                        style="width:100%;border:1px solid #E2E8F0;border-radius:10px;padding:10px 14px;font-size:0.88rem;font-family:'Poppins',sans-serif;color:#1E293B;outline:none;background:#fff;transition:border-color 0.2s;"
+                        onfocus="this.style.borderColor='#6366F1'" onblur="this.style.borderColor='#E2E8F0'">
+                    {% for value, label in colors %}
+                    <option value="{{ value }}" {% if offer and offer.badge_color == value %}selected{% elif not offer and value == 'indigo' %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <!-- Row: Discount + Order -->

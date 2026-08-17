@@ -52,6 +52,27 @@ def save_user_profile(sender, instance, **kwargs):
 # ── Offers ─────────────────────────────────────────────────────────
 
 class Offer(models.Model):
+    SERVICE_TYPE_CHOICES = [
+        ('',            'Any Service (General Offer)'),
+        ('website',     'Website Development'),
+        ('ecommerce',   'E-Commerce Website'),
+        ('seo',         'SEO Optimization'),
+        ('redesign',    'Website Redesign'),
+        ('landing',     'Landing Page'),
+        ('maintenance', 'Website Maintenance'),
+        ('portfolio',   'Portfolio Website'),
+        ('blog',        'Blog / News Website'),
+        ('education',   'School / Education Website'),
+        ('restaurant',  'Restaurant Website'),
+        ('realestate',  'Real Estate Website'),
+        ('hospital',    'Hospital / Clinic Website'),
+        ('webapp',      'Web Application Development'),
+        ('college',     'College Project'),
+        ('academic',    'Academic Project'),
+        ('miniproject', 'Mini Project'),
+        ('custom',      'Custom Project'),
+    ]
+
     BADGE_COLOR_CHOICES = [
         ('saffron', '🟠 Saffron'),
         ('green',   '🟢 Green'),
@@ -62,6 +83,11 @@ class Offer(models.Model):
 
     title            = models.CharField(max_length=200, help_text='e.g. Summer Special – 20% OFF')
     description      = models.TextField(help_text='Short description shown on the offer card.')
+    service_type     = models.CharField(
+        max_length=20, blank=True, default='',
+        choices=SERVICE_TYPE_CHOICES,
+        help_text='Which service this offer applies to. Leave blank = any service.'
+    )
     badge_text       = models.CharField(max_length=60, blank=True, help_text='Small badge label, e.g. "Limited Time"')
     badge_color      = models.CharField(max_length=20, choices=BADGE_COLOR_CHOICES, default='indigo')
     discount_percent = models.PositiveSmallIntegerField(

@@ -52,7 +52,35 @@
                         <input type="hidden" name="_service_label" value="{{ service_label|default:selected_plan }}">
                         <input type="hidden" name="_selected_plan" value="{{ selected_plan }}">
 
-                        {% if selected_plan %}
+                        {% if offer %}
+                        <!-- ── Active Offer Banner ── -->
+                        <div style="background:linear-gradient(135deg,#1a1035 0%,#0f0c29 100%);border:1.5px solid rgba(99,102,241,0.5);border-radius:16px;padding:18px 20px;margin-bottom:24px;position:relative;overflow:hidden;">
+                            <!-- glow -->
+                            <div style="position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(99,102,241,0.2);border-radius:50%;filter:blur(30px);pointer-events:none;"></div>
+                            <div style="display:flex;align-items:flex-start;gap:14px;position:relative;">
+                                <div style="width:46px;height:46px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 14px rgba(99,102,241,0.5);">
+                                    <i class="fas fa-tag" style="color:#fff;font-size:1.1rem;"></i>
+                                </div>
+                                <div style="flex:1;min-width:0;">
+                                    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+                                        {% if offer.badge_text %}
+                                        <span style="background:rgba(99,102,241,0.25);border:1px solid rgba(99,102,241,0.4);color:#a5b4fc;padding:2px 10px;border-radius:50px;font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">{{ offer.badge_text }}</span>
+                                        {% endif %}
+                                        {% if offer.discount_percent %}
+                                        <span style="background:rgba(253,230,138,0.15);border:1px solid rgba(253,230,138,0.35);color:#fde68a;padding:2px 10px;border-radius:50px;font-size:0.72rem;font-weight:800;">{{ offer.discount_percent }}% OFF</span>
+                                        {% endif %}
+                                    </div>
+                                    <div style="color:#fff;font-weight:800;font-size:0.95rem;margin-bottom:4px;">{{ offer.title }}</div>
+                                    <div style="color:rgba(255,255,255,0.6);font-size:0.8rem;line-height:1.5;">{{ offer.description }}</div>
+                                    {% if offer.valid_until %}
+                                    <div style="color:rgba(255,255,255,0.4);font-size:0.72rem;margin-top:6px;">
+                                        <i class="fas fa-clock me-1"></i>Offer valid until {{ offer.valid_until|date:"d M Y" }}
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% elif selected_plan %}
                         <!-- Selected Plan Banner -->
                         <div style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);border-radius:14px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;">
                             <div style="width:44px;height:44px;background:rgba(99,102,241,0.15);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
@@ -98,13 +126,29 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="website_type" class="form-label">Website Type <span class="text-green">*</span></label>
-                                <select class="form-control" id="website_type" name="website_type" required>
-                                    <option value="">Select Website Type</option>
-                                    <option value="business" {% if preset_type == 'business' %}selected{% endif %}>Business Website</option>
-                                    <option value="ecommerce" {% if preset_type == 'ecommerce' %}selected{% endif %}>E-Commerce Website</option>
-                                    <option value="landing" {% if preset_type == 'landing' %}selected{% endif %}>Landing Page</option>
-                                    <option value="custom">Custom Website</option>
+                                <select class="form-control" id="website_type" name="website_type" required {% if offer and offer.service_type %}style="background:#f8f9ff;border-color:#c7d2fe;color:#4F46E5;font-weight:700;"{% endif %}>
+                                    <option value="">— Select type —</option>
+                                    <option value="website"     {% if preset_type == 'website'     %}selected{% endif %}>Website Development</option>
+                                    <option value="ecommerce"   {% if preset_type == 'ecommerce'   %}selected{% endif %}>E-Commerce Website</option>
+                                    <option value="seo"         {% if preset_type == 'seo'         %}selected{% endif %}>SEO Optimization</option>
+                                    <option value="redesign"    {% if preset_type == 'redesign'    %}selected{% endif %}>Website Redesign</option>
+                                    <option value="landing"     {% if preset_type == 'landing'     %}selected{% endif %}>Landing Page</option>
+                                    <option value="maintenance" {% if preset_type == 'maintenance' %}selected{% endif %}>Website Maintenance</option>
+                                    <option value="portfolio"   {% if preset_type == 'portfolio'   %}selected{% endif %}>Portfolio Website</option>
+                                    <option value="blog"        {% if preset_type == 'blog'        %}selected{% endif %}>Blog / News Website</option>
+                                    <option value="education"   {% if preset_type == 'education'   %}selected{% endif %}>School / Education Website</option>
+                                    <option value="restaurant"  {% if preset_type == 'restaurant'  %}selected{% endif %}>Restaurant Website</option>
+                                    <option value="realestate"  {% if preset_type == 'realestate'  %}selected{% endif %}>Real Estate Website</option>
+                                    <option value="hospital"    {% if preset_type == 'hospital'    %}selected{% endif %}>Hospital / Clinic Website</option>
+                                    <option value="webapp"      {% if preset_type == 'webapp'      %}selected{% endif %}>Web Application Development</option>
+                                    <option value="college"     {% if preset_type == 'college'     %}selected{% endif %}>College Project</option>
+                                    <option value="academic"    {% if preset_type == 'academic'    %}selected{% endif %}>Academic Project</option>
+                                    <option value="miniproject" {% if preset_type == 'miniproject' %}selected{% endif %}>Mini Project</option>
+                                    <option value="custom"      {% if preset_type == 'custom'      %}selected{% endif %}>Custom Project</option>
                                 </select>
+                                {% if offer and offer.service_type %}
+                                <div style="font-size:0.72rem;color:#6366F1;margin-top:4px;"><i class="fas fa-lock me-1"></i>Pre-selected from your offer</div>
+                                {% endif %}
                             </div>
                             
                             <div class="col-md-6 mb-3">
