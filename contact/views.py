@@ -15,7 +15,16 @@ def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            obj = form.save()
+            obj = form.save(commit=False)
+            # If "Other" selected, use the free-text value from hidden input
+            bt = request.POST.get('business_type', '').strip()
+            if bt == 'Other' or bt == '':
+                custom = request.POST.get('business_type_other', '').strip()
+                if custom:
+                    obj.business_type = custom
+            else:
+                obj.business_type = bt
+            obj.save()
             _send_contact_emails(obj)
             messages.success(request, 'Thank you for contacting WEBLANCE. We will get back to you within 24 hours.')
             return redirect('contact')

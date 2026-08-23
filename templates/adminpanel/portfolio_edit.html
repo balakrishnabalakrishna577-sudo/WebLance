@@ -22,9 +22,23 @@
             <div style="margin-bottom:18px">
                 <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Category</label>
                 <select name="category" style="width:100%;background:#F1F5F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#1E293B;font-size:0.9rem;outline:none">
-                    <option value="business" {% if item.category == 'business' %}selected{% endif %}>Business Websites</option>
-                    <option value="ecommerce" {% if item.category == 'ecommerce' %}selected{% endif %}>E-Commerce Websites</option>
-                    <option value="landing" {% if item.category == 'landing' %}selected{% endif %}>Landing Pages</option>
+                    <option value="business"    {% if item.category == 'business'    %}selected{% endif %}>Business Websites</option>
+                    <option value="ecommerce"   {% if item.category == 'ecommerce'   %}selected{% endif %}>E-Commerce Websites</option>
+                    <option value="landing"     {% if item.category == 'landing'     %}selected{% endif %}>Landing Pages</option>
+                    <option value="seo"         {% if item.category == 'seo'         %}selected{% endif %}>SEO Optimization</option>
+                    <option value="redesign"    {% if item.category == 'redesign'    %}selected{% endif %}>Website Redesign</option>
+                    <option value="maintenance" {% if item.category == 'maintenance' %}selected{% endif %}>Website Maintenance</option>
+                    <option value="portfolio"   {% if item.category == 'portfolio'   %}selected{% endif %}>Portfolio Websites</option>
+                    <option value="blog"        {% if item.category == 'blog'        %}selected{% endif %}>Blog / News Websites</option>
+                    <option value="education"   {% if item.category == 'education'   %}selected{% endif %}>School / Education Websites</option>
+                    <option value="restaurant"  {% if item.category == 'restaurant'  %}selected{% endif %}>Restaurant Websites</option>
+                    <option value="realestate"  {% if item.category == 'realestate'  %}selected{% endif %}>Real Estate Websites</option>
+                    <option value="hospital"    {% if item.category == 'hospital'    %}selected{% endif %}>Hospital / Clinic Websites</option>
+                    <option value="webapp"      {% if item.category == 'webapp'      %}selected{% endif %}>Web Applications</option>
+                    <option value="college"     {% if item.category == 'college'     %}selected{% endif %}>College Projects</option>
+                    <option value="academic"    {% if item.category == 'academic'    %}selected{% endif %}>Academic Projects</option>
+                    <option value="miniproject" {% if item.category == 'miniproject' %}selected{% endif %}>Mini Projects</option>
+                    <option value="custom"      {% if item.category == 'custom'      %}selected{% endif %}>Custom Projects</option>
                 </select>
             </div>
 

@@ -141,15 +141,46 @@
                             </div>
                             <div class="col-sm-6">
                                 <label class="form-label">Business Type</label>
-                                <select class="form-control" name="business_type">
-                                    <option value="">Select type</option>
-                                    <option>Small Business</option>
-                                    <option>Medium Business</option>
-                                    <option>Enterprise</option>
-                                    <option>Startup</option>
-                                    <option>Personal</option>
-                                    <option>Other</option>
+                                <select class="form-control" name="business_type" id="businessTypeSelect">
+                                    <option value="">— Select type —</option>
+                                    <optgroup label="Business">
+                                        <option value="Small Business">Small Business</option>
+                                        <option value="Medium Business">Medium Business</option>
+                                        <option value="Enterprise">Enterprise</option>
+                                        <option value="Startup">Startup</option>
+                                        <option value="Freelancer">Freelancer</option>
+                                        <option value="Personal">Personal / Individual</option>
+                                    </optgroup>
+                                    <optgroup label="Industry">
+                                        <option value="E-Commerce / Retail">E-Commerce / Retail</option>
+                                        <option value="Restaurant / Food">Restaurant / Food &amp; Beverage</option>
+                                        <option value="Healthcare / Clinic">Healthcare / Clinic</option>
+                                        <option value="Real Estate">Real Estate</option>
+                                        <option value="Education / School">Education / School</option>
+                                        <option value="Travel / Tourism">Travel / Tourism</option>
+                                        <option value="Technology / IT">Technology / IT</option>
+                                        <option value="Finance / Accounting">Finance / Accounting</option>
+                                        <option value="Legal / Law Firm">Legal / Law Firm</option>
+                                        <option value="Fashion / Apparel">Fashion / Apparel</option>
+                                        <option value="Fitness / Wellness">Fitness / Wellness</option>
+                                        <option value="Non-Profit / NGO">Non-Profit / NGO</option>
+                                        <option value="Government / Public Sector">Government / Public Sector</option>
+                                        <option value="Manufacturing">Manufacturing</option>
+                                        <option value="Construction">Construction</option>
+                                        <option value="Agriculture">Agriculture</option>
+                                    </optgroup>
+                                    <optgroup label="Project Type">
+                                        <option value="College Project">College Project</option>
+                                        <option value="Academic Project">Academic Project</option>
+                                        <option value="Mini Project">Mini Project</option>
+                                        <option value="Portfolio Website">Portfolio / Personal Website</option>
+                                    </optgroup>
+                                    <option value="Other">Other</option>
                                 </select>
+                                <!-- "Other" free-text input — shown only when Other is selected -->
+                                <input type="text" id="businessTypeOther" name="business_type_other"
+                                    class="form-control mt-2" placeholder="Please specify your business type..."
+                                    style="display:none;" maxlength="100">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">Your Message <span class="text-green">*</span></label>
@@ -273,12 +304,53 @@
 {% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    // ── Business Type "Other" toggle ──────────────────────────────
+    var sel   = document.getElementById('businessTypeSelect');
+    var other = document.getElementById('businessTypeOther');
+
+    if (sel && other) {
+        sel.addEventListener('change', function () {
+            if (sel.value === 'Other') {
+                other.style.display = 'block';
+                other.required = true;
+                other.focus();
+            } else {
+                other.style.display = 'none';
+                other.required = false;
+                other.value = '';
+            }
+        });
+    }
+
+    // ── Form submit: merge "Other" text into business_type field ──
     const form = document.querySelector('form');
     if (!form) return;
     const btn = form.querySelector('button[type="submit"]');
+
     form.addEventListener('submit', function (e) {
-        if (!form.checkValidity()) { e.preventDefault(); e.stopPropagation(); }
-        else { btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...'; }
+        // If "Other" is selected, copy the free-text value into the select
+        if (sel && sel.value === 'Other' && other && other.value.trim()) {
+            // Create a hidden input with the custom value so it gets submitted
+            var hidden = document.getElementById('businessTypeHidden');
+            if (!hidden) {
+                hidden = document.createElement('input');
+                hidden.type  = 'hidden';
+                hidden.name  = 'business_type';
+                hidden.id    = 'businessTypeHidden';
+                form.appendChild(hidden);
+            }
+            hidden.value = other.value.trim();
+            // Remove name from select so it doesn't override
+            sel.removeAttribute('name');
+        }
+
+        if (!form.checkValidity()) {
+            e.preventDefault();
+            e.stopPropagation();
+        } else {
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Sending...';
+        }
         form.classList.add('was-validated');
     });
 });
