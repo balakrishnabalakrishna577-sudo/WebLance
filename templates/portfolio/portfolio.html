@@ -30,12 +30,12 @@
             <p>A quick look at websites we’ve built for businesses, brands, and startups.</p>
         </div>
 
-        <!-- Filter Buttons -->
+        <!-- Filter Buttons — built from actual categories in DB -->
         <div class="portfolio-filters scroll-animate">
             <button class="filter-btn active" data-filter="all">All Projects</button>
-            <button class="filter-btn" data-filter="business">Business Websites</button>
-            <button class="filter-btn" data-filter="ecommerce">E-Commerce Websites</button>
-            <button class="filter-btn" data-filter="landing">Landing Pages</button>
+            {% for cat_val, cat_label in categories %}
+            <button class="filter-btn" data-filter="{{ cat_val }}">{{ cat_label }}</button>
+            {% endfor %}
         </div>
 
         <!-- Portfolio Grid -->
@@ -44,13 +44,7 @@
                 {% for item in portfolio_items %}
                 <div class="col-lg-4 col-md-6 portfolio-item scroll-animate" data-category="{{ item.category }}">
                     <div class="portfolio-item-inner">
-                        {% if item.category == 'ecommerce' %}
-                            <span class="portfolio-cat-badge" style="background:rgba(255,165,0,0.15);color:#ffa500;border-color:rgba(255,165,0,0.3);">E-Commerce</span>
-                        {% elif item.category == 'landing' %}
-                            <span class="portfolio-cat-badge" style="background:rgba(100,149,237,0.15);color:#6495ed;border-color:rgba(100,149,237,0.3);">Landing Page</span>
-                        {% else %}
-                            <span class="portfolio-cat-badge">Business</span>
-                        {% endif %}
+                        <span class="portfolio-cat-badge">{{ item.get_category_display }}</span>
                         {% if item.image and item.image.name %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
                              onerror="this.onerror=null;this.src=this.dataset.fallback;"
