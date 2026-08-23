@@ -13,7 +13,7 @@ try:
 except ImportError:
     GENAI_AVAILABLE = False
 
-# ── Compact system prompt ────────────────────────────────────────
+# ── Compact system prompt
 SYSTEM_PROMPT = """You are the AI assistant for WEBLANCE, a web development company in Devanahalli, Karnataka, India.
 
 SERVICES & PRICES:

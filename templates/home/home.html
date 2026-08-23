@@ -675,7 +675,8 @@
                     {% endif %}
 
                     <!-- CTA -->
-                    <a href="{{ offer.cta_url }}" class="wl-offer-card__btn">
+                    <a href="{{ offer.cta_url }}{% if offer.service_type %}?offer={{ offer.pk }}{% endif %}"
+                       class="wl-offer-card__btn">
                         {{ offer.cta_label }} <i class="fas fa-arrow-right ms-1"></i>
                     </a>
                 </div>
