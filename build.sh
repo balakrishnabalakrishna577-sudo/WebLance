@@ -17,25 +17,26 @@ python manage.py create_admin || echo "create_admin failed — skipping"
 echo ">>> Seeding pricing plans..."
 python manage.py seed_pricing || echo "seed_pricing failed — skipping"
 
-echo ">>> Cleaning up broken portfolio items..."
+echo ">>> Cleaning up broken portfolio items (non-Cloudinary images)..."
 python manage.py shell -c "
 from portfolio.models import PortfolioItem
-import cloudinary
-# Delete any items whose images are NOT on Cloudinary
-bad = []
+import cloudinary.uploader
+
+deleted = 0
 for item in PortfolioItem.objects.all():
     try:
         url = item.image.url if item.image and item.image.name else ''
-        if url and 'cloudinary' not in url:
-            bad.append(item.pk)
-            print(f'Removing bad item: {item.title!r} -> {url[:60]}')
-    except Exception:
-        bad.append(item.pk)
-if bad:
-    PortfolioItem.objects.filter(pk__in=bad).delete()
-    print(f'Deleted {len(bad)} items with local/broken images')
-else:
-    print('No broken portfolio items found')
+        is_cloudinary = 'res.cloudinary.com' in url
+        if not is_cloudinary:
+            print(f'Deleting bad item: {item.title!r} | url: {url[:60]}')
+            item.delete()
+            deleted += 1
+    except Exception as e:
+        print(f'Deleting item with error: {item.title!r} | error: {e}')
+        item.delete()
+        deleted += 1
+
+print(f'Cleanup done: deleted {deleted} item(s) with non-Cloudinary images')
 " || echo "Portfolio cleanup skipped"
 
 echo ">>> Verifying Cloudinary connection..."
