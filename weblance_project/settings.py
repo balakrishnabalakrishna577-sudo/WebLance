@@ -154,9 +154,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ── Cloudinary (persistent media storage for Render) ──────────────
-CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '')
-CLOUDINARY_API_KEY    = os.environ.get('CLOUDINARY_API_KEY', '')
-CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', '')
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', 'dbbq1bl4u')
+CLOUDINARY_API_KEY    = os.environ.get('CLOUDINARY_API_KEY',    '416514896248622')
+CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', 'S7WSkqn_qlTVidYN7rWeYYEjt3w')
 
 # Always configure cloudinary if credentials are present
 # This ensures the library uses the right credentials even if storage backend check fails
