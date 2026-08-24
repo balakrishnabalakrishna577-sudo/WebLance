@@ -9,5 +9,6 @@ urlpatterns = [
     path('clear-cookie-flag/', views.clear_cookie_flag, name='clear_cookie_flag'),
     path('captcha/', views.captcha_image, name='captcha_image'),
     path('health/', views.health_check, name='health_check'),
+    path('cloudinary-check/', views.cloudinary_check, name='cloudinary_check'),
     path('profile/', views.profile_edit, name='profile_edit'),
 ]

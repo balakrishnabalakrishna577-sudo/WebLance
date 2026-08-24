@@ -58,6 +58,34 @@ def health_check(request):
     return HttpResponse('ok', content_type='text/plain')
 
 
+def cloudinary_check(request):
+    """Temporary debug endpoint — staff only. Remove after fixing."""
+    if not request.user.is_staff:
+        return HttpResponse('forbidden', status=403)
+    import cloudinary
+    cfg = cloudinary.config()
+    import os
+    lines = [
+        f"CLOUDINARY_CLOUD_NAME env: {os.environ.get('CLOUDINARY_CLOUD_NAME','NOT SET')}",
+        f"CLOUDINARY_API_KEY env: {os.environ.get('CLOUDINARY_API_KEY','NOT SET')[:8]}...",
+        f"CLOUDINARY_API_SECRET env: {os.environ.get('CLOUDINARY_API_SECRET','NOT SET')[:8]}...",
+        f"cloudinary.config cloud_name: {cfg.cloud_name}",
+        f"cloudinary.config api_key: {str(cfg.api_key)[:8]}...",
+        f"cloudinary.config api_secret: {str(cfg.api_secret)[:8] if cfg.api_secret else 'NOT SET'}...",
+        f"DEFAULT_FILE_STORAGE: {settings.DEFAULT_FILE_STORAGE}",
+    ]
+    # Test actual upload
+    try:
+        import cloudinary.uploader, io
+        buf = io.BytesIO(b'\x89PNG\r\n\x1a\n' + b'\x00'*100)
+        result = cloudinary.uploader.upload(buf, folder='test', public_id='healthcheck', resource_type='auto')
+        lines.append(f"UPLOAD TEST: SUCCESS - {result.get('secure_url','')[:60]}")
+        cloudinary.uploader.destroy('test/healthcheck')
+    except Exception as e:
+        lines.append(f"UPLOAD TEST: FAILED - {e}")
+    return HttpResponse('\n'.join(lines), content_type='text/plain')
+
+
 def clear_cookie_flag(request):
     if request.method == 'POST':
         request.session.pop('show_cookie_banner', None)
