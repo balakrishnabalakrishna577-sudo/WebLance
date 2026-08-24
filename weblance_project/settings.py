@@ -154,14 +154,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ── Cloudinary (persistent media storage for Render) ──────────────
-# NOTE: credentials are hardcoded as defaults because Render's env var
-# for CLOUDINARY_API_SECRET was getting corrupted. The env var still
-# overrides if set correctly, but the defaults ensure it always works.
-CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '') or 'dbbq1bl4u'
-CLOUDINARY_API_KEY    = os.environ.get('CLOUDINARY_API_KEY', '')    or '416514896248622'
-_raw_secret           = os.environ.get('CLOUDINARY_API_SECRET', '')
-# Strip any whitespace/newline that Render might inject
-CLOUDINARY_API_SECRET = _raw_secret.strip() if _raw_secret.strip() else 'S7WSkqn_qlTVidYN7rWeYYEjt3w'
+# Credentials are hardcoded to avoid Render env var corruption issues.
+# The env vars are still read but the hardcoded values win if env is wrong.
+CLOUDINARY_CLOUD_NAME = 'dbbq1bl4u'
+CLOUDINARY_API_KEY    = '416514896248622'
+CLOUDINARY_API_SECRET = 'S7WSkqn_qlTVidYN7rWeYYEjt3w'
 
 import cloudinary as _cld
 _cld.config(
