@@ -47,7 +47,7 @@
                         <span class="portfolio-cat-badge">{{ item.get_category_display }}</span>
                         {% if item.image and item.image.name %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.onerror=null;this.src=this.dataset.fallback;"
+                             onerror="this.onerror=null;this.src='{% static 'images/w1.png' %}';"
                              data-fallback="{% static 'images/w1.png' %}">
                         {% else %}
                         <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
