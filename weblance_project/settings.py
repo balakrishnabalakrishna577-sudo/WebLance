@@ -154,27 +154,29 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # ── Cloudinary (persistent media storage for Render) ──────────────
-CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', 'dbbq1bl4u')
-CLOUDINARY_API_KEY    = os.environ.get('CLOUDINARY_API_KEY',    '416514896248622')
-CLOUDINARY_API_SECRET = os.environ.get('CLOUDINARY_API_SECRET', 'S7WSkqn_qlTVidYN7rWeYYEjt3w')
+# NOTE: credentials are hardcoded as defaults because Render's env var
+# for CLOUDINARY_API_SECRET was getting corrupted. The env var still
+# overrides if set correctly, but the defaults ensure it always works.
+CLOUDINARY_CLOUD_NAME = os.environ.get('CLOUDINARY_CLOUD_NAME', '') or 'dbbq1bl4u'
+CLOUDINARY_API_KEY    = os.environ.get('CLOUDINARY_API_KEY', '')    or '416514896248622'
+_raw_secret           = os.environ.get('CLOUDINARY_API_SECRET', '')
+# Strip any whitespace/newline that Render might inject
+CLOUDINARY_API_SECRET = _raw_secret.strip() if _raw_secret.strip() else 'S7WSkqn_qlTVidYN7rWeYYEjt3w'
 
-# Always configure cloudinary if credentials are present
-# This ensures the library uses the right credentials even if storage backend check fails
 import cloudinary as _cld
 _cld.config(
-    cloud_name = CLOUDINARY_CLOUD_NAME or 'dbbq1bl4u',
-    api_key    = CLOUDINARY_API_KEY    or '416514896248622',
-    api_secret = CLOUDINARY_API_SECRET or '',
+    cloud_name = CLOUDINARY_CLOUD_NAME,
+    api_key    = CLOUDINARY_API_KEY,
+    api_secret = CLOUDINARY_API_SECRET,
     secure     = True,
 )
 
-if CLOUDINARY_CLOUD_NAME and CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET:
-    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-    CLOUDINARY_STORAGE = {
-        'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
-        'API_KEY':    CLOUDINARY_API_KEY,
-        'API_SECRET': CLOUDINARY_API_SECRET,
-    }
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': CLOUDINARY_CLOUD_NAME,
+    'API_KEY':    CLOUDINARY_API_KEY,
+    'API_SECRET': CLOUDINARY_API_SECRET,
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -19,7 +19,8 @@ class Command(BaseCommand):
         self.stdout.write('>>> Verifying Cloudinary...')
         self.stdout.write(f'    cloud_name : {cloud}')
         self.stdout.write(f'    api_key    : {api_key[:8]}...' if api_key else '    api_key    : NOT SET')
-        self.stdout.write(f'    api_secret : {secret[:8]}...' if secret else '    api_secret : NOT SET')
+        self.stdout.write(f'    api_secret : {secret[:8]}... ({len(secret)} chars)' if secret else '    api_secret : NOT SET')
+        self.stdout.write(f'    api_secret raw repr: {repr(secret[:12])}...')
 
         if not (cloud and api_key and secret):
             self.stdout.write(self.style.WARNING(
