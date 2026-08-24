@@ -17,4 +17,7 @@ python manage.py create_admin || echo "create_admin failed — skipping"
 echo ">>> Seeding pricing plans..."
 python manage.py seed_pricing || echo "seed_pricing failed — skipping"
 
+echo ">>> Verifying Cloudinary connection..."
+python manage.py verify_cloudinary || echo "Cloudinary check failed — check CLOUDINARY_API_SECRET env var"
+
 echo ">>> Build complete."

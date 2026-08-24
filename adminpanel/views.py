@@ -241,11 +241,27 @@ def portfolio_add(request):
         live_url    = request.POST.get('live_url', '').strip()
         image       = request.FILES.get('image')
         if title and description and image:
-            PortfolioItem.objects.create(
-                title=title, category=category,
-                description=description, live_url=live_url, image=image,
-            )
-            messages.success(request, 'Portfolio item added.')
+            try:
+                item = PortfolioItem.objects.create(
+                    title=title, category=category,
+                    description=description, live_url=live_url, image=image,
+                )
+                # Verify the image actually got a Cloudinary URL
+                try:
+                    img_url = item.image.url
+                    if 'cloudinary' not in img_url and 'res.cloudinary' not in img_url:
+                        import logging
+                        logging.getLogger(__name__).warning(
+                            f'Portfolio image may not be on Cloudinary: {img_url}'
+                        )
+                except Exception:
+                    pass
+                messages.success(request, f'Portfolio item "{title}" added successfully.')
+            except Exception as e:
+                import traceback
+                import logging
+                logging.getLogger(__name__).error(f'Portfolio add failed: {traceback.format_exc()}')
+                messages.error(request, f'Upload failed: {type(e).__name__}: {e}')
             return redirect('admin_portfolio')
         messages.error(request, 'Title, description and image are required.')
     return render(request, 'adminpanel/portfolio_add.html')
