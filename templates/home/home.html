@@ -2,15 +2,12 @@
 
 {% load static %}
 
-
-
 {% block title %}WEBLANCE - Professional Website Development Company{% endblock %}
-
-
 
 {% block extra_css %}
 
 <link rel="stylesheet" href="{% static 'css/home_pro.css' %}?v=9">
+
 <style>
 
 /* â•â• TRUSTED-BY MARQUEE â•â• */
@@ -21,7 +18,7 @@
 
 .trusted-marquee-wrap::after {
 
-    content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
+content: ''; position: absolute; top: 0; bottom: 0; width: 80px; z-index: 2; pointer-events: none;
 
 }
 
@@ -31,9 +28,9 @@
 
 .trusted-marquee-track {
 
-    display: flex; gap: 32px; align-items: center;
+display: flex; gap: 32px; align-items: center;
 
-    animation: trustedScroll 22s linear infinite; width: max-content;
+animation: trustedScroll 22s linear infinite; width: max-content;
 
 }
 
@@ -45,25 +42,23 @@
 
 .trusted-city i { color:#6366F1;font-size:.7rem; }
 
-
-
 /* â•â• REVIEW CARDS â•â• */
 
 .rv-home-card {
 
-    background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:24px;height:100%;
+background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:24px;height:100%;
 
-    display:flex;flex-direction:column;transition:all .25s ease;
+display:flex;flex-direction:column;transition:all .25s ease;
 
-    box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;overflow:hidden;
+box-shadow:0 2px 12px rgba(0,0,0,.04);position:relative;overflow:hidden;
 
 }
 
 .rv-home-card::before {
 
-    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+content:'';position:absolute;top:0;left:0;right:0;height:3px;
 
-    background:linear-gradient(90deg,#6366F1,#818CF8,#A5B4FC);border-radius:20px 20px 0 0;
+background:linear-gradient(90deg,#6366F1,#818CF8,#A5B4FC);border-radius:20px 20px 0 0;
 
 }
 
@@ -71,2274 +66,3085 @@
 
 .rv-quote-icon { font-size:2.5rem;color:#EEF2FF;line-height:1;margin-bottom:8px;font-family:Georgia,serif; }
 
-
-
 /* â•â• SECTION LABEL PILL â•â• */
 
 .section-label-pill {
 
-    display:inline-flex;align-items:center;gap:6px;
+display:inline-flex;align-items:center;gap:6px;
 
-    background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;color:#4F46E5;
+background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;color:#4F46E5;
 
-    padding:5px 16px;border-radius:50px;font-size:.72rem;font-weight:700;
+padding:5px 16px;border-radius:50px;font-size:.72rem;font-weight:700;
 
-    text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
+text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
 
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   HERO - Enhanced Security Theme
-   ====================================================== */
+
+HERO - Enhanced Security Theme
+
+====================================================== */
 
 #hero.wl-new-hero {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    height: 100dvh;
-    min-height: 600px;
-    max-height: 980px;
-    overflow: hidden;
-    background:
-        radial-gradient(ellipse 1000px 700px at -8% -15%, rgba(79,70,229,.18) 0%, transparent 55%),
-        radial-gradient(ellipse 700px 500px at 108% 18%, rgba(59,130,246,.14) 0%, transparent 50%),
-        radial-gradient(ellipse 500px 400px at 50% 115%, rgba(129,140,248,.14) 0%, transparent 55%),
-        linear-gradient(155deg, #f8faff 0%, #f0f4ff 40%, #eaeeff 100%);
-    border-bottom: 1px solid rgba(79,70,229,.10);
+
+position: relative;
+
+display: flex;
+
+flex-direction: column;
+
+height: 100dvh;
+
+min-height: 600px;
+
+max-height: 980px;
+
+overflow: hidden;
+
+background:
+
+radial-gradient(ellipse 1000px 700px at -8% -15%, rgba(79,70,229,.18) 0%, transparent 55%),
+
+radial-gradient(ellipse 700px 500px at 108% 18%, rgba(59,130,246,.14) 0%, transparent 50%),
+
+radial-gradient(ellipse 500px 400px at 50% 115%, rgba(129,140,248,.14) 0%, transparent 55%),
+
+linear-gradient(155deg, #f8faff 0%, #f0f4ff 40%, #eaeeff 100%);
+
+border-bottom: 1px solid rgba(79,70,229,.10);
+
 }
+
 #hero.wl-new-hero::before {
-    content: "";
-    position: absolute; inset: 0;
-    background-image: radial-gradient(rgba(79,70,229,.10) 1.2px, transparent 1.2px);
-    background-size: 28px 28px;
-    opacity: .6;
-    pointer-events: none;
-    animation: heroGridDrift 22s linear infinite;
+
+content: "";
+
+position: absolute; inset: 0;
+
+background-image: radial-gradient(rgba(79,70,229,.10) 1.2px, transparent 1.2px);
+
+background-size: 28px 28px;
+
+opacity: .6;
+
+pointer-events: none;
+
+animation: heroGridDrift 22s linear infinite;
+
 }
+
 @keyframes heroGridDrift { to { background-position: 28px 28px; } }
+
 #hero.wl-new-hero::after {
-    content: "";
-    position: absolute;
-    width: 620px; height: 620px;
-    top: -180px; right: -150px;
-    background: radial-gradient(circle, rgba(79,70,229,.18) 0%, rgba(59,130,246,.08) 45%, transparent 70%);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: heroOrbFloat 10s ease-in-out infinite;
+
+content: "";
+
+position: absolute;
+
+width: 620px; height: 620px;
+
+top: -180px; right: -150px;
+
+background: radial-gradient(circle, rgba(79,70,229,.18) 0%, rgba(59,130,246,.08) 45%, transparent 70%);
+
+border-radius: 50%;
+
+pointer-events: none;
+
+animation: heroOrbFloat 10s ease-in-out infinite;
+
 }
+
 @keyframes heroOrbFloat {
-    0%,100% { transform: translateY(0) scale(1); }
-    50%      { transform: translateY(-24px) scale(1.06); }
+
+0%,100% { transform: translateY(0) scale(1); }
+
+50%      { transform: translateY(-24px) scale(1.06); }
+
 }
+
 .wl-hero-flex-body {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
-    padding: 0;
+
+flex: 1 1 auto;
+
+display: flex;
+
+align-items: center;
+
+position: relative;
+
+z-index: 2;
+
+overflow: hidden;
+
+padding: 0;
+
 }
+
 .wl-sec-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.95);
-    border: 1px solid rgba(79,70,229,.22);
-    border-radius: 50px;
-    padding: 6px 18px;
-    font-size: .75rem; font-weight: 700; color: #1e293b;
-    box-shadow: 0 2px 16px rgba(79,70,229,.12);
-    backdrop-filter: blur(12px);
-    margin-bottom: 18px;
+
+display: inline-flex; align-items: center; gap: 8px;
+
+background: rgba(255,255,255,.95);
+
+border: 1px solid rgba(79,70,229,.22);
+
+border-radius: 50px;
+
+padding: 6px 18px;
+
+font-size: .75rem; font-weight: 700; color: #1e293b;
+
+box-shadow: 0 2px 16px rgba(79,70,229,.12);
+
+backdrop-filter: blur(12px);
+
+margin-bottom: 18px;
+
 }
+
 .wl-sec-badge i { color: #4F46E5; font-size: .8rem; }
+
 .wl-new-hero-title {
-    font-size: clamp(2.2rem, 4.2vw, 4rem);
-    font-weight: 900;
-    letter-spacing: -.04em;
-    line-height: 1.1;
-    color: #0a0f1e;
-    margin: 0 0 16px;
+
+font-size: clamp(2.2rem, 4.2vw, 4rem);
+
+font-weight: 900;
+
+letter-spacing: -.04em;
+
+line-height: 1.1;
+
+color: #0a0f1e;
+
+margin: 0 0 16px;
+
 }
+
 .wl-new-hero-title .hl-blue {
-    background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 50%, #06B6D4 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: block;
-    filter: drop-shadow(0 2px 12px rgba(79,70,229,.25));
+
+background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 50%, #06B6D4 100%);
+
+-webkit-background-clip: text;
+
+background-clip: text;
+
+-webkit-text-fill-color: transparent;
+
+display: block;
+
+filter: drop-shadow(0 2px 12px rgba(79,70,229,.25));
+
 }
+
 .wl-new-hero-lead {
-    color: #475569;
-    font-size: .94rem;
-    line-height: 1.75;
-    max-width: 480px;
-    margin: 0 0 22px;
+
+color: #475569;
+
+font-size: .94rem;
+
+line-height: 1.75;
+
+max-width: 480px;
+
+margin: 0 0 22px;
+
 }
+
 .wl-new-hero-ctas {
-    display: flex; gap: 12px; flex-wrap: wrap;
-    align-items: center; margin-bottom: 20px;
+
+display: flex; gap: 12px; flex-wrap: wrap;
+
+align-items: center; margin-bottom: 20px;
+
 }
+
 .wl-btn-primary-dark {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-    color: #fff !important;
-    padding: 13px 32px; border-radius: 50px;
-    font-weight: 700; font-size: .9rem;
-    text-decoration: none; border: none;
-    transition: all .28s cubic-bezier(.34,1.56,.64,1);
-    box-shadow: 0 8px 26px rgba(15,23,42,.32), inset 0 1px 0 rgba(255,255,255,.08);
-    white-space: nowrap;
+
+display: inline-flex; align-items: center; gap: 8px;
+
+background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+
+color: #fff !important;
+
+padding: 13px 32px; border-radius: 50px;
+
+font-weight: 700; font-size: .9rem;
+
+text-decoration: none; border: none;
+
+transition: all .28s cubic-bezier(.34,1.56,.64,1);
+
+box-shadow: 0 8px 26px rgba(15,23,42,.32), inset 0 1px 0 rgba(255,255,255,.08);
+
+white-space: nowrap;
+
 }
+
 .wl-btn-primary-dark:hover {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 14px 36px rgba(15,23,42,.42); color: #fff !important;
+
+background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+
+transform: translateY(-3px) scale(1.03);
+
+box-shadow: 0 14px 36px rgba(15,23,42,.42); color: #fff !important;
+
 }
+
 .wl-btn-outline-call {
-    display: inline-flex; align-items: center; gap: 7px;
-    background: rgba(255,255,255,.92); color: #0f172a !important;
-    padding: 12px 26px; border-radius: 50px;
-    border: 2px solid rgba(15,23,42,.12);
-    font-weight: 700; font-size: .88rem;
-    text-decoration: none; backdrop-filter: blur(12px);
-    transition: all .24s ease; white-space: nowrap;
-    box-shadow: 0 2px 12px rgba(79,70,229,.08);
+
+display: inline-flex; align-items: center; gap: 7px;
+
+background: rgba(255,255,255,.92); color: #0f172a !important;
+
+padding: 12px 26px; border-radius: 50px;
+
+border: 2px solid rgba(15,23,42,.12);
+
+font-weight: 700; font-size: .88rem;
+
+text-decoration: none; backdrop-filter: blur(12px);
+
+transition: all .24s ease; white-space: nowrap;
+
+box-shadow: 0 2px 12px rgba(79,70,229,.08);
+
 }
+
 .wl-btn-outline-call:hover {
-    border-color: rgba(79,70,229,.35); background: #fff;
-    transform: translateY(-2px); color: #0f172a !important;
-    box-shadow: 0 6px 22px rgba(79,70,229,.14);
+
+border-color: rgba(79,70,229,.35); background: #fff;
+
+transform: translateY(-2px); color: #0f172a !important;
+
+box-shadow: 0 6px 22px rgba(79,70,229,.14);
+
 }
+
 .wl-trust-pills { display: flex; flex-wrap: wrap; gap: 7px; }
+
 .wl-trust-pill {
-    display: inline-flex; align-items: center; gap: 6px;
-    background: rgba(255,255,255,.90);
-    border: 1px solid rgba(79,70,229,.14);
-    border-radius: 50px; padding: 6px 14px;
-    font-size: .74rem; font-weight: 600; color: #1e293b;
-    box-shadow: 0 1px 8px rgba(79,70,229,.07);
-    backdrop-filter: blur(10px);
-    transition: all .2s ease;
+
+display: inline-flex; align-items: center; gap: 6px;
+
+background: rgba(255,255,255,.90);
+
+border: 1px solid rgba(79,70,229,.14);
+
+border-radius: 50px; padding: 6px 14px;
+
+font-size: .74rem; font-weight: 600; color: #1e293b;
+
+box-shadow: 0 1px 8px rgba(79,70,229,.07);
+
+backdrop-filter: blur(10px);
+
+transition: all .2s ease;
+
 }
+
 .wl-trust-pill:hover {
-    border-color: rgba(79,70,229,.3); background: #fff;
-    transform: translateY(-1px); box-shadow: 0 4px 14px rgba(79,70,229,.12);
+
+border-color: rgba(79,70,229,.3); background: #fff;
+
+transform: translateY(-1px); box-shadow: 0 4px 14px rgba(79,70,229,.12);
+
 }
+
 .wl-trust-pill i { color: #4F46E5; font-size: .72rem; }
 
 /* RIGHT PANEL */
+
 .wl-sec-visual {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+position: relative;
+
+width: 100%;
+
+height: 100%;
+
+min-height: 420px;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
 }
+
 .wl-sec-disc {
-    position: absolute;
-    width: 74%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(ellipse at 38% 35%,
-        #2d3bce 0%, #1a2490 28%, #0d1565 58%, #070e42 80%, #040820 95%);
-    box-shadow:
-        0 0 0 1px rgba(99,130,255,.25),
-        0 0 90px rgba(79,70,229,.55),
-        0 0 180px rgba(59,130,246,.25),
-        inset 0 0 70px rgba(30,42,138,.7);
-    z-index: 1;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
+
+position: absolute;
+
+width: 74%;
+
+aspect-ratio: 1;
+
+border-radius: 50%;
+
+background: radial-gradient(ellipse at 38% 35%,
+
+#2d3bce 0%, #1a2490 28%, #0d1565 58%, #070e42 80%, #040820 95%);
+
+box-shadow:
+
+0 0 0 1px rgba(99,130,255,.25),
+
+0 0 90px rgba(79,70,229,.55),
+
+0 0 180px rgba(59,130,246,.25),
+
+inset 0 0 70px rgba(30,42,138,.7);
+
+z-index: 1;
+
+left: 50%; top: 50%;
+
+transform: translate(-50%, -50%);
+
 }
+
 .wl-sec-ring {
-    position: absolute;
-    border-radius: 50%;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2;
-    pointer-events: none;
+
+position: absolute;
+
+border-radius: 50%;
+
+left: 50%; top: 50%;
+
+transform: translate(-50%, -50%);
+
+z-index: 2;
+
+pointer-events: none;
+
 }
+
 .wl-sec-ring--outer {
-    width: 70%; aspect-ratio: 1;
-    border: 1.5px dashed rgba(99,149,255,.22);
-    animation: ringRotate 30s linear infinite;
+
+width: 70%; aspect-ratio: 1;
+
+border: 1.5px dashed rgba(99,149,255,.22);
+
+animation: ringRotate 30s linear infinite;
+
 }
+
 .wl-sec-ring--inner {
-    width: 54%; aspect-ratio: 1;
-    border: 1px solid rgba(129,140,248,.2);
-    animation: ringRotate 20s linear infinite reverse;
+
+width: 54%; aspect-ratio: 1;
+
+border: 1px solid rgba(129,140,248,.2);
+
+animation: ringRotate 20s linear infinite reverse;
+
 }
+
 @keyframes ringRotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to   { transform: translate(-50%, -50%) rotate(360deg); }
+
+from { transform: translate(-50%, -50%) rotate(0deg); }
+
+to   { transform: translate(-50%, -50%) rotate(360deg); }
+
 }
+
 .wl-sec-ring--glow1 {
-    width: 63%; aspect-ratio: 1;
-    border: 1px solid rgba(59,130,246,.12);
-    animation: ringPulse 6s ease-in-out infinite;
+
+width: 63%; aspect-ratio: 1;
+
+border: 1px solid rgba(59,130,246,.12);
+
+animation: ringPulse 6s ease-in-out infinite;
+
 }
+
 .wl-sec-ring--glow2 {
-    width: 44%; aspect-ratio: 1;
-    border: 1px solid rgba(129,140,248,.18);
-    animation: ringPulse 6s ease-in-out infinite 2s;
+
+width: 44%; aspect-ratio: 1;
+
+border: 1px solid rgba(129,140,248,.18);
+
+animation: ringPulse 6s ease-in-out infinite 2s;
+
 }
+
 @keyframes ringPulse {
-    0%,100% { opacity: .4; transform: translate(-50%,-50%) scale(1); }
-    50%      { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
+
+0%,100% { opacity: .4; transform: translate(-50%,-50%) scale(1); }
+
+50%      { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
+
 }
+
 .wl-sec-shield-wrap {
-    position: absolute;
-    width: 30%;
-    left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 5;
-    filter: drop-shadow(0 0 30px rgba(79,102,241,.8)) drop-shadow(0 0 70px rgba(59,130,246,.4));
-    animation: shieldFloat 5s ease-in-out infinite;
+
+position: absolute;
+
+width: 30%;
+
+left: 50%; top: 50%;
+
+transform: translate(-50%, -50%);
+
+z-index: 5;
+
+filter: drop-shadow(0 0 30px rgba(79,102,241,.8)) drop-shadow(0 0 70px rgba(59,130,246,.4));
+
+animation: shieldFloat 5s ease-in-out infinite;
+
 }
+
 .wl-sec-shield-wrap svg { width: 100%; height: auto; display: block; }
+
 @keyframes shieldFloat {
-    0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); }
-    50%      { transform: translate(-50%,-50%) translateY(-12px) scale(1.02); }
+
+0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); }
+
+50%      { transform: translate(-50%,-50%) translateY(-12px) scale(1.02); }
+
 }
+
 .wl-sec-card {
-    position: absolute;
-    background: rgba(255,255,255,.98);
-    border: 1px solid rgba(79,70,229,.14);
-    border-radius: 16px;
-    padding: 12px 15px;
-    display: flex; align-items: flex-start; gap: 10px;
-    box-shadow: 0 10px 32px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.8);
-    backdrop-filter: blur(16px);
-    z-index: 8;
-    max-width: 185px; min-width: 155px;
-    transition: transform .25s ease, box-shadow .25s ease;
+
+position: absolute;
+
+background: rgba(255,255,255,.98);
+
+border: 1px solid rgba(79,70,229,.14);
+
+border-radius: 16px;
+
+padding: 12px 15px;
+
+display: flex; align-items: flex-start; gap: 10px;
+
+box-shadow: 0 10px 32px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.8);
+
+backdrop-filter: blur(16px);
+
+z-index: 8;
+
+max-width: 185px; min-width: 155px;
+
+transition: transform .25s ease, box-shadow .25s ease;
+
 }
+
 .wl-sec-card:hover {
-    transform: translateY(-4px) !important;
-    box-shadow: 0 18px 44px rgba(79,70,229,.18);
+
+transform: translateY(-4px) !important;
+
+box-shadow: 0 18px 44px rgba(79,70,229,.18);
+
 }
+
 .wl-sec-card-icon {
-    width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .9rem;
-    background: rgba(79,70,229,.10); color: #4F46E5;
-    box-shadow: 0 2px 8px rgba(79,70,229,.15);
+
+width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+
+display: flex; align-items: center; justify-content: center;
+
+font-size: .9rem;
+
+background: rgba(79,70,229,.10); color: #4F46E5;
+
+box-shadow: 0 2px 8px rgba(79,70,229,.15);
+
 }
+
 .wl-sec-card-title { font-size: .76rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 3px; }
+
 .wl-sec-card-sub   { font-size: .65rem; color: #64748b; line-height: 1.4; }
+
 .wl-sec-card--ssl { top: 4%;  left: 0%;  animation: sc1 5s ease-in-out infinite; }
+
 .wl-sec-card--mal { top: 4%;  right:-2%; animation: sc2 6.5s ease-in-out infinite; }
+
 .wl-sec-card--bkp { bottom: 15%; left: 0%; animation: sc3 7s ease-in-out infinite; }
+
 .wl-sec-card--mon { bottom: 12%; right:-2%; animation: sc4 5.5s ease-in-out infinite; }
+
 @keyframes sc1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
 @keyframes sc2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
 @keyframes sc3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+
 @keyframes sc4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(9px)} }
 
 /* STATS BAR */
+
 .wl-stats-bar {
-    flex-shrink: 0;
-    background: rgba(255,255,255,.97);
-    border-top: 1px solid rgba(79,70,229,.10);
-    backdrop-filter: blur(14px);
-    position: relative; z-index: 3;
-    box-shadow: 0 -4px 20px rgba(79,70,229,.06);
+
+flex-shrink: 0;
+
+background: rgba(255,255,255,.97);
+
+border-top: 1px solid rgba(79,70,229,.10);
+
+backdrop-filter: blur(14px);
+
+position: relative; z-index: 3;
+
+box-shadow: 0 -4px 20px rgba(79,70,229,.06);
+
 }
+
 .wl-stats-bar-inner { display: flex; align-items: stretch; }
+
 .wl-stat-item {
-    display: flex; align-items: center; gap: 13px;
-    padding: 16px 24px;
-    border-right: 1px solid rgba(79,70,229,.08);
-    flex: 1; min-width: 0;
-    transition: background .2s ease;
+
+display: flex; align-items: center; gap: 13px;
+
+padding: 16px 24px;
+
+border-right: 1px solid rgba(79,70,229,.08);
+
+flex: 1; min-width: 0;
+
+transition: background .2s ease;
+
 }
+
 .wl-stat-item:hover { background: rgba(79,70,229,.03); }
+
 .wl-stat-item:last-child { border-right: none; }
+
 .wl-stat-icon {
-    width: 40px; height: 40px; flex-shrink: 0;
-    background: linear-gradient(135deg, rgba(79,70,229,.12), rgba(59,130,246,.08));
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #4F46E5; font-size: 1rem;
-    box-shadow: 0 2px 10px rgba(79,70,229,.12);
+
+width: 40px; height: 40px; flex-shrink: 0;
+
+background: linear-gradient(135deg, rgba(79,70,229,.12), rgba(59,130,246,.08));
+
+border-radius: 50%;
+
+display: flex; align-items: center; justify-content: center;
+
+color: #4F46E5; font-size: 1rem;
+
+box-shadow: 0 2px 10px rgba(79,70,229,.12);
+
 }
+
 .wl-stat-num {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem; font-weight: 900;
-    background: linear-gradient(135deg, #0f172a 0%, #4F46E5 100%);
-    -webkit-background-clip: text; background-clip: text;
-    -webkit-text-fill-color: transparent;
-    line-height: 1; letter-spacing: -.04em; display: block;
+
+font-family: 'Poppins', sans-serif;
+
+font-size: 1.5rem; font-weight: 900;
+
+background: linear-gradient(135deg, #0f172a 0%, #4F46E5 100%);
+
+-webkit-background-clip: text; background-clip: text;
+
+-webkit-text-fill-color: transparent;
+
+line-height: 1; letter-spacing: -.04em; display: block;
+
 }
+
 .wl-stat-lbl {
-    font-size: .60rem; color: #94a3b8;
-    text-transform: uppercase; letter-spacing: .09em;
-    font-weight: 700; margin-top: 3px; display: block;
+
+font-size: .60rem; color: #94a3b8;
+
+text-transform: uppercase; letter-spacing: .09em;
+
+font-weight: 700; margin-top: 3px; display: block;
+
 }
+
 @media (max-width: 991px) {
-    #hero.wl-new-hero { height: auto; max-height: none; }
-    .wl-hero-flex-body { padding: 48px 0 24px; }
-    .wl-sec-visual { min-height: 320px; margin-top: 28px; }
-    .wl-sec-disc { width: 78%; }
-    .wl-sec-ring--outer { width: 74%; }
-    .wl-sec-ring--inner { width: 58%; }
-    .wl-sec-shield-wrap { width: 28%; }
-    .wl-sec-card { display: none; }
+
+#hero.wl-new-hero { height: auto; max-height: none; }
+
+.wl-hero-flex-body { padding: 48px 0 24px; }
+
+.wl-sec-visual { min-height: 320px; margin-top: 28px; }
+
+.wl-sec-disc { width: 78%; }
+
+.wl-sec-ring--outer { width: 74%; }
+
+.wl-sec-ring--inner { width: 58%; }
+
+.wl-sec-shield-wrap { width: 28%; }
+
+.wl-sec-card { display: none; }
+
 }
+
 @media (min-width: 992px) {
-    .wl-sec-card--ssl,.wl-sec-card--mal,
-    .wl-sec-card--bkp,.wl-sec-card--mon { display: flex; }
+
+.wl-sec-card--ssl,.wl-sec-card--mal,
+
+.wl-sec-card--bkp,.wl-sec-card--mon { display: flex; }
+
 }
+
 @media (max-width: 767px) {
-    .wl-new-hero-title { font-size: clamp(2rem, 8vw, 2.8rem); }
-    .wl-new-hero-lead  { font-size: .88rem; }
-    .wl-btn-primary-dark, .wl-btn-outline-call { padding: 11px 22px; font-size: .86rem; }
-    .wl-stats-bar-inner { flex-wrap: wrap; }
-    .wl-stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(79,70,229,.06); padding: 12px 14px; }
-    .wl-stat-item:nth-child(2n) { border-right: none; }
-    .wl-stat-item:nth-last-child(-n+2) { border-bottom: none; }
-    .wl-stat-num { font-size: 1.25rem; }
+
+.wl-new-hero-title { font-size: clamp(2rem, 8vw, 2.8rem); }
+
+.wl-new-hero-lead  { font-size: .88rem; }
+
+.wl-btn-primary-dark, .wl-btn-outline-call { padding: 11px 22px; font-size: .86rem; }
+
+.wl-stats-bar-inner { flex-wrap: wrap; }
+
+.wl-stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(79,70,229,.06); padding: 12px 14px; }
+
+.wl-stat-item:nth-child(2n) { border-right: none; }
+
+.wl-stat-item:nth-last-child(-n+2) { border-bottom: none; }
+
+.wl-stat-num { font-size: 1.25rem; }
+
 }
+
 @media (max-width: 575px) {
-    .wl-trust-pills { gap: 5px; }
-    .wl-trust-pill  { font-size: .71rem; padding: 5px 11px; }
-    .wl-stat-item   { flex: 0 0 50%; padding: 10px 12px; gap: 9px; }
-    .wl-stat-icon   { width: 32px; height: 32px; font-size: .85rem; }
+
+.wl-trust-pills { gap: 5px; }
+
+.wl-trust-pill  { font-size: .71rem; padding: 5px 11px; }
+
+.wl-stat-item   { flex: 0 0 50%; padding: 10px 12px; gap: 9px; }
+
+.wl-stat-icon   { width: 32px; height: 32px; font-size: .85rem; }
+
+}
 
 </style>
 
 {% endblock %}
 
-
-
 {% block content %}
 
-
-
 <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-     HERO â€” Security Theme
-     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+
+HERO &mdash;” Security Theme
+
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 
 <section id="hero" class="wl-new-hero">
 
-    <div class="wl-hero-flex-body">
-        <div class="container">
-            <div class="row align-items-center g-3 g-lg-4">
+<div class="wl-hero-flex-body">
 
-                <!-- â”€â”€ LEFT: Copy â”€â”€ -->
-                <div class="col-lg-6">
+<div class="container">
 
-                    <!-- "Secure. Reliable. Professional." badge -->
-                    <div class="wl-sec-badge hero-reveal-1">
-                        <i class="fas fa-shield-alt"></i>
-                        <span>Secure. Reliable. Professional.</span>
-                    </div>
+<div class="row align-items-center g-3 g-lg-4">
 
-                    <!-- Headline -->
-                    <h1 class="wl-new-hero-title hero-reveal-2">
-                        Professional<br>
-                        Websites That<br>
-                        <span class="hl-blue">Build Trust</span>
-                    </h1>
+<!-- â”€â”€ LEFT: Copy â”€â”€ -->
 
-                    <!-- Lead text -->
-                    <p class="wl-new-hero-lead hero-reveal-3">
-                        We design and develop secure, fast, and SEO-friendly websites that protect your business, build credibility, and deliver real results.
-                    </p>
+<div class="col-lg-6">
 
-                    <!-- CTAs -->
-                    <div class="wl-new-hero-ctas hero-reveal-4">
-                        <a href="{% url 'request_website' %}" class="wl-btn-primary-dark">
-                            Get a Free Quote &nbsp;<i class="fas fa-arrow-right"></i>
-                        </a>
-                        <a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="wl-btn-outline-call">
-                            <i class="fas fa-calendar-check"></i> Book a Call
-                        </a>
-                    </div>
+<!-- "Secure. Reliable. Professional." badge -->
 
-                    <!-- Trust pills -->
-                    <div class="wl-trust-pills hero-reveal-4">
-                        <span class="wl-trust-pill"><i class="fas fa-shield-alt"></i> Secure &amp; Protected</span>
-                        <span class="wl-trust-pill"><i class="fas fa-lock"></i> SSL Certified</span>
-                        <span class="wl-trust-pill"><i class="fas fa-cloud-upload-alt"></i> Daily Backups</span>
-                        <span class="wl-trust-pill"><i class="fas fa-eye"></i> 24/7 Monitoring</span>
-                    </div>
+<div class="wl-sec-badge hero-reveal-1">
 
-                </div>
+<i class="fas fa-shield-alt"></i>
 
-                <!-- â”€â”€ RIGHT: Security visual (no images) â”€â”€ -->
-                <div class="col-lg-6 hero-reveal-r">
-                    <div class="wl-sec-visual">
+<span>Secure. Reliable. Professional.</span>
 
-                        <!-- dark circular backdrop -->
-                        <div class="wl-sec-disc"></div>
+</div>
 
-                        <!-- outer ring -->
-                        <div class="wl-sec-ring wl-sec-ring--outer"></div>
-                        <!-- inner ring -->
-                        <div class="wl-sec-ring wl-sec-ring--inner"></div>
-                        <!-- glow rings -->
-                        <div class="wl-sec-ring wl-sec-ring--glow1"></div>
-                        <div class="wl-sec-ring wl-sec-ring--glow2"></div>
+<!-- Headline -->
 
-                        <!-- shield SVG â€” centrepiece -->
-                        <div class="wl-sec-shield-wrap">
-                            <svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M60 4L8 26V66C8 96 30 122 60 132C90 122 112 96 112 66V26L60 4Z"
-                                      fill="url(#sg1)"/>
-                                <path d="M60 18L20 35V66C20 89 37 110 60 120C83 110 100 89 100 66V35L60 18Z"
-                                      fill="url(#sg2)" opacity="0.55"/>
-                                <!-- padlock body -->
-                                <rect x="44" y="68" width="32" height="26" rx="5" fill="white" opacity="0.96"/>
-                                <!-- padlock shackle -->
-                                <path d="M51 68V60C51 53 69 53 69 60V68"
-                                      stroke="white" stroke-width="5" stroke-linecap="round" fill="none"/>
-                                <!-- keyhole dot -->
-                                <circle cx="60" cy="79" r="4" fill="#4F46E5"/>
-                                <rect x="58.5" y="79" width="3" height="7" rx="1.5" fill="#4F46E5"/>
-                                <defs>
-                                    <linearGradient id="sg1" x1="8" y1="4" x2="112" y2="132" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#4F46E5"/>
-                                        <stop offset="55%" stop-color="#3B82F6"/>
-                                        <stop offset="100%" stop-color="#1D4ED8"/>
-                                    </linearGradient>
-                                    <linearGradient id="sg2" x1="20" y1="18" x2="100" y2="120" gradientUnits="userSpaceOnUse">
-                                        <stop offset="0%" stop-color="#818CF8"/>
-                                        <stop offset="100%" stop-color="#93C5FD"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                        </div>
+<h1 class="wl-new-hero-title hero-reveal-2">
 
-                        <!-- Floating security info cards -->
-                        <div class="wl-sec-card wl-sec-card--ssl">
-                            <div class="wl-sec-card-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
-                            <div>
-                                <div class="wl-sec-card-title">SSL Secured</div>
-                                <div class="wl-sec-card-sub">Your data is always<br>encrypted &amp; protected</div>
-                            </div>
-                        </div>
+Professional<br>
 
-                        <div class="wl-sec-card wl-sec-card--mal">
-                            <div class="wl-sec-card-icon" style="background:rgba(239,68,68,.12);color:#dc2626;">
-                                <i class="fas fa-shield-virus"></i>
-                            </div>
-                            <div>
-                                <div class="wl-sec-card-title">Malware Protection</div>
-                                <div class="wl-sec-card-sub">We protect your website<br>from cyber threats</div>
-                            </div>
-                        </div>
+Websites That<br>
 
-                        <div class="wl-sec-card wl-sec-card--bkp">
-                            <div class="wl-sec-card-icon" style="background:rgba(6,182,212,.12);color:#0891b2;">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                            </div>
-                            <div>
-                                <div class="wl-sec-card-title">Daily Backup</div>
-                                <div class="wl-sec-card-sub">Daily backups to keep<br>your data safe</div>
-                            </div>
-                        </div>
+<span class="hl-blue">Build Trust</span>
 
-                        <div class="wl-sec-card wl-sec-card--mon">
-                            <div class="wl-sec-card-icon" style="background:rgba(16,185,129,.12);color:#059669;">
-                                <i class="fas fa-eye"></i>
-                            </div>
-                            <div>
-                                <div class="wl-sec-card-title">24/7 Monitoring</div>
-                                <div class="wl-sec-card-sub">Round-the-clock monitoring<br>for total peace of mind</div>
-                            </div>
-                        </div>
+</h1>
 
-                    </div><!-- /.wl-sec-visual -->
-                </div><!-- /.col-lg-6 -->
+<!-- Lead text -->
 
-            </div><!-- /.row -->
-        </div><!-- /.container -->
-    </div><!-- /.wl-hero-flex-body -->
+<p class="wl-new-hero-lead hero-reveal-3">
 
-    <!-- â”€â”€ Bottom Stats Bar â”€â”€ -->
-    <div class="wl-stats-bar">
-        <div class="container">
-            <div class="wl-stats-bar-inner">
+We design and develop secure, fast, and SEO-friendly websites that protect your business, build credibility, and deliver real results.
 
-                <div class="wl-stat-item">
-                    <div class="wl-stat-icon"><i class="fas fa-check-circle"></i></div>
-                    <div>
-                        <span class="wl-stat-num" data-target="150" data-suffix="+">0+</span>
-                        <span class="wl-stat-lbl">Projects Completed</span>
-                    </div>
-                </div>
+</p>
 
-                <div class="wl-stat-item">
-                    <div class="wl-stat-icon"><i class="fas fa-users"></i></div>
-                    <div>
-                        <span class="wl-stat-num" data-target="120" data-suffix="+">0+</span>
-                        <span class="wl-stat-lbl">Happy Clients</span>
-                    </div>
-                </div>
+<!-- CTAs -->
 
-                <div class="wl-stat-item">
-                    <div class="wl-stat-icon"><i class="fas fa-star"></i></div>
-                    <div>
-                        <span class="wl-stat-num">5.0<span style="font-size:1.1rem;">â˜…</span></span>
-                        <span class="wl-stat-lbl">Client Rating</span>
-                    </div>
-                </div>
+<div class="wl-new-hero-ctas hero-reveal-4">
 
-                <div class="wl-stat-item">
-                    <div class="wl-stat-icon"><i class="fas fa-shield-alt"></i></div>
-                    <div>
-                        <span class="wl-stat-num" data-target="4" data-suffix="+">0+</span>
-                        <span class="wl-stat-lbl">Years Experience</span>
-                    </div>
-                </div>
+<a href="{% url 'request_website' %}" class="wl-btn-primary-dark">
 
-                <div class="wl-stat-item">
-                    <div class="wl-stat-icon"><i class="fas fa-headset"></i></div>
-                    <div>
-                        <span class="wl-stat-num">24/7</span>
-                        <span class="wl-stat-lbl">Support</span>
-                    </div>
-                </div>
+Get a Free Quote &nbsp;<i class="fas fa-arrow-right"></i>
 
-            </div>
-        </div>
-    </div>
+</a>
+
+<a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="wl-btn-outline-call">
+
+<i class="fas fa-calendar-check"></i> Book a Call
+
+</a>
+
+</div>
+
+<!-- Trust pills -->
+
+<div class="wl-trust-pills hero-reveal-4">
+
+<span class="wl-trust-pill"><i class="fas fa-shield-alt"></i> Secure &amp; Protected</span>
+
+<span class="wl-trust-pill"><i class="fas fa-lock"></i> SSL Certified</span>
+
+<span class="wl-trust-pill"><i class="fas fa-cloud-upload-alt"></i> Daily Backups</span>
+
+<span class="wl-trust-pill"><i class="fas fa-eye"></i> 24/7 Monitoring</span>
+
+</div>
+
+</div>
+
+<!-- â”€â”€ RIGHT: Security visual (no images) â”€â”€ -->
+
+<div class="col-lg-6 hero-reveal-r">
+
+<div class="wl-sec-visual">
+
+<!-- dark circular backdrop -->
+
+<div class="wl-sec-disc"></div>
+
+<!-- outer ring -->
+
+<div class="wl-sec-ring wl-sec-ring--outer"></div>
+
+<!-- inner ring -->
+
+<div class="wl-sec-ring wl-sec-ring--inner"></div>
+
+<!-- glow rings -->
+
+<div class="wl-sec-ring wl-sec-ring--glow1"></div>
+
+<div class="wl-sec-ring wl-sec-ring--glow2"></div>
+
+<!-- shield SVG &mdash;” centrepiece -->
+
+<div class="wl-sec-shield-wrap">
+
+<svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<path d="M60 4L8 26V66C8 96 30 122 60 132C90 122 112 96 112 66V26L60 4Z"
+
+fill="url(#sg1)"/>
+
+<path d="M60 18L20 35V66C20 89 37 110 60 120C83 110 100 89 100 66V35L60 18Z"
+
+fill="url(#sg2)" opacity="0.55"/>
+
+<!-- padlock body -->
+
+<rect x="44" y="68" width="32" height="26" rx="5" fill="white" opacity="0.96"/>
+
+<!-- padlock shackle -->
+
+<path d="M51 68V60C51 53 69 53 69 60V68"
+
+stroke="white" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+<!-- keyhole dot -->
+
+<circle cx="60" cy="79" r="4" fill="#4F46E5"/>
+
+<rect x="58.5" y="79" width="3" height="7" rx="1.5" fill="#4F46E5"/>
+
+<defs>
+
+<linearGradient id="sg1" x1="8" y1="4" x2="112" y2="132" gradientUnits="userSpaceOnUse">
+
+<stop offset="0%" stop-color="#4F46E5"/>
+
+<stop offset="55%" stop-color="#3B82F6"/>
+
+<stop offset="100%" stop-color="#1D4ED8"/>
+
+</linearGradient>
+
+<linearGradient id="sg2" x1="20" y1="18" x2="100" y2="120" gradientUnits="userSpaceOnUse">
+
+<stop offset="0%" stop-color="#818CF8"/>
+
+<stop offset="100%" stop-color="#93C5FD"/>
+
+</linearGradient>
+
+</defs>
+
+</svg>
+
+</div>
+
+<!-- Floating security info cards -->
+
+<div class="wl-sec-card wl-sec-card--ssl">
+
+<div class="wl-sec-card-icon">
+
+<i class="fas fa-lock"></i>
+
+</div>
+
+<div>
+
+<div class="wl-sec-card-title">SSL Secured</div>
+
+<div class="wl-sec-card-sub">Your data is always<br>encrypted &amp; protected</div>
+
+</div>
+
+</div>
+
+<div class="wl-sec-card wl-sec-card--mal">
+
+<div class="wl-sec-card-icon" style="background:rgba(239,68,68,.12);color:#dc2626;">
+
+<i class="fas fa-shield-virus"></i>
+
+</div>
+
+<div>
+
+<div class="wl-sec-card-title">Malware Protection</div>
+
+<div class="wl-sec-card-sub">We protect your website<br>from cyber threats</div>
+
+</div>
+
+</div>
+
+<div class="wl-sec-card wl-sec-card--bkp">
+
+<div class="wl-sec-card-icon" style="background:rgba(6,182,212,.12);color:#0891b2;">
+
+<i class="fas fa-cloud-upload-alt"></i>
+
+</div>
+
+<div>
+
+<div class="wl-sec-card-title">Daily Backup</div>
+
+<div class="wl-sec-card-sub">Daily backups to keep<br>your data safe</div>
+
+</div>
+
+</div>
+
+<div class="wl-sec-card wl-sec-card--mon">
+
+<div class="wl-sec-card-icon" style="background:rgba(16,185,129,.12);color:#059669;">
+
+<i class="fas fa-eye"></i>
+
+</div>
+
+<div>
+
+<div class="wl-sec-card-title">24/7 Monitoring</div>
+
+<div class="wl-sec-card-sub">Round-the-clock monitoring<br>for total peace of mind</div>
+
+</div>
+
+</div>
+
+</div><!-- /.wl-sec-visual -->
+
+</div><!-- /.col-lg-6 -->
+
+</div><!-- /.row -->
+
+</div><!-- /.container -->
+
+</div><!-- /.wl-hero-flex-body -->
+
+<!-- â”€â”€ Bottom Stats Bar â”€â”€ -->
+
+<div class="wl-stats-bar">
+
+<div class="container">
+
+<div class="wl-stats-bar-inner">
+
+<div class="wl-stat-item">
+
+<div class="wl-stat-icon"><i class="fas fa-check-circle"></i></div>
+
+<div>
+
+<span class="wl-stat-num" data-target="150" data-suffix="+">0+</span>
+
+<span class="wl-stat-lbl">Projects Completed</span>
+
+</div>
+
+</div>
+
+<div class="wl-stat-item">
+
+<div class="wl-stat-icon"><i class="fas fa-users"></i></div>
+
+<div>
+
+<span class="wl-stat-num" data-target="120" data-suffix="+">0+</span>
+
+<span class="wl-stat-lbl">Happy Clients</span>
+
+</div>
+
+</div>
+
+<div class="wl-stat-item">
+
+<div class="wl-stat-icon"><i class="fas fa-star"></i></div>
+
+<div>
+
+<span class="wl-stat-num">5.0<i class="fas fa-star" style="font-size:1rem;color:#F59E0B;margin-left:2px;"></i></span>
+
+<span class="wl-stat-lbl">Client Rating</span>
+
+</div>
+
+</div>
+
+<div class="wl-stat-item">
+
+<div class="wl-stat-icon"><i class="fas fa-shield-alt"></i></div>
+
+<div>
+
+<span class="wl-stat-num" data-target="4" data-suffix="+">0+</span>
+
+<span class="wl-stat-lbl">Years Experience</span>
+
+</div>
+
+</div>
+
+<div class="wl-stat-item">
+
+<div class="wl-stat-icon"><i class="fas fa-headset"></i></div>
+
+<div>
+
+<span class="wl-stat-num">24/7</span>
+
+<span class="wl-stat-lbl">Support</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
 <!-- Stats counter animation -->
+
 <script>
+
 (function(){
-    function animateCounter(el){
-        var target = parseInt(el.getAttribute('data-target'));
-        var suffix = el.getAttribute('data-suffix') || '';
-        var duration = 2000, start = null;
-        function step(ts){
-            if(!start) start = ts;
-            var p = Math.min((ts-start)/duration,1);
-            var ease = 1-Math.pow(1-p,3);
-            el.textContent = Math.floor(ease*target)+suffix;
-            if(p<1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-    }
-    var obs = new IntersectionObserver(function(entries){
-        entries.forEach(function(e){
-            if(e.isIntersecting){ animateCounter(e.target); obs.unobserve(e.target); }
-        });
-    },{threshold:.5});
-    document.querySelectorAll('.wl-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
+
+function animateCounter(el){
+
+var target = parseInt(el.getAttribute('data-target'));
+
+var suffix = el.getAttribute('data-suffix') || '';
+
+var duration = 2000, start = null;
+
+function step(ts){
+
+if(!start) start = ts;
+
+var p = Math.min((ts-start)/duration,1);
+
+var ease = 1-Math.pow(1-p,3);
+
+el.textContent = Math.floor(ease*target)+suffix;
+
+if(p<1) requestAnimationFrame(step);
+
+}
+
+requestAnimationFrame(step);
+
+}
+
+var obs = new IntersectionObserver(function(entries){
+
+entries.forEach(function(e){
+
+if(e.isIntersecting){ animateCounter(e.target); obs.unobserve(e.target); }
+
+});
+
+},{threshold:.5});
+
+document.querySelectorAll('.wl-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
+
 })();
+
 </script>
-
-
 
 <!-- â”€â”€ Trusted By / Social Proof Bar â”€â”€ -->
 
 <section style="background:#fff;border-bottom:1px solid #E2E8F0;padding:18px 0;overflow:hidden;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="d-flex align-items-center gap-4">
+<div class="d-flex align-items-center gap-4">
 
-            <span style="font-size:0.72rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0;">Trusted in</span>
+<span style="font-size:0.72rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0;">Trusted in</span>
 
-            <div class="trusted-marquee-wrap" style="flex:1;overflow:hidden;position:relative;">
+<div class="trusted-marquee-wrap" style="flex:1;overflow:hidden;position:relative;">
 
-                <div class="trusted-marquee-wrap" style="overflow:hidden;">
+<div class="trusted-marquee-wrap" style="overflow:hidden;">
 
-                    <div class="trusted-marquee-track">
+<div class="trusted-marquee-track">
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
 
-                        <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;">ðŸŒ International</span>
+<span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
 
-                        <!-- Duplicate for seamless loop -->
+<!-- Duplicate for seamless loop -->
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
 
-                        <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
 
-                        <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;">ðŸŒ International</span>
+<span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Services Overview â”€â”€ -->
 
 <section class="section services-3d-section" style="background: var(--bg-dark);">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate" data-reveal="fade-up">
+<div class="section-title scroll-animate" data-reveal="fade-up">
 
-            <span class="label" data-i18n="label_whatwedo">What We Do</span>
+<span class="label" data-i18n="label_whatwedo">What We Do</span>
 
-            <h2>Our <span class="text-green" data-i18n="sec_services">Services</span></h2>
+<h2>Our <span class="text-green" data-i18n="sec_services">Services</span></h2>
 
-            <p data-i18n="sec_services_sub">Comprehensive web solutions tailored to your business needs</p>
+<p data-i18n="sec_services_sub">Comprehensive web solutions tailored to your business needs</p>
 
-        </div>
+</div>
 
-        <div class="row g-3">
+<div class="row g-3">
 
-            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="0">
+<div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="0">
 
-                <div class="card-3d" data-popup-title="Custom Websites" data-popup-desc="Tailor-made websites designed specifically for your business. We build from scratch using modern frameworks, ensuring speed, security, and scalability. Every pixel is crafted to match your brand identity." data-popup-icon="fa-code" data-popup-color="#6366F1">
+<div class="card-3d" data-popup-title="Custom Websites" data-popup-desc="Tailor-made websites designed specifically for your business. We build from scratch using modern frameworks, ensuring speed, security, and scalability. Every pixel is crafted to match your brand identity." data-popup-icon="fa-code" data-popup-color="#6366F1">
 
-                    <div class="card-3d-inner">
+<div class="card-3d-inner">
 
-                        <div class="card-3d-glow"></div>
+<div class="card-3d-glow"></div>
 
-                        <div class="card-3d-icon"><i class="fas fa-code"></i></div>
+<div class="card-3d-icon"><i class="fas fa-code"></i></div>
 
-                        <h3>Custom Websites</h3>
+<h3>Custom Websites</h3>
 
-                        <p>Tailor-made websites designed specifically for your business requirements and brand identity.</p>
+<p>Tailor-made websites designed specifically for your business requirements and brand identity.</p>
 
-                        <div class="card-3d-footer">
+<div class="card-3d-footer">
 
-                            <span class="card-3d-tag">HTML Â· CSS Â· Django</span>
+<span class="card-3d-tag">HTML &middot; CSS &middot; Django</span>
 
-                            <button class="card-3d-more" aria-label="Learn more">+</button>
+<button class="card-3d-more" aria-label="Learn more">+</button>
 
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="100">
+<div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="100">
 
-                <div class="card-3d" data-popup-title="E-Commerce" data-popup-desc="Powerful online stores with secure payment gateways, inventory management, order tracking, and mobile-optimized shopping experience. We integrate Razorpay, Stripe, and PayPal." data-popup-icon="fa-shopping-cart" data-popup-color="#ffa500">
+<div class="card-3d" data-popup-title="E-Commerce" data-popup-desc="Powerful online stores with secure payment gateways, inventory management, order tracking, and mobile-optimized shopping experience. We integrate Razorpay, Stripe, and PayPal." data-popup-icon="fa-shopping-cart" data-popup-color="#ffa500">
 
-                    <div class="card-3d-inner">
+<div class="card-3d-inner">
 
-                        <div class="card-3d-glow" style="--glow-color:rgba(255,165,0,0.3)"></div>
+<div class="card-3d-glow" style="--glow-color:rgba(255,165,0,0.3)"></div>
 
-                        <div class="card-3d-icon" style="background:rgba(255,165,0,0.1);color:#ffa500"><i class="fas fa-shopping-cart"></i></div>
+<div class="card-3d-icon" style="background:rgba(255,165,0,0.1);color:#ffa500"><i class="fas fa-shopping-cart"></i></div>
 
-                        <h3>E-Commerce</h3>
+<h3>E-Commerce</h3>
 
-                        <p>Powerful online stores with secure payment integration and inventory management.</p>
+<p>Powerful online stores with secure payment integration and inventory management.</p>
 
-                        <div class="card-3d-footer">
+<div class="card-3d-footer">
 
-                            <span class="card-3d-tag">Razorpay Â· Stripe</span>
+<span class="card-3d-tag">Razorpay &middot; Stripe</span>
 
-                            <button class="card-3d-more" aria-label="Learn more">+</button>
+<button class="card-3d-more" aria-label="Learn more">+</button>
 
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="200">
+<div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="200">
 
-                <div class="card-3d" data-popup-title="SEO Optimization" data-popup-desc="Boost your Google rankings with technical SEO, keyword research, on-page optimization, speed improvements, and monthly performance reports. We've helped clients reach page 1." data-popup-icon="fa-search" data-popup-color="#6495ed">
+<div class="card-3d" data-popup-title="SEO Optimization" data-popup-desc="Boost your Google rankings with technical SEO, keyword research, on-page optimization, speed improvements, and monthly performance reports. We've helped clients reach page 1." data-popup-icon="fa-search" data-popup-color="#6495ed">
 
-                    <div class="card-3d-inner">
+<div class="card-3d-inner">
 
-                        <div class="card-3d-glow" style="--glow-color:rgba(100,149,237,0.3)"></div>
+<div class="card-3d-glow" style="--glow-color:rgba(100,149,237,0.3)"></div>
 
-                        <div class="card-3d-icon" style="background:rgba(100,149,237,0.1);color:#6495ed"><i class="fas fa-search"></i></div>
+<div class="card-3d-icon" style="background:rgba(100,149,237,0.1);color:#6495ed"><i class="fas fa-search"></i></div>
 
-                        <h3>SEO Optimization</h3>
+<h3>SEO Optimization</h3>
 
-                        <p>Boost your online presence with search engine optimized websites that rank higher.</p>
+<p>Boost your online presence with search engine optimized websites that rank higher.</p>
 
-                        <div class="card-3d-footer">
+<div class="card-3d-footer">
 
-                            <span class="card-3d-tag">Google Â· Analytics</span>
+<span class="card-3d-tag">Google &middot; Analytics</span>
 
-                            <button class="card-3d-more" aria-label="Learn more">+</button>
+<button class="card-3d-more" aria-label="Learn more">+</button>
 
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="300">
+<div class="col-lg-3 col-md-6 col-6 scroll-animate" data-reveal="zoom-in" data-delay="300">
 
-                <div class="card-3d" data-popup-title="UI/UX Design" data-popup-desc="Beautiful, intuitive interfaces designed with user psychology in mind. We create wireframes, prototypes, and pixel-perfect designs that convert visitors into customers." data-popup-icon="fa-paint-brush" data-popup-color="#ff6b9d">
+<div class="card-3d" data-popup-title="UI/UX Design" data-popup-desc="Beautiful, intuitive interfaces designed with user psychology in mind. We create wireframes, prototypes, and pixel-perfect designs that convert visitors into customers." data-popup-icon="fa-paint-brush" data-popup-color="#ff6b9d">
 
-                    <div class="card-3d-inner">
+<div class="card-3d-inner">
 
-                        <div class="card-3d-glow" style="--glow-color:rgba(255,107,157,0.3)"></div>
+<div class="card-3d-glow" style="--glow-color:rgba(255,107,157,0.3)"></div>
 
-                        <div class="card-3d-icon" style="background:rgba(255,107,157,0.1);color:#ff6b9d"><i class="fas fa-paint-brush"></i></div>
+<div class="card-3d-icon" style="background:rgba(255,107,157,0.1);color:#ff6b9d"><i class="fas fa-paint-brush"></i></div>
 
-                        <h3>UI/UX Design</h3>
+<h3>UI/UX Design</h3>
 
-                        <p>Modern, responsive designs that captivate your audience and enhance user experience.</p>
+<p>Modern, responsive designs that captivate your audience and enhance user experience.</p>
 
-                        <div class="card-3d-footer">
+<div class="card-3d-footer">
 
-                            <span class="card-3d-tag">Figma Â· Adobe XD</span>
+<span class="card-3d-tag">Figma &middot; Adobe XD</span>
 
-                            <button class="card-3d-more" aria-label="Learn more">+</button>
+<button class="card-3d-more" aria-label="Learn more">+</button>
 
-                        </div>
+</div>
 
-                    </div>
+</div>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-        <div class="text-center mt-5 scroll-animate" data-reveal="fade-up">
+<div class="text-center mt-5 scroll-animate" data-reveal="fade-up">
 
-            <a href="{% url 'services' %}" class="btn btn-outline-indigo">Explore All Services</a>
+<a href="{% url 'services' %}" class="btn btn-outline-indigo">Explore All Services</a>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Service Card Popup â”€â”€ -->
 
 <div id="card-popup-overlay">
 
-    <div class="card-popup" id="cardPopup" role="dialog" aria-modal="true">
+<div class="card-popup" id="cardPopup" role="dialog" aria-modal="true">
 
-        <button class="card-popup-close" id="cardPopupClose" aria-label="Close"><i class="fas fa-times"></i></button>
+<button class="card-popup-close" id="cardPopupClose" aria-label="Close"><i class="fas fa-times"></i></button>
 
-        <div class="card-popup-icon" id="cardPopupIcon"></div>
+<div class="card-popup-icon" id="cardPopupIcon"></div>
 
-        <h3 id="cardPopupTitle"></h3>
+<h3 id="cardPopupTitle"></h3>
 
-        <p id="cardPopupDesc"></p>
+<p id="cardPopupDesc"></p>
 
-        <a href="{% url 'services' %}" class="btn btn-green mt-3">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
-
-    </div>
+<a href="{% url 'services' %}" class="btn btn-green mt-3">Learn More <i class="fas fa-arrow-right ms-2"></i></a>
 
 </div>
 
-
+</div>
 
 <!-- â”€â”€ Special Offers â”€â”€ -->
+
 {% if offers %}
+
 <section class="section wl-offers-section" style="background:#fff;">
-    <div class="container">
 
-        <div class="text-center mb-5 scroll-animate" data-reveal="fade-up">
-            <span class="section-label-pill">
-                <i class="fas fa-tag"></i> Special Offers
-            </span>
-            <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
-                Exclusive <span style="background:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Deals</span> For You
-            </h2>
-            <p style="color:#64748B;max-width:480px;margin:0 auto;font-size:0.95rem;">
-                Limited-time offers from our team â€” grab them before they expire.
-            </p>
-        </div>
+<div class="container">
 
-        <div class="row g-4 justify-content-center">
-            {% for offer in offers %}
-            <div class="col-lg-4 col-md-6 scroll-animate" data-reveal="zoom-in" data-delay="{{ forloop.counter0 }}00">
-                <div class="wl-offer-card
-                    {% if offer.badge_color == 'saffron' %}wl-offer-card--saffron
-                    {% elif offer.badge_color == 'green' %}wl-offer-card--green
-                    {% elif offer.badge_color == 'red' %}wl-offer-card--red
-                    {% elif offer.badge_color == 'gold' %}wl-offer-card--gold
-                    {% else %}wl-offer-card--indigo{% endif %}">
+<div class="text-center mb-5 scroll-animate" data-reveal="fade-up">
 
-                    <!-- Top accent bar -->
-                    <div class="wl-offer-card__bar"></div>
+<span class="section-label-pill">
 
-                    <!-- Badge -->
-                    {% if offer.badge_text %}
-                    <span class="wl-offer-card__badge">{{ offer.badge_text }}</span>
-                    {% endif %}
+<i class="fas fa-tag"></i> Special Offers
 
-                    <!-- Discount pill -->
-                    {% if offer.discount_percent %}
-                    <div class="wl-offer-card__discount">{{ offer.discount_percent }}%<span>OFF</span></div>
-                    {% endif %}
+</span>
 
-                    <!-- Content -->
-                    <h3 class="wl-offer-card__title">{{ offer.title }}</h3>
-                    <p class="wl-offer-card__desc">{{ offer.description }}</p>
+<h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
 
-                    <!-- Expiry -->
-                    {% if offer.valid_until %}
-                    <div class="wl-offer-card__expiry">
-                        <i class="fas fa-clock"></i>
-                        Expires {{ offer.valid_until|date:"d M Y" }}
-                    </div>
-                    {% endif %}
+Exclusive <span style="background:linear-gradient(135deg,#6366F1,#818CF8);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">Deals</span> For You
 
-                    <!-- CTA -->
-                    <a href="{{ offer.cta_url }}{% if offer.service_type %}?offer={{ offer.pk }}{% endif %}"
-                       class="wl-offer-card__btn">
-                        {{ offer.cta_label }} <i class="fas fa-arrow-right ms-1"></i>
-                    </a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+</h2>
 
-    </div>
+<p style="color:#64748B;max-width:480px;margin:0 auto;font-size:0.95rem;">
+
+Limited-time offers from our team &mdash;” grab them before they expire.
+
+</p>
+
+</div>
+
+<div class="row g-4 justify-content-center">
+
+{% for offer in offers %}
+
+<div class="col-lg-4 col-md-6 scroll-animate" data-reveal="zoom-in" data-delay="{{ forloop.counter0 }}00">
+
+<div class="wl-offer-card
+
+{% if offer.badge_color == 'saffron' %}wl-offer-card--saffron
+
+{% elif offer.badge_color == 'green' %}wl-offer-card--green
+
+{% elif offer.badge_color == 'red' %}wl-offer-card--red
+
+{% elif offer.badge_color == 'gold' %}wl-offer-card--gold
+
+{% else %}wl-offer-card--indigo{% endif %}">
+
+<!-- Top accent bar -->
+
+<div class="wl-offer-card__bar"></div>
+
+<!-- Badge -->
+
+{% if offer.badge_text %}
+
+<span class="wl-offer-card__badge">{{ offer.badge_text }}</span>
+
+{% endif %}
+
+<!-- Discount pill -->
+
+{% if offer.discount_percent %}
+
+<div class="wl-offer-card__discount">{{ offer.discount_percent }}%<span>OFF</span></div>
+
+{% endif %}
+
+<!-- Content -->
+
+<h3 class="wl-offer-card__title">{{ offer.title }}</h3>
+
+<p class="wl-offer-card__desc">{{ offer.description }}</p>
+
+<!-- Expiry -->
+
+{% if offer.valid_until %}
+
+<div class="wl-offer-card__expiry">
+
+<i class="fas fa-clock"></i>
+
+Expires {{ offer.valid_until|date:"d M Y" }}
+
+</div>
+
+{% endif %}
+
+<!-- CTA -->
+
+<a href="{{ offer.cta_url }}{% if offer.service_type %}?offer={{ offer.pk }}{% endif %}"
+
+class="wl-offer-card__btn">
+
+{{ offer.cta_label }} <i class="fas fa-arrow-right ms-1"></i>
+
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
 </section>
 
 <style>
+
 /* â”€â”€ Offer Cards â”€â”€ */
+
 .wl-offers-section { padding: 80px 0; }
 
 .wl-offer-card {
-    position: relative;
-    background: #fff;
-    border: 1px solid #E2E8F0;
-    border-radius: 20px;
-    padding: 28px 24px 24px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+
+position: relative;
+
+background: #fff;
+
+border: 1px solid #E2E8F0;
+
+border-radius: 20px;
+
+padding: 28px 24px 24px;
+
+height: 100%;
+
+display: flex;
+
+flex-direction: column;
+
+overflow: hidden;
+
+transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+
+box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+
 }
+
 .wl-offer-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 48px rgba(0,0,0,0.10);
+
+transform: translateY(-6px);
+
+box-shadow: 0 20px 48px rgba(0,0,0,0.10);
+
 }
 
 /* Top colour bar */
+
 .wl-offer-card__bar {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    border-radius: 20px 20px 0 0;
+
+position: absolute;
+
+top: 0; left: 0; right: 0;
+
+height: 4px;
+
+border-radius: 20px 20px 0 0;
+
 }
+
 .wl-offer-card--indigo  .wl-offer-card__bar { background: linear-gradient(90deg,#6366F1,#818CF8); }
+
 .wl-offer-card--saffron .wl-offer-card__bar { background: linear-gradient(90deg,#FF9933,#ffb347); }
+
 .wl-offer-card--green   .wl-offer-card__bar { background: linear-gradient(90deg,#138808,#22c55e); }
+
 .wl-offer-card--red     .wl-offer-card__bar { background: linear-gradient(90deg,#ef4444,#f87171); }
+
 .wl-offer-card--gold    .wl-offer-card__bar { background: linear-gradient(90deg,#f59e0b,#fbbf24); }
 
 /* Badge */
+
 .wl-offer-card__badge {
-    display: inline-block;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    padding: 3px 10px;
-    border-radius: 50px;
-    margin-bottom: 14px;
+
+display: inline-block;
+
+font-family: 'Poppins', sans-serif;
+
+font-size: 0.65rem;
+
+font-weight: 700;
+
+text-transform: uppercase;
+
+letter-spacing: 0.08em;
+
+padding: 3px 10px;
+
+border-radius: 50px;
+
+margin-bottom: 14px;
+
 }
+
 .wl-offer-card--indigo  .wl-offer-card__badge { background:#EEF2FF; color:#4F46E5; }
+
 .wl-offer-card--saffron .wl-offer-card__badge { background:#FFF7ED; color:#c2570a; }
+
 .wl-offer-card--green   .wl-offer-card__badge { background:#F0FDF4; color:#15803D; }
+
 .wl-offer-card--red     .wl-offer-card__badge { background:#FEF2F2; color:#b91c1c; }
+
 .wl-offer-card--gold    .wl-offer-card__badge { background:#FFFBEB; color:#b45309; }
 
 /* Discount */
+
 .wl-offer-card__discount {
-    font-family: 'Poppins', sans-serif;
-    font-size: 2.6rem;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 12px;
-    color: #1E293B;
+
+font-family: 'Poppins', sans-serif;
+
+font-size: 2.6rem;
+
+font-weight: 900;
+
+line-height: 1;
+
+margin-bottom: 12px;
+
+color: #1E293B;
+
 }
+
 .wl-offer-card__discount span {
-    font-size: 1rem;
-    font-weight: 700;
-    margin-left: 4px;
-    vertical-align: middle;
+
+font-size: 1rem;
+
+font-weight: 700;
+
+margin-left: 4px;
+
+vertical-align: middle;
+
 }
+
 .wl-offer-card--indigo  .wl-offer-card__discount { color: #4F46E5; }
+
 .wl-offer-card--saffron .wl-offer-card__discount { color: #FF9933; }
+
 .wl-offer-card--green   .wl-offer-card__discount { color: #138808; }
+
 .wl-offer-card--red     .wl-offer-card__discount { color: #ef4444; }
+
 .wl-offer-card--gold    .wl-offer-card__discount { color: #f59e0b; }
 
 /* Title */
+
 .wl-offer-card__title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #1E293B;
-    margin: 0 0 10px;
-    line-height: 1.3;
+
+font-family: 'Poppins', sans-serif;
+
+font-size: 1.05rem;
+
+font-weight: 800;
+
+color: #1E293B;
+
+margin: 0 0 10px;
+
+line-height: 1.3;
+
 }
 
 /* Description */
+
 .wl-offer-card__desc {
-    font-size: 0.875rem;
-    color: #64748B;
-    line-height: 1.7;
-    margin: 0 0 16px;
-    flex-grow: 1;
+
+font-size: 0.875rem;
+
+color: #64748B;
+
+line-height: 1.7;
+
+margin: 0 0 16px;
+
+flex-grow: 1;
+
 }
 
 /* Expiry */
+
 .wl-offer-card__expiry {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.75rem;
-    color: #94A3B8;
-    font-weight: 600;
-    margin-bottom: 18px;
-    font-family: 'Poppins', sans-serif;
+
+display: flex;
+
+align-items: center;
+
+gap: 6px;
+
+font-size: 0.75rem;
+
+color: #94A3B8;
+
+font-weight: 600;
+
+margin-bottom: 18px;
+
+font-family: 'Poppins', sans-serif;
+
 }
+
 .wl-offer-card__expiry i { color: #f59e0b; }
 
 /* CTA button */
+
 .wl-offer-card__btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 22px;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: all 0.22s ease;
-    margin-top: auto;
-    width: 100%;
+
+display: inline-flex;
+
+align-items: center;
+
+justify-content: center;
+
+padding: 10px 22px;
+
+border-radius: 50px;
+
+font-family: 'Poppins', sans-serif;
+
+font-size: 0.82rem;
+
+font-weight: 700;
+
+text-decoration: none;
+
+transition: all 0.22s ease;
+
+margin-top: auto;
+
+width: 100%;
+
 }
+
 .wl-offer-card--indigo  .wl-offer-card__btn { background:linear-gradient(135deg,#6366F1,#4F46E5);color:#fff;box-shadow:0 4px 16px rgba(99,102,241,0.35); }
+
 .wl-offer-card--saffron .wl-offer-card__btn { background:linear-gradient(135deg,#FF9933,#e07800);color:#fff;box-shadow:0 4px 16px rgba(255,153,51,0.4); }
+
 .wl-offer-card--green   .wl-offer-card__btn { background:linear-gradient(135deg,#138808,#16a34a);color:#fff;box-shadow:0 4px 16px rgba(19,136,8,0.35); }
+
 .wl-offer-card--red     .wl-offer-card__btn { background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;box-shadow:0 4px 16px rgba(239,68,68,0.35); }
+
 .wl-offer-card--gold    .wl-offer-card__btn { background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;box-shadow:0 4px 16px rgba(245,158,11,0.35); }
+
 .wl-offer-card__btn:hover { transform:translateY(-2px); filter:brightness(1.08); color:#fff; }
+
 </style>
+
 {% endif %}
 
 <!-- â”€â”€ Why Choose Us â”€â”€ -->
 
 <section class="section" style="background:#F8FAFF;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">Why Us</span>
+<span class="label">Why Us</span>
 
-            <h2>Why Choose <span class="text-green">WEBLANCE</span></h2>
+<h2>Why Choose <span class="text-green">WEBLANCE</span></h2>
 
-            <p>We deliver excellence in every project we take on</p>
+<p>We deliver excellence in every project we take on</p>
 
-        </div>
+</div>
 
-        <div class="row g-4">
+<div class="row g-4">
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                <div class="wl-hover-card">
-                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:20px 20px 0 0;"></div>
+<div class="wl-hover-card">
 
-                    <div style="width:56px;height:56px;background:#EEF2FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-user-tie" style="color:#6366F1;"></i></div>
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6366F1,#818CF8);border-radius:20px 20px 0 0;"></div>
 
-                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Expert Team</h4>
+<div style="width:56px;height:56px;background:#EEF2FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-user-tie" style="color:#6366F1;"></i></div>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Skilled developers with years of hands-on experience in modern web technologies.</p>
+<h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Expert Team</h4>
 
-                </div>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Skilled developers with years of hands-on experience in modern web technologies.</p>
 
-            </div>
+</div>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+</div>
 
-                <div class="wl-hover-card">
-                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:20px 20px 0 0;"></div>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                    <div style="width:56px;height:56px;background:#FEF9C3;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-rocket" style="color:#D97706;"></i></div>
+<div class="wl-hover-card">
 
-                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Fast Delivery</h4>
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:20px 20px 0 0;"></div>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">On-time project completion guaranteed â€” no delays, no excuses.</p>
+<div style="width:56px;height:56px;background:#FEF9C3;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-rocket" style="color:#D97706;"></i></div>
 
-                </div>
+<h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Fast Delivery</h4>
 
-            </div>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">On-time project completion guaranteed &mdash;” no delays, no excuses.</p>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+</div>
 
-                <div class="wl-hover-card">
-                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:20px 20px 0 0;"></div>
+</div>
 
-                    <div style="width:56px;height:56px;background:#F0FDF4;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-chart-line" style="color:#15803D;"></i></div>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">SEO Friendly</h4>
+<div class="wl-hover-card">
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Built-in SEO best practices so your site ranks higher from day one.</p>
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#22c55e,#4ade80);border-radius:20px 20px 0 0;"></div>
 
-                </div>
+<div style="width:56px;height:56px;background:#F0FDF4;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-chart-line" style="color:#15803D;"></i></div>
 
-            </div>
+<h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">SEO Friendly</h4>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Built-in SEO best practices so your site ranks higher from day one.</p>
 
-                <div class="wl-hover-card">
-                    <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:20px 20px 0 0;"></div>
+</div>
 
-                    <div style="width:56px;height:56px;background:#EFF6FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-mobile-alt" style="color:#1D4ED8;"></i></div>
+</div>
 
-                    <h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Mobile First</h4>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Perfect display on every device â€” phones, tablets, and desktops.</p>
+<div class="wl-hover-card">
 
-                </div>
+<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#3b82f6,#60a5fa);border-radius:20px 20px 0 0;"></div>
 
-            </div>
+<div style="width:56px;height:56px;background:#EFF6FF;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-mobile-alt" style="color:#1D4ED8;"></i></div>
 
-        </div>
+<h4 style="font-weight:800;color:#1E293B;font-size:1rem;margin-bottom:8px;">Mobile First</h4>
 
-    </div>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">Perfect display on every device &mdash;” phones, tablets, and desktops.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Portfolio Preview â”€â”€ -->
 
 <section class="section" style="background: var(--bg-dark);">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">Our Work</span>
+<span class="label">Our Work</span>
 
-            <h2>Featured <span class="text-green">Portfolio</span></h2>
+<h2>Featured <span class="text-green">Portfolio</span></h2>
 
-            <p>Explore our recent projects and success stories</p>
+<p>Explore our recent projects and success stories</p>
 
-        </div>
+</div>
 
-        <div class="row g-4">
+<div class="row g-4">
 
-            {% if portfolio_items %}
+{% if portfolio_items %}
 
-                {% for item in portfolio_items|slice:"6" %}
+{% for item in portfolio_items|slice:"6" %}
 
-                <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                    <div class="portfolio-item">
+<div class="portfolio-item">
 
-                        {% if item.image_url %}
-                        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.onerror=null;this.src='/static/images/w1.png';">
-                        {% else %}
-                        <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
-                        {% endif %}
+{% if item.image_url %}
 
-                        <div class="portfolio-overlay">
+<img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
 
-                            <h3>{{ item.title }}</h3>
+onerror="this.onerror=null;this.src='/static/images/w1.png';">
 
-                            <p>{{ item.description|truncatewords:12 }}</p>
+{% else %}
 
-                            {% if item.live_url %}
+<img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
 
-                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Site <i class="fas fa-external-link-alt ms-1"></i></a>
+{% endif %}
 
-                            {% endif %}
+<div class="portfolio-overlay">
 
-                        </div>
+<h3>{{ item.title }}</h3>
 
-                    </div>
+<p>{{ item.description|truncatewords:12 }}</p>
 
-                </div>
+{% if item.live_url %}
 
-                {% endfor %}
+<a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Site <i class="fas fa-external-link-alt ms-1"></i></a>
 
-            {% else %}
+{% endif %}
 
-                <div class="col-12 text-center py-5">
+</div>
 
-                    <i class="fas fa-images fa-3x mb-3" style="color:var(--primary-green);opacity:0.4;"></i>
+</div>
 
-                    <p style="color:var(--text-gray);">Portfolio projects coming soon.</p>
+</div>
 
-                </div>
+{% endfor %}
 
-            {% endif %}
+{% else %}
 
-        </div>
+<div class="col-12 text-center py-5">
 
-        <div class="text-center mt-5 scroll-animate">
+<i class="fas fa-images fa-3x mb-3" style="color:var(--primary-green);opacity:0.4;"></i>
 
-            <a href="{% url 'portfolio' %}" class="btn btn-outline-indigo">View All Projects</a>
+<p style="color:var(--text-gray);">Portfolio projects coming soon.</p>
 
-        </div>
+</div>
 
-    </div>
+{% endif %}
+
+</div>
+
+<div class="text-center mt-5 scroll-animate">
+
+<a href="{% url 'portfolio' %}" class="btn btn-outline-indigo">View All Projects</a>
+
+</div>
+
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Process Section â”€â”€ -->
 
 <section class="section process-section" style="background:#fff;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">How It Works</span>
+<span class="label">How It Works</span>
 
-            <h2>Our <span class="text-green">Process</span></h2>
+<h2>Our <span class="text-green">Process</span></h2>
 
-            <p>Simple, transparent, and efficient from start to finish</p>
+<p>Simple, transparent, and efficient from start to finish</p>
 
-        </div>
+</div>
 
-        <div class="row g-4">
-            <div class="col-lg-3 col-md-6 scroll-animate">
-                <div class="wl-process-card">
-                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">01</div>
+<div class="row g-4">
 
-                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(99,102,241,0.3);"><i class="fas fa-comments"></i></div>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Consultation</h4>
+<div class="wl-process-card">
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We discuss your goals, requirements, and vision for the project.</p>
+<div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">01</div>
 
-                </div>
+<div style="width:60px;height:60px;background:linear-gradient(135deg,#6366F1,#818CF8);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(99,102,241,0.3);"><i class="fas fa-comments"></i></div>
 
-            </div>
+<h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Consultation</h4>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We discuss your goals, requirements, and vision for the project.</p>
 
-                <div class="wl-process-card">
-                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">02</div>
+</div>
 
-                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(245,158,11,0.3);"><i class="fas fa-pencil-ruler"></i></div>
+</div>
 
-                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Design</h4>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We craft a beautiful, brand-aligned design for your approval.</p>
+<div class="wl-process-card">
 
-                </div>
+<div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">02</div>
 
-            </div>
+<div style="width:60px;height:60px;background:linear-gradient(135deg,#f59e0b,#fbbf24);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(245,158,11,0.3);"><i class="fas fa-pencil-ruler"></i></div>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Design</h4>
 
-                <div class="wl-process-card">
-                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">03</div>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We craft a beautiful, brand-aligned design for your approval.</p>
 
-                    <div style="width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#60a5fa);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(59,130,246,0.3);"><i class="fas fa-code"></i></div>
+</div>
 
-                    <h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Development</h4>
+</div>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We build your site with clean code, speed, and SEO in mind.</p>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                </div>
+<div class="wl-process-card">
 
-            </div>
+<div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(99,102,241,0.08);line-height:1;margin-bottom:-8px;">03</div>
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<div style="width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#60a5fa);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;box-shadow:0 6px 20px rgba(59,130,246,0.3);"><i class="fas fa-code"></i></div>
 
-                <div class="wl-process-card wl-process-card--primary">
-                    <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
-                    <div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:-8px;">04</div>
+<h4 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Development</h4>
 
-                    <div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;"><i class="fas fa-rocket"></i></div>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.65;margin:0;">We build your site with clean code, speed, and SEO in mind.</p>
 
-                    <h4 style="font-weight:800;color:#fff;margin-bottom:8px;">Launch</h4>
+</div>
 
-                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.65;margin:0;">We deploy, test, and hand over your fully working website.</p>
+</div>
 
-                </div>
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-            </div>
+<div class="wl-process-card wl-process-card--primary">
 
-        </div>
+<div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.07);border-radius:50%;"></div>
 
-    </div>
+<div style="font-family:'Poppins',sans-serif;font-size:3rem;font-weight:900;color:rgba(255,255,255,0.1);line-height:1;margin-bottom:-8px;">04</div>
+
+<div style="width:60px;height:60px;background:rgba(255,255,255,0.2);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin:0 auto 16px;"><i class="fas fa-rocket"></i></div>
+
+<h4 style="font-weight:800;color:#fff;margin-bottom:8px;">Launch</h4>
+
+<p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.65;margin:0;">We deploy, test, and hand over your fully working website.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
-
-
-
-
 
 <!-- â”€â”€ Tech Stack â”€â”€ -->
 
 <section class="section tech-section" style="background:#E2E8F0;overflow:hidden;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">Our Stack</span>
+<span class="label">Our Stack</span>
 
-            <h2>Technologies We <span class="text-green">Master</span></h2>
+<h2>Technologies We <span class="text-green">Master</span></h2>
 
-            <p>Battle-tested tools we use to build fast, scalable, and beautiful websites</p>
+<p>Battle-tested tools we use to build fast, scalable, and beautiful websites</p>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
+<!-- Row 1: Frontend + Backend &mdash;” scrolls left -->
 
+<div class="tech-marquee-wrap">
 
-    <!-- Row 1: Frontend + Backend â€” scrolls left -->
+<div class="tech-marquee tech-marquee-left">
 
-    <div class="tech-marquee-wrap">
+<div class="tech-marquee-track">
 
-        <div class="tech-marquee tech-marquee-left">
+<!-- Frontend -->
 
-            <div class="tech-marquee-track">
+<div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
 
-                <!-- Frontend -->
+<div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
+<div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
+<div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
+<div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
+<div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
+<div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
 
-                <div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
+<div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
+<div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
 
-                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
+<div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
+<!-- Duplicate for seamless loop -->
 
-                <div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
+<div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
 
-                <!-- Duplicate for seamless loop -->
+<div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-html5" style="color:#e34f26;"></i><span>HTML5</span></div>
+<div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-css3-alt" style="color:#1572b6;"></i><span>CSS3</span></div>
+<div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-js-square" style="color:#f7df1e;"></i><span>JavaScript</span></div>
+<div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-react" style="color:#61dafb;"></i><span>React.js</span></div>
+<div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-bootstrap" style="color:#7952b3;"></i><span>Bootstrap</span></div>
+<div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
 
-                <div class="tech-pill-card new-badge"><i class="fab fa-python" style="color:#3776ab;"></i><span>Python</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-node-js" style="color:#339933;"></i><span>Node.js</span></div>
+<div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#092e20;">Dj</span><span>Django</span></div>
+<div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-sass" style="color:#cc6699;"></i><span>SASS</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
 
-                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#06b6d4;">TW</span><span>Tailwind</span></div>
+<div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#6366F1;">AI</span><span>Gemini AI</span></div>
+</div>
 
-                <div class="tech-pill-card"><i class="fab fa-wordpress" style="color:#21759b;"></i><span>WordPress</span></div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+<!-- Row 2: Database + Cloud + Tools &mdash;” scrolls right -->
 
-    </div>
+<div class="tech-marquee-wrap" style="margin-top:14px;">
 
+<div class="tech-marquee tech-marquee-right">
 
+<div class="tech-marquee-track">
 
-    <!-- Row 2: Database + Cloud + Tools â€” scrolls right -->
+<div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
 
-    <div class="tech-marquee-wrap" style="margin-top:14px;">
+<div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
 
-        <div class="tech-marquee tech-marquee-right">
+<div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
 
-            <div class="tech-marquee-track">
+<div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
 
-                <div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
+<div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
 
-                <div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
+<div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
+<div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
+<div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
+<div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
+<div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
 
-                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
+<!-- Duplicate -->
 
-                <div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
+<div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
+<div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
+<div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
 
-                <!-- Duplicate -->
+<div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
 
-                <div class="tech-pill-card"><i class="fas fa-database" style="color:#336791;"></i><span>PostgreSQL</span></div>
+<div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
 
-                <div class="tech-pill-card"><i class="fas fa-database" style="color:#4479a1;"></i><span>MySQL</span></div>
+<div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-docker" style="color:#2496ed;"></i><span>Docker</span></div>
+<div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-aws" style="color:#ff9900;"></i><span>AWS</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-git-alt" style="color:#f05032;"></i><span>Git</span></div>
+<div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-github" style="color:#1E293B;"></i><span>GitHub</span></div>
+<div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
 
-                <div class="tech-pill-card"><i class="fab fa-figma" style="color:#f24e1e;"></i><span>Figma</span></div>
+<div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#46e3b7;">Rnd</span><span>Render</span></div>
+<div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
 
-                <div class="tech-pill-card"><span class="tech-text-icon" style="color:#00b4d8;">Nx</span><span>Nginx</span></div>
+</div>
 
-                <div class="tech-pill-card"><i class="fab fa-stripe" style="color:#635bff;"></i><span>Stripe</span></div>
+</div>
 
-                <div class="tech-pill-card new-badge"><span class="tech-text-icon" style="color:#7c3aed;">Rz</span><span>Razorpay</span></div>
+</div>
 
-                <div class="tech-pill-card"><i class="fab fa-google" style="color:#4285f4;"></i><span>Analytics</span></div>
+<!-- Stats row -->
 
-            </div>
+<div class="container">
 
-        </div>
+<div class="tech-stats-row scroll-animate">
 
-    </div>
+<div class="tech-stat-item">
 
+<span class="tech-stat-num">20+</span>
 
+<span class="tech-stat-lbl">Technologies</span>
 
-    <!-- Stats row -->
+</div>
 
-    <div class="container">
+<div class="tech-stat-item">
 
-        <div class="tech-stats-row scroll-animate">
+<span class="tech-stat-num">5+</span>
 
-            <div class="tech-stat-item">
+<span class="tech-stat-lbl">Years Experience</span>
 
-                <span class="tech-stat-num">20+</span>
+</div>
 
-                <span class="tech-stat-lbl">Technologies</span>
+<div class="tech-stat-item">
 
-            </div>
+<span class="tech-stat-num">150+</span>
 
-            <div class="tech-stat-item">
+<span class="tech-stat-lbl">Projects Built</span>
 
-                <span class="tech-stat-num">5+</span>
+</div>
 
-                <span class="tech-stat-lbl">Years Experience</span>
+<div class="tech-stat-item">
 
-            </div>
+<span class="tech-stat-num">AI</span>
 
-            <div class="tech-stat-item">
+<span class="tech-stat-lbl">Powered Proposals</span>
 
-                <span class="tech-stat-num">150+</span>
+</div>
 
-                <span class="tech-stat-lbl">Projects Built</span>
+</div>
 
-            </div>
-
-            <div class="tech-stat-item">
-
-                <span class="tech-stat-num">AI</span>
-
-                <span class="tech-stat-lbl">Powered Proposals</span>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Newsletter â”€â”€ -->
 
 <section class="section newsletter-section">
 
-    <div class="container">
+<div class="container">
 
-        <div class="newsletter-card scroll-animate">
+<div class="newsletter-card scroll-animate">
 
-            <div class="newsletter-glow"></div>
+<div class="newsletter-glow"></div>
 
-            <div class="row align-items-center g-4">
+<div class="row align-items-center g-4">
 
-                <div class="col-lg-6">
+<div class="col-lg-6">
 
-                    <span class="label">Stay Updated</span>
+<span class="label">Stay Updated</span>
 
-                    <h2>Get Web Tips & <span class="text-green">Offers</span></h2>
+<h2>Get Web Tips & <span class="text-green">Offers</span></h2>
 
-                    <p style="color:var(--text-gray);margin-top:8px;">Join 500+ business owners getting free web tips, design trends, and exclusive offers every month.</p>
+<p style="color:var(--text-gray);margin-top:8px;">Join 500+ business owners getting free web tips, design trends, and exclusive offers every month.</p>
 
-                </div>
+</div>
 
-                <div class="col-lg-6">
+<div class="col-lg-6">
 
-                    <form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
+<form class="newsletter-form" id="newsletterForm" onsubmit="handleNewsletter(event)">
 
-                        <div class="newsletter-input-wrap">
+<div class="newsletter-input-wrap">
 
-                            <i class="fas fa-envelope newsletter-input-icon"></i>
+<i class="fas fa-envelope newsletter-input-icon"></i>
 
-                            <input type="email" placeholder="Enter your email address" required>
+<input type="email" placeholder="Enter your email address" required>
 
-                            <button type="submit" class="btn btn-green">Subscribe <i class="fas fa-arrow-right ms-1"></i></button>
+<button type="submit" class="btn btn-green">Subscribe <i class="fas fa-arrow-right ms-1"></i></button>
 
-                        </div>
+</div>
 
-                        <p class="newsletter-note"><i class="fas fa-lock me-1"></i>No spam, ever. Unsubscribe anytime.</p>
+<p class="newsletter-note"><i class="fas fa-lock me-1"></i>No spam, ever. Unsubscribe anytime.</p>
 
-                    </form>
+</form>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Client Dashboard Portal Section â”€â”€ -->
 
-
-
-
-
-<!-- â”€â”€ What We Deliver â€” Feature Highlights â”€â”€ -->
+<!-- â”€â”€ What We Deliver &mdash;” Feature Highlights â”€â”€ -->
 
 <section class="section" style="background:#fff;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">What You Get</span>
+<span class="label">What You Get</span>
 
-            <h2>Everything Your Business <span class="text-green">Needs</span></h2>
+<h2>Everything Your Business <span class="text-green">Needs</span></h2>
 
-            <p>Every website we build comes packed with features that drive real results</p>
+<p>Every website we build comes packed with features that drive real results</p>
 
-        </div>
+</div>
 
-        <div class="row g-4">
+<div class="row g-4">
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+<div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-mobile-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-mobile-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">100% Mobile Responsive</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">100% Mobile Responsive</h5>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Perfect on every screen â€” phones, tablets, and desktops. Google rewards mobile-first sites with higher rankings.</p>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Perfect on every screen &mdash;” phones, tablets, and desktops. Google rewards mobile-first sites with higher rankings.</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+<div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:52px;height:52px;background:#FEF9C3;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-bolt" style="color:#D97706;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:#FEF9C3;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-bolt" style="color:#D97706;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Lightning Fast Speed</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Lightning Fast Speed</h5>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Optimized for sub-2 second load times. Fast websites convert 3x more visitors into customers.</p>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Optimized for sub-2 second load times. Fast websites convert 3x more visitors into customers.</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+<div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:52px;height:52px;background:#F0FDF4;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-search" style="color:#15803D;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:#F0FDF4;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-search" style="color:#15803D;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">SEO Built-In</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">SEO Built-In</h5>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Meta tags, structured data, sitemap, and page speed â€” all optimized from day one so you rank on Google.</p>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">Meta tags, structured data, sitemap, and page speed &mdash;” all optimized from day one so you rank on Google.</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+<div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-shield-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:#EEF2FF;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-shield-alt" style="color:#6366F1;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Secure & Reliable</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">Secure & Reliable</h5>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">SSL certificates, regular backups, and security hardening. Your website stays safe and online 24/7.</p>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">SSL certificates, regular backups, and security hardening. Your website stays safe and online 24/7.</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
+<div style="background:#F8FAFF;border:1px solid #E2E8F0;border-radius:18px;padding:28px;height:100%;transition:all 0.25s ease;" onmouseover="this.style.borderColor='#6366F1';this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.12)'" onmouseout="this.style.borderColor='#E2E8F0';this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:52px;height:52px;background:#FFF7ED;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-headset" style="color:#C2410C;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:#FFF7ED;border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-headset" style="color:#C2410C;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">30-Day Free Support</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:8px;">30-Day Free Support</h5>
 
-                    <p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">After launch, we're still here. 30 days of free support to fix bugs, make tweaks, and answer questions.</p>
+<p style="color:#64748B;font-size:0.875rem;line-height:1.6;margin:0;">After launch, we're still here. 30 days of free support to fix bugs, make tweaks, and answer questions.</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-6 scroll-animate">
+<div class="col-lg-4 col-md-6 scroll-animate">
 
-                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:18px;padding:28px;height:100%;position:relative;overflow:hidden;">
+<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:18px;padding:28px;height:100%;position:relative;overflow:hidden;">
 
-                    <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;"></div>
+<div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,0.08);border-radius:50%;"></div>
 
-                    <div style="width:52px;height:52px;background:rgba(255,255,255,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-rocket" style="color:#fff;font-size:1.2rem;"></i></div>
+<div style="width:52px;height:52px;background:rgba(255,255,255,0.2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:16px;"><i class="fas fa-rocket" style="color:#fff;font-size:1.2rem;"></i></div>
 
-                    <h5 style="font-weight:800;color:#fff;margin-bottom:8px;">Ready to Start?</h5>
+<h5 style="font-weight:800;color:#fff;margin-bottom:8px;">Ready to Start?</h5>
 
-                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:16px;">Get a free quote in 24 hours. No commitment required.</p>
+<p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:16px;">Get a free quote in 24 hours. No commitment required.</p>
 
-                    <a href="{% url 'request_website' %}" style="background:#fff;color:#6366F1;padding:8px 20px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+<a href="{% url 'request_website' %}" style="background:#fff;color:#6366F1;padding:8px 20px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
 
-                        <i class="fas fa-arrow-right"></i> Get Free Quote
+<i class="fas fa-arrow-right"></i> Get Free Quote
 
-                    </a>
+</a>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Pricing Preview â”€â”€ -->
 
 <section class="section" style="background:#F1F5F9;">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">Transparent Pricing</span>
+<span class="label">Transparent Pricing</span>
 
-            <h2>Simple, Honest <span class="text-green">Pricing</span></h2>
+<h2>Simple, Honest <span class="text-green">Pricing</span></h2>
 
-            <p>No hidden fees. No surprises. Just great websites at fair prices.</p>
+<p>No hidden fees. No surprises. Just great websites at fair prices.</p>
 
-        </div>
+</div>
 
-        <div class="row g-4 justify-content-center">
+<div class="row g-4 justify-content-center">
 
-            <!-- Starter -->
+<!-- Starter -->
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                <div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+<div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:48px;height:48px;background:#EEF2FF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-seedling" style="color:#6366F1;"></i></div>
+<div style="width:48px;height:48px;background:#EEF2FF;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-seedling" style="color:#6366F1;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">Starter</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">Starter</h5>
 
-                    <p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Landing Page</p>
+<p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Landing Page</p>
 
-                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">â‚¹8,000</div>
+<div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">&#8377;8,000</div>
 
-                    <p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+<p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
 
-                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+<ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>1â€“3 pages</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>1&mdash;“3 pages</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Mobile responsive</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Mobile responsive</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Contact form</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Contact form</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>7â€“10 day delivery</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>7&mdash;“10 day delivery</li>
 
-                    </ul>
+</ul>
 
-                    <a href="{% url 'request_website' %}?plan=starter" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
+<a href="{% url 'request_website' %}?plan=starter" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <!-- Business â€” Popular -->
+<!-- Business &mdash;” Popular -->
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:28px;text-align:center;height:100%;position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
+<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:28px;text-align:center;height:100%;position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
 
-                    <div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.2);color:#fff;font-size:0.62rem;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;">Most Popular</div>
+<div style="position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.2);color:#fff;font-size:0.62rem;font-weight:800;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;">Most Popular</div>
 
-                    <div style="width:48px;height:48px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-building" style="color:#fff;"></i></div>
+<div style="width:48px;height:48px;background:rgba(255,255,255,0.2);border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-building" style="color:#fff;"></i></div>
 
-                    <h5 style="font-weight:800;color:#fff;margin-bottom:4px;">Business</h5>
+<h5 style="font-weight:800;color:#fff;margin-bottom:4px;">Business</h5>
 
-                    <p style="color:rgba(255,255,255,0.7);font-size:0.78rem;margin-bottom:16px;">Full Business Website</p>
+<p style="color:rgba(255,255,255,0.7);font-size:0.78rem;margin-bottom:16px;">Full Business Website</p>
 
-                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:4px;">â‚¹15,000</div>
+<div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#fff;margin-bottom:4px;">&#8377;15,000</div>
 
-                    <p style="color:rgba(255,255,255,0.6);font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+<p style="color:rgba(255,255,255,0.6);font-size:0.72rem;margin-bottom:20px;">Starting from</p>
 
-                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+<ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
 
-                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>5â€“10 pages</li>
+<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>5&mdash;“10 pages</li>
 
-                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>SEO optimized</li>
+<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>SEO optimized</li>
 
-                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>Admin panel</li>
+<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>Admin panel</li>
 
-                        <li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>15â€“20 day delivery</li>
+<li style="font-size:0.8rem;color:rgba(255,255,255,0.85);padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#4ade80;font-size:0.65rem;"></i>15&mdash;“20 day delivery</li>
 
-                    </ul>
+</ul>
 
-                    <a href="{% url 'request_website' %}?plan=business" style="display:block;background:#fff;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;">Get Started</a>
+<a href="{% url 'request_website' %}?plan=business" style="display:block;background:#fff;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:800;text-decoration:none;">Get Started</a>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <!-- E-Commerce -->
+<!-- E-Commerce -->
 
-            <div class="col-lg-3 col-md-6 scroll-animate">
+<div class="col-lg-3 col-md-6 scroll-animate">
 
-                <div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+<div style="background:#fff;border:1px solid #E2E8F0;border-radius:20px;padding:28px;text-align:center;height:100%;transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(99,102,241,0.1)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
 
-                    <div style="width:48px;height:48px;background:#FEF9C3;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-shopping-cart" style="color:#D97706;"></i></div>
+<div style="width:48px;height:48px;background:#FEF9C3;border-radius:12px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i class="fas fa-shopping-cart" style="color:#D97706;"></i></div>
 
-                    <h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">E-Commerce</h5>
+<h5 style="font-weight:800;color:#1E293B;margin-bottom:4px;">E-Commerce</h5>
 
-                    <p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Online Store</p>
+<p style="color:#64748B;font-size:0.78rem;margin-bottom:16px;">Online Store</p>
 
-                    <div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">â‚¹25,000</div>
+<div style="font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:900;color:#6366F1;margin-bottom:4px;">&#8377;25,000</div>
 
-                    <p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
+<p style="color:#94A3B8;font-size:0.72rem;margin-bottom:20px;">Starting from</p>
 
-                    <ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
+<ul style="list-style:none;padding:0;margin:0 0 20px;text-align:left;">
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Full online store</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Full online store</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Razorpay / Stripe</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Razorpay / Stripe</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Inventory system</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>Inventory system</li>
 
-                        <li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>25â€“35 day delivery</li>
+<li style="font-size:0.8rem;color:#64748B;padding:5px 0;display:flex;align-items:center;gap:8px;"><i class="fas fa-check" style="color:#6366F1;font-size:0.65rem;"></i>25&mdash;“35 day delivery</li>
 
-                    </ul>
+</ul>
 
-                    <a href="{% url 'request_website' %}?plan=e-commerce" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
+<a href="{% url 'request_website' %}?plan=e-commerce" style="display:block;background:#EEF2FF;color:#6366F1;padding:10px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#6366F1';this.style.color='#fff'" onmouseout="this.style.background='#EEF2FF';this.style.color='#6366F1'">Get Started</a>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-        <div class="text-center mt-4 scroll-animate">
+<div class="text-center mt-4 scroll-animate">
 
-            <a href="{% url 'pricing' %}" style="color:#6366F1;font-weight:700;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
+<a href="{% url 'pricing' %}" style="color:#6366F1;font-weight:700;font-size:0.88rem;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">
 
-                View all plans & compare features <i class="fas fa-arrow-right"></i>
+View all plans & compare features <i class="fas fa-arrow-right"></i>
 
-            </a>
+</a>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ CTA â”€â”€ -->
 
 <section class="cta-section">
 
-    <div class="container">
+<div class="container">
 
-        <div class="row justify-content-center">
+<div class="row justify-content-center">
 
-            <div class="col-lg-7 scroll-animate">
+<div class="col-lg-7 scroll-animate">
 
-                <h2>Ready to Build Your Website?</h2>
+<h2>Ready to Build Your Website?</h2>
 
-                <p>Let's create something amazing together. Get a free quote today.</p>
+<p>Let's create something amazing together. Get a free quote today.</p>
 
-                <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;z-index:1;">
 
-                    <a href="{% url 'request_website' %}" class="btn btn-green btn-lg">Get Free Quote</a>
+<a href="{% url 'request_website' %}" class="btn btn-green btn-lg">Get Free Quote</a>
 
-                    <a href="{% url 'contact' %}" class="btn btn-indigo btn-lg">Contact Us</a>
+<a href="{% url 'contact' %}" class="btn btn-indigo btn-lg">Contact Us</a>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
-
-
 
 <!-- â”€â”€ Quick Contact â”€â”€ -->
 
 <section class="section" style="background: var(--bg-dark);">
 
-    <div class="container">
+<div class="container">
 
-        <div class="section-title scroll-animate">
+<div class="section-title scroll-animate">
 
-            <span class="label">Reach Out</span>
+<span class="label">Reach Out</span>
 
-            <h2>Get In <span class="text-green">Touch</span></h2>
+<h2>Get In <span class="text-green">Touch</span></h2>
 
-            <p>We're always happy to hear from you</p>
+<p>We're always happy to hear from you</p>
 
-        </div>
+</div>
 
-        <div class="row g-4 justify-content-center">
+<div class="row g-4 justify-content-center">
 
-            <div class="col-lg-4 col-md-4 scroll-animate">
+<div class="col-lg-4 col-md-4 scroll-animate">
 
-                <div class="contact-quick-card">
+<div class="contact-quick-card">
 
-                    <div class="card-icon mx-auto"><i class="fas fa-phone"></i></div>
+<div class="card-icon mx-auto"><i class="fas fa-phone"></i></div>
 
-                    <h5>Call Us</h5>
+<h5>Call Us</h5>
 
-                    <p>+91 7892934437<br>+91 8867156958</p>
+<p>+91 7892934437<br>+91 8867156958</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-4 scroll-animate">
+<div class="col-lg-4 col-md-4 scroll-animate">
 
-                <div class="contact-quick-card">
+<div class="contact-quick-card">
 
-                    <div class="card-icon mx-auto"><i class="fas fa-envelope"></i></div>
+<div class="card-icon mx-auto"><i class="fas fa-envelope"></i></div>
 
-                    <h5>Email Us</h5>
+<h5>Email Us</h5>
 
-                    <p>infoweblance01@gmail.com</p>
+<p>infoweblance01@gmail.com</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-            <div class="col-lg-4 col-md-4 scroll-animate">
+<div class="col-lg-4 col-md-4 scroll-animate">
 
-                <div class="contact-quick-card">
+<div class="contact-quick-card">
 
-                    <div class="card-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
+<div class="card-icon mx-auto"><i class="fas fa-map-marker-alt"></i></div>
 
-                    <h5>Location</h5>
+<h5>Location</h5>
 
-                    <p>Devanahalli, Karnataka, India</p>
+<p>Devanahalli, Karnataka, India</p>
 
-                </div>
+</div>
 
-            </div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
 
-
-
 <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-     CLIENT REVIEWS â€” Real reviews from delivered projects
+CLIENT REVIEWS &mdash;” Real reviews from delivered projects
 
-     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 
 <section class="rv-section" style="background:#F8FAFF;border-top:1px solid #E2E8F0;">
-    <div class="container">
 
-        <!-- Header -->
-        <div class="text-center mb-5 scroll-animate">
-            <span class="section-label-pill">
-                <i class="fas fa-star" style="color:#D97706;"></i> Verified Client Reviews
-            </span>
-            <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
-                What Our Clients <span style="color:#6366F1;">Say</span>
-            </h2>
-            <p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
-                Real feedback from real businesses we've helped grow â€” straight from their project dashboards.
-            </p>
-            <div style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid #E2E8F0;border-radius:50px;padding:8px 20px;margin-top:18px;box-shadow:0 2px 8px rgba(99,102,241,0.06);">
-                <div style="display:flex;gap:2px;">
-                    {% for i in "12345" %}<i class="fas fa-star" style="color:#f59e0b;font-size:0.9rem;"></i>{% endfor %}
-                </div>
-                <span style="font-weight:800;color:#1E293B;font-size:0.9rem;">{% if reviews %}{{ reviews|length }}+{% else %}5.0{% endif %} Rating</span>
-                <span style="color:#94A3B8;font-size:0.78rem;">Â· All from real projects</span>
-            </div>
-        </div>
+<div class="container">
 
-        {% if reviews %}
-        <!-- Review cards grid -->
-        <div class="row g-4" id="rvCardsGrid">
-            {% for review in reviews %}
-            <div class="col-lg-4 col-md-6 rv-card-item scroll-animate" data-rv-index="{{ forloop.counter0 }}">
-                <div class="rv-home-card">
-                    <div class="rv-quote-icon">"</div>
-                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-                        <div style="display:flex;gap:3px;">
-                            {% for i in "12345" %}
-                            <i class="fas fa-star" style="font-size:0.85rem;color:{% if forloop.counter <= review.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
-                            {% endfor %}
-                        </div>
-                        <span style="font-size:0.7rem;color:#94A3B8;">{{ review.created_at|date:"M Y" }}</span>
-                    </div>
-                    {% if review.title %}
-                    <div style="font-weight:800;color:#1E293B;font-size:0.92rem;margin-bottom:8px;">{{ review.title }}</div>
-                    {% endif %}
-                    <p style="color:#475569;font-size:0.85rem;line-height:1.75;margin:0 0 18px;flex-grow:1;">{{ review.body|truncatewords:35 }}</p>
-                    <div style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid #F1F5F9;">
-                        <div style="width:38px;height:38px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.88rem;flex-shrink:0;">
-                            {{ review.client.username|slice:":1"|upper }}
-                        </div>
-                        <div style="min-width:0;">
-                            <div style="font-weight:700;color:#1E293B;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                                {{ review.client.get_full_name|default:review.client.username }}
-                            </div>
-                            <div style="font-size:0.72rem;color:#94A3B8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
-                                <i class="fas fa-check-circle" style="color:#22c55e;margin-right:3px;"></i>Verified Â· {{ review.project.title|truncatechars:28 }}
-                            </div>
-                        </div>
-                        <div style="margin-left:auto;background:#EEF2FF;color:#6366F1;border-radius:8px;padding:4px 8px;font-size:0.7rem;font-weight:800;flex-shrink:0;">
-                            {{ review.rating }}/5
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+<!-- Header -->
 
-        <!-- Dot pagination (bottom only) -->
-        <div class="rv-pagination-wrap" id="rvPaginationBottom" style="margin-top:36px;"></div>
+<div class="text-center mb-5 scroll-animate">
 
-        {% else %}
-        <!-- No reviews yet -->
-        <div class="text-center py-5">
-            <i class="fas fa-star fa-2x mb-3" style="color:#EEF2FF;"></i>
-            <p style="color:#94A3B8;font-size:0.9rem;">Client reviews coming soon.</p>
-        </div>
-        {% endif %}
+<span class="section-label-pill">
 
-    </div>
+<i class="fas fa-star" style="color:#D97706;"></i> Verified Client Reviews
+
+</span>
+
+<h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
+
+What Our Clients <span style="color:#6366F1;">Say</span>
+
+</h2>
+
+<p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
+
+Real feedback from real businesses we've helped grow &mdash;” straight from their project dashboards.
+
+</p>
+
+<div style="display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid #E2E8F0;border-radius:50px;padding:8px 20px;margin-top:18px;box-shadow:0 2px 8px rgba(99,102,241,0.06);">
+
+<div style="display:flex;gap:2px;">
+
+{% for i in "12345" %}<i class="fas fa-star" style="color:#f59e0b;font-size:0.9rem;"></i>{% endfor %}
+
+</div>
+
+<span style="font-weight:800;color:#1E293B;font-size:0.9rem;">{% if reviews %}{{ reviews|length }}+{% else %}5.0{% endif %} Rating</span>
+
+<span style="color:#94A3B8;font-size:0.78rem;">&middot; All from real projects</span>
+
+</div>
+
+</div>
+
+{% if reviews %}
+
+<!-- Review cards grid -->
+
+<div class="row g-4" id="rvCardsGrid">
+
+{% for review in reviews %}
+
+<div class="col-lg-4 col-md-6 rv-card-item scroll-animate" data-rv-index="{{ forloop.counter0 }}">
+
+<div class="rv-home-card">
+
+<div class="rv-quote-icon">"</div>
+
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+
+<div style="display:flex;gap:3px;">
+
+{% for i in "12345" %}
+
+<i class="fas fa-star" style="font-size:0.85rem;color:{% if forloop.counter <= review.rating %}#f59e0b{% else %}#E2E8F0{% endif %};"></i>
+
+{% endfor %}
+
+</div>
+
+<span style="font-size:0.7rem;color:#94A3B8;">{{ review.created_at|date:"M Y" }}</span>
+
+</div>
+
+{% if review.title %}
+
+<div style="font-weight:800;color:#1E293B;font-size:0.92rem;margin-bottom:8px;">{{ review.title }}</div>
+
+{% endif %}
+
+<p style="color:#475569;font-size:0.85rem;line-height:1.75;margin:0 0 18px;flex-grow:1;">{{ review.body|truncatewords:35 }}</p>
+
+<div style="display:flex;align-items:center;gap:10px;padding-top:14px;border-top:1px solid #F1F5F9;">
+
+<div style="width:38px;height:38px;background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:0.88rem;flex-shrink:0;">
+
+{{ review.client.username|slice:":1"|upper }}
+
+</div>
+
+<div style="min-width:0;">
+
+<div style="font-weight:700;color:#1E293B;font-size:0.85rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+
+{{ review.client.get_full_name|default:review.client.username }}
+
+</div>
+
+<div style="font-size:0.72rem;color:#94A3B8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+
+<i class="fas fa-check-circle" style="color:#22c55e;margin-right:3px;"></i>Verified &middot; {{ review.project.title|truncatechars:28 }}
+
+</div>
+
+</div>
+
+<div style="margin-left:auto;background:#EEF2FF;color:#6366F1;border-radius:8px;padding:4px 8px;font-size:0.7rem;font-weight:800;flex-shrink:0;">
+
+{{ review.rating }}/5
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<!-- Dot pagination (bottom only) -->
+
+<div class="rv-pagination-wrap" id="rvPaginationBottom" style="margin-top:36px;"></div>
+
+{% else %}
+
+<!-- No reviews yet -->
+
+<div class="text-center py-5">
+
+<i class="fas fa-star fa-2x mb-3" style="color:#EEF2FF;"></i>
+
+<p style="color:#94A3B8;font-size:0.9rem;">Client reviews coming soon.</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
 </section>
 
 <!-- â”€â”€ Review Pagination Styles â”€â”€ -->
+
 <style>
+
 .rv-section { padding: 80px 0; }
+
 @media (max-width: 767px) {
-    .rv-section { padding: 48px 0; }
+
+.rv-section { padding: 48px 0; }
+
 }
 
 .rv-pagination-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
+
+display: flex;
+
+align-items: center;
+
+justify-content: center;
+
+gap: 8px;
+
+flex-wrap: wrap;
+
 }
+
 .rv-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #CBD5E1;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: all .25s ease;
-    flex-shrink: 0;
+
+width: 10px;
+
+height: 10px;
+
+border-radius: 50%;
+
+background: #CBD5E1;
+
+border: none;
+
+padding: 0;
+
+cursor: pointer;
+
+transition: all .25s ease;
+
+flex-shrink: 0;
+
 }
+
 .rv-dot:hover {
-    background: #818CF8;
-    transform: scale(1.2);
+
+background: #818CF8;
+
+transform: scale(1.2);
+
 }
+
 .rv-dot.active {
-    background: #6366F1;
-    width: 28px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(99,102,241,.45);
+
+background: #6366F1;
+
+width: 28px;
+
+border-radius: 5px;
+
+box-shadow: 0 2px 8px rgba(99,102,241,.45);
+
 }
+
 .rv-card-item.rv-hidden {
-    display: none !important;
+
+display: none !important;
+
 }
 
 /* Mobile: 1 card full width */
+
 @media (max-width: 575px) {
-    .rv-card-item { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; }
-    .rv-home-card { padding: 18px; }
+
+.rv-card-item { width: 100% !important; flex: 0 0 100% !important; max-width: 100% !important; }
+
+.rv-home-card { padding: 18px; }
+
 }
-/* Tablet: 2 cards per row â€” override col-lg-4 */
+
+/* Tablet: 2 cards per row &mdash;” override col-lg-4 */
+
 @media (min-width: 576px) and (max-width: 991px) {
-    .rv-card-item { width: 50% !important; flex: 0 0 50% !important; max-width: 50% !important; }
+
+.rv-card-item { width: 50% !important; flex: 0 0 50% !important; max-width: 50% !important; }
+
 }
+
 </style>
 
 <script>
+
 (function () {
-    // Responsive: cards visible per page depends on viewport
-    function perPage() {
-        if (window.innerWidth < 576) return 1;
-        if (window.innerWidth < 992) return 2;
-        return 3;
-    }
 
-    var cards = Array.prototype.slice.call(document.querySelectorAll('.rv-card-item'));
-    var total = cards.length;
-    var current = 1;
-    var pp = perPage();
-    var pages = Math.ceil(total / pp);
+// Responsive: cards visible per page depends on viewport
 
-    var section = document.getElementById('rvCardsGrid');
-    var sectionWrap = section ? section.closest('section') : null;
+function perPage() {
 
-    function showPage(p) {
-        pp = perPage();
-        pages = Math.ceil(total / pp);
-        current = ((p - 1 + pages) % pages) + 1;
-        cards.forEach(function (card) {
-            var idx = parseInt(card.getAttribute('data-rv-index'));
-            var start = (current - 1) * pp;
-            var end   = start + pp - 1;
-            card.classList.toggle('rv-hidden', !(idx >= start && idx <= end));
-        });
-        renderDots();
-    }
+if (window.innerWidth < 576) return 1;
 
-    function renderDots() {
-        var wrap = document.getElementById('rvPaginationBottom');
-        if (!wrap) return;
-        // hide dots if only one page
-        wrap.style.display = pages <= 1 ? 'none' : 'flex';
-        wrap.innerHTML = '';
-        for (var i = 1; i <= pages; i++) {
-            var dot = document.createElement('button');
-            dot.className = 'rv-dot' + (i === current ? ' active' : '');
-            dot.setAttribute('aria-label', 'Page ' + i);
-            dot.setAttribute('aria-current', i === current ? 'page' : 'false');
-            (function (page) {
-                dot.addEventListener('click', function () { showPage(page); });
-            })(i);
-            wrap.appendChild(dot);
-        }
-    }
+if (window.innerWidth < 992) return 2;
 
-    // Advance one page each time the cursor enters the section (desktop)
-    if (sectionWrap) {
-        sectionWrap.addEventListener('mouseenter', function () {
-            if (window.innerWidth >= 576) showPage(current + 1);
-        });
-    }
+return 3;
 
-    // Touch swipe support for mobile
-    var touchStartX = 0;
-    if (sectionWrap) {
-        sectionWrap.addEventListener('touchstart', function (e) {
-            touchStartX = e.changedTouches[0].clientX;
-        }, { passive: true });
-        sectionWrap.addEventListener('touchend', function (e) {
-            var dx = e.changedTouches[0].clientX - touchStartX;
-            if (Math.abs(dx) > 40) showPage(dx < 0 ? current + 1 : current - 1);
-        }, { passive: true });
-    }
+}
 
-    // Recalculate on resize
-    var resizeTimer;
-    window.addEventListener('resize', function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () { showPage(1); }, 150);
-    });
+var cards = Array.prototype.slice.call(document.querySelectorAll('.rv-card-item'));
 
-    showPage(1);
+var total = cards.length;
+
+var current = 1;
+
+var pp = perPage();
+
+var pages = Math.ceil(total / pp);
+
+var section = document.getElementById('rvCardsGrid');
+
+var sectionWrap = section ? section.closest('section') : null;
+
+function showPage(p) {
+
+pp = perPage();
+
+pages = Math.ceil(total / pp);
+
+current = ((p - 1 + pages) % pages) + 1;
+
+cards.forEach(function (card) {
+
+var idx = parseInt(card.getAttribute('data-rv-index'));
+
+var start = (current - 1) * pp;
+
+var end   = start + pp - 1;
+
+card.classList.toggle('rv-hidden', !(idx >= start && idx <= end));
+
+});
+
+renderDots();
+
+}
+
+function renderDots() {
+
+var wrap = document.getElementById('rvPaginationBottom');
+
+if (!wrap) return;
+
+// hide dots if only one page
+
+wrap.style.display = pages <= 1 ? 'none' : 'flex';
+
+wrap.innerHTML = '';
+
+for (var i = 1; i <= pages; i++) {
+
+var dot = document.createElement('button');
+
+dot.className = 'rv-dot' + (i === current ? ' active' : '');
+
+dot.setAttribute('aria-label', 'Page ' + i);
+
+dot.setAttribute('aria-current', i === current ? 'page' : 'false');
+
+(function (page) {
+
+dot.addEventListener('click', function () { showPage(page); });
+
+})(i);
+
+wrap.appendChild(dot);
+
+}
+
+}
+
+// Advance one page each time the cursor enters the section (desktop)
+
+if (sectionWrap) {
+
+sectionWrap.addEventListener('mouseenter', function () {
+
+if (window.innerWidth >= 576) showPage(current + 1);
+
+});
+
+}
+
+// Touch swipe support for mobile
+
+var touchStartX = 0;
+
+if (sectionWrap) {
+
+sectionWrap.addEventListener('touchstart', function (e) {
+
+touchStartX = e.changedTouches[0].clientX;
+
+}, { passive: true });
+
+sectionWrap.addEventListener('touchend', function (e) {
+
+var dx = e.changedTouches[0].clientX - touchStartX;
+
+if (Math.abs(dx) > 40) showPage(dx < 0 ? current + 1 : current - 1);
+
+}, { passive: true });
+
+}
+
+// Recalculate on resize
+
+var resizeTimer;
+
+window.addEventListener('resize', function () {
+
+clearTimeout(resizeTimer);
+
+resizeTimer = setTimeout(function () { showPage(1); }, 150);
+
+});
+
+showPage(1);
+
 })();
+
 </script>
-
-
 
 <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
-     FAQ â€” Last section before footer
+FAQ &mdash;” Last section before footer
 
-     â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
+â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 
 <section style="background:#F1F5F9;padding:72px 0 80px;">
 
-    <div class="container">
+<div class="container">
 
-        <!-- Header -->
+<!-- Header -->
 
-        <div class="text-center mb-5 scroll-animate">
+<div class="text-center mb-5 scroll-animate">
 
-            <span style="display:inline-flex;align-items:center;gap:6px;background:#EEF2FF;border:1px solid #C7D2FE;color:#6366F1;padding:5px 16px;border-radius:50px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">
+<span style="display:inline-flex;align-items:center;gap:6px;background:#EEF2FF;border:1px solid #C7D2FE;color:#6366F1;padding:5px 16px;border-radius:50px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;">
 
-                <i class="fas fa-question-circle"></i> Got Questions?
+<i class="fas fa-question-circle"></i> Got Questions?
 
-            </span>
+</span>
 
-            <h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
+<h2 style="font-family:'Poppins',sans-serif;font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;color:#1E293B;margin-bottom:12px;">
 
-                Frequently Asked <span style="color:#6366F1;">Questions</span>
+Frequently Asked <span style="color:#6366F1;">Questions</span>
 
-            </h2>
+</h2>
 
-            <p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
+<p style="color:#64748B;font-size:0.95rem;max-width:480px;margin:0 auto;">
 
-                Everything you need to know before getting started with Weblance.
+Everything you need to know before getting started with Weblance.
 
-            </p>
+</p>
 
-        </div>
+</div>
 
+<div class="row g-4 justify-content-center">
 
+<!-- FAQ accordion -->
 
-        <div class="row g-4 justify-content-center">
+<div class="col-lg-7 scroll-animate">
 
-            <!-- FAQ accordion -->
+<div style="display:flex;flex-direction:column;gap:12px;" id="faqAccordion">
 
-            <div class="col-lg-7 scroll-animate">
+<!-- Item 1 -->
 
-                <div style="display:flex;flex-direction:column;gap:12px;" id="faqAccordion">
+<div class="faq-new-item">
 
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
 
+<span>How long does it take to build a website?</span>
 
-                    <!-- Item 1 -->
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>How long does it take to build a website?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>Typically 7â€“30 business days depending on complexity. A simple landing page takes 7â€“10 days, a business website 15â€“20 days, and a full e-commerce store 30â€“45 days. We always provide a clear timeline before starting.</p>
-                        </div>
-                    </div>
+</button>
 
+<div class="faq-new-body">
 
-                    <!-- Item 2 -->
+<p>Typically 7&mdash;“30 business days depending on complexity. A simple landing page takes 7&mdash;“10 days, a business website 15&mdash;“20 days, and a full e-commerce store 30&mdash;“45 days. We always provide a clear timeline before starting.</p>
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>What is included in the price?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>All packages include design, development, mobile responsiveness, basic SEO setup, contact form, and 30 days of free support after launch. Domain and hosting are separate unless specified in the package.</p>
-                        </div>
-                    </div>
+</div>
 
+</div>
 
-                    <!-- Item 3 -->
+<!-- Item 2 -->
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>Do you provide website maintenance?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>Yes! We offer monthly maintenance plans starting at â‚¹1,999/month covering security updates, content changes, performance monitoring, and technical support. Ask us for details.</p>
-                        </div>
-                    </div>
+<div class="faq-new-item">
 
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
 
-                    <!-- Item 4 -->
+<span>What is included in the price?</span>
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>Can I update the website content myself?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>Absolutely. We build with a Django admin panel so you can easily update text, images, blog posts, and products without any coding knowledge. We also provide a walkthrough video after handover.</p>
-                        </div>
-                    </div>
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
 
+</button>
 
-                    <!-- Item 5 -->
+<div class="faq-new-body">
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>Do you work with clients outside Devanahalli?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>Yes! We work with clients across India and internationally. All communication is done via WhatsApp, email, and video calls. Distance is never a barrier for great work.</p>
-                        </div>
-                    </div>
+<p>All packages include design, development, mobile responsiveness, basic SEO setup, contact form, and 30 days of free support after launch. Domain and hosting are separate unless specified in the package.</p>
 
+</div>
 
-                    <!-- Item 6 -->
+</div>
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>What payment methods do you accept?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>We accept UPI, bank transfer, Razorpay, and PayPal. We typically work on a 50% advance + 50% on delivery model to keep things fair for both sides.</p>
-                        </div>
-                    </div>
+<!-- Item 3 -->
 
+<div class="faq-new-item">
 
-                    <!-- Item 7 -->
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
 
-                    <div class="faq-new-item">
-                        <button type="button" class="faq-new-q" onclick="toggleFaq(this)">
-                            <span>Will my website rank on Google?</span>
-                            <span class="faq-new-icon"><i class="fas fa-plus"></i></span>
-                        </button>
-                        <div class="faq-new-body">
-                            <p>Every website we build includes on-page SEO â€” meta tags, structured data, fast loading, and mobile optimization. For ongoing SEO campaigns (keyword targeting, link building), we offer separate monthly SEO packages.</p>
-                        </div>
-                    </div>
+<span>Do you provide website maintenance?</span>
 
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
 
-                </div>
+</button>
 
-            </div>
+<div class="faq-new-body">
 
+<p>Yes! We offer monthly maintenance plans starting at &#8377;1,999/month covering security updates, content changes, performance monitoring, and technical support. Ask us for details.</p>
 
+</div>
 
-            <!-- Right: CTA card -->
+</div>
 
-            <div class="col-lg-4 col-md-8 scroll-animate">
+<!-- Item 4 -->
 
-                <div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:32px;text-align:center;position:sticky;top:90px;">
+<div class="faq-new-item">
 
-                    <div style="width:56px;height:56px;background:rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;">ðŸ’¬</div>
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
 
-                    <h5 style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;margin-bottom:8px;">Still have questions?</h5>
+<span>Can I update the website content myself?</span>
 
-                    <p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:20px;">Our team is happy to answer any questions you have. Reach out and we'll get back to you within 24 hours.</p>
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
 
-                    <a href="{% url 'contact' %}" style="display:block;background:#fff;color:#6366F1;padding:12px;border-radius:50px;font-size:0.875rem;font-weight:800;text-decoration:none;margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='#E0E7FF'" onmouseout="this.style.background='#fff'">
+</button>
 
-                        <i class="fas fa-envelope me-2"></i>Send a Message
+<div class="faq-new-body">
 
-                    </a>
+<p>Absolutely. We build with a Django admin panel so you can easily update text, images, blog posts, and products without any coding knowledge. We also provide a walkthrough video after handover.</p>
 
-                    <a href="https://wa.me/917892934437" target="_blank" style="display:block;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:12px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+</div>
 
-                        <i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+</div>
 
-                    </a>
+<!-- Item 5 -->
 
-                    <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);">
+<div class="faq-new-item">
 
-                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;">Average response time</div>
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
 
-                        <div style="font-size:1.1rem;font-weight:800;color:#fff;">Under 2 hours</div>
+<span>Do you work with clients outside Devanahalli?</span>
 
-                    </div>
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
 
-                </div>
+</button>
 
-            </div>
+<div class="faq-new-body">
 
-        </div>
+<p>Yes! We work with clients across India and internationally. All communication is done via WhatsApp, email, and video calls. Distance is never a barrier for great work.</p>
 
-    </div>
+</div>
+
+</div>
+
+<!-- Item 6 -->
+
+<div class="faq-new-item">
+
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+
+<span>What payment methods do you accept?</span>
+
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+
+</button>
+
+<div class="faq-new-body">
+
+<p>We accept UPI, bank transfer, Razorpay, and PayPal. We typically work on a 50% advance + 50% on delivery model to keep things fair for both sides.</p>
+
+</div>
+
+</div>
+
+<!-- Item 7 -->
+
+<div class="faq-new-item">
+
+<button type="button" class="faq-new-q" onclick="toggleFaq(this)">
+
+<span>Will my website rank on Google?</span>
+
+<span class="faq-new-icon"><i class="fas fa-plus"></i></span>
+
+</button>
+
+<div class="faq-new-body">
+
+<p>Every website we build includes on-page SEO &mdash;” meta tags, structured data, fast loading, and mobile optimization. For ongoing SEO campaigns (keyword targeting, link building), we offer separate monthly SEO packages.</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Right: CTA card -->
+
+<div class="col-lg-4 col-md-8 scroll-animate">
+
+<div style="background:linear-gradient(135deg,#6366F1,#4F46E5);border-radius:20px;padding:32px;text-align:center;position:sticky;top:90px;">
+
+<div style="width:56px;height:56px;background:rgba(255,255,255,0.2);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.4rem;">ðŸ’¬</div>
+
+<h5 style="font-family:'Poppins',sans-serif;font-weight:800;color:#fff;margin-bottom:8px;">Still have questions?</h5>
+
+<p style="color:rgba(255,255,255,0.8);font-size:0.875rem;line-height:1.6;margin-bottom:20px;">Our team is happy to answer any questions you have. Reach out and we'll get back to you within 24 hours.</p>
+
+<a href="{% url 'contact' %}" style="display:block;background:#fff;color:#6366F1;padding:12px;border-radius:50px;font-size:0.875rem;font-weight:800;text-decoration:none;margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='#E0E7FF'" onmouseout="this.style.background='#fff'">
+
+<i class="fas fa-envelope me-2"></i>Send a Message
+
+</a>
+
+<a href="https://wa.me/917892934437" target="_blank" style="display:block;background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);padding:12px;border-radius:50px;font-size:0.875rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+
+<i class="fab fa-whatsapp me-2"></i>Chat on WhatsApp
+
+</a>
+
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.15);">
+
+<div style="font-size:0.72rem;color:rgba(255,255,255,0.6);margin-bottom:6px;">Average response time</div>
+
+<div style="font-size:1.1rem;font-weight:800;color:#fff;">Under 2 hours</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
-
-
 {% endblock %}
-
-
 
 {% block extra_js %}
 
@@ -2348,53 +3154,49 @@
 
 function toggleFaq(btn) {
 
-    const item = btn.closest('.faq-new-item');
+const item = btn.closest('.faq-new-item');
 
-    const body = item.querySelector('.faq-new-body');
+const body = item.querySelector('.faq-new-body');
 
-    const icon = btn.querySelector('i');
+const icon = btn.querySelector('i');
 
-    const iconWrap = btn.querySelector('span:last-child');
+const iconWrap = btn.querySelector('span:last-child');
 
-    const isOpen = body.style.display === 'block';
+const isOpen = body.style.display === 'block';
 
+// Close all others
 
+document.querySelectorAll('.faq-new-item').forEach(function(el) {
 
-    // Close all others
+el.querySelector('.faq-new-body').style.display = 'none';
 
-    document.querySelectorAll('.faq-new-item').forEach(function(el) {
+el.querySelector('i').className = 'fas fa-plus';
 
-        el.querySelector('.faq-new-body').style.display = 'none';
+el.querySelector('span:last-child').style.background = '#EEF2FF';
 
-        el.querySelector('i').className = 'fas fa-plus';
+el.querySelector('span:last-child').style.transform = '';
 
-        el.querySelector('span:last-child').style.background = '#EEF2FF';
+el.style.borderColor = '#E2E8F0';
 
-        el.querySelector('span:last-child').style.transform = '';
+});
 
-        el.style.borderColor = '#E2E8F0';
+// Toggle current
 
-    });
+if (!isOpen) {
 
+body.style.display = 'block';
 
+icon.className = 'fas fa-minus';
 
-    // Toggle current
+iconWrap.style.background = '#6366F1';
 
-    if (!isOpen) {
+iconWrap.querySelector('i').style.color = '#fff';
 
-        body.style.display = 'block';
+iconWrap.style.transform = 'rotate(180deg)';
 
-        icon.className = 'fas fa-minus';
+item.style.borderColor = '#6366F1';
 
-        iconWrap.style.background = '#6366F1';
-
-        iconWrap.querySelector('i').style.color = '#fff';
-
-        iconWrap.style.transform = 'rotate(180deg)';
-
-        item.style.borderColor = '#6366F1';
-
-    }
+}
 
 }
 
@@ -2402,133 +3204,119 @@ function toggleFaq(btn) {
 
 (function() {
 
-    const container = document.getElementById('particles');
+const container = document.getElementById('particles');
 
-    if (!container) return;
+if (!container) return;
 
-    for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 30; i++) {
 
-        const p = document.createElement('div');
+const p = document.createElement('div');
 
-        p.className = 'particle';
+p.className = 'particle';
 
-        p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;`;
+p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${6+Math.random()*10}s;--delay:${Math.random()*8}s;width:${2+Math.random()*3}px;height:${2+Math.random()*3}px;`;
 
-        container.appendChild(p);
+container.appendChild(p);
 
-    }
+}
 
 })();
-
-
 
 // â”€â”€ Typing animation â”€â”€
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    initTyping(document.getElementById('typed-word'), [
+initTyping(document.getElementById('typed-word'), [
 
-        'Business Websites',
+'Business Websites',
 
-        'E-Commerce Stores',
+'E-Commerce Stores',
 
-        'Landing Pages',
+'Landing Pages',
 
-        'SEO Campaigns',
+'SEO Campaigns',
 
-        'Portfolio Sites',
+'Portfolio Sites',
 
-        'Restaurant Websites',
+'Restaurant Websites',
 
-        'Real Estate Portals',
+'Real Estate Portals',
 
-        'School Websites',
+'School Websites',
 
-        'Web Applications',
+'Web Applications',
 
-        'Website Redesigns',
+'Website Redesigns',
 
-    ], 75, 2000);
+], 75, 2000);
 
+// â”€â”€ Testimonials carousel â”€â”€
 
+const track = document.getElementById('testimonialTrack');
 
-    // â”€â”€ Testimonials carousel â”€â”€
+const nav   = document.getElementById('testimonialNav');
 
-    const track = document.getElementById('testimonialTrack');
+if (!track || !nav) return;
 
-    const nav   = document.getElementById('testimonialNav');
+const cards     = track.querySelectorAll('.testimonial-card');
 
-    if (!track || !nav) return;
+const visible   = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
 
+const total     = cards.length;
 
+let current     = 0;
 
-    const cards     = track.querySelectorAll('.testimonial-card');
+// Build dots
 
-    const visible   = window.innerWidth < 768 ? 1 : window.innerWidth < 992 ? 2 : 3;
+const maxDots = total - visible + 1;
 
-    const total     = cards.length;
+for (let i = 0; i < maxDots; i++) {
 
-    let current     = 0;
+const d = document.createElement('button');
 
+d.className = 't-dot' + (i === 0 ? ' active' : '');
 
+d.addEventListener('click', () => goTo(i));
 
-    // Build dots
+nav.appendChild(d);
 
-    const maxDots = total - visible + 1;
+}
 
-    for (let i = 0; i < maxDots; i++) {
+function goTo(idx) {
 
-        const d = document.createElement('button');
+current = Math.max(0, Math.min(idx, maxDots - 1));
 
-        d.className = 't-dot' + (i === 0 ? ' active' : '');
+const cardW = cards[0].offsetWidth + 24; // gap=24
 
-        d.addEventListener('click', () => goTo(i));
+track.style.transform = `translateX(-${current * cardW}px)`;
 
-        nav.appendChild(d);
+cards.forEach((c, i) => c.classList.toggle('active', i === current));
 
-    }
+nav.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === current));
 
+}
 
+// Auto-advance
 
-    function goTo(idx) {
+let timer = setInterval(() => goTo((current + 1) % maxDots), 4000);
 
-        current = Math.max(0, Math.min(idx, maxDots - 1));
+track.addEventListener('mouseenter', () => clearInterval(timer));
 
-        const cardW = cards[0].offsetWidth + 24; // gap=24
+track.addEventListener('mouseleave', () => { timer = setInterval(() => goTo((current + 1) % maxDots), 4000); });
 
-        track.style.transform = `translateX(-${current * cardW}px)`;
+// Touch swipe
 
-        cards.forEach((c, i) => c.classList.toggle('active', i === current));
+let startX = 0;
 
-        nav.querySelectorAll('.t-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
 
-    }
+track.addEventListener('touchend',   e => {
 
+const diff = startX - e.changedTouches[0].clientX;
 
+if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
 
-    // Auto-advance
-
-    let timer = setInterval(() => goTo((current + 1) % maxDots), 4000);
-
-    track.addEventListener('mouseenter', () => clearInterval(timer));
-
-    track.addEventListener('mouseleave', () => { timer = setInterval(() => goTo((current + 1) % maxDots), 4000); });
-
-
-
-    // Touch swipe
-
-    let startX = 0;
-
-    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-
-    track.addEventListener('touchend',   e => {
-
-        const diff = startX - e.changedTouches[0].clientX;
-
-        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
-
-    });
+});
 
 });
 
