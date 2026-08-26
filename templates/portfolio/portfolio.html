@@ -3,6 +3,212 @@
 
 {% block title %}Portfolio - WEBLANCE Website Projects Showcase{% endblock %}
 
+{% block extra_css %}
+<style>
+/* ── Portfolio Card ── */
+.portfolio-item-inner {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,.08);
+    cursor: pointer;
+    transition: transform .28s ease, box-shadow .28s ease;
+    height: 260px;
+}
+.portfolio-item-inner:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(99,102,241,.18);
+}
+.portfolio-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s ease;
+}
+.portfolio-item-inner:hover .portfolio-img {
+    transform: scale(1.06);
+}
+.portfolio-img-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+    display: flex; align-items: center; justify-content: center;
+    color: #6366F1; font-size: 3rem;
+}
+
+/* ── Category badge ── */
+.portfolio-cat-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: .65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    z-index: 3;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,.3);
+}
+/* category color map */
+.cat-business    { background:rgba(99,102,241,.85);  color:#fff; }
+.cat-ecommerce   { background:rgba(245,158,11,.90);  color:#fff; }
+.cat-landing     { background:rgba(100,149,237,.85); color:#fff; }
+.cat-seo         { background:rgba(34,197,94,.85);   color:#fff; }
+.cat-redesign    { background:rgba(168,85,247,.85);  color:#fff; }
+.cat-maintenance { background:rgba(14,165,233,.85);  color:#fff; }
+.cat-portfolio   { background:rgba(236,72,153,.85);  color:#fff; }
+.cat-blog        { background:rgba(249,115,22,.85);  color:#fff; }
+.cat-education   { background:rgba(16,185,129,.85);  color:#fff; }
+.cat-restaurant  { background:rgba(239,68,68,.85);   color:#fff; }
+.cat-realestate  { background:rgba(5,150,105,.85);   color:#fff; }
+.cat-hospital    { background:rgba(220,38,38,.85);   color:#fff; }
+.cat-webapp      { background:rgba(79,70,229,.85);   color:#fff; }
+.cat-college     { background:rgba(124,58,237,.85);  color:#fff; }
+.cat-academic    { background:rgba(37,99,235,.85);   color:#fff; }
+.cat-miniproject { background:rgba(20,184,166,.85);  color:#fff; }
+.cat-custom      { background:rgba(107,114,128,.85); color:#fff; }
+
+/* ── Hover overlay ── */
+.portfolio-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 30%, rgba(10,14,35,.92) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 18px;
+    opacity: 0;
+    transition: opacity .3s ease;
+    z-index: 2;
+}
+.portfolio-item-inner:hover .portfolio-overlay { opacity: 1; }
+.portfolio-overlay h3 {
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 800;
+    margin: 0 0 4px;
+    line-height: 1.3;
+}
+.portfolio-overlay p {
+    color: rgba(255,255,255,.75);
+    font-size: .75rem;
+    line-height: 1.5;
+    margin: 0 0 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+.portfolio-overlay-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.portfolio-overlay-btns a,
+.portfolio-overlay-btns button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: .72rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+.btn-view-img {
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3) !important;
+    color: #fff !important;
+}
+.btn-view-img:hover { background: rgba(255,255,255,.30); }
+.btn-visit-site {
+    background: linear-gradient(135deg,#6366F1,#4F46E5);
+    color: #fff !important;
+    box-shadow: 0 2px 10px rgba(99,102,241,.4);
+}
+.btn-visit-site:hover { transform: translateY(-1px); filter: brightness(1.1); }
+
+/* ── Lightbox ── */
+#wl-lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,.92);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+}
+#wl-lightbox.open { display: flex; }
+#wl-lightbox-img {
+    max-width: min(92vw, 1100px);
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 80px rgba(0,0,0,.6);
+    animation: lbFadeIn .25s ease;
+    object-fit: contain;
+}
+@keyframes lbFadeIn {
+    from { opacity: 0; transform: scale(.94); }
+    to   { opacity: 1; transform: scale(1); }
+}
+#wl-lightbox-meta {
+    margin-top: 14px;
+    text-align: center;
+}
+#wl-lightbox-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+#wl-lightbox-desc {
+    color: rgba(255,255,255,.55);
+    font-size: .8rem;
+    max-width: 500px;
+}
+#wl-lightbox-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 50%;
+    width: 40px; height: 40px;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s ease;
+    z-index: 10;
+}
+#wl-lightbox-close:hover { background: rgba(255,255,255,.2); }
+#wl-lightbox-visit {
+    margin-top: 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg,#6366F1,#4F46E5);
+    color: #fff !important;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: .8rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 4px 16px rgba(99,102,241,.4);
+    transition: all .2s ease;
+}
+#wl-lightbox-visit:hover { transform: translateY(-2px); filter: brightness(1.1); color: #fff !important; }
+#wl-lightbox-visit[style*="none"] { display: none !important; }
+</style>
+{% endblock %}
+
 {% block content %}
 <!-- Page Header -->
 <section class="page-header">
@@ -27,10 +233,10 @@
         <div class="section-title scroll-animate">
             <span class="label">Our Work</span>
             <h2>Featured <span class="text-green">Projects</span></h2>
-            <p>A quick look at websites we’ve built for businesses, brands, and startups.</p>
+            <p>A quick look at websites we've built for businesses, brands, and startups.</p>
         </div>
 
-        <!-- Filter Buttons — built from actual categories in DB -->
+        <!-- Filter Buttons -->
         <div class="portfolio-filters scroll-animate">
             <button class="filter-btn active" data-filter="all">All Projects</button>
             {% for cat_val, cat_label in categories %}
@@ -43,33 +249,54 @@
             {% if portfolio_items %}
                 {% for item in portfolio_items %}
                 <div class="col-lg-4 col-md-6 portfolio-item scroll-animate" data-category="{{ item.category }}">
-                    <div class="portfolio-item-inner">
-                        <span class="portfolio-cat-badge">{{ item.get_category_display }}</span>
+                    <div class="portfolio-item-inner"
+                         data-img="{{ item.image_url }}"
+                         data-title="{{ item.title }}"
+                         data-desc="{{ item.description|truncatewords:20 }}"
+                         data-url="{{ item.live_url }}">
+
+                        <!-- Category badge with color class -->
+                        <span class="portfolio-cat-badge cat-{{ item.category }}">
+                            {{ item.get_category_display }}
+                        </span>
+
+                        <!-- Image -->
                         {% if item.image_url %}
                         <img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex';">
-                        <div class="portfolio-img-placeholder" style="display:none;">
-                            <i class="fas fa-globe"></i>
-                        </div>
+                             onerror="this.style.display='none';">
                         {% else %}
                         <div class="portfolio-img-placeholder">
                             <i class="fas fa-globe"></i>
                         </div>
                         {% endif %}
+
+                        <!-- Hover overlay -->
                         <div class="portfolio-overlay">
                             <h3>{{ item.title }}</h3>
-                            <p>{{ item.description|truncatewords:20 }}</p>
-                            {% if item.live_url %}
-                            <a href="{{ item.live_url }}" target="_blank" class="btn btn-green btn-sm">Visit Website <i class="fas fa-external-link-alt ms-1"></i></a>
-                            {% endif %}
+                            <p>{{ item.description|truncatewords:15 }}</p>
+                            <div class="portfolio-overlay-btns">
+                                <button class="btn-view-img wl-lb-trigger"
+                                        data-img="{{ item.image_url }}"
+                                        data-title="{{ item.title }}"
+                                        data-desc="{{ item.description|truncatewords:20 }}"
+                                        data-url="{{ item.live_url }}">
+                                    <i class="fas fa-expand"></i> View
+                                </button>
+                                {% if item.live_url %}
+                                <a href="{{ item.live_url }}" target="_blank" class="btn-visit-site">
+                                    <i class="fas fa-external-link-alt"></i> Visit Site
+                                </a>
+                                {% endif %}
+                            </div>
                         </div>
+
                     </div>
                 </div>
                 {% endfor %}
             {% else %}
                 <div class="col-12 text-center py-5">
                     <i class="fas fa-images fa-3x mb-3" style="color:var(--primary-green);opacity:0.4;"></i>
-                    <p style="color:var(--text-gray);">Portfolio projects coming soon. Check back later!</p>
+                    <p style="color:var(--text-gray);">Portfolio projects coming soon.</p>
                     <a href="{% url 'contact' %}" class="btn btn-outline-indigo mt-2">Contact Us</a>
                 </div>
             {% endif %}
@@ -77,13 +304,26 @@
     </div>
 </section>
 
+<!-- ── Lightbox ── -->
+<div id="wl-lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <button id="wl-lightbox-close" aria-label="Close"><i class="fas fa-times"></i></button>
+    <img id="wl-lightbox-img" src="" alt="Portfolio image">
+    <div id="wl-lightbox-meta">
+        <div id="wl-lightbox-title"></div>
+        <div id="wl-lightbox-desc"></div>
+        <a id="wl-lightbox-visit" href="#" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i> Visit Website
+        </a>
+    </div>
+</div>
+
 <!-- CTA Section -->
 <section class="cta-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8 scroll-animate">
                 <h2>Ready to Build Yours?</h2>
-                <p>Tell us what you need — we’ll respond within 24 hours with the best next step.</p>
+                <p>Tell us what you need — we'll respond within 24 hours with the best next step.</p>
                 <a href="{% url 'request_website' %}" class="btn btn-indigo btn-lg">Get a Free Quote</a>
             </div>
         </div>
@@ -93,10 +333,68 @@
 
 {% block extra_js %}
 <script>
-// Portfolio filtering is handled by the main script.js
-// This will activate when the page loads
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Portfolio page loaded with filtering enabled');
-});
+(function () {
+    var lb      = document.getElementById('wl-lightbox');
+    var lbImg   = document.getElementById('wl-lightbox-img');
+    var lbTitle = document.getElementById('wl-lightbox-title');
+    var lbDesc  = document.getElementById('wl-lightbox-desc');
+    var lbVisit = document.getElementById('wl-lightbox-visit');
+    var lbClose = document.getElementById('wl-lightbox-close');
+
+    function openLightbox(img, title, desc, url) {
+        lbImg.src        = img || '';
+        lbTitle.textContent = title || '';
+        lbDesc.textContent  = desc || '';
+        if (url) {
+            lbVisit.href         = url;
+            lbVisit.style.display = '';
+        } else {
+            lbVisit.style.display = 'none';
+        }
+        lb.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        lb.classList.remove('open');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+    }
+
+    // Trigger on "View" button click
+    document.querySelectorAll('.wl-lb-trigger').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            openLightbox(
+                btn.dataset.img,
+                btn.dataset.title,
+                btn.dataset.desc,
+                btn.dataset.url
+            );
+        });
+    });
+
+    // Also trigger on clicking the card image directly
+    document.querySelectorAll('.portfolio-item-inner').forEach(function (card) {
+        card.addEventListener('click', function (e) {
+            if (e.target.closest('.btn-visit-site') || e.target.closest('.wl-lb-trigger')) return;
+            openLightbox(
+                card.dataset.img,
+                card.dataset.title,
+                card.dataset.desc,
+                card.dataset.url
+            );
+        });
+    });
+
+    // Close on button / backdrop / ESC
+    lbClose.addEventListener('click', closeLightbox);
+    lb.addEventListener('click', function (e) {
+        if (e.target === lb) closeLightbox();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+    });
+})();
 </script>
 {% endblock %}
