@@ -80,638 +80,324 @@ text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;
 
 }
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-
-HERO - Enhanced Security Theme
-
-====================================================== */
+/* ======================================================
+   HERO — Beautiful Light Split Layout
+   ====================================================== */
 
 #hero.wl-new-hero {
-
-position: relative;
-
-display: flex;
-
-flex-direction: column;
-
-height: 100dvh;
-
-min-height: 600px;
-
-max-height: 980px;
-
-overflow: hidden;
-
-background:
-
-radial-gradient(ellipse 1000px 700px at -8% -15%, rgba(79,70,229,.18) 0%, transparent 55%),
-
-radial-gradient(ellipse 700px 500px at 108% 18%, rgba(59,130,246,.14) 0%, transparent 50%),
-
-radial-gradient(ellipse 500px 400px at 50% 115%, rgba(129,140,248,.14) 0%, transparent 55%),
-
-linear-gradient(155deg, #f8faff 0%, #f0f4ff 40%, #eaeeff 100%);
-
-border-bottom: 1px solid rgba(79,70,229,.10);
-
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px);
+  overflow: hidden;
+  background: linear-gradient(135deg, #eef2ff 0%, #f8faff 45%, #f0f4ff 100%);
+  border-bottom: 1px solid rgba(99,102,241,.10);
 }
-
 #hero.wl-new-hero::before {
-
-content: "";
-
-position: absolute; inset: 0;
-
-background-image: radial-gradient(rgba(79,70,229,.10) 1.2px, transparent 1.2px);
-
-background-size: 28px 28px;
-
-opacity: .6;
-
-pointer-events: none;
-
-animation: heroGridDrift 22s linear infinite;
-
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(99,102,241,.10) 1px, transparent 1px);
+  background-size: 30px 30px;
+  pointer-events: none; z-index: 0;
 }
-
-@keyframes heroGridDrift { to { background-position: 28px 28px; } }
-
+/* indigo glow top-left */
 #hero.wl-new-hero::after {
-
-content: "";
-
-position: absolute;
-
-width: 620px; height: 620px;
-
-top: -180px; right: -150px;
-
-background: radial-gradient(circle, rgba(79,70,229,.18) 0%, rgba(59,130,246,.08) 45%, transparent 70%);
-
-border-radius: 50%;
-
-pointer-events: none;
-
-animation: heroOrbFloat 10s ease-in-out infinite;
-
+  content: "";
+  position: absolute;
+  width: 600px; height: 600px;
+  top: -180px; left: -180px;
+  background: radial-gradient(circle, rgba(99,102,241,.15) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none; z-index: 0;
 }
 
-@keyframes heroOrbFloat {
-
-0%,100% { transform: translateY(0) scale(1); }
-
-50%      { transform: translateY(-24px) scale(1.06); }
-
-}
-
+/* Flex body */
 .wl-hero-flex-body {
-
-flex: 1 1 auto;
-
-display: flex;
-
-align-items: center;
-
-position: relative;
-
-z-index: 2;
-
-overflow: hidden;
-
-padding: 0;
-
+  flex: 1 1 auto;
+  display: flex; align-items: center;
+  position: relative; z-index: 2;
+  padding: 0;
 }
 
+/* LEFT text col */
+.wl-hero-text-col {
+  display: flex; flex-direction: column; justify-content: center;
+  padding-right: 12px;
+}
+
+/* Badge */
 .wl-sec-badge {
-
-display: inline-flex; align-items: center; gap: 8px;
-
-background: rgba(255,255,255,.95);
-
-border: 1px solid rgba(79,70,229,.22);
-
-border-radius: 50px;
-
-padding: 6px 18px;
-
-font-size: .75rem; font-weight: 700; color: #1e293b;
-
-box-shadow: 0 2px 16px rgba(79,70,229,.12);
-
-backdrop-filter: blur(12px);
-
-margin-bottom: 18px;
-
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff;
+  border: 1.5px solid rgba(99,102,241,.28);
+  border-radius: 50px; padding: 6px 18px;
+  font-size: .74rem; font-weight: 700; color: #1e293b;
+  box-shadow: 0 2px 14px rgba(99,102,241,.10);
+  width: fit-content; margin-bottom: 12px;
 }
+.wl-sec-badge i { color: #6366F1; font-size: .78rem; }
 
-.wl-sec-badge i { color: #4F46E5; font-size: .8rem; }
-
+/* Headline */
 .wl-new-hero-title {
-
-font-size: clamp(2.2rem, 4.2vw, 4rem);
-
-font-weight: 900;
-
-letter-spacing: -.04em;
-
-line-height: 1.1;
-
-color: #0a0f1e;
-
-margin: 0 0 16px;
-
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  font-weight: 900; letter-spacing: -.03em; line-height: 1.18;
+  color: #0a0f1e; margin: 0 0 14px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  animation: titleDrift 5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+.wl-hero-title-row {
+  display: block; white-space: normal; overflow: visible;
+}
+.wl-hero-title-row--typed {
+  display: block; white-space: nowrap; overflow: visible;
+  min-height: 1.25em; margin-top: 2px;
+}
+/* accent underline after row 1 */
+.wl-hero-title-row::after {
+  content: '';
+  display: block; width: 56px; height: 3px;
+  background: linear-gradient(90deg, #4F46E5, #38bdf8);
+  border-radius: 2px; margin-top: 6px;
 }
 
-.wl-new-hero-title .hl-blue {
-
-background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 50%, #06B6D4 100%);
-
--webkit-background-clip: text;
-
-background-clip: text;
-
--webkit-text-fill-color: transparent;
-
-display: block;
-
-filter: drop-shadow(0 2px 12px rgba(79,70,229,.25));
-
+@keyframes titleDrift {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
 }
 
+/* Floating word entrance */
+@keyframes wordFloat {
+  0%   { opacity: 0; transform: translateY(22px) rotate(-1deg); }
+  60%  { transform: translateY(-4px) rotate(.3deg); }
+  100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+}
+.wl-word-float {
+  display: inline-block; opacity: 0;
+  animation: wordFloat .6s cubic-bezier(.34,1.56,.64,1) forwards;
+  animation-delay: calc(var(--i) * 0.14s + 0.2s);
+  margin-right: .16em;
+}
+
+/* Typewriter */
+.wl-typewriter {
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 45%, #38bdf8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; display: inline;
+}
+.wl-cursor {
+  display: inline-block;
+  color: #6366F1; -webkit-text-fill-color: #6366F1;
+  font-weight: 300; animation: cursorBlink 1s step-end infinite;
+  margin-left: 2px; vertical-align: middle;
+}
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0; }
+}
+
+/* Lead */
 .wl-new-hero-lead {
-
-color: #475569;
-
-font-size: .94rem;
-
-line-height: 1.75;
-
-max-width: 480px;
-
-margin: 0 0 22px;
-
+  color: #475569; font-size: .9rem; line-height: 1.7;
+  max-width: 490px; margin: 0 0 20px;
 }
 
+/* CTAs */
 .wl-new-hero-ctas {
-
-display: flex; gap: 12px; flex-wrap: wrap;
-
-align-items: center; margin-bottom: 20px;
-
+  display: flex; gap: 10px; flex-wrap: wrap;
+  align-items: center; margin-bottom: 18px;
 }
-
 .wl-btn-primary-dark {
-
-display: inline-flex; align-items: center; gap: 8px;
-
-background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-
-color: #fff !important;
-
-padding: 13px 32px; border-radius: 50px;
-
-font-weight: 700; font-size: .9rem;
-
-text-decoration: none; border: none;
-
-transition: all .28s cubic-bezier(.34,1.56,.64,1);
-
-box-shadow: 0 8px 26px rgba(15,23,42,.32), inset 0 1px 0 rgba(255,255,255,.08);
-
-white-space: nowrap;
-
+  display: inline-flex; align-items: center; gap: 9px;
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+  color: #fff !important; padding: 11px 26px; border-radius: 50px;
+  font-weight: 700; font-size: .88rem;
+  text-decoration: none; border: none;
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 8px 28px rgba(99,102,241,.38), inset 0 1px 0 rgba(255,255,255,.15);
+  white-space: nowrap;
 }
-
 .wl-btn-primary-dark:hover {
-
-background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-
-transform: translateY(-3px) scale(1.03);
-
-box-shadow: 0 14px 36px rgba(15,23,42,.42); color: #fff !important;
-
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%);
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 14px 38px rgba(99,102,241,.48); color: #fff !important;
 }
+.wl-btn-primary-dark i { transition: transform .2s ease; }
+.wl-btn-primary-dark:hover i { transform: translateX(4px); }
 
 .wl-btn-outline-call {
-
-display: inline-flex; align-items: center; gap: 7px;
-
-background: rgba(255,255,255,.92); color: #0f172a !important;
-
-padding: 12px 26px; border-radius: 50px;
-
-border: 2px solid rgba(15,23,42,.12);
-
-font-weight: 700; font-size: .88rem;
-
-text-decoration: none; backdrop-filter: blur(12px);
-
-transition: all .24s ease; white-space: nowrap;
-
-box-shadow: 0 2px 12px rgba(79,70,229,.08);
-
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; color: #1e293b !important;
+  padding: 10px 22px; border-radius: 50px;
+  border: 2px solid rgba(99,102,241,.25);
+  font-weight: 700; font-size: .88rem; text-decoration: none;
+  transition: all .24s ease; white-space: nowrap;
+  box-shadow: 0 2px 12px rgba(99,102,241,.09);
 }
-
 .wl-btn-outline-call:hover {
-
-border-color: rgba(79,70,229,.35); background: #fff;
-
-transform: translateY(-2px); color: #0f172a !important;
-
-box-shadow: 0 6px 22px rgba(79,70,229,.14);
-
+  border-color: #6366F1; color: #4F46E5 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(99,102,241,.18);
 }
 
-.wl-trust-pills { display: flex; flex-wrap: wrap; gap: 7px; }
-
+/* Trust pills */
+.wl-trust-pills { display: flex; flex-wrap: wrap; gap: 6px; }
 .wl-trust-pill {
-
-display: inline-flex; align-items: center; gap: 6px;
-
-background: rgba(255,255,255,.90);
-
-border: 1px solid rgba(79,70,229,.14);
-
-border-radius: 50px; padding: 6px 14px;
-
-font-size: .74rem; font-weight: 600; color: #1e293b;
-
-box-shadow: 0 1px 8px rgba(79,70,229,.07);
-
-backdrop-filter: blur(10px);
-
-transition: all .2s ease;
-
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #fff; border: 1.5px solid rgba(99,102,241,.16);
+  border-radius: 50px; padding: 5px 12px;
+  font-size: .73rem; font-weight: 600; color: #334155;
+  box-shadow: 0 1px 6px rgba(99,102,241,.07);
+  transition: all .2s ease;
 }
-
 .wl-trust-pill:hover {
+  border-color: #6366F1; color: #4F46E5;
+  transform: translateY(-2px); box-shadow: 0 4px 14px rgba(99,102,241,.15);
+}
+.wl-trust-pill i { color: #6366F1; font-size: .72rem; }
 
-border-color: rgba(79,70,229,.3); background: #fff;
-
-transform: translateY(-1px); box-shadow: 0 4px 14px rgba(79,70,229,.12);
-
+/* RIGHT image col */
+.wl-hero-img-col {
+  position: relative; display: flex;
+  align-items: center; justify-content: flex-start;
+}
+.wl-hero-img-blob {
+  position: absolute; inset: -5% -5%;
+  background: radial-gradient(ellipse at 55% 45%, rgba(99,102,241,.16) 0%, rgba(56,189,248,.11) 55%, transparent 75%);
+  border-radius: 60% 40% 50% 55% / 45% 55% 45% 50%;
+  animation: blobMorph 10s ease-in-out infinite; z-index: 0;
+}
+@keyframes blobMorph {
+  0%,100% { border-radius: 60% 40% 50% 55% / 45% 55% 45% 50%; }
+  33%      { border-radius: 50% 55% 60% 40% / 55% 40% 55% 45%; }
+  66%      { border-radius: 40% 60% 45% 55% / 50% 50% 40% 60%; }
+}
+.wl-hero-main-img {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 620px; height: auto;
+  border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(99,102,241,.18), 0 8px 24px rgba(0,0,0,.09), 0 0 0 1px rgba(99,102,241,.08);
+  animation: imgFloat 6s ease-in-out infinite; display: block;
+}
+@keyframes imgFloat {
+  0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); }
 }
 
-.wl-trust-pill i { color: #4F46E5; font-size: .72rem; }
-
-/* RIGHT PANEL */
-
-.wl-sec-visual {
-
-position: relative;
-
-width: 100%;
-
-height: 100%;
-
-min-height: 420px;
-
-display: flex;
-
-align-items: center;
-
-justify-content: center;
-
+/* Floating chips */
+.wl-hero-chip {
+  position: absolute; background: #fff;
+  border: 1.5px solid rgba(99,102,241,.18); border-radius: 14px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 9px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.10); z-index: 5;
+  white-space: nowrap; backdrop-filter: blur(10px);
 }
-
-.wl-sec-disc {
-
-position: absolute;
-
-width: 74%;
-
-aspect-ratio: 1;
-
-border-radius: 50%;
-
-background: radial-gradient(ellipse at 38% 35%,
-
-#2d3bce 0%, #1a2490 28%, #0d1565 58%, #070e42 80%, #040820 95%);
-
-box-shadow:
-
-0 0 0 1px rgba(99,130,255,.25),
-
-0 0 90px rgba(79,70,229,.55),
-
-0 0 180px rgba(59,130,246,.25),
-
-inset 0 0 70px rgba(30,42,138,.7);
-
-z-index: 1;
-
-left: 50%; top: 50%;
-
-transform: translate(-50%, -50%);
-
+.wl-hero-chip-icon {
+  width: 34px; height: 34px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .85rem; flex-shrink: 0;
 }
-
-.wl-sec-ring {
-
-position: absolute;
-
-border-radius: 50%;
-
-left: 50%; top: 50%;
-
-transform: translate(-50%, -50%);
-
-z-index: 2;
-
-pointer-events: none;
-
-}
-
-.wl-sec-ring--outer {
-
-width: 70%; aspect-ratio: 1;
-
-border: 1.5px dashed rgba(99,149,255,.22);
-
-animation: ringRotate 30s linear infinite;
-
-}
-
-.wl-sec-ring--inner {
-
-width: 54%; aspect-ratio: 1;
-
-border: 1px solid rgba(129,140,248,.2);
-
-animation: ringRotate 20s linear infinite reverse;
-
-}
-
-@keyframes ringRotate {
-
-from { transform: translate(-50%, -50%) rotate(0deg); }
-
-to   { transform: translate(-50%, -50%) rotate(360deg); }
-
-}
-
-.wl-sec-ring--glow1 {
-
-width: 63%; aspect-ratio: 1;
-
-border: 1px solid rgba(59,130,246,.12);
-
-animation: ringPulse 6s ease-in-out infinite;
-
-}
-
-.wl-sec-ring--glow2 {
-
-width: 44%; aspect-ratio: 1;
-
-border: 1px solid rgba(129,140,248,.18);
-
-animation: ringPulse 6s ease-in-out infinite 2s;
-
-}
-
-@keyframes ringPulse {
-
-0%,100% { opacity: .4; transform: translate(-50%,-50%) scale(1); }
-
-50%      { opacity: 1; transform: translate(-50%,-50%) scale(1.03); }
-
-}
-
-.wl-sec-shield-wrap {
-
-position: absolute;
-
-width: 30%;
-
-left: 50%; top: 50%;
-
-transform: translate(-50%, -50%);
-
-z-index: 5;
-
-filter: drop-shadow(0 0 30px rgba(79,102,241,.8)) drop-shadow(0 0 70px rgba(59,130,246,.4));
-
-animation: shieldFloat 5s ease-in-out infinite;
-
-}
-
-.wl-sec-shield-wrap svg { width: 100%; height: auto; display: block; }
-
-@keyframes shieldFloat {
-
-0%,100% { transform: translate(-50%,-50%) translateY(0) scale(1); }
-
-50%      { transform: translate(-50%,-50%) translateY(-12px) scale(1.02); }
-
-}
-
-.wl-sec-card {
-
-position: absolute;
-
-background: rgba(255,255,255,.98);
-
-border: 1px solid rgba(79,70,229,.14);
-
-border-radius: 16px;
-
-padding: 12px 15px;
-
-display: flex; align-items: flex-start; gap: 10px;
-
-box-shadow: 0 10px 32px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.8);
-
-backdrop-filter: blur(16px);
-
-z-index: 8;
-
-max-width: 185px; min-width: 155px;
-
-transition: transform .25s ease, box-shadow .25s ease;
-
-}
-
-.wl-sec-card:hover {
-
-transform: translateY(-4px) !important;
-
-box-shadow: 0 18px 44px rgba(79,70,229,.18);
-
-}
-
-.wl-sec-card-icon {
-
-width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
-
-display: flex; align-items: center; justify-content: center;
-
-font-size: .9rem;
-
-background: rgba(79,70,229,.10); color: #4F46E5;
-
-box-shadow: 0 2px 8px rgba(79,70,229,.15);
-
-}
-
-.wl-sec-card-title { font-size: .76rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 3px; }
-
-.wl-sec-card-sub   { font-size: .65rem; color: #64748b; line-height: 1.4; }
-
-.wl-sec-card--ssl { top: 4%;  left: 0%;  animation: sc1 5s ease-in-out infinite; }
-
-.wl-sec-card--mal { top: 4%;  right:-2%; animation: sc2 6.5s ease-in-out infinite; }
-
-.wl-sec-card--bkp { bottom: 15%; left: 0%; animation: sc3 7s ease-in-out infinite; }
-
-.wl-sec-card--mon { bottom: 12%; right:-2%; animation: sc4 5.5s ease-in-out infinite; }
-
-@keyframes sc1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-
-@keyframes sc2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
-
-@keyframes sc3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
-
-@keyframes sc4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(9px)} }
-
-/* STATS BAR */
-
+.wl-hero-chip-label { font-size: .72rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
+.wl-hero-chip-sub   { font-size: .63rem; color: #64748b; }
+.wl-hero-chip--tl { bottom: 14%; left: 2%; top: auto; animation: chipFloat1 5s ease-in-out infinite; }
+.wl-hero-chip--br { bottom: 12%; right: -10%; animation: chipFloat2 6s ease-in-out infinite; }
+.wl-hero-chip--tm { top: -4%; right: 8%; animation: chipFloat3 7s ease-in-out infinite; }
+@keyframes chipFloat1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes chipFloat2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(9px)} }
+@keyframes chipFloat3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+/* Stats bar */
 .wl-stats-bar {
-
-flex-shrink: 0;
-
-background: rgba(255,255,255,.97);
-
-border-top: 1px solid rgba(79,70,229,.10);
-
-backdrop-filter: blur(14px);
-
-position: relative; z-index: 3;
-
-box-shadow: 0 -4px 20px rgba(79,70,229,.06);
-
+  flex-shrink: 0; background: #fff;
+  border-top: 1px solid rgba(99,102,241,.10);
+  position: relative; z-index: 3;
+  box-shadow: 0 -2px 16px rgba(99,102,241,.06);
 }
-
 .wl-stats-bar-inner { display: flex; align-items: stretch; }
-
 .wl-stat-item {
-
-display: flex; align-items: center; gap: 13px;
-
-padding: 16px 24px;
-
-border-right: 1px solid rgba(79,70,229,.08);
-
-flex: 1; min-width: 0;
-
-transition: background .2s ease;
-
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; border-right: 1px solid rgba(99,102,241,.08);
+  flex: 1; min-width: 0; transition: background .2s ease;
 }
-
-.wl-stat-item:hover { background: rgba(79,70,229,.03); }
-
+.wl-stat-item:hover { background: rgba(99,102,241,.03); }
 .wl-stat-item:last-child { border-right: none; }
-
 .wl-stat-icon {
-
-width: 40px; height: 40px; flex-shrink: 0;
-
-background: linear-gradient(135deg, rgba(79,70,229,.12), rgba(59,130,246,.08));
-
-border-radius: 50%;
-
-display: flex; align-items: center; justify-content: center;
-
-color: #4F46E5; font-size: 1rem;
-
-box-shadow: 0 2px 10px rgba(79,70,229,.12);
-
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  color: #6366F1; font-size: .9rem;
+  box-shadow: 0 2px 8px rgba(99,102,241,.14);
 }
-
 .wl-stat-num {
-
-font-family: 'Poppins', sans-serif;
-
-font-size: 1.5rem; font-weight: 900;
-
-background: linear-gradient(135deg, #0f172a 0%, #4F46E5 100%);
-
--webkit-background-clip: text; background-clip: text;
-
--webkit-text-fill-color: transparent;
-
-line-height: 1; letter-spacing: -.04em; display: block;
-
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem; font-weight: 900;
+  background: linear-gradient(135deg, #0f172a 0%, #6366F1 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1; letter-spacing: -.04em; display: block;
 }
-
 .wl-stat-lbl {
-
-font-size: .60rem; color: #94a3b8;
-
-text-transform: uppercase; letter-spacing: .09em;
-
-font-weight: 700; margin-top: 3px; display: block;
-
+  font-size: .60rem; color: #94a3b8;
+  text-transform: uppercase; letter-spacing: .09em;
+  font-weight: 700; margin-top: 3px; display: block;
 }
 
+/* Responsive */
+/* ── Tablet (≤991px): stack image below text ── */
 @media (max-width: 991px) {
-
-#hero.wl-new-hero { height: auto; max-height: none; }
-
-.wl-hero-flex-body { padding: 48px 0 24px; }
-
-.wl-sec-visual { min-height: 320px; margin-top: 28px; }
-
-.wl-sec-disc { width: 78%; }
-
-.wl-sec-ring--outer { width: 74%; }
-
-.wl-sec-ring--inner { width: 58%; }
-
-.wl-sec-shield-wrap { width: 28%; }
-
-.wl-sec-card { display: none; }
-
+  #hero.wl-new-hero { min-height: auto; height: auto; max-height: none; overflow: visible; }
+  .wl-hero-flex-body { padding: 24px 0 12px; }
+  .wl-hero-text-col { padding-right: 0; text-align: center; align-items: center; }
+  .wl-hero-title-row, .wl-hero-title-row--typed { white-space: normal; overflow: visible; }
+  .wl-hero-title-row::after { margin: 4px auto 0; }
+  .wl-new-hero-lead { margin-left: auto; margin-right: auto; max-width: 520px; }
+  .wl-new-hero-ctas { justify-content: center; }
+  .wl-trust-pills { justify-content: center; }
+  .wl-hero-img-col {
+    margin-top: 24px;
+    justify-content: center;
+    display: flex !important;
+    visibility: visible !important;
+    min-height: 280px;
+  }
+  .wl-hero-main-img {
+    display: block !important;
+    visibility: visible !important;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 16px;
+  }
+  .wl-hero-img-blob { display: none; }
+  .wl-hero-chip { display: none; }
 }
 
-@media (min-width: 992px) {
-
-.wl-sec-card--ssl,.wl-sec-card--mal,
-
-.wl-sec-card--bkp,.wl-sec-card--mon { display: flex; }
-
-}
-
+/* ── Mobile (≤767px) ── */
 @media (max-width: 767px) {
-
-.wl-new-hero-title { font-size: clamp(2rem, 8vw, 2.8rem); }
-
-.wl-new-hero-lead  { font-size: .88rem; }
-
-.wl-btn-primary-dark, .wl-btn-outline-call { padding: 11px 22px; font-size: .86rem; }
-
-.wl-stats-bar-inner { flex-wrap: wrap; }
-
-.wl-stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(79,70,229,.06); padding: 12px 14px; }
-
-.wl-stat-item:nth-child(2n) { border-right: none; }
-
-.wl-stat-item:nth-last-child(-n+2) { border-bottom: none; }
-
-.wl-stat-num { font-size: 1.25rem; }
-
+  .wl-new-hero-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+  .wl-new-hero-lead  { font-size: .88rem; max-width: 100%; }
+  .wl-btn-primary-dark { padding: 12px 24px; font-size: .88rem; width: 100%; justify-content: center; }
+  .wl-btn-outline-call { padding: 11px 22px; font-size: .86rem; width: 100%; justify-content: center; }
+  .wl-new-hero-ctas { flex-direction: column; align-items: center; gap: 10px; width: 100%; max-width: 300px; margin-left: auto; margin-right: auto; }
+  .wl-hero-main-img { max-width: 100%; border-radius: 14px; }
+  .wl-stats-bar-inner { flex-wrap: wrap; }
+  .wl-stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(99,102,241,.06); padding: 10px 12px; }
+  .wl-stat-item:nth-child(2n) { border-right: none; }
+  .wl-stat-item:nth-last-child(-n+2) { border-bottom: none; }
+  .wl-stat-num { font-size: 1.1rem; }
+  .wl-stat-lbl { font-size: .54rem; }
 }
 
+/* ── Small mobile (≤575px) ── */
 @media (max-width: 575px) {
-
-.wl-trust-pills { gap: 5px; }
-
-.wl-trust-pill  { font-size: .71rem; padding: 5px 11px; }
-
-.wl-stat-item   { flex: 0 0 50%; padding: 10px 12px; gap: 9px; }
-
-.wl-stat-icon   { width: 32px; height: 32px; font-size: .85rem; }
-
+  .wl-hero-flex-body { padding: 16px 0 8px; }
+  .wl-new-hero-title { font-size: clamp(1.4rem, 7vw, 1.9rem); }
+  .wl-sec-badge { font-size: .68rem; padding: 5px 14px; }
+  .wl-trust-pills { gap: 5px; }
+  .wl-trust-pill  { font-size: .68rem; padding: 5px 10px; }
+  .wl-stat-item   { flex: 0 0 50%; padding: 8px 10px; gap: 8px; }
+  .wl-stat-icon   { width: 28px; height: 28px; font-size: .75rem; }
+  .wl-stat-num    { font-size: 1rem; }
+  .wl-hero-main-img { border-radius: 12px; }
+  .wl-new-hero-ctas { max-width: 260px; }
 }
 
 </style>
@@ -728,442 +414,257 @@ HERO &mdash;” Security Theme
 
 <section id="hero" class="wl-new-hero">
 
-<div class="wl-hero-flex-body">
-
-<div class="container">
-
-<div class="row align-items-center g-3 g-lg-4">
-
-<!-- â”€â”€ LEFT: Copy â”€â”€ -->
-
-<div class="col-lg-6">
-
-<!-- "Secure. Reliable. Professional." badge -->
-
-<div class="wl-sec-badge hero-reveal-1">
-
-<i class="fas fa-shield-alt"></i>
-
-<span>Secure. Reliable. Professional.</span>
-
-</div>
-
-<!-- Headline -->
-
-<h1 class="wl-new-hero-title hero-reveal-2">
-
-Professional<br>
-
-Websites That<br>
-
-<span class="hl-blue">Build Trust</span>
-
-</h1>
-
-<!-- Lead text -->
-
-<p class="wl-new-hero-lead hero-reveal-3">
-
-We design and develop secure, fast, and SEO-friendly websites that protect your business, build credibility, and deliver real results.
-
-</p>
-
-<!-- CTAs -->
-
-<div class="wl-new-hero-ctas hero-reveal-4">
-
-<a href="{% url 'request_website' %}" class="wl-btn-primary-dark">
-
-Get a Free Quote &nbsp;<i class="fas fa-arrow-right"></i>
-
-</a>
-
-<a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="wl-btn-outline-call">
-
-<i class="fas fa-calendar-check"></i> Book a Call
-
-</a>
-
-</div>
-
-<!-- Trust pills -->
-
-<div class="wl-trust-pills hero-reveal-4">
-
-<span class="wl-trust-pill"><i class="fas fa-shield-alt"></i> Secure &amp; Protected</span>
-
-<span class="wl-trust-pill"><i class="fas fa-lock"></i> SSL Certified</span>
-
-<span class="wl-trust-pill"><i class="fas fa-cloud-upload-alt"></i> Daily Backups</span>
-
-<span class="wl-trust-pill"><i class="fas fa-eye"></i> 24/7 Monitoring</span>
-
-</div>
-
-</div>
-
-<!-- â”€â”€ RIGHT: Security visual (no images) â”€â”€ -->
-
-<div class="col-lg-6 hero-reveal-r">
-
-<div class="wl-sec-visual">
-
-<!-- dark circular backdrop -->
-
-<div class="wl-sec-disc"></div>
-
-<!-- outer ring -->
-
-<div class="wl-sec-ring wl-sec-ring--outer"></div>
-
-<!-- inner ring -->
-
-<div class="wl-sec-ring wl-sec-ring--inner"></div>
-
-<!-- glow rings -->
-
-<div class="wl-sec-ring wl-sec-ring--glow1"></div>
-
-<div class="wl-sec-ring wl-sec-ring--glow2"></div>
-
-<!-- shield SVG &mdash;” centrepiece -->
-
-<div class="wl-sec-shield-wrap">
-
-<svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-<path d="M60 4L8 26V66C8 96 30 122 60 132C90 122 112 96 112 66V26L60 4Z"
-
-fill="url(#sg1)"/>
-
-<path d="M60 18L20 35V66C20 89 37 110 60 120C83 110 100 89 100 66V35L60 18Z"
-
-fill="url(#sg2)" opacity="0.55"/>
-
-<!-- padlock body -->
-
-<rect x="44" y="68" width="32" height="26" rx="5" fill="white" opacity="0.96"/>
-
-<!-- padlock shackle -->
-
-<path d="M51 68V60C51 53 69 53 69 60V68"
-
-stroke="white" stroke-width="5" stroke-linecap="round" fill="none"/>
-
-<!-- keyhole dot -->
-
-<circle cx="60" cy="79" r="4" fill="#4F46E5"/>
-
-<rect x="58.5" y="79" width="3" height="7" rx="1.5" fill="#4F46E5"/>
-
-<defs>
-
-<linearGradient id="sg1" x1="8" y1="4" x2="112" y2="132" gradientUnits="userSpaceOnUse">
-
-<stop offset="0%" stop-color="#4F46E5"/>
-
-<stop offset="55%" stop-color="#3B82F6"/>
-
-<stop offset="100%" stop-color="#1D4ED8"/>
-
-</linearGradient>
-
-<linearGradient id="sg2" x1="20" y1="18" x2="100" y2="120" gradientUnits="userSpaceOnUse">
-
-<stop offset="0%" stop-color="#818CF8"/>
-
-<stop offset="100%" stop-color="#93C5FD"/>
-
-</linearGradient>
-
-</defs>
-
-</svg>
-
-</div>
-
-<!-- Floating security info cards -->
-
-<div class="wl-sec-card wl-sec-card--ssl">
-
-<div class="wl-sec-card-icon">
-
-<i class="fas fa-lock"></i>
-
-</div>
-
-<div>
-
-<div class="wl-sec-card-title">SSL Secured</div>
-
-<div class="wl-sec-card-sub">Your data is always<br>encrypted &amp; protected</div>
-
-</div>
-
-</div>
-
-<div class="wl-sec-card wl-sec-card--mal">
-
-<div class="wl-sec-card-icon" style="background:rgba(239,68,68,.12);color:#dc2626;">
-
-<i class="fas fa-shield-virus"></i>
-
-</div>
-
-<div>
-
-<div class="wl-sec-card-title">Malware Protection</div>
-
-<div class="wl-sec-card-sub">We protect your website<br>from cyber threats</div>
-
-</div>
-
-</div>
-
-<div class="wl-sec-card wl-sec-card--bkp">
-
-<div class="wl-sec-card-icon" style="background:rgba(6,182,212,.12);color:#0891b2;">
-
-<i class="fas fa-cloud-upload-alt"></i>
-
-</div>
-
-<div>
-
-<div class="wl-sec-card-title">Daily Backup</div>
-
-<div class="wl-sec-card-sub">Daily backups to keep<br>your data safe</div>
-
-</div>
-
-</div>
-
-<div class="wl-sec-card wl-sec-card--mon">
-
-<div class="wl-sec-card-icon" style="background:rgba(16,185,129,.12);color:#059669;">
-
-<i class="fas fa-eye"></i>
-
-</div>
-
-<div>
-
-<div class="wl-sec-card-title">24/7 Monitoring</div>
-
-<div class="wl-sec-card-sub">Round-the-clock monitoring<br>for total peace of mind</div>
-
-</div>
-
-</div>
-
-</div><!-- /.wl-sec-visual -->
-
-</div><!-- /.col-lg-6 -->
-
-</div><!-- /.row -->
-
-</div><!-- /.container -->
-
-</div><!-- /.wl-hero-flex-body -->
-
-<!-- â”€â”€ Bottom Stats Bar â”€â”€ -->
-
-<div class="wl-stats-bar">
-
-<div class="container">
-
-<div class="wl-stats-bar-inner">
-
-<div class="wl-stat-item">
-
-<div class="wl-stat-icon"><i class="fas fa-check-circle"></i></div>
-
-<div>
-
-<span class="wl-stat-num" data-target="150" data-suffix="+">0+</span>
-
-<span class="wl-stat-lbl">Projects Completed</span>
-
-</div>
-
-</div>
-
-<div class="wl-stat-item">
-
-<div class="wl-stat-icon"><i class="fas fa-users"></i></div>
-
-<div>
-
-<span class="wl-stat-num" data-target="120" data-suffix="+">0+</span>
-
-<span class="wl-stat-lbl">Happy Clients</span>
-
-</div>
-
-</div>
-
-<div class="wl-stat-item">
-
-<div class="wl-stat-icon"><i class="fas fa-star"></i></div>
-
-<div>
-
-<span class="wl-stat-num">5.0<i class="fas fa-star" style="font-size:1rem;color:#F59E0B;margin-left:2px;"></i></span>
-
-<span class="wl-stat-lbl">Client Rating</span>
-
-</div>
-
-</div>
-
-<div class="wl-stat-item">
-
-<div class="wl-stat-icon"><i class="fas fa-shield-alt"></i></div>
-
-<div>
-
-<span class="wl-stat-num" data-target="4" data-suffix="+">0+</span>
-
-<span class="wl-stat-lbl">Years Experience</span>
-
-</div>
-
-</div>
-
-<div class="wl-stat-item">
-
-<div class="wl-stat-icon"><i class="fas fa-headset"></i></div>
-
-<div>
-
-<span class="wl-stat-num">24/7</span>
-
-<span class="wl-stat-lbl">Support</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
+  <div class="wl-hero-flex-body">
+    <div class="container">
+      <div class="row align-items-center g-5">
+
+        <!-- ── LEFT: Text ── -->
+        <div class="col-lg-6 wl-hero-text-col hero-reveal-1">
+
+          <!-- Badge -->
+          <div class="wl-sec-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>Secure. Reliable. Professional.</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 class="wl-new-hero-title">
+            <span class="wl-hero-title-row">
+              <span class="wl-word-float" style="--i:0">Professional</span>
+              <span class="wl-word-float" style="--i:1"> Websites</span>
+              <span class="wl-word-float" style="--i:2"> That</span>
+            </span>
+            <span class="wl-hero-title-row--typed">
+              <span class="hl-blue wl-typewriter" id="heroTypewriter"></span><span class="wl-cursor">|</span>
+            </span>
+          </h1>
+
+          <!-- Lead -->
+          <p class="wl-new-hero-lead">
+            We design and develop fast, modern, SEO-friendly websites for startups
+            and businesses across India &mdash; with clean UI, strong performance,
+            and reliable support.
+          </p>
+
+          <!-- CTAs -->
+          <div class="wl-new-hero-ctas">
+            <a href="{% url 'request_website' %}" class="wl-btn-primary-dark">
+              Get a Free Quote <i class="fas fa-arrow-right"></i>
+            </a>
+            <a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}"
+               class="wl-btn-outline-call">
+              <i class="fas fa-calendar-check"></i> Book a Call
+            </a>
+          </div>
+
+          <!-- Trust pills -->
+          <div class="wl-trust-pills">
+            <span class="wl-trust-pill"><i class="fas fa-bolt"></i> Fast Delivery</span>
+            <span class="wl-trust-pill"><i class="fas fa-search"></i> SEO Ready</span>
+            <span class="wl-trust-pill"><i class="fas fa-mobile-alt"></i> Mobile-First</span>
+            <span class="wl-trust-pill"><i class="fas fa-shield-alt"></i> Secure &amp; Scalable</span>
+            <span class="wl-trust-pill"><i class="fas fa-headset"></i> 24/7 Support</span>
+          </div>
+
+        </div><!-- /col left -->
+
+        <!-- ── RIGHT: Hero Image ── -->
+        <div class="col-lg-6 wl-hero-img-col hero-reveal-2">
+
+          <!-- Ambient blob -->
+          <div class="wl-hero-img-blob"></div>
+
+          <!-- Main hero image -->
+          <img src="{% static 'images/Hero.png' %}"
+               alt="Professional Web Development by WebLance"
+               class="wl-hero-main-img">
+
+          <!-- Floating chip: top-left -->
+          <div class="wl-hero-chip wl-hero-chip--tl">
+            <div class="wl-hero-chip-icon" style="background:#EEF2FF;color:#6366F1;">
+              <i class="fas fa-code"></i>
+            </div>
+            <div>
+              <div class="wl-hero-chip-label">Custom Dev</div>
+              <div class="wl-hero-chip-sub">Tailored for you</div>
+            </div>
+          </div>
+
+          <!-- Floating chip: top-right -->
+          <div class="wl-hero-chip wl-hero-chip--tm">
+            <div class="wl-hero-chip-icon" style="background:#F0FDF4;color:#16a34a;">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <div class="wl-hero-chip-label">Higher Traffic</div>
+              <div class="wl-hero-chip-sub">SEO Optimised</div>
+            </div>
+          </div>
+
+          <!-- Floating chip: bottom-right -->
+          <div class="wl-hero-chip wl-hero-chip--br">
+            <div class="wl-hero-chip-icon" style="background:#FFF7ED;color:#ea580c;">
+              <i class="fas fa-star"></i>
+            </div>
+            <div>
+              <div class="wl-hero-chip-label">5.0 Rating</div>
+              <div class="wl-hero-chip-sub">120+ Happy Clients</div>
+            </div>
+          </div>
+
+        </div><!-- /col right -->
+
+      </div><!-- /row -->
+    </div><!-- /container -->
+  </div><!-- /wl-hero-flex-body -->
+
+  <!-- ── Bottom Stats Bar ── -->
+  <div class="wl-stats-bar">
+    <div class="container">
+      <div class="wl-stats-bar-inner">
+
+        <div class="wl-stat-item">
+          <div class="wl-stat-icon"><i class="fas fa-check-circle"></i></div>
+          <div>
+            <span class="wl-stat-num" data-target="150" data-suffix="+">0+</span>
+            <span class="wl-stat-lbl">Projects Completed</span>
+          </div>
+        </div>
+
+        <div class="wl-stat-item">
+          <div class="wl-stat-icon"><i class="fas fa-users"></i></div>
+          <div>
+            <span class="wl-stat-num" data-target="120" data-suffix="+">0+</span>
+            <span class="wl-stat-lbl">Happy Clients</span>
+          </div>
+        </div>
+
+        <div class="wl-stat-item">
+          <div class="wl-stat-icon"><i class="fas fa-star"></i></div>
+          <div>
+            <span class="wl-stat-num">5.0 <i class="fas fa-star" style="font-size:.9rem;color:#F59E0B;"></i></span>
+            <span class="wl-stat-lbl">Client Rating</span>
+          </div>
+        </div>
+
+        <div class="wl-stat-item">
+          <div class="wl-stat-icon"><i class="fas fa-shield-alt"></i></div>
+          <div>
+            <span class="wl-stat-num" data-target="4" data-suffix="+">0+</span>
+            <span class="wl-stat-lbl">Years Experience</span>
+          </div>
+        </div>
+
+        <div class="wl-stat-item">
+          <div class="wl-stat-icon"><i class="fas fa-headset"></i></div>
+          <div>
+            <span class="wl-stat-num">24/7</span>
+            <span class="wl-stat-lbl">Support</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /wl-stats-bar -->
 
 </section>
 
 <!-- Stats counter animation -->
-
 <script>
-
 (function(){
-
-function animateCounter(el){
-
-var target = parseInt(el.getAttribute('data-target'));
-
-var suffix = el.getAttribute('data-suffix') || '';
-
-var duration = 2000, start = null;
-
-function step(ts){
-
-if(!start) start = ts;
-
-var p = Math.min((ts-start)/duration,1);
-
-var ease = 1-Math.pow(1-p,3);
-
-el.textContent = Math.floor(ease*target)+suffix;
-
-if(p<1) requestAnimationFrame(step);
-
-}
-
-requestAnimationFrame(step);
-
-}
-
-var obs = new IntersectionObserver(function(entries){
-
-entries.forEach(function(e){
-
-if(e.isIntersecting){ animateCounter(e.target); obs.unobserve(e.target); }
-
-});
-
-},{threshold:.5});
-
-document.querySelectorAll('.wl-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
-
+  function animateCounter(el){
+    var target = parseInt(el.getAttribute('data-target'));
+    var suffix = el.getAttribute('data-suffix') || '';
+    var duration = 2000, start = null;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts-start)/duration,1);
+      var ease = 1-Math.pow(1-p,3);
+      el.textContent = Math.floor(ease*target)+suffix;
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ animateCounter(e.target); obs.unobserve(e.target); }
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.wl-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
 })();
-
 </script>
 
-<!-- â”€â”€ Trusted By / Social Proof Bar â”€â”€ -->
+<!-- Typewriter effect for hero headline -->
+<script>
+(function(){
+  var el = document.getElementById('heroTypewriter');
+  if(!el) return;
+  var phrases = ['Build Your Brand', 'Grow Your Business', 'Rank on Google', 'Launch in Days'];
+  var pi = 0, ci = 0, deleting = false;
 
-<section style="background:#fff;border-bottom:1px solid #E2E8F0;padding:18px 0;overflow:hidden;">
+  function tick(){
+    var phrase = phrases[pi];
+    if(!deleting){
+      ci++;
+      el.textContent = phrase.slice(0, ci);
+      if(ci === phrase.length){
+        deleting = true;
+        setTimeout(tick, 2000); // pause at full phrase
+        return;
+      }
+      setTimeout(tick, 80);
+    } else {
+      ci--;
+      el.textContent = phrase.slice(0, ci);
+      if(ci === 0){
+        deleting = false;
+        pi = (pi + 1) % phrases.length;
+        setTimeout(tick, 500);
+        return;
+      }
+      setTimeout(tick, 45);
+    }
+  }
 
-<div class="container">
+  // Start after word-float entrance (~1s)
+  setTimeout(tick, 1000);
+})();
+</script>
 
-<div class="d-flex align-items-center gap-4">
-
-<span style="font-size:0.72rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;flex-shrink:0;">Trusted in</span>
-
-<div class="trusted-marquee-wrap" style="flex:1;overflow:hidden;position:relative;">
-
-<div class="trusted-marquee-wrap" style="overflow:hidden;">
-
-<div class="trusted-marquee-track">
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
-
-<span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
-
-<!-- Duplicate for seamless loop -->
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
-
-<span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
-
-<span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
+<!-- ── Trusted By / Social Proof Bar ── -->
+<section style="background:#fff;border-bottom:1px solid #E2E8F0;padding:14px 0;overflow:hidden;">
+  <div class="container">
+    <div class="d-flex align-items-center gap-4">
+      <span style="font-size:0.70rem;color:#94A3B8;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;white-space:nowrap;flex-shrink:0;">Trusted in</span>
+      <div class="trusted-marquee-wrap" style="flex:1;overflow:hidden;position:relative;">
+        <div class="trusted-marquee-track">
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Coimbatore</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Jaipur</span>
+          <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 14px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
+          <!-- duplicate for seamless loop -->
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Bangalore</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Mumbai</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Delhi</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Chennai</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Hyderabad</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Pune</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Kolkata</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Ahmedabad</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Coimbatore</span>
+          <span class="trusted-city"><i class="fas fa-map-marker-alt"></i>Jaipur</span>
+          <span style="background:#EEF2FF;color:#6366F1;border:1px solid #C7D2FE;padding:3px 14px;border-radius:20px;font-size:0.72rem;font-weight:700;white-space:nowrap;"><i class="fas fa-globe" style="margin-right:4px;"></i> International</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- â”€â”€ Services Overview â”€â”€ -->
