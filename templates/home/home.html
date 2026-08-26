@@ -87,32 +87,329 @@
 
 }
 
-/* ══ HERO TYPEWRITER ══ */
-.wl-hero-typewriter {
-    display: block;
-    white-space: nowrap ;
+/* ══════════════════════════════════════════════════════
+   HERO — one viewport, security theme, no images
+   ══════════════════════════════════════════════════════ */
+
+/* The section itself fills exactly one screen */
+#hero.wl-new-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;          /* 100dvh respects mobile address bars */
+    min-height: 560px;
+    max-height: 960px;
     overflow: hidden;
-    min-height: 1.18em;
-    font-size: clamp(1.8rem, 2.2vw, 2.6rem);
-    background: linear-gradient(130deg, #4338ca 0%, #6366F1 28%, #818CF8 55%, #06b6d4 80%, #22d3ee 100%);
-    background-size: 220% 220%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: titleGrad 6s ease infinite;
-    filter: drop-shadow(0 3px 14px rgba(99,102,241,.26));
+    background:
+        radial-gradient(ellipse 900px 600px at -5% -10%, rgba(99,102,241,.22) 0%, transparent 55%),
+        radial-gradient(ellipse 600px 500px at 105% 15%, rgba(6,182,212,.15) 0%, transparent 50%),
+        radial-gradient(ellipse 500px 400px at 50% 110%, rgba(129,140,248,.15) 0%, transparent 55%),
+        linear-gradient(155deg, #fafbff 0%, #f0f3ff 40%, #eceeff 100%);
+    border-bottom: 1px solid rgba(99,102,241,.10);
 }
-.wl-hero-typewriter::after {
-    content: '|';
-    -webkit-text-fill-color: #6366F1;
-    color: #6366F1;
-    animation: cursorBlink 0.75s step-end infinite;
-    margin-left: 2px;
-    font-weight: 300;
+
+/* dot-grid overlay */
+#hero.wl-new-hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(99,102,241,.12) 1.2px, transparent 1.2px);
+    background-size: 26px 26px;
+    opacity: .55;
+    pointer-events: none;
+    animation: heroGridDrift 22s linear infinite;
 }
-@keyframes cursorBlink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
+@keyframes heroGridDrift { to { background-position: 26px 26px; } }
+
+/* top-right decorative orb */
+#hero.wl-new-hero::after {
+    content: "";
+    position: absolute;
+    width: 550px; height: 550px;
+    top: -160px; right: -140px;
+    background: radial-gradient(circle, rgba(99,102,241,.18) 0%, rgba(6,182,212,.08) 45%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: heroOrbFloat 10s ease-in-out infinite;
+}
+@keyframes heroOrbFloat {
+    0%,100% { transform: translateY(0) scale(1); }
+    50%      { transform: translateY(-22px) scale(1.05); }
+}
+
+/* ── Flex body (takes all space above stats bar) ── */
+.wl-hero-flex-body {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    padding: 0;
+}
+
+/* ── Badge ── */
+.wl-sec-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.92);
+    border: 1px solid rgba(99,102,241,.25);
+    border-radius: 50px;
+    padding: 5px 16px;
+    font-size: .74rem; font-weight: 700; color: #1e293b;
+    box-shadow: 0 2px 12px rgba(99,102,241,.10);
+    backdrop-filter: blur(10px);
+    margin-bottom: 14px;
+}
+.wl-sec-badge i { color: #6366F1; font-size: .76rem; }
+
+/* ── Headline ── */
+.wl-new-hero-title {
+    font-size: clamp(2rem, 3.8vw, 3.6rem);
+    font-weight: 900;
+    letter-spacing: -.035em;
+    line-height: 1.14;
+    color: #0a0f1e;
+    margin: 0 0 12px;
+}
+.wl-new-hero-title .hl-blue {
+    color: #4F46E5;
+    -webkit-text-fill-color: #4F46E5;
+    display: block;
+}
+
+/* ── Lead ── */
+.wl-new-hero-lead {
+    color: #475569;
+    font-size: .9rem;
+    line-height: 1.72;
+    max-width: 460px;
+    margin: 0 0 18px;
+}
+
+/* ── CTAs ── */
+.wl-new-hero-ctas {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    align-items: center; margin-bottom: 16px;
+}
+.wl-btn-primary-dark {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #0f172a; color: #fff !important;
+    padding: 11px 28px; border-radius: 50px;
+    font-weight: 700; font-size: .88rem;
+    text-decoration: none; border: none;
+    transition: all .26s ease;
+    box-shadow: 0 6px 22px rgba(15,23,42,.28);
+    white-space: nowrap;
+}
+.wl-btn-primary-dark:hover {
+    background: #1e293b; transform: translateY(-2px);
+    box-shadow: 0 10px 32px rgba(15,23,42,.38); color: #fff !important;
+}
+.wl-btn-outline-call {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,.88); color: #0f172a !important;
+    padding: 10px 24px; border-radius: 50px;
+    border: 2px solid rgba(15,23,42,.14);
+    font-weight: 700; font-size: .86rem;
+    text-decoration: none; backdrop-filter: blur(10px);
+    transition: all .22s ease; white-space: nowrap;
+}
+.wl-btn-outline-call:hover {
+    border-color: rgba(99,102,241,.38); background: #fff;
+    transform: translateY(-2px); color: #0f172a !important;
+    box-shadow: 0 5px 18px rgba(99,102,241,.12);
+}
+
+/* ── Trust pills ── */
+.wl-trust-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.wl-trust-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.86);
+    border: 1px solid rgba(99,102,241,.13);
+    border-radius: 50px; padding: 5px 12px;
+    font-size: .73rem; font-weight: 600; color: #1e293b;
+    box-shadow: 0 1px 6px rgba(99,102,241,.07);
+    backdrop-filter: blur(8px);
+}
+.wl-trust-pill i { color: #6366F1; font-size: .7rem; }
+
+/* ═══════════════════════════════════════════
+   RIGHT PANEL — pure CSS/SVG security visual
+   ═══════════════════════════════════════════ */
+.wl-sec-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 380px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* dark circular disc (replaces device images) */
+.wl-sec-disc {
+    position: absolute;
+    width: 72%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 40% 38%,
+        #1e2a8a 0%, #0e155e 35%, #090e3a 65%, #060925 85%);
+    box-shadow:
+        0 0 80px rgba(79,70,229,.45),
+        inset 0 0 60px rgba(30,42,138,.6);
+    z-index: 1;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* concentric rings on the disc */
+.wl-sec-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(99,149,255,.22);
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    pointer-events: none;
+}
+.wl-sec-ring--outer {
+    width: 68%;
+    aspect-ratio: 1;
+    animation: ringPulse 5s ease-in-out infinite;
+}
+.wl-sec-ring--inner {
+    width: 52%;
+    aspect-ratio: 1;
+    border-color: rgba(129,140,248,.18);
+    animation: ringPulse 5s ease-in-out infinite 1.5s;
+}
+@keyframes ringPulse {
+    0%,100% { opacity: .5; transform: translate(-50%,-50%) scale(1); }
+    50%      { opacity: 1;  transform: translate(-50%,-50%) scale(1.04); }
+}
+
+/* shield centrepiece */
+.wl-sec-shield-wrap {
+    position: absolute;
+    width: 32%;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    filter:
+        drop-shadow(0 0 24px rgba(79,102,241,.7))
+        drop-shadow(0 0 60px rgba(59,130,246,.35));
+    animation: shieldFloat 5s ease-in-out infinite;
+}
+.wl-sec-shield-wrap svg { width: 100%; height: auto; display: block; }
+@keyframes shieldFloat {
+    0%,100% { transform: translate(-50%,-50%) translateY(0); }
+    50%      { transform: translate(-50%,-50%) translateY(-10px); }
+}
+
+/* ── 4 floating info cards ── */
+.wl-sec-card {
+    position: absolute;
+    background: rgba(255,255,255,.97);
+    border: 1px solid rgba(99,102,241,.16);
+    border-radius: 14px;
+    padding: 11px 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+    box-shadow: 0 8px 28px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05);
+    backdrop-filter: blur(14px);
+    z-index: 8;
+    max-width: 178px;
+    min-width: 148px;
+}
+.wl-sec-card-icon {
+    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .88rem;
+    background: rgba(99,102,241,.10); color: #4F46E5;
+}
+.wl-sec-card-title { font-size: .75rem; font-weight: 800; color: #0f172a; line-height: 1.2; margin-bottom: 3px; }
+.wl-sec-card-sub   { font-size: .65rem; color: #64748b; line-height: 1.35; }
+
+/* card positions — hug the disc edges */
+.wl-sec-card--ssl { top: 6%;  left: 2%;  animation: sc1 5s ease-in-out infinite; }
+.wl-sec-card--mal { top: 6%;  right: 0%; animation: sc2 6.5s ease-in-out infinite; }
+.wl-sec-card--bkp { bottom: 16%; left: 0%;  animation: sc3 7s ease-in-out infinite; }
+.wl-sec-card--mon { bottom: 12%; right: 0%; animation: sc4 5.5s ease-in-out infinite; }
+@keyframes sc1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+@keyframes sc2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(7px)} }
+@keyframes sc3 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+@keyframes sc4 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(8px)} }
+
+/* ═══════════════════════════════
+   STATS BAR — pinned to bottom
+   ═══════════════════════════════ */
+.wl-stats-bar {
+    flex-shrink: 0;
+    background: rgba(255,255,255,.96);
+    border-top: 1px solid rgba(99,102,241,.12);
+    backdrop-filter: blur(12px);
+    position: relative; z-index: 3;
+}
+.wl-stats-bar-inner {
+    display: flex; align-items: stretch;
+}
+.wl-stat-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 0;
+    padding-left: 28px; padding-right: 28px;
+    border-right: 1px solid rgba(99,102,241,.1);
+    flex: 1; min-width: 0;
+}
+.wl-stat-item:last-child { border-right: none; }
+.wl-stat-icon {
+    width: 38px; height: 38px; flex-shrink: 0;
+    background: rgba(99,102,241,.08);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #6366F1; font-size: .95rem;
+}
+.wl-stat-num {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.4rem; font-weight: 900;
+    color: #0f172a; line-height: 1; letter-spacing: -.03em; display: block;
+}
+.wl-stat-lbl {
+    font-size: .58rem; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: .08em;
+    font-weight: 700; margin-top: 2px; display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991px) {
+    #hero.wl-new-hero { height: auto; max-height: none; }
+    .wl-hero-flex-body { padding: 40px 0 20px; }
+    .wl-sec-visual { min-height: 300px; margin-top: 24px; }
+    .wl-sec-disc { width: 80%; }
+    .wl-sec-ring--outer { width: 76%; }
+    .wl-sec-ring--inner { width: 60%; }
+    .wl-sec-shield-wrap { width: 30%; }
+    .wl-sec-card { display: none; }
+}
+@media (min-width: 992px) {
+    .wl-sec-card--ssl { display: flex; }
+    .wl-sec-card--mal { display: flex; }
+    .wl-sec-card--bkp { display: flex; }
+    .wl-sec-card--mon { display: flex; }
+}
+@media (max-width: 767px) {
+    .wl-new-hero-title { font-size: clamp(2rem, 8.5vw, 2.8rem); }
+    .wl-new-hero-lead  { font-size: .86rem; }
+    .wl-new-hero-ctas  { gap: 8px; }
+    .wl-btn-primary-dark, .wl-btn-outline-call { padding: 10px 22px; font-size: .84rem; }
+    .wl-stats-bar-inner { flex-wrap: wrap; }
+    .wl-stat-item { flex: 0 0 50%; border-bottom: 1px solid rgba(99,102,241,.08); padding: 12px 16px; }
+    .wl-stat-item:nth-child(2n) { border-right: none; }
+    .wl-stat-item:nth-last-child(-n+2) { border-bottom: none; }
+    .wl-stat-num { font-size: 1.2rem; }
+}
+@media (max-width: 575px) {
+    .wl-trust-pills { gap: 5px; }
+    .wl-trust-pill  { font-size: .7rem; padding: 4px 10px; }
+    .wl-stat-item   { flex: 0 0 50%; padding: 10px 12px; gap: 8px; }
+    .wl-stat-icon   { width: 30px; height: 30px; font-size: .82rem; }
 }
 
 </style>
@@ -126,264 +423,219 @@
 
 
 <!-- ══════════════════════════════════════════════════════════
-
-     HERO — Premium Upgraded
-
+     HERO — Security Theme
      ══════════════════════════════════════════════════════════ -->
 
+<section id="hero" class="wl-new-hero">
 
+    <div class="wl-hero-flex-body">
+        <div class="container">
+            <div class="row align-items-center g-3 g-lg-4">
 
-<section id="hero" class="wl-hero">
-    <div class="wl-hero-orb-bl"></div>
-    <div class="wl-hero-orb-mid"></div>
+                <!-- ── LEFT: Copy ── -->
+                <div class="col-lg-6">
 
-    <div class="container wl-hero-inner">
-        <div class="row align-items-center g-3 g-lg-4">
+                    <!-- "Secure. Reliable. Professional." badge -->
+                    <div class="wl-sec-badge hero-reveal-1">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure. Reliable. Professional.</span>
+                    </div>
 
-            <!-- ── LEFT: Copy ── -->
-            <div class="col-lg-6">
+                    <!-- Headline -->
+                    <h1 class="wl-new-hero-title hero-reveal-2">
+                        Professional<br>
+                        Websites That<br>
+                        <span class="hl-blue">Build Trust</span>
+                    </h1>
 
-                <div class="wl-hero-badge hero-reveal-1">
-                    <span class="wl-hero-badge-dot"></span>
-                    Available for new projects
+                    <!-- Lead text -->
+                    <p class="wl-new-hero-lead hero-reveal-3">
+                        We design and develop secure, fast, and SEO-friendly websites that protect your business, build credibility, and deliver real results.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="wl-new-hero-ctas hero-reveal-4">
+                        <a href="{% url 'request_website' %}" class="wl-btn-primary-dark">
+                            Get a Free Quote &nbsp;<i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="wl-btn-outline-call">
+                            <i class="fas fa-calendar-check"></i> Book a Call
+                        </a>
+                    </div>
+
+                    <!-- Trust pills -->
+                    <div class="wl-trust-pills hero-reveal-4">
+                        <span class="wl-trust-pill"><i class="fas fa-shield-alt"></i> Secure &amp; Protected</span>
+                        <span class="wl-trust-pill"><i class="fas fa-lock"></i> SSL Certified</span>
+                        <span class="wl-trust-pill"><i class="fas fa-cloud-upload-alt"></i> Daily Backups</span>
+                        <span class="wl-trust-pill"><i class="fas fa-eye"></i> 24/7 Monitoring</span>
+                    </div>
+
                 </div>
 
-                <h1 class="wl-hero-title hero-reveal-2" style="font-size: clamp(2.4rem, 4.2vw, 4rem) !important; letter-spacing: -0.03em !important;">
-                    Professional websites that<br>
-                    <span class="wl-hero-typewriter" id="heroTypewriter"></span>
-                </h1>
+                <!-- ── RIGHT: Security visual (no images) ── -->
+                <div class="col-lg-6 hero-reveal-r">
+                    <div class="wl-sec-visual">
 
-                <p class="wl-hero-lead hero-reveal-3">
-                    We design and develop fast, modern, SEO-friendly websites for startups and businesses across India — with clean UI, strong performance, and reliable support.
-                </p>
+                        <!-- dark circular backdrop -->
+                        <div class="wl-sec-disc"></div>
 
-                <div class="wl-hero-ctas hero-reveal-4">
-                    <a href="{% url 'request_website' %}" class="btn btn-green">
-                        Get a Free Quote <i class="fas fa-arrow-right ms-2"></i>
-                    </a>
-                    <a href="{% if user.is_authenticated %}{% url 'booking_page' %}{% else %}{% url 'login' %}?next={% url 'booking_page' %}{% endif %}" class="btn btn-outline-indigo">
-                        <i class="fas fa-calendar-check me-2"></i> Book a Call
-                    </a>
-                </div>
+                        <!-- outer ring -->
+                        <div class="wl-sec-ring wl-sec-ring--outer"></div>
+                        <!-- inner ring -->
+                        <div class="wl-sec-ring wl-sec-ring--inner"></div>
 
-                <div class="wl-hero-proof hero-reveal-4">
-                    <div class="wl-proof-pill"><i class="fas fa-bolt"></i> Fast delivery</div>
-                    <div class="wl-proof-pill"><i class="fas fa-search"></i> SEO ready</div>
-                    <div class="wl-proof-pill"><i class="fas fa-mobile-alt"></i> Mobile-first</div>
-                    <div class="wl-proof-pill"><i class="fas fa-shield-alt"></i> Secure & scalable</div>
-                </div>
-
-                <div class="wl-hero-stats hero-reveal-5">
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-num" data-target="150" data-suffix="+">0+</span>
-                        <span class="hero-stat-lbl">Projects</span>
-                    </div>
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-num" data-target="120" data-suffix="+">0+</span>
-                        <span class="hero-stat-lbl">Happy clients</span>
-                    </div>
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-num">5.0★</span>
-                        <span class="hero-stat-lbl">Rating</span>
-                    </div>
-                    <div class="hero-stat-item">
-                        <span class="hero-stat-num" data-target="4" data-suffix="+">0+</span>
-                        <span class="hero-stat-lbl">Yrs experience</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ── RIGHT: Browser mockup ── -->
-            <div class="col-lg-6">
-                <div class="wl-hero-right hero-reveal-r">
-
-                    <!-- Glow halo -->
-                    <div class="wl-hero-halo"></div>
-
-                    <!-- Floating stat cards -->
-                    <div class="wl-hero-stat-card wl-hero-stat-card--tl">
-                        <div class="wl-hero-stat-card-icon" style="background:#FEF9C3;">
-                            <i class="fas fa-star" style="color:#D97706;"></i>
+                        <!-- shield SVG — centrepiece -->
+                        <div class="wl-sec-shield-wrap">
+                            <svg viewBox="0 0 120 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M60 4L8 26V66C8 96 30 122 60 132C90 122 112 96 112 66V26L60 4Z"
+                                      fill="url(#sg1)"/>
+                                <path d="M60 18L20 35V66C20 89 37 110 60 120C83 110 100 89 100 66V35L60 18Z"
+                                      fill="url(#sg2)" opacity="0.55"/>
+                                <!-- padlock body -->
+                                <rect x="44" y="68" width="32" height="26" rx="5" fill="white" opacity="0.96"/>
+                                <!-- padlock shackle -->
+                                <path d="M51 68V60C51 53 69 53 69 60V68"
+                                      stroke="white" stroke-width="5" stroke-linecap="round" fill="none"/>
+                                <!-- keyhole dot -->
+                                <circle cx="60" cy="79" r="4" fill="#4F46E5"/>
+                                <rect x="58.5" y="79" width="3" height="7" rx="1.5" fill="#4F46E5"/>
+                                <defs>
+                                    <linearGradient id="sg1" x1="8" y1="4" x2="112" y2="132" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#4F46E5"/>
+                                        <stop offset="55%" stop-color="#3B82F6"/>
+                                        <stop offset="100%" stop-color="#1D4ED8"/>
+                                    </linearGradient>
+                                    <linearGradient id="sg2" x1="20" y1="18" x2="100" y2="120" gradientUnits="userSpaceOnUse">
+                                        <stop offset="0%" stop-color="#818CF8"/>
+                                        <stop offset="100%" stop-color="#93C5FD"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
-                        <div>
-                            <span class="wl-hero-stat-card-val">5.0 ★</span>
-                            <span class="wl-hero-stat-card-lbl">Client Rating</span>
-                        </div>
-                    </div>
 
-                    <div class="wl-hero-stat-card wl-hero-stat-card--tr">
-                        <div class="wl-hero-stat-card-icon" style="background:#EEF2FF;">
-                            <i class="fas fa-rocket" style="color:#6366F1;"></i>
-                        </div>
-                        <div>
-                            <span class="wl-hero-stat-card-val">7 Days</span>
-                            <span class="wl-hero-stat-card-lbl">Avg. Delivery</span>
-                        </div>
-                    </div>
-
-                    <div class="wl-hero-stat-card wl-hero-stat-card--bl">
-                        <div class="wl-hero-stat-card-icon" style="background:#F0FDF4;">
-                            <i class="fas fa-check-circle" style="color:#16a34a;"></i>
-                        </div>
-                        <div>
-                            <span class="wl-hero-stat-card-val">150+</span>
-                            <span class="wl-hero-stat-card-lbl">Projects Done</span>
-                        </div>
-                    </div>
-
-                    <!-- Browser card -->
-                    <div class="wl-hero-browser">
-                        <!-- Chrome bar -->
-                        <div class="wl-browser-chrome">
-                            <div class="wl-browser-dots">
-                                <span></span><span></span><span></span>
-                            </div>
-                            <div class="wl-browser-url">
+                        <!-- Floating security info cards -->
+                        <div class="wl-sec-card wl-sec-card--ssl">
+                            <div class="wl-sec-card-icon">
                                 <i class="fas fa-lock"></i>
-                                weblancehub.in
+                            </div>
+                            <div>
+                                <div class="wl-sec-card-title">SSL Secured</div>
+                                <div class="wl-sec-card-sub">Your data is always<br>encrypted &amp; protected</div>
                             </div>
                         </div>
 
-                        <!-- Screenshot -->
-                        <div class="wl-browser-screen">
-                            <img src="{% static 'images/hero_mockup.jpg' %}"
-                                 alt="Weblance professional website preview"
-                                 loading="eager">
-
-                            <!-- Live activity pill overlaid on image -->
-                            <div class="wl-hero-delivered" style="gap:12px; padding:10px 18px;">
-                                <div style="display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                    <div style="width:8px;height:8px;background:#22c55e;border-radius:50%;animation:livePulse 2s infinite;box-shadow:0 0 0 0 rgba(34,197,94,.6);"></div>
-                                    <span style="font-size:.52rem;color:#94a3b8;font-weight:600;letter-spacing:.04em;text-transform:uppercase;">Live</span>
-                                </div>
-                                <div style="width:1px;height:28px;background:#e2e8f0;flex-shrink:0;"></div>
-                                <div style="display:flex;gap:20px;">
-                                    <div style="text-align:center;">
-                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#1e293b;line-height:1;letter-spacing:-.02em;">150+</span>
-                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:5px;">Projects</span>
-                                    </div>
-                                    <div style="text-align:center;">
-                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#6366F1;line-height:1;letter-spacing:-.02em;">5.0★</span>
-                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Rating</span>
-                                    </div>
-                                    <div style="text-align:center;">
-                                        <span style="display:block;font-size:.95rem;font-weight:800;color:#1e293b;line-height:1;letter-spacing:-.02em;">on-time</span>
-                                        <span style="display:block;font-size:.55rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Delivery</span>
-                                    </div>
-                                </div>
+                        <div class="wl-sec-card wl-sec-card--mal">
+                            <div class="wl-sec-card-icon" style="background:rgba(239,68,68,.12);color:#dc2626;">
+                                <i class="fas fa-shield-virus"></i>
+                            </div>
+                            <div>
+                                <div class="wl-sec-card-title">Malware Protection</div>
+                                <div class="wl-sec-card-sub">We protect your website<br>from cyber threats</div>
                             </div>
                         </div>
+
+                        <div class="wl-sec-card wl-sec-card--bkp">
+                            <div class="wl-sec-card-icon" style="background:rgba(6,182,212,.12);color:#0891b2;">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                            </div>
+                            <div>
+                                <div class="wl-sec-card-title">Daily Backup</div>
+                                <div class="wl-sec-card-sub">Daily backups to keep<br>your data safe</div>
+                            </div>
+                        </div>
+
+                        <div class="wl-sec-card wl-sec-card--mon">
+                            <div class="wl-sec-card-icon" style="background:rgba(16,185,129,.12);color:#059669;">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div>
+                                <div class="wl-sec-card-title">24/7 Monitoring</div>
+                                <div class="wl-sec-card-sub">Round-the-clock monitoring<br>for total peace of mind</div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.wl-sec-visual -->
+                </div><!-- /.col-lg-6 -->
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </div><!-- /.wl-new-hero-body -->
+
+    <!-- ── Bottom Stats Bar ── -->
+    <div class="wl-stats-bar">
+        <div class="container">
+            <div class="wl-stats-bar-inner">
+
+                <div class="wl-stat-item">
+                    <div class="wl-stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div>
+                        <span class="wl-stat-num" data-target="150" data-suffix="+">0+</span>
+                        <span class="wl-stat-lbl">Projects Completed</span>
                     </div>
-
                 </div>
-            </div>
 
+                <div class="wl-stat-item">
+                    <div class="wl-stat-icon"><i class="fas fa-users"></i></div>
+                    <div>
+                        <span class="wl-stat-num" data-target="120" data-suffix="+">0+</span>
+                        <span class="wl-stat-lbl">Happy Clients</span>
+                    </div>
+                </div>
+
+                <div class="wl-stat-item">
+                    <div class="wl-stat-icon"><i class="fas fa-star"></i></div>
+                    <div>
+                        <span class="wl-stat-num">5.0<span style="font-size:1.1rem;">★</span></span>
+                        <span class="wl-stat-lbl">Client Rating</span>
+                    </div>
+                </div>
+
+                <div class="wl-stat-item">
+                    <div class="wl-stat-icon"><i class="fas fa-shield-alt"></i></div>
+                    <div>
+                        <span class="wl-stat-num" data-target="4" data-suffix="+">0+</span>
+                        <span class="wl-stat-lbl">Years Experience</span>
+                    </div>
+                </div>
+
+                <div class="wl-stat-item">
+                    <div class="wl-stat-icon"><i class="fas fa-headset"></i></div>
+                    <div>
+                        <span class="wl-stat-num">24/7</span>
+                        <span class="wl-stat-lbl">Support</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
+
 </section>
 
-
-<!-- Hero counter animation script -->
-
+<!-- Stats counter animation -->
 <script>
-
-/* ── Typewriter cycling effect ── */
 (function(){
-    var el = document.getElementById('heroTypewriter');
-    if(!el) return;
-
-    var phrases = [
-        'Convert visitors',
-        'Grow online',
-        'Rank on Google',
-        'Build your brand',
-        'Launch faster',
-        'Beat competitors'
-    ];
-
-    var phraseIndex = 0;
-    var charIndex   = 0;
-    var isDeleting  = false;
-    var typeSpeed   = 60;   // ms per char while typing
-    var deleteSpeed = 35;   // ms per char while deleting
-    var pauseAfter  = 2000; // pause at full phrase
-    var pauseEmpty  = 400;  // pause at empty before next phrase
-
-    function tick(){
-        var current = phrases[phraseIndex];
-
-        if(!isDeleting){
-            // typing
-            charIndex++;
-            el.textContent = current.slice(0, charIndex);
-            if(charIndex === current.length){
-                // finished typing — pause then delete
-                isDeleting = true;
-                setTimeout(tick, pauseAfter);
-                return;
-            }
-            setTimeout(tick, typeSpeed);
-        } else {
-            // deleting
-            charIndex--;
-            el.textContent = current.slice(0, charIndex);
-            if(charIndex === 0){
-                // finished deleting — move to next phrase
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(tick, pauseEmpty);
-                return;
-            }
-            setTimeout(tick, deleteSpeed);
-        }
-    }
-
-    // small initial delay so the page loads first
-    setTimeout(tick, 800);
-})();
-
-(function(){
-
-    function animateHeroCounter(el){
-
+    function animateCounter(el){
         var target = parseInt(el.getAttribute('data-target'));
-
         var suffix = el.getAttribute('data-suffix') || '';
-
         var duration = 2000, start = null;
-
         function step(ts){
-
             if(!start) start = ts;
-
             var p = Math.min((ts-start)/duration,1);
-
             var ease = 1-Math.pow(1-p,3);
-
             el.textContent = Math.floor(ease*target)+suffix;
-
             if(p<1) requestAnimationFrame(step);
-
         }
-
         requestAnimationFrame(step);
-
     }
-
     var obs = new IntersectionObserver(function(entries){
-
         entries.forEach(function(e){
-
-            if(e.isIntersecting){ animateHeroCounter(e.target); obs.unobserve(e.target); }
-
+            if(e.isIntersecting){ animateCounter(e.target); obs.unobserve(e.target); }
         });
-
     },{threshold:.5});
-
-    document.querySelectorAll('.hero-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
-
+    document.querySelectorAll('.wl-stat-num[data-target]').forEach(function(el){ obs.observe(el); });
 })();
-
 </script>
 
 
@@ -929,16 +1181,11 @@
 
                     <div class="portfolio-item">
 
-                        {% if item.image %}
-
-                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.onerror=null;this.src=this.dataset.fallback;"
-                             data-fallback="{% static 'images/w1.png' %}">
-
+                        {% if item.image_url %}
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
+                             onerror="this.onerror=null;this.src='/static/images/w1.png';">
                         {% else %}
-
                         <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
-
                         {% endif %}
 
                         <div class="portfolio-overlay">

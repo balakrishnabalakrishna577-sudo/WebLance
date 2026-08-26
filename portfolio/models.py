@@ -21,12 +21,12 @@ class PortfolioItem(models.Model):
         ('custom',       'Custom Projects'),
     ]
     
-    title = models.CharField(max_length=200)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    title       = models.CharField(max_length=200)
+    category    = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     description = models.TextField()
-    image = models.ImageField(upload_to='portfolio/%Y/%m/%d/')
-    live_url = models.URLField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    image_url   = models.URLField(max_length=500, blank=True, help_text='Paste a direct image URL (Cloudinary, Imgur, etc.)')
+    live_url    = models.URLField(blank=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
     
     class Meta:
         ordering = ['-created_at']

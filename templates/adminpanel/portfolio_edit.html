@@ -9,7 +9,7 @@
         <a href="{% url 'admin_portfolio' %}" class="ap-btn ap-btn-outline"><i class="fas fa-arrow-left"></i> Back</a>
     </div>
     <div class="ap-card-body">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
             {% csrf_token %}
 
             <div style="margin-bottom:18px">
@@ -56,16 +56,25 @@
                     placeholder="https://...">
             </div>
 
-            <div style="margin-bottom:24px">
-                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Image</label>
-                {% if item.image and item.image.name %}
-                <div style="margin-bottom:10px">
-                    <img src="{{ item.image.url }}" style="height:80px;border-radius:8px;border:1px solid var(--border)">
-                    <div style="font-size:0.75rem;color:var(--gray);margin-top:4px">Current image — upload new to replace</div>
+            <div style="margin-bottom:18px">
+                <label style="display:block;font-size:0.8rem;color:var(--gray);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Image URL</label>
+                {% if item.image_url %}
+                <div style="margin-bottom:10px;display:flex;align-items:center;gap:12px;">
+                    <img src="{{ item.image_url }}" style="height:70px;border-radius:8px;border:1px solid var(--border);object-fit:cover;"
+                         onerror="this.style.display='none'">
+                    <div style="font-size:0.75rem;color:var(--gray);">Current image URL set</div>
                 </div>
                 {% endif %}
-                <input type="file" name="image" accept="image/*"
-                    style="width:100%;background:#F1F5F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:var(--gray);font-size:0.85rem">
+                <input type="url" name="image_url" value="{{ item.image_url }}"
+                    placeholder="https://res.cloudinary.com/... or any direct image URL"
+                    style="width:100%;background:#F1F5F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;color:#1E293B;font-size:0.9rem;outline:none"
+                    onfocus="this.style.borderColor='var(--green)'" onblur="this.style.borderColor='var(--border)'">
+                <div style="font-size:0.75rem;color:var(--gray);margin-top:6px">
+                    Paste a direct image URL from 
+                    <a href="https://cloudinary.com" target="_blank" style="color:var(--green)">Cloudinary</a>, 
+                    <a href="https://imgur.com/upload" target="_blank" style="color:var(--green)">Imgur</a>, or 
+                    <a href="https://imgbb.com" target="_blank" style="color:var(--green)">ImgBB</a>.
+                </div>
             </div>
 
             <div style="display:flex;gap:10px">

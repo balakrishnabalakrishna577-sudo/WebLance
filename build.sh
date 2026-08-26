@@ -25,7 +25,7 @@ import cloudinary.uploader
 deleted = 0
 for item in PortfolioItem.objects.all():
     try:
-        url = item.image.url if item.image and item.image.name else ''
+        url = item.image_url if item.image_url else ''
         is_cloudinary = 'res.cloudinary.com' in url
         if not is_cloudinary:
             print(f'Deleting bad item: {item.title!r} | url: {url[:60]}')

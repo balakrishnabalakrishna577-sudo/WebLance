@@ -45,12 +45,16 @@
                 <div class="col-lg-4 col-md-6 portfolio-item scroll-animate" data-category="{{ item.category }}">
                     <div class="portfolio-item-inner">
                         <span class="portfolio-cat-badge">{{ item.get_category_display }}</span>
-                        {% if item.image and item.image.name %}
-                        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="portfolio-img"
-                             onerror="this.onerror=null;this.src='{% static 'images/w1.png' %}';"
-                             data-fallback="{% static 'images/w1.png' %}">
+                        {% if item.image_url %}
+                        <img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
+                             onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="portfolio-img-placeholder" style="display:none;">
+                            <i class="fas fa-globe"></i>
+                        </div>
                         {% else %}
-                        <img src="{% static 'images/w1.png' %}" alt="{{ item.title }}" class="portfolio-img">
+                        <div class="portfolio-img-placeholder">
+                            <i class="fas fa-globe"></i>
+                        </div>
                         {% endif %}
                         <div class="portfolio-overlay">
                             <h3>{{ item.title }}</h3>
