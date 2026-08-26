@@ -35,7 +35,7 @@ def _is_valid_phone(phone):
 
 def home(request):
     from django.utils import timezone
-    portfolio_items = PortfolioItem.objects.all()[:6]
+    portfolio_items = PortfolioItem.objects.all()[:3]
     reviews = ProjectReview.objects.filter(
         is_public=True, project__status='delivered'
     ).select_related('client', 'project').order_by('-created_at')[:18]

@@ -238,9 +238,15 @@
 
         <!-- Filter Buttons -->
         <div class="portfolio-filters scroll-animate">
-            <button class="filter-btn active" data-filter="all">All Projects</button>
+            <a href="{% url 'portfolio' %}"
+               class="filter-btn {% if selected_cat == 'all' or not selected_cat %}active{% endif %}">
+               All Projects
+            </a>
             {% for cat_val, cat_label in categories %}
-            <button class="filter-btn" data-filter="{{ cat_val }}">{{ cat_label }}</button>
+            <a href="{% url 'portfolio' %}?category={{ cat_val }}"
+               class="filter-btn {% if selected_cat == cat_val %}active{% endif %}">
+               {{ cat_label }}
+            </a>
             {% endfor %}
         </div>
 
@@ -255,22 +261,17 @@
                          data-desc="{{ item.description|truncatewords:20 }}"
                          data-url="{{ item.live_url }}">
 
-                        <!-- Category badge with color class -->
                         <span class="portfolio-cat-badge cat-{{ item.category }}">
                             {{ item.get_category_display }}
                         </span>
 
-                        <!-- Image -->
                         {% if item.image_url %}
                         <img src="{{ item.image_url }}" alt="{{ item.title }}" class="portfolio-img"
                              onerror="this.style.display='none';">
                         {% else %}
-                        <div class="portfolio-img-placeholder">
-                            <i class="fas fa-globe"></i>
-                        </div>
+                        <div class="portfolio-img-placeholder"><i class="fas fa-globe"></i></div>
                         {% endif %}
 
-                        <!-- Hover overlay -->
                         <div class="portfolio-overlay">
                             <h3>{{ item.title }}</h3>
                             <p>{{ item.description|truncatewords:15 }}</p>
@@ -289,7 +290,6 @@
                                 {% endif %}
                             </div>
                         </div>
-
                     </div>
                 </div>
                 {% endfor %}
@@ -301,6 +301,116 @@
                 </div>
             {% endif %}
         </div>
+
+        <!-- ── Pagination ── -->
+        {% if page_obj.paginator.num_pages > 1 %}
+        <div class="wl-pagination-wrap">
+            <div class="wl-pagination-info">
+                Showing {{ page_obj.start_index }}–{{ page_obj.end_index }}
+                of {{ page_obj.paginator.count }} projects
+            </div>
+            <nav class="wl-pagination" aria-label="Portfolio pages">
+                {% if page_obj.has_previous %}
+                <a href="?{% if selected_cat and selected_cat != 'all' %}category={{ selected_cat }}&{% endif %}page={{ page_obj.previous_page_number }}"
+                   class="wl-page-btn wl-page-prev" aria-label="Previous page">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                {% else %}
+                <span class="wl-page-btn wl-page-prev disabled"><i class="fas fa-chevron-left"></i></span>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <span class="wl-page-btn active">{{ num }}</span>
+                    {% elif num == 1 or num == page_obj.paginator.num_pages or num >= page_obj.number|add:"-2" and num <= page_obj.number|add:"2" %}
+                    <a href="?{% if selected_cat and selected_cat != 'all' %}category={{ selected_cat }}&{% endif %}page={{ num }}"
+                       class="wl-page-btn">{{ num }}</a>
+                    {% elif num == page_obj.number|add:"-3" or num == page_obj.number|add:"3" %}
+                    <span class="wl-page-btn wl-page-dots">&hellip;</span>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <a href="?{% if selected_cat and selected_cat != 'all' %}category={{ selected_cat }}&{% endif %}page={{ page_obj.next_page_number }}"
+                   class="wl-page-btn wl-page-next" aria-label="Next page">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+                {% else %}
+                <span class="wl-page-btn wl-page-next disabled"><i class="fas fa-chevron-right"></i></span>
+                {% endif %}
+            </nav>
+        </div>
+
+        <style>
+        .wl-pagination-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid #E2E8F0;
+        }
+        .wl-pagination-info {
+            font-size: .8rem;
+            color: #94A3B8;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+        .wl-pagination {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .wl-page-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px; height: 38px;
+            border-radius: 10px;
+            font-size: .82rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            border: 1.5px solid #E2E8F0;
+            color: #475569;
+            background: #fff;
+            transition: all .2s ease;
+            cursor: pointer;
+        }
+        .wl-page-btn:hover:not(.active):not(.disabled):not(.wl-page-dots) {
+            border-color: #6366F1;
+            color: #6366F1;
+            background: #EEF2FF;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99,102,241,.15);
+        }
+        .wl-page-btn.active {
+            background: linear-gradient(135deg, #6366F1, #4F46E5);
+            border-color: #4F46E5;
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(99,102,241,.35);
+        }
+        .wl-page-btn.disabled {
+            opacity: .35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .wl-page-btn.wl-page-dots {
+            border: none;
+            background: transparent;
+            cursor: default;
+            color: #CBD5E1;
+        }
+        .wl-page-prev, .wl-page-next { font-size: .72rem; }
+        @media (max-width: 480px) {
+            .wl-pagination-wrap { justify-content: center; }
+            .wl-pagination-info { display: none; }
+            .wl-page-btn { width: 34px; height: 34px; font-size: .78rem; }
+        }
+        </style>
+        {% endif %}
     </div>
 </section>
 
