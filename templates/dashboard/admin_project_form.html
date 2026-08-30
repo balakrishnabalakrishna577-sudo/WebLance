@@ -122,17 +122,55 @@
             {% if plans %}
             <div class="pf-section-title"><i class="fas fa-tag"></i> Pricing Plan (optional)</div>
             <div class="row g-3 mb-4">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <label class="pf-label">Plan</label>
-                    <select name="plan" class="pf-sel">
+                    <select name="plan" class="pf-sel" id="planSelect" onchange="showPlanPreview(this)">
                         <option value="">— No plan —</option>
                         {% for p in plans %}
-                        <option value="{{ p.pk }}">{{ p.name }}</option>
+                        <option value="{{ p.pk }}"
+                                data-price="{{ p.price }}"
+                                data-desc="{{ p.description }}"
+                                data-delivery="{{ p.delivery_time }}"
+                                data-popular="{{ p.is_popular }}">
+                            {{ p.name }} — {{ p.price }}{% if p.is_popular %} ⭐{% endif %}
+                        </option>
                         {% endfor %}
                     </select>
                 </div>
+                <!-- Plan preview card -->
+                <div class="col-12" id="planPreview" style="display:none;">
+                    <div style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:1px solid #C7D2FE;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:16px;">
+                        <div style="width:44px;height:44px;background:#6366F1;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="fas fa-tag" style="color:#fff;font-size:1.1rem;"></i>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+                                <span id="previewName" style="font-weight:800;color:#1E293B;font-size:.95rem;"></span>
+                                <span id="previewPrice" style="background:#6366F1;color:#fff;padding:2px 10px;border-radius:20px;font-size:.72rem;font-weight:700;"></span>
+                                <span id="previewPopular" style="background:#F59E0B;color:#fff;padding:2px 8px;border-radius:20px;font-size:.68rem;font-weight:700;display:none;">⭐ Most Popular</span>
+                            </div>
+                            <div id="previewDesc" style="color:#64748B;font-size:.82rem;"></div>
+                            <div id="previewDelivery" style="color:#6366F1;font-size:.75rem;font-weight:600;margin-top:3px;"><i class="fas fa-clock me-1"></i></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             {% endif %}
+
+            <script>
+            function showPlanPreview(sel) {
+                var preview = document.getElementById('planPreview');
+                var opt = sel.options[sel.selectedIndex];
+                if (!sel.value) { preview.style.display = 'none'; return; }
+                document.getElementById('previewName').textContent = opt.text.split(' — ')[0].replace(' ⭐','');
+                document.getElementById('previewPrice').textContent = opt.dataset.price;
+                document.getElementById('previewDesc').textContent = opt.dataset.desc;
+                document.getElementById('previewDelivery').innerHTML = '<i class="fas fa-clock me-1"></i>' + opt.dataset.delivery;
+                var pop = document.getElementById('previewPopular');
+                pop.style.display = opt.dataset.popular === 'True' ? '' : 'none';
+                preview.style.display = '';
+            }
+            </script>
 
             <!-- Status & Progress -->
             <div class="pf-section-title"><i class="fas fa-chart-line"></i> Status & Timeline</div>

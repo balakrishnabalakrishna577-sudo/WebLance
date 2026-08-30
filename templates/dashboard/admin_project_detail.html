@@ -59,12 +59,12 @@
                 {% csrf_token %}
                 <input type="hidden" name="action" value="update_progress">
                 <div class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label style="font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">Progress %</label>
                         <input type="number" name="progress" class="pf-inp" value="{{ project.progress }}" min="0" max="100"
                                oninput="document.getElementById('progFill').style.width=this.value+'%'">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label style="font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">Status</label>
                         <select name="status" class="pf-sel">
                             {% for val, label in project.STATUS_CHOICES %}
@@ -72,7 +72,19 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-4">
+                        <label style="font-size:.72rem;color:#64748B;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;">Pricing Plan</label>
+                        <select name="plan" class="pf-sel">
+                            <option value="">— No plan —</option>
+                            {% for p in plans %}
+                            <option value="{{ p.pk }}"
+                                    {% if project.plan and project.plan.pk == p.pk %}selected{% endif %}>
+                                {{ p.name }} — {{ p.price }}{% if p.is_popular %} ⭐{% endif %}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
                         <button type="submit" class="btn-act w-100"><i class="fas fa-save me-1"></i>Save</button>
                     </div>
                 </div>
